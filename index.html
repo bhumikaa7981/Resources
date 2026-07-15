@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT Leave Support · SCET IT Department</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FBF3E7;
+  --cork:#F1E4C9;
+  --cork-line:#E3D2A9;
+  --ink:#33281C;
+  --ink-soft:#8A7A63;
+  --paper:#FFFFFF;
+  --pin:#FF5D5D;
+  --pin-deep:#E0433F;
+  --lemon:#FFE79A; --lemon-deep:#F4C63C;
+  --mint:#BEF3D6; --mint-deep:#4FCE93;
+  --sky:#B7E3FF; --sky-deep:#5FB3F5;
+  --coral:#FFC7B8; --coral-deep:#FF8A69;
+  --lilac:#E4D2FF; --lilac-deep:#B489FF;
+  --line:#E7D9BE;
+  --radius:18px;
+  --shadow: 0 14px 30px -14px rgba(90,60,20,0.28);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at 1px 1px, rgba(120,90,40,0.07) 1px, transparent 1.6px) 0 0/16px 16px,
+    var(--bg);
+  color:var(--ink);
+  font-family:'Inter',sans-serif;
+  line-height:1.5;
+}
+h1,h2,h3,h4,.display{font-family:'Fredoka',sans-serif;}
+.mono{font-family:'JetBrains Mono',monospace;}
+@media (prefers-reduced-motion: reduce){ *{animation-duration:.001ms !important; transition-duration:.001ms !important;} html{scroll-behavior:auto;} }
+
+/* ---------- top bar ---------- */
+.topbar{
+  background:var(--ink); color:#FBF3E7; font-size:12.5px;
+  padding:8px 20px; display:flex; flex-wrap:wrap; gap:6px 18px;
+  justify-content:center; text-align:center;
+}
+.topbar b{color:var(--lemon-deep);}
+.topbar span{opacity:.85;}
+
+/* ---------- hero ---------- */
+header.hero{ max-width:1000px; margin:0 auto; padding:50px 24px 20px; text-align:center; }
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--lilac); border:1px solid var(--lilac-deep); color:#5A2FCC;
+  padding:7px 16px;border-radius:999px;font-weight:700;font-size:13px;margin-bottom:18px;
+}
+.hero h1{ font-size:clamp(32px,5.6vw,52px); margin:0 0 12px; font-weight:700; line-height:1.08; }
+.hero h1 span{ color:var(--pin-deep); }
+.hero p.sub{ max-width:600px;margin:0 auto;color:var(--ink-soft);font-size:16.5px; }
+
+/* ---------- generic containers ---------- */
+.wrap{ max-width:1000px; margin:0 auto; padding:0 24px; }
+.section-gap{ margin-top:44px; }
+.card{
+  background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:24px;
+}
+.card h3{ margin:0 0 4px; font-size:20px; }
+.card .hint{ color:var(--ink-soft); font-size:13.5px; margin:0 0 18px; }
+
+/* ---------- form controls ---------- */
+.field{ margin-bottom:18px; }
+.field label{ display:block; font-weight:700; font-size:13.5px; margin-bottom:7px; }
+select, input[type="date"], input[type="number"]{
+  width:100%; border:2px solid var(--line); border-radius:12px; padding:11px 14px;
+  font-family:'Inter'; font-size:15px; color:var(--ink); background:#FFFDF8;
+  transition:border-color .2s;
+}
+select:focus, input:focus{ outline:none; border-color:var(--pin); }
+.form-grid{ display:grid; grid-template-columns:1.4fr 1fr 0.8fr; gap:16px; }
+@media (max-width:700px){ .form-grid{ grid-template-columns:1fr; } }
+
+.big-btn{
+  display:inline-flex; align-items:center; gap:10px;
+  background:var(--pin); color:#fff; border:none; border-radius:14px;
+  padding:15px 30px; font-weight:600; font-family:'Fredoka'; font-size:17px;
+  cursor:pointer; box-shadow:0 12px 24px -10px rgba(255,93,93,.65);
+  transition:transform .15s, background .2s;
+}
+.big-btn:hover{ transform:translateY(-2px); background:var(--pin-deep); }
+.big-btn:active{ transform:translateY(0); }
+
+/* ---------- calendar widget ---------- */
+.cal-widget{
+  background:#FFFDF8; border:2px solid var(--line); border-radius:16px; padding:16px; max-width:380px;
+}
+.cal-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+.cal-month{ font-family:'Fredoka'; font-weight:600; font-size:15.5px; }
+.cal-nav{
+  border:1.5px solid var(--ink); background:#fff; color:var(--ink); font-weight:700; font-size:15px;
+  width:30px; height:30px; border-radius:8px; cursor:pointer; line-height:1;
+}
+.cal-nav:hover{ background:var(--ink); color:#fff; }
+.cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:5px; }
+.cal-grid.cal-dow{ margin-bottom:4px; }
+.cal-grid.cal-dow div{ text-align:center; font-size:11px; font-weight:700; color:var(--ink-soft); }
+.cal-cell{
+  aspect-ratio:1; display:flex; align-items:center; justify-content:center;
+  border-radius:9px; border:1.5px solid transparent; background:var(--cork);
+  font-family:'JetBrains Mono'; font-size:12.5px; font-weight:600; color:var(--ink);
+  cursor:pointer; transition:transform .1s, background .15s;
+}
+.cal-cell:hover:not(.weekend):not(.empty){ background:var(--sky); transform:translateY(-1px); }
+.cal-cell.empty{ background:transparent; cursor:default; }
+.cal-cell.weekend{ background:transparent; color:#C8BBA0; cursor:not-allowed; }
+.cal-cell.today{ border-color:var(--pin-deep); }
+.cal-cell.selected{ background:var(--mint-deep); color:#fff; }
+.selected-chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+.date-chip{
+  display:inline-flex; align-items:center; gap:6px; background:var(--mint); border:1.5px solid var(--mint-deep);
+  color:#0B5E3C; border-radius:999px; padding:6px 8px 6px 12px; font-size:12.5px; font-weight:600;
+}
+.chip-x{
+  border:none; background:rgba(0,0,0,.12); color:#0B5E3C; width:18px; height:18px; border-radius:50%;
+  cursor:pointer; font-size:12px; line-height:1; font-weight:700;
+}
+.chip-x:hover{ background:rgba(0,0,0,.25); }
+
+/* ---------- day cards (leave planner) ---------- */
+.day-cards{ display:flex; flex-direction:column; gap:14px; margin-top:8px; }
+.day-card{
+  border:2px dashed var(--cork-line); background:var(--cork); border-radius:16px; padding:16px 18px;
+}
+.day-card-head{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:10px; }
+.day-card-title{ font-family:'Fredoka'; font-weight:600; font-size:16px; }
+.day-card-title small{ display:block; font-family:'Inter'; font-weight:500; color:var(--ink-soft); font-size:12px; }
+.quick-toggles{ display:flex; gap:6px; flex-wrap:wrap; }
+.qtbtn{
+  border:1.5px solid var(--ink); background:#fff; color:var(--ink); font-weight:700; font-size:11.5px;
+  padding:6px 11px; border-radius:999px; cursor:pointer;
+}
+.qtbtn:hover{ background:var(--ink); color:#fff; }
+.class-check{
+  display:flex; align-items:flex-start; gap:10px; background:#fff; border:1px solid var(--line);
+  border-radius:10px; padding:9px 12px; margin-bottom:7px; font-size:13.5px; cursor:pointer;
+}
+.class-check input{ margin-top:3px; }
+.class-check .t{ font-family:'JetBrains Mono'; font-size:11.5px; color:var(--ink-soft); display:block; margin-bottom:2px; }
+.empty-note{ color:var(--ink-soft); font-style:italic; font-size:13.5px; }
+.weekend-note{ font-size:13.5px; color:#7A5A2E; font-style:italic; }
+
+/* ---------- pinboard results ---------- */
+.pinboard{
+  background:
+    radial-gradient(circle at 1px 1px, rgba(120,90,40,0.09) 1px, transparent 1.6px) 0 0/14px 14px,
+    var(--cork);
+  border:1px solid var(--cork-line); border-radius:22px; padding:26px 22px; margin-top:8px;
+}
+.pinboard-date{ font-family:'Fredoka'; font-weight:600; font-size:17px; margin:22px 0 12px; }
+.pinboard-date:first-child{ margin-top:0; }
+.summary-strip{
+  display:flex; gap:14px; flex-wrap:wrap; background:var(--ink); color:#fff;
+  border-radius:14px; padding:14px 18px; margin-bottom:20px; font-size:13.5px;
+}
+.summary-strip b{ color:var(--lemon-deep); }
+
+.note-grid{ display:flex; flex-wrap:wrap; gap:16px; }
+.sticky{
+  width:250px; padding:16px 16px 14px; border-radius:4px 4px 10px 10px;
+  box-shadow:0 8px 16px -6px rgba(50,30,10,.35); position:relative;
+  font-size:13px; transition:transform .2s;
+}
+.sticky:hover{ transform:translateY(-3px) rotate(0deg) !important; }
+.sticky::before{
+  content:""; position:absolute; top:-7px; left:50%; transform:translateX(-50%);
+  width:14px;height:14px;border-radius:50%; background:var(--pin);
+  box-shadow:0 3px 4px rgba(0,0,0,.35);
+}
+.sticky.c0{ background:var(--lemon); transform:rotate(-2deg); }
+.sticky.c1{ background:var(--mint); transform:rotate(1.5deg); }
+.sticky.c2{ background:var(--sky); transform:rotate(-1deg); }
+.sticky.c3{ background:var(--coral); transform:rotate(2deg); }
+.sticky.c4{ background:var(--lilac); transform:rotate(-1.5deg); }
+.sticky .period{ font-family:'JetBrains Mono'; font-size:11px; font-weight:700; opacity:.75; margin-bottom:4px; }
+.sticky .class-info{ font-family:'Fredoka'; font-weight:600; font-size:14.5px; margin-bottom:10px; line-height:1.25; }
+.sticky .subhead{ font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; opacity:.65; margin-bottom:6px; }
+.sub-chip{
+  display:inline-block; background:rgba(255,255,255,.75); border-radius:8px; padding:4px 8px;
+  font-size:11.5px; font-weight:600; margin:0 4px 4px 0;
+}
+.zero-cover{ background:#fff; border:2px dashed var(--pin-deep); border-radius:8px; padding:7px 9px; font-size:12px; font-weight:700; color:var(--pin-deep); }
+.sub-chip.partial{ background:rgba(255,255,255,.55); border:1px dashed rgba(0,0,0,.25); }
+.sub-chip.partial b{ font-family:'JetBrains Mono'; font-size:10.5px; margin-left:3px; }
+
+.results-empty{
+  text-align:center; padding:40px 20px; color:var(--ink-soft); font-size:14.5px;
+}
+
+/* ---------- quick slot peek ---------- */
+.peek-form{ display:grid; grid-template-columns:1fr 1fr auto; gap:14px; align-items:end; }
+@media (max-width:640px){ .peek-form{ grid-template-columns:1fr; } }
+.roster-grid{ display:flex; flex-wrap:wrap; gap:8px; margin-top:18px; }
+.roster-chip{
+  display:flex; align-items:center; gap:8px; border-radius:12px; padding:8px 12px;
+  font-size:12.5px; font-weight:600; border:1.5px solid;
+}
+.roster-chip.free{ background:var(--mint); border-color:var(--mint-deep); color:#0B5E3C; }
+.roster-chip.busy{ background:#F1ECE2; border-color:var(--line); color:var(--ink-soft); }
+.roster-chip .dot{ width:8px;height:8px;border-radius:50%; }
+.roster-chip.free .dot{ background:var(--mint-deep); }
+.roster-chip.busy .dot{ background:#C8BBA0; }
+
+/* ---------- legend / footer ---------- */
+.legend-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px; }
+.legend-item{ background:#FFFDF8; border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:12.5px; }
+.legend-item b{ font-family:'JetBrains Mono'; color:var(--pin-deep); }
+
+footer{ margin-top:60px; background:var(--ink); color:#F1E9D8; padding:30px 24px 22px; }
+.footer-inner{ max-width:1000px;margin:0 auto; display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; font-size:13px; }
+.footer-inner h4{ margin:0 0 6px; font-family:'Fredoka'; color:#fff; }
+.footer-inner p{ margin:2px 0; color:#CBB995; }
+.disclaimer{ max-width:1000px; margin:18px auto 0; text-align:center; font-size:11.5px; color:#A8996F; border-top:1px solid #4A3E28; padding-top:16px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span><b>Sarvajanik College of Engineering &amp; Technology</b>, Surat</span>
+  <span>Department of Information Technology</span>
+  <span>Faculty Time Table · Semester ODD · Effective 06/07/2026 (v1)</span>
+</div>
+
+<header class="hero">
+  <div class="eyebrow">🗓️ IT Leave Support</div>
+  <h1>Taking leave? Let's find your <span>stand-in squad.</span></h1>
+  <p class="sub">Pick your leave day(s) on the calendar and this reads the actual department timetable to tell you — period by period — exactly who's free to cover for you. Multi-hour labs (like 9–11, 11:15–1:15 or 2–4) are read as one full load, and only go to faculty free for every hour of it.</p>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ LEAVE PLANNER ============ -->
+  <section class="card section-gap">
+    <h3>1. Plan the leave</h3>
+    <p class="hint">Choose yourself, then tap every day you'll be out — right on the calendar. Tap a date again to remove it. Pick a single day, a whole stretch, or a scattered few — no limit on how many.</p>
+
+    <div class="field">
+      <label for="facultySelect">Who's taking leave?</label>
+      <select id="facultySelect"></select>
+    </div>
+
+    <div class="field">
+      <label>Pick your leave day(s)</label>
+      <div class="quick-toggles" id="quickRangeBtns" style="margin-bottom:12px;">
+        <button type="button" class="qtbtn" data-quick="today">Today</button>
+        <button type="button" class="qtbtn" data-quick="tomorrow">Tomorrow</button>
+        <button type="button" class="qtbtn" data-quick="week">Rest of this week</button>
+        <button type="button" class="qtbtn" data-quick="next5">Next 5 working days</button>
+        <button type="button" class="qtbtn" data-quick="clear">Clear all</button>
+      </div>
+      <div class="cal-widget" id="calWidget"></div>
+      <div class="selected-chips" id="selectedChips"></div>
+    </div>
+
+    <p class="hint" id="dayCountNote" style="margin-top:6px;"></p>
+
+    <div id="dayCardsWrap">
+      <div class="day-cards" id="dayCards"></div>
+    </div>
+
+    <div style="margin-top:20px;">
+      <button class="big-btn" id="findBtn">🔎 Find my substitute squad</button>
+    </div>
+  </section>
+
+  <!-- ============ RESULTS ============ -->
+  <section class="section-gap" id="resultsSection" style="display:none;">
+    <h3 style="margin-bottom:4px;">2. Here's who can cover you</h3>
+    <p class="hint" style="margin-bottom:14px;">Pinned up, period by period — pick whoever suits and give them a heads up 🙏</p>
+    <div class="pinboard" id="pinboard"></div>
+  </section>
+
+  <!-- ============ QUICK SLOT PEEK ============ -->
+  <section class="card section-gap">
+    <h3>Or just peek at one slot</h3>
+    <p class="hint">Not planning leave, just want to know who's around on Wednesday 3rd period? Check here — compares every faculty member in one go.</p>
+    <div class="peek-form">
+      <div class="field" style="margin-bottom:0;">
+        <label for="peekDay">Day</label>
+        <select id="peekDay"></select>
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        <label for="peekSlot">Period</label>
+        <select id="peekSlot"></select>
+      </div>
+      <button class="big-btn" id="peekBtn" style="padding:11px 22px;font-size:14.5px;">Check roster</button>
+    </div>
+    <div class="roster-grid" id="rosterGrid"></div>
+  </section>
+
+  <!-- ============ LEGEND ============ -->
+  <section class="card section-gap">
+    <h3>Meet the department 👋</h3>
+    <p class="hint">Because nobody remembers what "MMP" stands for at 8am.</p>
+    <div class="legend-grid" id="legendGrid"></div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>IT Leave Support</h4>
+      <p>Built on the IT Department's real weekly timetable</p>
+    </div>
+    <div>
+      <p>Sarvajanik University</p>
+      <p>Sarvajanik College of Engineering &amp; Technology, Surat</p>
+    </div>
+    <div>
+      <p>Semester: ODD 2026-27</p>
+      <p>Timetable effective from 06/07/2026 · Version 1</p>
+    </div>
+  </div>
+  <div class="disclaimer">This tool mirrors the standing weekly timetable and repeats it every week — it doesn't know about holidays, exam schedules or one-off changes. Cross-check those separately, and always loop in your HOD for the final word.</div>
+</footer>
+
+<script>
+/* ============================= EMBEDDED TIMETABLE DATA ============================= */
+/* Parsed directly from Time_Table__Odd_2026-27_.xlsx — one sheet per faculty member.
+   Source rule: only VISIBLE "FACULTY TIME TABLE" sheets marked YEAR: 2026-2027 are
+   included (23 faculty). Two sheets — "AB" (Prof. Aaishwarya Bajaj) and "JM"
+   (Prof. Parth Jagirdar) — are HIDDEN sheets left over from YEAR: 2024-2025 and are
+   deliberately excluded: JM has no periods recorded at all, and AB's own initials
+   collide with a different, currently-teaching faculty member (Prof. Apurva
+   Bhagvagar, used as "AB" inside the Sem 7 class sheets) who has no personal
+   timetable sheet of her own to pull a verified schedule from. Never re-add a
+   faculty member here from a hidden sheet — only visible, current-year sheets. */
+const DATA = {"slots":[{"id":"09:00-10:00","label":"9:00 – 10:00 AM"},{"id":"10:00-11:00","label":"10:00 – 11:00 AM"},{"id":"11:15-12:15","label":"11:15 – 12:15 PM"},{"id":"12:15-01:15","label":"12:15 – 1:15 PM"},{"id":"02:00-03:00","label":"2:00 – 3:00 PM"},{"id":"03:00-04:00","label":"3:00 – 4:00 PM"},{"id":"04:00-05:00","label":"4:00 – 5:00 PM"},{"id":"05:00-06:00","label":"5:00 – 6:00 PM"}],"days":["MON","TUE","WED","THU","FRI"],"faculty":{"MP":{"code":"MP","name":"Dr. Mita Parikh","designation":"Professor & HOD","schedule":{"MON":{"09:00-10:00":"DSYS ( VII IT D1) A (IT 5)","10:00-11:00":"DSYS ( VII IT D1) A (IT 5)","11:15-12:15":null,"12:15-01:15":"AUX (VII IT D1)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"TUE":{"09:00-10:00":null,"10:00-11:00":null,"11:15-12:15":"NLP ( VII AIDS) A (IT 2)","12:15-01:15":"NLP ( VII AIDS) A (IT 2)","02:00-03:00":"AUX (VII IT D1)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"WED":{"09:00-10:00":null,"10:00-11:00":null,"11:15-12:15":null,"12:15-01:15":null,"02:00-03:00":"NLP (VII IT D1)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"THU":{"09:00-10:00":null,"10:00-11:00":"NLP (VII AIDS)","11:15-12:15":"NLP ( VII AIDS) B (IT 5)","12:15-01:15":"NLP ( VII AIDS) B (IT 5)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"FRI":{"09:00-10:00":null,"10:00-11:00":"NLP (VII AIDS)","11:15-12:15":null,"12:15-01:15":"AUX (VII IT D1)","02:00-03:00":"PROJECT-I","03:00-04:00":"PROJECT-I","04:00-05:00":null,"05:00-06:00":null}}},"VJ":{"code":"VJ","name":"Dr. Vivaksha Jariwala","designation":"Professor","schedule":{"MON":{"09:00-10:00":"CNS ( V IT D1) B (IT 3)","10:00-11:00":"CNS ( V IT D1) B (IT 3)","11:15-12:15":"CNS (V IT D1)","12:15-01:15":null,"02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"TUE":{"09:00-10:00":null,"10:00-11:00":null,"11:15-12:15":null,"12:15-01:15":"CNS (V IT D2)","02:00-03:00":"CNS ( V IT D2) A (IT 2)","03:00-04:00":"CNS ( V IT D2) A (IT 2)","04:00-05:00":null,"05:00-06:00":null},"WED":{"09:00-10:00":"CNS ( V IT D2) B (IT 2)","10:00-11:00":"CNS ( V IT D2) B (IT 2)","11:15-12:15":null,"12:15-01:15":null,"02:00-03:00":"PROJECT-I","03:00-04:00":"PROJECT-I","04:00-05:00":null,"05:00-06:00":null},"THU":{"09:00-10:00":null,"10:00-11:00":"DS (III IT D1)","11:15-12:15":null,"12:15-01:15":"CNS (V IT D1)","02:00-03:00":"CNS ( V IT D1) A (IT 1)","03:00-04:00":"CNS ( V IT D1) A (IT 1)","04:00-05:00":null,"05:00-06:00":null},"FRI":{"09:00-10:00":"DS (III AIDS)","10:00-11:00":null,"11:15-12:15":"CNS (V IT D2)","12:15-01:15":null,"02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null}}},"DS":{"code":"DS","name":"Dr. Dhruti Sharma","designation":"Associate Professor","schedule":{"MON":{"09:00-10:00":null,"10:00-11:00":"CNS (V IT D2)","11:15-12:15":null,"12:15-01:15":"DS (III AIDS)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"TUE":{"09:00-10:00":"DS ( III AIDS) A (IT 5)","10:00-11:00":"DS ( III AIDS) A (IT 5)","11:15-12:15":null,"12:15-01:15":"DS (III IT D1)","02:00-03:00":"CNS ( V IT D2) A (IT 2)","03:00-04:00":"CNS ( V IT D2) A (IT 2)","04:00-05:00":null,"05:00-06:00":null},"WED":{"09:00-10:00":null,"10:00-11:00":null,"11:15-12:15":"DS ( III IT D1) B (IT 4)","12:15-01:15":"DS ( III IT D1) B (IT 4)","02:00-03:00":"PROJECT-I","03:00-04:00":"PROJECT-I","04:00-05:00":null,"05:00-06:00":null},"THU":{"09:00-10:00":null,"10:00-11:00":null,"11:15-12:15":"DS (III AIDS)","12:15-01:15":null,"02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"FRI":{"09:00-10:00":null,"10:00-11:00":null,"11:15-12:15":"DS (III IT D1)","12:15-01:15":null,"02:00-03:00":"CNS (V IT D1)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null}}},"HV":{"code":"HV","name":"Prof. Hiren Vavaiya","designation":"Assistant Professor","schedule":{"MON":{"09:00-10:00":null,"10:00-11:00":"DBMS (III IT D1)","11:15-12:15":null,"12:15-01:15":"DS (III IT D2)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"TUE":{"09:00-10:00":"DBMS ( III IT D1) A (IT 4)","10:00-11:00":"DBMS ( III IT D1) A (IT 4)","11:15-12:15":"DS ( III IT D2) A (IT 3)","12:15-01:15":"DS ( III IT D2) A (IT 3)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"WED":{"09:00-10:00":"DBMS (III IT D1)","10:00-11:00":null,"11:15-12:15":"DS (III IT D2)","12:15-01:15":null,"02:00-03:00":"DMBI ( V AIDS) B (IT 2)","03:00-04:00":"DMBI ( V AIDS) B (IT 2)","04:00-05:00":null,"05:00-06:00":null},"THU":{"09:00-10:00":"DS ( III IT D2) B (IT 4)","10:00-11:00":"DS ( III IT D2) B (IT 4)","11:15-12:15":null,"12:15-01:15":"DS (III IT D2)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"FRI":{"09:00-10:00":"DBMS ( III IT D1) B (IT 5)","10:00-11:00":"DBMS ( III IT D1) B (IT 5)","11:15-12:15":null,"12:15-01:15":"DBMS (III IT D1)","02:00-03:00":"PROJECT-I","03:00-04:00":"PROJECT-I","04:00-05:00":null,"05:00-06:00":null}}},"TG":{"code":"TG","name":"Prof. Tushar Gohil","designation":"Assistant Professor","schedule":{"MON":{"09:00-10:00":"PP ( DIV C) B (IT 5)","10:00-11:00":"PP ( DIV C) B (IT 5)","11:15-12:15":null,"12:15-01:15":null,"02:00-03:00":null,"03:00-04:00":"CC (V IT D2)","04:00-05:00":null,"05:00-06:00":null},"TUE":{"09:00-10:00":null,"10:00-11:00":null,"11:15-12:15":null,"12:15-01:15":null,"02:00-03:00":"CC (V IT D1)","03:00-04:00":null,"04:00-05:00":"EHPT HONORS LAB (IT 1)","05:00-06:00":"EHPT HONORS LAB (IT 1)"},"WED":{"09:00-10:00":"DSYS ( VII IT D2) B (IT 5)","10:00-11:00":"DSYS ( VII IT D2) B (IT 5)","11:15-12:15":null,"12:15-01:15":null,"02:00-03:00":null,"03:00-04:00":"CC (V IT D1)","04:00-05:00":"EHPT HONORS (G-201)","05:00-06:00":null},"THU":{"09:00-10:00":"PROJECT-I","10:00-11:00":"PROJECT-I","11:15-12:15":"DL ( VII AIDS) A (IT 4)","12:15-01:15":"DL ( VII AIDS) A (IT 4)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"FRI":{"09:00-10:00":null,"10:00-11:00":"CC (V IT D2)","11:15-12:15":"WT ( V IT D1) B (IT 3)","12:15-01:15":"WT ( V IT D1) B (IT 3)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":"EHPT HONORS (G-201)","05:00-06:00":null}}},"AK":{"code":"AK","name":"Prof. Ashish Kharvar","designation":"Assistant Professor","schedule":{"MON":{"09:00-10:00":null,"10:00-11:00":null,"11:15-12:15":null,"12:15-01:15":"AUX ( VII IT D2)","02:00-03:00":null,"03:00-04:00":"SE (V IT D1 & D2)","04:00-05:00":null,"05:00-06:00":null},"TUE":{"09:00-10:00":"DBMS ( III AIDS) B (IT 2)","10:00-11:00":"DBMS ( III AIDS) B (IT 2)","11:15-12:15":"DBMS ( III IT D2) B (IT 6)","12:15-01:15":"DBMS ( III IT D2) B (IT 6)","02:00-03:00":"AUX ( VII IT D2)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"WED":{"09:00-10:00":"ATCD ( VII IT D2) A (IT 1)","10:00-11:00":"ATCD ( VII IT D2) A (IT 1)","11:15-12:15":"OOAD ( III AIDS) B (IT 5)","12:15-01:15":"OOAD ( III AIDS) B (IT 5)","02:00-03:00":null,"03:00-04:00":"SE (V IT D1 & D2)","04:00-05:00":null,"05:00-06:00":null},"THU":{"09:00-10:00":"PROJECT-I","10:00-11:00":"PROJECT-I","11:15-12:15":"ATCD ( VII IT D2) B (IT 3)","12:15-01:15":"ATCD ( VII IT D2) B (IT 3)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"FRI":{"09:00-10:00":null,"10:00-11:00":"SE (V IT D1 & D2)","11:15-12:15":null,"12:15-01:15":"AUX ( VII IT D2)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null}}},"AM":{"code":"AM","name":"Prof. Apurva Mandalaywala","designation":"Assistant Professor","schedule":{"MON":{"09:00-10:00":"AUX ( VII AIDS)","10:00-11:00":null,"11:15-12:15":null,"12:15-01:15":"ST (VII IT D1 & D2)","02:00-03:00":null,"03:00-04:00":"PROJECT-I","04:00-05:00":null,"05:00-06:00":null},"TUE":{"09:00-10:00":"OOAD ( III IT D1) B (IT 1)","10:00-11:00":"OOAD ( III IT D1) B (IT 1)","11:15-12:15":"DSYS ( VII IT D1) B (IT 1)","12:15-01:15":"DSYS ( VII IT D1) B (IT 1)","02:00-03:00":"ST (VII IT D1 & D2)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"WED":{"09:00-10:00":"AUX ( VII AIDS)","10:00-11:00":null,"11:15-12:15":"OOAD ( III IT D1) A (IT 1)","12:15-01:15":"OOAD ( III IT D1) A (IT 1)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"THU":{"09:00-10:00":null,"10:00-11:00":null,"11:15-12:15":"PP ( DIV D) B (IT 1)","12:15-01:15":"PP ( DIV D) B (IT 1)","02:00-03:00":"AUX ( VII AIDS)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"FRI":{"09:00-10:00":"DBMS ( III IT D1) B (IT 5)","10:00-11:00":"DBMS ( III IT D1) B (IT 5)","11:15-12:15":null,"12:15-01:15":"ST (VII IT D1 & D2)","02:00-03:00":"PROJECT-I","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null}}},"BP":{"code":"BP","name":"Prof. Bhumika Patel","designation":"Assistant Professor","schedule":{"MON":{"09:00-10:00":"WT ( V IT D1) A (IT 1)","10:00-11:00":"WT ( V IT D1) A (IT 1)","11:15-12:15":"OOAD (III IT D1)","12:15-01:15":null,"02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"TUE":{"09:00-10:00":"OOAD ( III IT D1) B (IT 1)","10:00-11:00":"OOAD ( III IT D1) B (IT 1)","11:15-12:15":"WT (V IT D1)","12:15-01:15":null,"02:00-03:00":"OOAD (III IT D2)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"WED":{"09:00-10:00":"WT (V IT D1)","10:00-11:00":null,"11:15-12:15":"OOAD ( III IT D1) A (IT 1)","12:15-01:15":"OOAD ( III IT D1) A (IT 1)","02:00-03:00":"PROJECT-I","03:00-04:00":"PROJECT-I","04:00-05:00":null,"05:00-06:00":null},"THU":{"09:00-10:00":"OOAD ( III IT D2) A (IT 1)","10:00-11:00":"OOAD ( III IT D2) A (IT 1)","11:15-12:15":null,"12:15-01:15":"OOAD (III IT D1)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"FRI":{"09:00-10:00":null,"10:00-11:00":null,"11:15-12:15":"WT ( V IT D1) B (IT 3)","12:15-01:15":"WT ( V IT D1) B (IT 3)","02:00-03:00":"OOAD (III IT D2)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null}}},"MMP":{"code":"MMP","name":"Prof. Mukesh Patel","designation":"Assistant Professor","schedule":{"MON":{"09:00-10:00":null,"10:00-11:00":"SAAI (V AIDS)","11:15-12:15":"SAAI ( V AIDS) B (IT 2)","12:15-01:15":"SAAI ( V AIDS) B (IT 2)","02:00-03:00":"DMBI (V IT D1)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"TUE":{"09:00-10:00":null,"10:00-11:00":null,"11:15-12:15":"SAAI (V AIDS)","12:15-01:15":null,"02:00-03:00":"DMBI ( V AIDS) A (IT 5)","03:00-04:00":"DMBI ( V AIDS) A (IT 5)","04:00-05:00":null,"05:00-06:00":null},"WED":{"09:00-10:00":null,"10:00-11:00":"DMBI (V IT D1)","11:15-12:15":null,"12:15-01:15":null,"02:00-03:00":"SAAI ( V AIDS) A (IT 1)","03:00-04:00":"SAAI ( V AIDS) A (IT 1)","04:00-05:00":null,"05:00-06:00":null},"THU":{"09:00-10:00":"PROJECT-I","10:00-11:00":"PROJECT-I","11:15-12:15":"DMBI (V AIDS)","12:15-01:15":null,"02:00-03:00":"DMBI ( V IT D1) B (IT 2)","03:00-04:00":"DMBI ( V IT D1) B (IT 2)","04:00-05:00":null,"05:00-06:00":null},"FRI":{"09:00-10:00":null,"10:00-11:00":"DMBI (V AIDS)","11:15-12:15":"DMBI ( V IT D1) A (IT 4)","12:15-01:15":"DMBI ( V IT D1) A (IT 4)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null}}},"ARK":{"code":"ARK","name":"Dr. Ankit Kharwar","designation":"Assistant Professor","schedule":{"MON":{"09:00-10:00":"COA (III IT D1)","10:00-11:00":null,"11:15-12:15":"WT ( V IT D2) B (IT 5)","12:15-01:15":"WT ( V IT D2) B (IT 5)","02:00-03:00":null,"03:00-04:00":"PROJECT-I","04:00-05:00":null,"05:00-06:00":null},"TUE":{"09:00-10:00":null,"10:00-11:00":"DBMS (III IT D2)","11:15-12:15":"DBMS ( III IT D2) B (IT 6)","12:15-01:15":"DBMS ( III IT D2) B (IT 6)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"WED":{"09:00-10:00":"WT ( V IT D2) A (IT 4)","10:00-11:00":"WT ( V IT D2) A (IT 4)","11:15-12:15":null,"12:15-01:15":null,"02:00-03:00":"DBMS (III IT D2)","03:00-04:00":"PROJECT-I","04:00-05:00":null,"05:00-06:00":null},"THU":{"09:00-10:00":"PP ( DIV A) A (IT 5)","10:00-11:00":"PP ( DIV A) A (IT 5)","11:15-12:15":"COA (III IT D1)","12:15-01:15":null,"02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"FRI":{"09:00-10:00":"DBMS ( III IT D2) A (IT 2)","10:00-11:00":"DBMS ( III IT D2) A (IT 2)","11:15-12:15":"DBMS (III IT D2)","12:15-01:15":null,"02:00-03:00":"COA (III IT D1)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null}}},"KD":{"code":"KD","name":"Prof. Karishma Desai","designation":"Assistant Professor","schedule":{"MON":{"09:00-10:00":"ATCD ( VII IT D1) B (IT 4)","10:00-11:00":"ATCD ( VII IT D1) B (IT 4)","11:15-12:15":"ATCD (VII IT D1)","12:15-01:15":null,"02:00-03:00":"PP (DIV A)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"TUE":{"09:00-10:00":null,"10:00-11:00":"ATCD (VII IT D1)","11:15-12:15":"ATCD ( VII IT D1) A (IT 5)","12:15-01:15":"ATCD ( VII IT D1) A (IT 5)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"WED":{"09:00-10:00":"PP (DIV A)","10:00-11:00":null,"11:15-12:15":null,"12:15-01:15":"PP (DIV K)","02:00-03:00":"PROJECT-I","03:00-04:00":"PROJECT-I","04:00-05:00":null,"05:00-06:00":null},"THU":{"09:00-10:00":"PP ( DIV A) A (IT 5)","10:00-11:00":"PP ( DIV A) A (IT 5)","11:15-12:15":null,"12:15-01:15":null,"02:00-03:00":"CNS ( V IT D1) A (IT 1)","03:00-04:00":"CNS ( V IT D1) A (IT 1)","04:00-05:00":null,"05:00-06:00":null},"FRI":{"09:00-10:00":null,"10:00-11:00":"ATCD (VII IT D1)","11:15-12:15":"PP ( DIV A) B (IT 5)","12:15-01:15":"PP ( DIV A) B (IT 5)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null}}},"PD":{"code":"PD","name":"Prof. Palak Desai","designation":"Assistant Professor","schedule":{"MON":{"09:00-10:00":"ATCD ( VII IT D1) B (IT 4)","10:00-11:00":"ATCD ( VII IT D1) B (IT 4)","11:15-12:15":null,"12:15-01:15":"DL ( VII AIDS)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"TUE":{"09:00-10:00":null,"10:00-11:00":"DL ( VII AIDS)","11:15-12:15":"DL ( VII AIDS) B (IT 4)","12:15-01:15":"DL ( VII AIDS) B (IT 4)","02:00-03:00":"DMBI ( V IT D2) B (IT 1)","03:00-04:00":"DMBI ( V IT D2) B (IT 1)","04:00-05:00":null,"05:00-06:00":null},"WED":{"09:00-10:00":"CNS ( V IT D2) B (IT 2)","10:00-11:00":"CNS ( V IT D2) B (IT 2)","11:15-12:15":"IOE ( VII - IML) L-02","12:15-01:15":"IOE ( VII - IML) L-02","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"THU":{"09:00-10:00":"OOAD ( III AIDS) A (IT 3)","10:00-11:00":"OOAD ( III AIDS) A (IT 3)","11:15-12:15":"DL ( VII AIDS) A (IT 4)","12:15-01:15":"DL ( VII AIDS) A (IT 4)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"FRI":{"09:00-10:00":"IOE ( VII - IML) L-02","10:00-11:00":null,"11:15-12:15":"DL ( VII AIDS)","12:15-01:15":null,"02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null}}},"MD":{"code":"MD","name":"Prof. Mitali Desai","designation":"Assistant Professor","schedule":{"MON":{"09:00-10:00":"DSYS ( VII IT D1) A (IT 5)","10:00-11:00":"DSYS ( VII IT D1) A (IT 5)","11:15-12:15":"AAI ( VII AIDS)","12:15-01:15":null,"02:00-03:00":"DSYS (VII IT D1)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"TUE":{"09:00-10:00":"DSYS (VII IT D1)","10:00-11:00":null,"11:15-12:15":"DSYS ( VII IT D1) B (IT 1)","12:15-01:15":"DSYS ( VII IT D1) B (IT 1)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"WED":{"09:00-10:00":null,"10:00-11:00":"AAI ( VII AIDS)","11:15-12:15":"DS ( III IT D1) B (IT 4)","12:15-01:15":"DS ( III IT D1) B (IT 4)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"THU":{"09:00-10:00":"DS ( III AIDS) B (IT 2)","10:00-11:00":"DS ( III AIDS) B (IT 2)","11:15-12:15":null,"12:15-01:15":"DSYS (VII IT D1)","02:00-03:00":"DMBI ( V IT D1) B (IT 2)","03:00-04:00":"DMBI ( V IT D1) B (IT 2)","04:00-05:00":null,"05:00-06:00":null},"FRI":{"09:00-10:00":"DS ( III IT D1) A (IT 1)","10:00-11:00":"DS ( III IT D1) A (IT 1)","11:15-12:15":null,"12:15-01:15":"AAI ( VII AIDS)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null}}},"NK":{"code":"NK","name":"Prof. Nitya Komalan","designation":"Assistant Professor","schedule":{"MON":{"09:00-10:00":"ST ( VII AIDS)","10:00-11:00":null,"11:15-12:15":"DBMI ( V IT D2) A (IT 1)","12:15-01:15":"DBMI ( V IT D2) A (IT 1)","02:00-03:00":"DBMS (III AIDS)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"TUE":{"09:00-10:00":"DBMS ( III AIDS) B (IT 2)","10:00-11:00":"DBMS ( III AIDS) B (IT 2)","11:15-12:15":"DBMS (III AIDS)","12:15-01:15":null,"02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"WED":{"09:00-10:00":"ST ( VII AIDS)","10:00-11:00":null,"11:15-12:15":"DBMS ( III AIDS) A (IT 3)","12:15-01:15":"DBMS ( III AIDS) A (IT 3)","02:00-03:00":"DBMS (III AIDS)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"THU":{"09:00-10:00":"DS ( III AIDS) B (IT 2)","10:00-11:00":"DS ( III AIDS) B (IT 2)","11:15-12:15":"NLP ( VII AIDS) B (IT 5)","12:15-01:15":"NLP ( VII AIDS) B (IT 5)","02:00-03:00":"ST ( VII AIDS)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"FRI":{"09:00-10:00":"DS ( III IT D1) A (IT 1)","10:00-11:00":"DS ( III IT D1) A (IT 1)","11:15-12:15":null,"12:15-01:15":null,"02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null}}},"VC":{"code":"VC","name":"Prof. Vivek Chapaneria","designation":"Assistant Professor","schedule":{"MON":{"09:00-10:00":"PP ( DIV C) B (IT 5)","10:00-11:00":"PP ( DIV C) B (IT 5)","11:15-12:15":"ATCD ( VII IT D2)","12:15-01:15":null,"02:00-03:00":null,"03:00-04:00":"CC ( V AIDS)","04:00-05:00":null,"05:00-06:00":null},"TUE":{"09:00-10:00":"PP (DIV C)","10:00-11:00":null,"11:15-12:15":null,"12:15-01:15":"ATCD ( VII IT D2)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"WED":{"09:00-10:00":"ATCD ( VII IT D2) A (IT 1)","10:00-11:00":"ATCD ( VII IT D2) A (IT 1)","11:15-12:15":null,"12:15-01:15":null,"02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"THU":{"09:00-10:00":"IOE - DSP ( V ) A (IT 6)","10:00-11:00":"IOE - DSP ( V ) A (IT 6)","11:15-12:15":"ATCD ( VII IT D2) B (IT 3)","12:15-01:15":"ATCD ( VII IT D2) B (IT 3)","02:00-03:00":"PP (DIV C)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"FRI":{"09:00-10:00":"OOAD ( III IT D2) B (IT 4)","10:00-11:00":"OOAD ( III IT D2) B (IT 4)","11:15-12:15":"ATCD ( VII IT D2)","12:15-01:15":null,"02:00-03:00":"PP ( DIV C) A (IT 5)","03:00-04:00":"PP ( DIV C) A (IT 5)","04:00-05:00":null,"05:00-06:00":null}}},"KSD":{"code":"KSD","name":"Dr. Krishna Delvadiya","designation":"Assistant Professor","schedule":{"MON":{"09:00-10:00":null,"10:00-11:00":"NLP ( VII AIDS)","11:15-12:15":"FDS ( V AIDS) A (IT 3)","12:15-01:15":"FDS ( V AIDS) A (IT 3)","02:00-03:00":"PP ( DIV K) B (IT 3)","03:00-04:00":"PP ( DIV K) B (IT 3)","04:00-05:00":null,"05:00-06:00":null},"TUE":{"09:00-10:00":"DS ( III AIDS) A (IT 5)","10:00-11:00":"DS ( III AIDS) A (IT 5)","11:15-12:15":"NLP ( VII AIDS) A (IT 2)","12:15-01:15":"NLP ( VII AIDS) A (IT 2)","02:00-03:00":"FDS ( V AIDS) B (IT 4)","03:00-04:00":"FDS ( V AIDS) B (IT 4)","04:00-05:00":null,"05:00-06:00":null},"WED":{"09:00-10:00":"FDS (V AIDS)","10:00-11:00":null,"11:15-12:15":null,"12:15-01:15":null,"02:00-03:00":"SAAI ( V AIDS) A (IT 1)","03:00-04:00":"SAAI ( V AIDS) A (IT 1)","04:00-05:00":null,"05:00-06:00":null},"THU":{"09:00-10:00":null,"10:00-11:00":null,"11:15-12:15":"NLP (VII IT D1)","12:15-01:15":null,"02:00-03:00":"FDS ( V AIDS)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"FRI":{"09:00-10:00":null,"10:00-11:00":null,"11:15-12:15":"NLP (VII IT D1)","12:15-01:15":null,"02:00-03:00":"FDS ( V AIDS)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null}}},"MHP":{"code":"MHP","name":"Prof. Mitul Patel","designation":"Assistant Professor","schedule":{"MON":{"09:00-10:00":"COA (III AIDS)","10:00-11:00":null,"11:15-12:15":"OOAD (III IT D2)","12:15-01:15":null,"02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"TUE":{"09:00-10:00":"PP ( DIV D) A (IT 1)","10:00-11:00":"PP ( DIV D) A (IT 1)","11:15-12:15":"PP (DIV D)","12:15-01:15":null,"02:00-03:00":"PP ( DIV B) A (IT 5)","03:00-04:00":"PP ( DIV B) A (IT 5)","04:00-05:00":null,"05:00-06:00":null},"WED":{"09:00-10:00":null,"10:00-11:00":"COA (III AIDS)","11:15-12:15":null,"12:15-01:15":"PP (DIV D)","02:00-03:00":"PP ( DIV B) B (IT 5)","03:00-04:00":"PP ( DIV B) B (IT 5)","04:00-05:00":null,"05:00-06:00":null},"THU":{"09:00-10:00":null,"10:00-11:00":null,"11:15-12:15":"PP ( DIV D) B (IT 1)","12:15-01:15":"PP ( DIV D) B (IT 1)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"FRI":{"09:00-10:00":"OOAD ( III IT D2) B (IT 4)","10:00-11:00":"OOAD ( III IT D2) B (IT 4)","11:15-12:15":null,"12:15-01:15":"COA (III AIDS)","02:00-03:00":"PP ( DIV C) A (IT 5)","03:00-04:00":"PP ( DIV C) A (IT 5)","04:00-05:00":null,"05:00-06:00":null}}},"VP":{"code":"VP","name":"Dr. Vibha Patel","designation":"Assistant Professor","schedule":{"MON":{"09:00-10:00":"CNS ( V IT D1) B (IT 3)","10:00-11:00":"CNS ( V IT D1) B (IT 3)","11:15-12:15":"DBMI ( V IT D2) A (IT 1)","12:15-01:15":"DBMI ( V IT D2) A (IT 1)","02:00-03:00":"DMBI (V IT D2)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"TUE":{"09:00-10:00":"IOE - DSP ( V ) B (IT 6)","10:00-11:00":"IOE - DSP ( V ) B (IT 6)","11:15-12:15":null,"12:15-01:15":"DMBI (V IT D1)","02:00-03:00":"DBMI ( V IT D2) B (IT 1)","03:00-04:00":"DBMI ( V IT D2) B (IT 1)","04:00-05:00":null,"05:00-06:00":null},"WED":{"09:00-10:00":null,"10:00-11:00":"DMBI (V AIDS)","11:15-12:15":null,"12:15-01:15":null,"02:00-03:00":"DMBI ( V AIDS) B (IT 2)","03:00-04:00":"DMBI ( V AIDS) B (IT 2)","04:00-05:00":null,"05:00-06:00":null},"THU":{"09:00-10:00":null,"10:00-11:00":null,"11:15-12:15":"DMBI (V IT D2)","12:15-01:15":null,"02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"FRI":{"09:00-10:00":"DBMS ( III IT D2) A (IT 2)","10:00-11:00":"DBMS ( III IT D2) A (IT 2)","11:15-12:15":null,"12:15-01:15":"SAAI ( V AIDS)","02:00-03:00":"DMBI (V IT D2)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null}}},"DR":{"code":"DR","name":"Prof. Dhaval Rana","designation":"Assistant Professor","schedule":{"MON":{"09:00-10:00":null,"10:00-11:00":"OOAD (III AIDS)","11:15-12:15":"WT ( V IT D2) B (IT 5)","12:15-01:15":"WT ( V IT D2) B (IT 5)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"TUE":{"09:00-10:00":"DBMS ( III IT D1) A (IT 4)","10:00-11:00":"DBMS ( III IT D1) A (IT 4)","11:15-12:15":"OOAD (III IT D1)","12:15-01:15":"IC (III AIDS)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"WED":{"09:00-10:00":"WT ( V IT D2) A (IT 4)","10:00-11:00":"WT ( V IT D2) A (IT 4)","11:15-12:15":"OOAD ( III AIDS) B (IT 5)","12:15-01:15":"OOAD ( III AIDS) B (IT 5)","02:00-03:00":"WT (V IT D2)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"THU":{"09:00-10:00":"OOAD ( III AIDS) A (IT 3)","10:00-11:00":"OOAD ( III AIDS) A (IT 3)","11:15-12:15":null,"12:15-01:15":"OOAD (III AIDS)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"FRI":{"09:00-10:00":null,"10:00-11:00":"OOAD (III AIDS)","11:15-12:15":null,"12:15-01:15":"WT (V IT D2)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null}}},"AC":{"code":"AC","name":"Prof. Ashish Chaudhary","designation":"Assistant Professor","schedule":{"MON":{"09:00-10:00":"COA (III IT D2)","10:00-11:00":null,"11:15-12:15":null,"12:15-01:15":null,"02:00-03:00":"DSYS ( VII IT D2)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"TUE":{"09:00-10:00":null,"10:00-11:00":"DSYS ( VII IT D2)","11:15-12:15":"ATCD ( VII IT D1) A (IT 5)","12:15-01:15":"ATCD ( VII IT D1) A (IT 5)","02:00-03:00":null,"03:00-04:00":"IC (III IT D1 & D2)","04:00-05:00":null,"05:00-06:00":null},"WED":{"09:00-10:00":"DSYS ( VII IT D2) B (IT 5)","10:00-11:00":"DSYS ( VII IT D2) B (IT 5)","11:15-12:15":"DBMS ( III AIDS) A (IT 3)","12:15-01:15":"DBMS ( III AIDS) A (IT 3)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"THU":{"09:00-10:00":"DS ( III IT D2) B (IT 4)","10:00-11:00":"DS ( III IT D2) B (IT 4)","11:15-12:15":"DSYS ( VII IT D2) A (IT 1)","12:15-01:15":"DSYS ( VII IT D2) A (IT 1)","02:00-03:00":"COA (III IT D2)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"FRI":{"09:00-10:00":null,"10:00-11:00":"DSYS ( VII IT D2)","11:15-12:15":null,"12:15-01:15":"COA (III IT D2)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null}}},"SK":{"code":"SK","name":"Prof. Snehal kathale","designation":"Assistant Professor","schedule":{"MON":{"09:00-10:00":"WT ( V IT D1) A (IT 1)","10:00-11:00":"WT ( V IT D1) A (IT 1)","11:15-12:15":null,"12:15-01:15":null,"02:00-03:00":"PP ( DIV K) B (IT 3)","03:00-04:00":"PP ( DIV K) B (IT 3)","04:00-05:00":null,"05:00-06:00":null},"TUE":{"09:00-10:00":null,"10:00-11:00":"BA( M.TECH CO)","11:15-12:15":"DS ( III IT D2) A (IT 3)","12:15-01:15":"DS ( III IT D2) A (IT 3)","02:00-03:00":"PP ( DIV B) A (IT 5)","03:00-04:00":"PP ( DIV B) A (IT 5)","04:00-05:00":null,"05:00-06:00":null},"WED":{"09:00-10:00":"PP (DIV B)","10:00-11:00":null,"11:15-12:15":null,"12:15-01:15":"BA( M.TECH CO)","02:00-03:00":"PP ( DIV B) B (IT 5)","03:00-04:00":"PP ( DIV B) B (IT 5)","04:00-05:00":null,"05:00-06:00":null},"THU":{"09:00-10:00":null,"10:00-11:00":null,"11:15-12:15":"PP (DIV B)","12:15-01:15":null,"02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"FRI":{"09:00-10:00":"PP (DIV K)","10:00-11:00":null,"11:15-12:15":"PP ( DIV A) B (IT 5)","12:15-01:15":"PP ( DIV A) B (IT 5)","02:00-03:00":"BA( M.TECH CO)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null}}},"BS":{"code":"BS","name":"Prof. Bhumika Shah","designation":"Assistant Professor","schedule":{"MON":{"09:00-10:00":null,"10:00-11:00":"NLP ( VII IT D2)","11:15-12:15":"SAAI ( V AIDS) B (IT 2)","12:15-01:15":"SAAI ( V AIDS) B (IT 2)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"TUE":{"09:00-10:00":"IOE - DSP ( V ) B (IT 6)","10:00-11:00":"IOE - DSP ( V ) B (IT 6)","11:15-12:15":"NLP ( VII IT D2)","12:15-01:15":null,"02:00-03:00":"FDS ( V AIDS) B (IT 4)","03:00-04:00":"FDS ( V AIDS) B (IT 4)","04:00-05:00":null,"05:00-06:00":null},"WED":{"09:00-10:00":"PP ( DIV K) A (IT 4)","10:00-11:00":"PP ( DIV K) A (IT 4)","11:15-12:15":"IOE ( V - DSP) L-01","12:15-01:15":"IOE ( V - DSP) L-01","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"THU":{"09:00-10:00":"IOE - DSP ( V ) A (IT 6)","10:00-11:00":"IOE - DSP ( V ) A (IT 6)","11:15-12:15":"DSYS ( VII IT D2) A (IT 1)","12:15-01:15":"DSYS ( VII IT D2) A (IT 1)","02:00-03:00":"NLP ( VII IT D2)","03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null},"FRI":{"09:00-10:00":"IOE ( V - DSP) L-01","10:00-11:00":null,"11:15-12:15":null,"12:15-01:15":null,"02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":null,"05:00-06:00":null}}},"DJ":{"code":"DJ","name":"Prof. Dhyani Joshi","designation":"Adhoc Assistant Professor","schedule":{"MON":{"09:00-10:00":null,"10:00-11:00":null,"11:15-12:15":"FDS ( V AIDS) A (IT 3)","12:15-01:15":"FDS ( V AIDS) A (IT 3)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":"EHPT HONORS (G-201)","05:00-06:00":null},"TUE":{"09:00-10:00":"PP ( DIV D) A (IT 1)","10:00-11:00":"PP ( DIV D) A (IT 1)","11:15-12:15":"DL ( VII AIDS) B (IT 4)","12:15-01:15":"DL ( VII AIDS) B (IT 4)","02:00-03:00":"DMBI ( V AIDS) A (IT 5)","03:00-04:00":"DMBI ( V AIDS) A (IT 5)","04:00-05:00":null,"05:00-06:00":null},"WED":{"09:00-10:00":"PP ( DIV K) A (IT 4)","10:00-11:00":"PP ( DIV K) A (IT 4)","11:15-12:15":null,"12:15-01:15":null,"02:00-03:00":null,"03:00-04:00":"CC (V IT D2)","04:00-05:00":null,"05:00-06:00":null},"THU":{"09:00-10:00":"OOAD ( III IT D2) A (IT 1)","10:00-11:00":"OOAD ( III IT D2) A (IT 1)","11:15-12:15":null,"12:15-01:15":"CC ( V AIDS)","02:00-03:00":null,"03:00-04:00":null,"04:00-05:00":"EHPT HONORS (G-201)","05:00-06:00":null},"FRI":{"09:00-10:00":null,"10:00-11:00":"CC (V IT D1)","11:15-12:15":"DMBI ( V IT D1) A (IT 4)","12:15-01:15":"DMBI ( V IT D1) A (IT 4)","02:00-03:00":null,"03:00-04:00":"CC ( V AIDS)","04:00-05:00":null,"05:00-06:00":null}}}}};
+
+const DAY_FULL = {MON:"Monday",TUE:"Tuesday",WED:"Wednesday",THU:"Thursday",FRI:"Friday"};
+const MORNING_SLOTS = ["09:00-10:00","10:00-11:00","11:15-12:15","12:15-01:15"];
+const FACULTY_CODES = Object.keys(DATA.faculty).sort((a,b)=> DATA.faculty[a].name.localeCompare(DATA.faculty[b].name));
+
+/* Data-quality check: a couple of source sheets have no classes recorded anywhere
+   (a genuine gap in the uploaded file, not a parsing issue) — flag them so we never
+   present a silent gap as a confident "they're free!" */
+FACULTY_CODES.forEach(code=>{
+  let n=0;
+  DATA.days.forEach(day=> DATA.slots.forEach(s=>{ if (DATA.faculty[code].schedule[day][s.id]) n++; }));
+  DATA.faculty[code].totalBusy = n;
+  DATA.faculty[code].dataGap = (n===0);
+});
+
+/* ============================= SETUP: DROPDOWNS ============================= */
+const facultySelect = document.getElementById("facultySelect");
+FACULTY_CODES.forEach(code=>{
+  const f = DATA.faculty[code];
+  const opt = document.createElement("option");
+  opt.value = code;
+  opt.textContent = `${f.name} (${code}) — ${f.designation}`;
+  facultySelect.appendChild(opt);
+});
+
+const peekDay = document.getElementById("peekDay");
+DATA.days.forEach(d=>{
+  const opt = document.createElement("option");
+  opt.value = d; opt.textContent = DAY_FULL[d];
+  peekDay.appendChild(opt);
+});
+const peekSlot = document.getElementById("peekSlot");
+DATA.slots.forEach(s=>{
+  const opt = document.createElement("option");
+  opt.value = s.id; opt.textContent = s.label;
+  peekSlot.appendChild(opt);
+});
+
+/* ============================= DAY CARD GENERATION ============================= */
+let dayPlans = {}; // { "2026-07-13": { dayName:"MON", checks:{ blockKey: bool }, blocks:{ blockKey: blockObj } } }
+
+/* Adjacent slot-index pairs that are genuinely back-to-back on the clock (no recess/lunch
+   gap between them) — only these can ever be merged into a single lab block.
+   Slot indices: 0=9:00-10:00  1=10:00-11:00  2=11:15-12:15  3=12:15-1:15
+                 4=2:00-3:00   5=3:00-4:00    6=4:00-5:00    7=5:00-6:00
+   [1,2] is deliberately EXCLUDED — there's a 15-min recess between 11:00 and 11:15, so
+   those two periods are never a real continuous lab, even if the same subject appears in
+   both (that would be two separate 1-hour sessions, not one 2-hour block).
+   [3,4] is deliberately EXCLUDED for the same reason — lunch break between 1:15 and 2:00. */
+const MERGE_ADJACENT = [[0,1],[2,3],[4,5],[5,6],[6,7]];
+
+function labelFirstHalf(label){ return label.split(" \u2013 ")[0]; }
+function labelSecondHalf(label){ return label.split(" \u2013 ")[1]; }
+
+/* Turns one faculty member's day into a list of "blocks" — a normal 1-hour class stays a
+   single block. Any RUN of genuinely back-to-back periods (no recess/lunch gap — see
+   MERGE_ADJACENT above) teaching the exact same subject gets chained into one full-load
+   block — 2 hours, or more if the run is longer — so it reads, displays its correct
+   combined time range, and gets covered as one unit instead of being split into pieces. */
+function getDayBlocks(faculty, dayName){
+  const sched = faculty.schedule[dayName];
+  const slots = DATA.slots;
+  const isTrueAdjacent = new Set(MERGE_ADJACENT.map(p=>p.join("-")));
+  const consumed = new Array(slots.length).fill(false);
+  const blocks = [];
+  for (let i=0;i<slots.length;i++){
+    if (consumed[i]) continue;
+    const val = sched[slots[i].id];
+    if (!val) continue;
+
+    // Walk forward, chaining every consecutive slot that is (a) genuinely back-to-back
+    // on the clock and (b) teaching the identical subject — this is what makes a real
+    // multi-hour lab/load block rather than two coincidentally-adjacent single classes.
+    const chainIdx = [i];
+    let cur = i;
+    while (isTrueAdjacent.has(`${cur}-${cur+1}`)){
+      const nextVal = sched[slots[cur+1].id];
+      if (nextVal && nextVal.trim() === val.trim()){
+        chainIdx.push(cur+1);
+        cur = cur+1;
+      } else break;
+    }
+    chainIdx.forEach(idx=> consumed[idx]=true);
+
+    const first = slots[chainIdx[0]];
+    if (chainIdx.length > 1){
+      const last = slots[chainIdx[chainIdx.length-1]];
+      blocks.push({
+        type:"lab2",
+        slots: chainIdx.map(idx=>slots[idx]),
+        subject: val,
+        label: labelFirstHalf(first.label)+" \u2013 "+labelSecondHalf(last.label),
+        half: MORNING_SLOTS.includes(first.id) ? "morning" : "afternoon"
+      });
+    } else {
+      blocks.push({type:"single", slots:[first], subject:val, label:first.label, half: MORNING_SLOTS.includes(first.id)?"morning":"afternoon"});
+    }
+  }
+  return blocks;
+}
+function blockKeyOf(block){ return block.slots.map(s=>s.id).join("+"); }
+
+function dayNameOf(date){
+  const map = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+  return map[date.getDay()];
+}
+function fmtDate(date){
+  return date.toLocaleDateString(undefined,{weekday:"short",day:"2-digit",month:"short",year:"numeric"});
+}
+function isoDate(date){
+  const y=date.getFullYear(), m=String(date.getMonth()+1).padStart(2,"0"), d=String(date.getDate()).padStart(2,"0");
+  return `${y}-${m}-${d}`;
+}
+
+/* ============================= CALENDAR (multi-day, non-contiguous selection) ============================= */
+let selectedDates = new Set(); // ISO date strings, weekdays only
+let calViewYear, calViewMonth; // calViewMonth is 0-indexed
+(function initCalView(){
+  const t = new Date();
+  calViewYear = t.getFullYear(); calViewMonth = t.getMonth();
+})();
+
+function renderCalendar(){
+  const wrap = document.getElementById("calWidget");
+  const first = new Date(calViewYear, calViewMonth, 1);
+  const startWeekday = first.getDay();
+  const daysInMonth = new Date(calViewYear, calViewMonth+1, 0).getDate();
+  const monthName = first.toLocaleDateString(undefined,{month:"long", year:"numeric"});
+  const todayIso = isoDate(new Date());
+
+  let cells = "";
+  for (let i=0;i<startWeekday;i++) cells += `<div class="cal-cell empty"></div>`;
+  for (let d=1; d<=daysInMonth; d++){
+    const dateObj = new Date(calViewYear, calViewMonth, d);
+    const iso = isoDate(dateObj);
+    const dow = dateObj.getDay();
+    const isWeekend = (dow===0 || dow===6);
+    const isSelected = selectedDates.has(iso);
+    const isToday = iso===todayIso;
+    let cls = "cal-cell";
+    if (isWeekend) cls += " weekend";
+    if (isSelected) cls += " selected";
+    if (isToday) cls += " today";
+    cells += `<button type="button" class="${cls}" data-iso="${iso}" ${isWeekend? 'disabled title="Weekend — no lectures on the books"':''}>${d}</button>`;
+  }
+
+  wrap.innerHTML = `
+    <div class="cal-head">
+      <button type="button" class="cal-nav" id="calPrev" aria-label="Previous month">‹</button>
+      <div class="cal-month">${monthName}</div>
+      <button type="button" class="cal-nav" id="calNext" aria-label="Next month">›</button>
+    </div>
+    <div class="cal-grid cal-dow"><div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div></div>
+    <div class="cal-grid">${cells}</div>
+  `;
+
+  document.getElementById("calPrev").addEventListener("click", ()=>{
+    calViewMonth--; if (calViewMonth<0){ calViewMonth=11; calViewYear--; }
+    renderCalendar();
+  });
+  document.getElementById("calNext").addEventListener("click", ()=>{
+    calViewMonth++; if (calViewMonth>11){ calViewMonth=0; calViewYear++; }
+    renderCalendar();
+  });
+  wrap.querySelectorAll(".cal-cell[data-iso]:not(.weekend):not(.empty)").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const iso = btn.dataset.iso;
+      if (selectedDates.has(iso)) selectedDates.delete(iso); else selectedDates.add(iso);
+      renderCalendar();
+      renderChipsAndCards();
+    });
+  });
+}
+
+function renderChipsAndCards(){
+  const chipsWrap = document.getElementById("selectedChips");
+  const sorted = Array.from(selectedDates).sort();
+  chipsWrap.innerHTML = sorted.length===0
+    ? `<p class="empty-note">No dates picked yet — tap days on the calendar above.</p>`
+    : sorted.map(iso=>{
+        const d = new Date(iso+"T00:00:00");
+        return `<span class="date-chip">${fmtDate(d)}<button type="button" class="chip-x" data-iso="${iso}" title="Remove this date">×</button></span>`;
+      }).join("");
+  rebuildDayCards(sorted);
+}
+
+document.getElementById("selectedChips").addEventListener("click", e=>{
+  if (!e.target.matches(".chip-x")) return;
+  selectedDates.delete(e.target.dataset.iso);
+  renderCalendar();
+  renderChipsAndCards();
+});
+
+document.getElementById("quickRangeBtns").addEventListener("click", e=>{
+  if (!e.target.matches(".qtbtn")) return;
+  const act = e.target.dataset.quick;
+  const today = new Date(); today.setHours(0,0,0,0);
+  const addIfWeekday = d=>{ const dow=d.getDay(); if (dow!==0 && dow!==6) selectedDates.add(isoDate(d)); };
+
+  if (act==="clear"){ selectedDates.clear(); }
+  else if (act==="today"){ addIfWeekday(today); }
+  else if (act==="tomorrow"){ const d=new Date(today); d.setDate(d.getDate()+1); addIfWeekday(d); }
+  else if (act==="week"){
+    const d = new Date(today);
+    while (d.getDay()!==6){ addIfWeekday(d); d.setDate(d.getDate()+1); }
+  }
+  else if (act==="next5"){
+    let count=0; const d=new Date(today);
+    while (count<5){ if (d.getDay()!==0 && d.getDay()!==6){ selectedDates.add(isoDate(d)); count++; } d.setDate(d.getDate()+1); }
+  }
+
+  calViewYear = today.getFullYear(); calViewMonth = today.getMonth();
+  renderCalendar();
+  renderChipsAndCards();
+});
+
+function rebuildDayCards(sortedDates){
+  const code = facultySelect.value;
+  const wrap = document.getElementById("dayCards");
+  const countNote = document.getElementById("dayCountNote");
+  wrap.innerHTML = "";
+  dayPlans = {};
+  document.getElementById("resultsSection").style.display = "none";
+
+  if (!code){ wrap.innerHTML = `<p class="empty-note">Pick yourself above, then choose your leave day(s) on the calendar.</p>`; countNote.textContent=""; return; }
+  if (!sortedDates || sortedDates.length===0){ wrap.innerHTML = `<p class="empty-note">Tap at least one day on the calendar to see what needs covering.</p>`; countNote.textContent=""; return; }
+
+  countNote.textContent = sortedDates.length===1
+    ? "That's a single day."
+    : `That's ${sortedDates.length} days picked — scroll down, every one of them gets its own card.`;
+
+  const faculty = DATA.faculty[code];
+
+  sortedDates.forEach(key=>{
+    const d = new Date(key+"T00:00:00");
+    const dn = dayNameOf(d);
+    const card = document.createElement("div");
+    card.className = "day-card";
+
+    const blocks = getDayBlocks(faculty, dn);
+    dayPlans[key] = {dayName:dn, checks:{}, blocks:{}};
+
+    if (blocks.length===0){
+      card.innerHTML = `
+        <div class="day-card-head">
+          <div class="day-card-title">${fmtDate(d)}<small>${DAY_FULL[dn]}</small></div>
+        </div>
+        <p class="empty-note">🙌 Lucky day — no scheduled classes for ${faculty.name.split(" ").slice(-1)[0]} on the timetable. Nothing to cover.</p>`;
+      wrap.appendChild(card);
+      return;
+    }
+
+    blocks.forEach(b=>{ const k=blockKeyOf(b); dayPlans[key].checks[k]=true; dayPlans[key].blocks[k]=b; });
+
+    const checksHtml = blocks.map(b=>{
+      const k = blockKeyOf(b);
+      const labTag = b.type==="lab2" ? ` <span title="${b.slots.length} back-to-back periods, same class — treated as one ${b.slots.length}-hour block. Only faculty free for ALL ${b.slots.length} hours count as a full cover.">🔬 ${b.slots.length}-hr lab</span>` : "";
+      return `
+      <label class="class-check">
+        <input type="checkbox" data-date="${key}" data-block="${k}" checked>
+        <span><span class="t">${b.label}</span>${b.subject}${labTag}</span>
+      </label>`;
+    }).join("");
+
+    card.innerHTML = `
+      <div class="day-card-head">
+        <div class="day-card-title">${fmtDate(d)}<small>${DAY_FULL[dn]}</small></div>
+        <div class="quick-toggles">
+          <button type="button" class="qtbtn" data-act="all" data-date="${key}">Full day off</button>
+          <button type="button" class="qtbtn" data-act="morning" data-date="${key}">Morning only</button>
+          <button type="button" class="qtbtn" data-act="afternoon" data-date="${key}">Afternoon only</button>
+          <button type="button" class="qtbtn" data-act="none" data-date="${key}">Clear</button>
+        </div>
+      </div>
+      ${checksHtml}
+    `;
+    wrap.appendChild(card);
+  });
+}
+
+document.getElementById("dayCards").addEventListener("change", e=>{
+  if (e.target.matches('input[type="checkbox"]')){
+    const {date, block} = e.target.dataset;
+    dayPlans[date].checks[block] = e.target.checked;
+  }
+});
+document.getElementById("dayCards").addEventListener("click", e=>{
+  if (!e.target.matches(".qtbtn")) return;
+  const {act, date} = e.target.dataset;
+  const card = e.target.closest(".day-card");
+  card.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
+    const k = cb.dataset.block;
+    const half = dayPlans[date].blocks[k].half;
+    let on;
+    if (act==="all") on=true;
+    else if (act==="none") on=false;
+    else if (act==="morning") on = (half==="morning");
+    else if (act==="afternoon") on = (half==="afternoon");
+    cb.checked = on;
+    dayPlans[date].checks[k] = on;
+  });
+});
+
+facultySelect.addEventListener("change", ()=> renderChipsAndCards());
+
+renderCalendar();
+renderChipsAndCards();
+
+/* ============================= FIND SUBSTITUTES ============================= */
+/* Returns faculty free at ONE given slot. Used for single-period classes and as the
+   building block for the 2-hour lab check below. */
+function freeFacultyAt(dayName, slotId, excludeCode){
+  return FACULTY_CODES.filter(code=>{
+    if (code===excludeCode) return false;
+    return !DATA.faculty[code].schedule[dayName][slotId];
+  });
+}
+
+document.getElementById("findBtn").addEventListener("click", ()=>{
+  const code = facultySelect.value;
+  const faculty = DATA.faculty[code];
+  const board = document.getElementById("pinboard");
+  const resultsSection = document.getElementById("resultsSection");
+  resultsSection.style.display = "block";
+
+  const slotOrder = DATA.slots.map(s=>s.id);
+  const dateKeys = Object.keys(dayPlans).sort();
+  let totalChecked = 0, zeroCover = 0;
+  const dateBlocks = [];
+
+  dateKeys.forEach(key=>{
+    const plan = dayPlans[key];
+    const blockKeys = Object.keys(plan.blocks)
+      .filter(k=>plan.checks[k])
+      .sort((a,b)=> slotOrder.indexOf(plan.blocks[a].slots[0].id) - slotOrder.indexOf(plan.blocks[b].slots[0].id));
+    if (blockKeys.length===0) return;
+
+    const d = new Date(key+"T00:00:00");
+    const notes = blockKeys.map((k,i)=>{
+      totalChecked++;
+      const block = plan.blocks[k];
+      let subsHtml;
+
+      if (block.type==="lab2"){
+        /* Full-load consecutive block (2 hours, or more for a longer chained run): only
+           faculty free for EVERY period in the block count as a genuine substitute.
+           Faculty free for just some of the hours are listed separately, clearly marked
+           with exactly which hours they can actually cover. */
+        const slotIds = block.slots.map(s=>s.id);
+        const freeSets = slotIds.map(sid => new Set(freeFacultyAt(plan.dayName, sid, code)));
+        const fullyFree = FACULTY_CODES.filter(c=> c!==code && freeSets.every(set=>set.has(c)));
+        if (fullyFree.length===0) zeroCover++;
+
+        const fullHtml = fullyFree.length
+          ? fullyFree.map(c=>`<span class="sub-chip">${DATA.faculty[c].name} (${c})</span>`).join("")
+          : `<div class="zero-cover">😬 Nobody's free for the full ${slotIds.length} hours — flag to HOD</div>`;
+
+        const partials = FACULTY_CODES
+          .filter(c=> c!==code && !fullyFree.includes(c))
+          .map(c=>({ c, freeIdx: freeSets.map((set,idx)=> set.has(c) ? idx : -1).filter(x=>x>=0) }))
+          .filter(p=> p.freeIdx.length>0);
+
+        const partialHtml = partials.length ? `
+          <div class="subhead" style="margin-top:12px;">Free for only part of it <span style="font-weight:400;text-transform:none;">(not the full ${slotIds.length}-hr block)</span></div>
+          ${partials.map(p=>{
+            const hourWord = p.freeIdx.length===1 ? "hour" : "hours";
+            const which = p.freeIdx.map(idx=> block.slots[idx].label).join(", ");
+            return `<span class="sub-chip partial" title="${DATA.faculty[p.c].name} is free for ${which} only, not the whole block">${DATA.faculty[p.c].name} (${p.c}) <b>${p.freeIdx.length}/${slotIds.length} ${hourWord}</b></span>`;
+          }).join("")}
+        ` : "";
+
+        subsHtml = fullHtml + partialHtml;
+      } else {
+        const subs = freeFacultyAt(plan.dayName, block.slots[0].id, code);
+        if (subs.length===0) zeroCover++;
+        subsHtml = subs.length
+          ? subs.map(c=>`<span class="sub-chip">${DATA.faculty[c].name} (${c})</span>`).join("")
+          : `<div class="zero-cover">😬 Nobody's free — flag to HOD</div>`;
+      }
+
+      const labTag = block.type==="lab2" ? ` <span title="${block.slots.length}-hour consecutive block — full cover requires all ${block.slots.length} hours free">🔬 ${block.slots.length}-hr lab</span>` : "";
+
+      return `
+        <div class="sticky c${i%5}">
+          <div class="period">${block.label}</div>
+          <div class="class-info">${block.subject}${labTag}</div>
+          <div class="subhead">Free to cover</div>
+          ${subsHtml}
+        </div>`;
+    }).join("");
+
+    dateBlocks.push(`
+      <div class="pinboard-date">${fmtDate(d)} <span style="font-weight:400;color:var(--ink-soft);font-size:13px;">· ${DAY_FULL[plan.dayName]}</span></div>
+      <div class="note-grid">${notes}</div>
+    `);
+  });
+
+  if (dateBlocks.length===0){
+    board.innerHTML = `<div class="results-empty">Nothing's checked off above — tick at least one class you'll miss, then hit the button again.</div>`;
+    return;
+  }
+
+  const summary = `
+    <div class="summary-strip">
+      <div><b>${totalChecked}</b> class${totalChecked===1?'':'es'} need${totalChecked===1?'s':''} covering</div>
+      <div><b>${zeroCover}</b> slot${zeroCover===1?'':'s'} with zero full backup</div>
+      <div>Requesting: <b>${faculty.name}</b> (${code})</div>
+    </div>`;
+  board.innerHTML = summary + dateBlocks.join("");
+  resultsSection.scrollIntoView({behavior:"smooth", block:"start"});
+});
+
+/* ============================= QUICK SLOT PEEK ============================= */
+function renderRoster(){
+  const day = peekDay.value, slot = peekSlot.value;
+  const grid = document.getElementById("rosterGrid");
+  const items = FACULTY_CODES.map(code=>{
+    const f = DATA.faculty[code];
+    const busyText = f.schedule[day][slot];
+    const free = !busyText;
+    const gapNote = f.dataGap ? ' ⚠️ no data on file' : '';
+    return `<div class="roster-chip ${free?'free':'busy'}"><span class="dot"></span>${f.name} (${code})${free?gapNote:' — busy'}</div>`;
+  }).join("");
+  grid.innerHTML = items;
+}
+document.getElementById("peekBtn").addEventListener("click", renderRoster);
+renderRoster();
+
+/* ============================= LEGEND ============================= */
+const legendGrid = document.getElementById("legendGrid");
+FACULTY_CODES.forEach(code=>{
+  const f = DATA.faculty[code];
+  const div = document.createElement("div");
+  div.className = "legend-item";
+  div.innerHTML = `<b>${code}</b> — ${f.name}<br><span style="color:var(--ink-soft);">${f.designation}</span>${f.dataGap?'<br><span style="color:var(--pin-deep);font-weight:700;">⚠️ no classes on file — schedule not confirmed</span>':''}`;
+  legendGrid.appendChild(div);
+});
+</script>
+</body>
+</html>
