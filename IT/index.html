@@ -1,1 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT Department • SCET Surat — Timetable HQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFF9F0;
+    --ink:#1B1B3A;
+    --sub-ink:#54527A;
+    --primary:#4C5FD5;
+    --primary-deep:#3846A8;
+    --pink:#FF5DA2;
+    --yellow:#FFC93C;
+    --green:#22C55E;
+    --card:#FFFFFF;
+    --ring: rgba(76,95,213,.18);
+    --free-bg:#EAF9EE;
+    --free-border:#22C55E;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{font-family:'Space Grotesk',sans-serif;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:inherit;}
+  ::selection{background:var(--yellow); color:var(--ink);}
 
+  /* ---------- Layout helpers ---------- */
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+  section{padding:78px 0;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--primary-deep);
+    background:#EDEFFC;border:1px solid #D6DAF6;
+    padding:6px 14px;border-radius:999px;
+    margin-bottom:18px;
+  }
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--pink);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(160deg,#4C5FD5 0%, #6E5AE0 42%, #FF5DA2 100%);
+    color:#fff;
+    padding:110px 0 90px;
+  }
+  .blob{position:absolute;border-radius:50%;filter:blur(2px);opacity:.35;animation:float 9s ease-in-out infinite;}
+  .blob.b1{width:280px;height:280px;background:var(--yellow);top:-90px;right:8%;animation-duration:11s;}
+  .blob.b2{width:180px;height:180px;background:#fff;bottom:-60px;left:6%;animation-duration:8s;animation-delay:1s;}
+  .blob.b3{width:120px;height:120px;background:var(--green);top:40%;right:20%;animation-duration:7s;animation-delay:.5s;opacity:.25;}
+  @keyframes float{0%,100%{transform:translateY(0) translateX(0);}50%{transform:translateY(-26px) translateX(14px);}}
+
+  .hero-inner{position:relative;z-index:2;}
+  .hero .eyebrow{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.35);color:#fff;}
+  .hero h1{
+    font-size:clamp(38px,6vw,66px);
+    line-height:1.03;
+    margin:0 0 18px;
+    font-weight:700;
+    letter-spacing:-.02em;
+  }
+  .hero h1 span{color:var(--yellow);}
+  .hero p.tag{
+    font-size:19px;max-width:620px;color:rgba(255,255,255,.92);
+    margin:0 0 34px;line-height:1.55;
+  }
+  .type-cursor{display:inline-block;width:3px;background:var(--yellow);animation:blink 1s steps(1) infinite;margin-left:2px;}
+  @keyframes blink{50%{opacity:0;}}
+
+  .hero-stats{display:flex;gap:14px;flex-wrap:wrap;}
+  .hstat{
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.28);
+    border-radius:14px;padding:14px 20px;
+    backdrop-filter:blur(6px);
+  }
+  .hstat b{display:block;font-family:'Space Grotesk',sans-serif;font-size:24px;}
+  .hstat span{font-size:12.5px;color:rgba(255,255,255,.8);}
+
+  /* ---------- VISION / MISSION ---------- */
+  .vm-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:26px;}
+  @media(max-width:820px){.vm-grid{grid-template-columns:1fr;}}
+  .card{
+    background:var(--card);
+    border:1px solid #EFE9DC;
+    border-radius:var(--radius);
+    padding:32px;
+    box-shadow:0 2px 0 rgba(27,27,58,.03);
+  }
+  .vm-card{position:relative;overflow:hidden;}
+  .vm-card::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:6px;
+  }
+  .vision::before{background:linear-gradient(90deg,var(--primary),var(--pink));}
+  .mission::before{background:linear-gradient(90deg,var(--yellow),var(--green));}
+  .card h3{font-size:24px;margin:6px 0 14px;}
+  .card p{color:var(--sub-ink);line-height:1.7;font-size:15.5px;}
+  .mission ul{margin:0;padding-left:0;list-style:none;}
+  .mission li{
+    display:flex;gap:12px;align-items:flex-start;
+    padding:12px 0;border-top:1px dashed #EAE4D6;color:var(--sub-ink);
+    font-size:15.5px;line-height:1.6;
+  }
+  .mission li:first-child{border-top:none;}
+  .mission li .num{
+    font-family:'JetBrains Mono',monospace;color:var(--primary);
+    font-weight:600;flex-shrink:0;
+  }
+
+  /* ---------- Section headers ---------- */
+  .sec-head{margin-bottom:38px;max-width:680px;}
+  .sec-head h2{font-size:clamp(28px,4vw,38px);margin:0 0 12px;letter-spacing:-.01em;}
+  .sec-head p{color:var(--sub-ink);font-size:16px;line-height:1.6;margin:0;}
+
+  /* ---------- Faculty picker ---------- */
+  .picker-bar{
+    display:flex;gap:16px;align-items:center;flex-wrap:wrap;
+    background:var(--card);border:1px solid #EFE9DC;border-radius:16px;
+    padding:18px 22px;margin-bottom:26px;
+  }
+  .picker-bar label{font-weight:600;font-size:14.5px;color:var(--sub-ink);white-space:nowrap;}
+  select#facultySelect{
+    flex:1;min-width:240px;
+    font-family:'Inter',sans-serif;font-size:15.5px;font-weight:600;
+    padding:12px 16px;border-radius:12px;border:2px solid #E4E7F7;
+    background:#FBFBFF;color:var(--ink);cursor:pointer;
+    appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1l6 6 6-6' stroke='%234C5FD5' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat:no-repeat;background-position:right 16px center;padding-right:44px;
+    transition:border-color .2s, box-shadow .2s;
+  }
+  select#facultySelect:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 4px var(--ring);}
+  .now-chip{
+    font-family:'JetBrains Mono',monospace;font-size:12.5px;
+    padding:8px 14px;border-radius:999px;background:#EAF9EE;color:#177B3F;
+    border:1px solid #BFEBCB;display:flex;align-items:center;gap:7px;white-space:nowrap;
+  }
+  .now-chip .pulse{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 1.6s infinite;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.5);}70%{box-shadow:0 0 0 8px rgba(34,197,94,0);}100%{box-shadow:0 0 0 0 rgba(34,197,94,0);}}
+
+  .fac-card{
+    background:var(--card);border:1px solid #EFE9DC;border-radius:var(--radius);
+    padding:28px;opacity:0;transform:translateY(10px);
+    animation:riseIn .45s ease forwards;
+  }
+  @keyframes riseIn{to{opacity:1;transform:translateY(0);}}
+  .fac-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:22px;}
+  .fac-head h3{margin:0 0 4px;font-size:22px;}
+  .fac-head .meta{color:var(--sub-ink);font-size:13.5px;}
+  .load-pill{
+    font-family:'JetBrains Mono',monospace;font-size:12.5px;
+    background:#FFF3D9;color:#8A5B00;border:1px solid #FCE3A3;
+    padding:7px 13px;border-radius:999px;white-space:nowrap;
+  }
+
+  table.grid{border-collapse:separate;border-spacing:0;width:100%;}
+  .tbl-scroll{overflow-x:auto;border-radius:12px;border:1px solid #EFE9DC;}
+  table.grid th, table.grid td{
+    padding:10px 10px;text-align:left;font-size:13.5px;
+    border-bottom:1px solid #F1EEE4;border-right:1px solid #F1EEE4;
+  }
+  table.grid th{
+    background:#F6F5FB;font-family:'Space Grotesk',sans-serif;font-weight:600;
+    color:var(--primary-deep);position:sticky;top:0;
+  }
+  table.grid tr:last-child td{border-bottom:none;}
+  table.grid td:last-child, table.grid th:last-child{border-right:none;}
+  .cell-slot{min-width:130px;}
+  .slot-tag{
+    display:inline-block;padding:6px 9px;border-radius:9px;font-weight:600;
+    font-size:12.5px;line-height:1.3;color:#20203D;
+  }
+  .slot-room{display:block;font-size:11px;color:var(--sub-ink);margin-top:3px;font-family:'JetBrains Mono',monospace;}
+  .slot-free{
+    display:inline-flex;align-items:center;gap:6px;
+    color:#177B3F;font-size:12.5px;font-weight:600;
+  }
+  .slot-free .dot{width:6px;height:6px;border-radius:50%;background:var(--green);}
+  .day-th{background:#EDEFFC !important;}
+  .now-row{outline:2px solid var(--green);outline-offset:-2px;border-radius:8px;}
+  .now-col{background:#FFFDF3 !important;}
+
+  .legend-strip{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
+  .legend-chip{
+    display:inline-flex;align-items:center;gap:7px;
+    font-size:12px;padding:6px 11px;border-radius:999px;
+    background:#F6F5FB;border:1px solid #E6E4F2;color:var(--sub-ink);
+  }
+  .legend-chip .sw{width:10px;height:10px;border-radius:3px;}
+
+  /* ---------- Consolidated ---------- */
+  .scroll-hint{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--primary-deep);
+    background:#EDEFFC;border:1px solid #D6DAF6;padding:7px 14px;border-radius:999px;
+    margin:-14px 0 16px;
+  }
+  .scroll-hint .arrow{display:inline-block;animation:nudge 1.4s ease-in-out infinite;}
+  @keyframes nudge{0%,100%{transform:translateX(0);}50%{transform:translateX(5px);}}
+  .consol-wrap{
+    overflow-x:auto;border-radius:16px;border:1px solid #EFE9DC;background:var(--card);
+    scrollbar-width:thin;scrollbar-color:var(--primary) #EFE9DC;
+  }
+  .consol-wrap::-webkit-scrollbar{height:10px;}
+  .consol-wrap::-webkit-scrollbar-track{background:#F3F1E9;}
+  .consol-wrap::-webkit-scrollbar-thumb{background:var(--primary);border-radius:6px;}
+  table.consol{border-collapse:separate;border-spacing:0;width:max-content;min-width:100%;table-layout:fixed;}
+  table.consol th, table.consol td{
+    border-bottom:1px solid #F1EEE4;border-right:1px solid #F1EEE4;
+    padding:6px 6px;font-size:11.5px;white-space:nowrap;text-align:center;
+    width:74px;
+  }
+  table.consol thead th{
+    background:#F6F5FB;position:sticky;top:0;z-index:3;
+    font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--primary-deep);
+    font-size:11.5px;padding:10px 6px;
+  }
+  table.consol thead th.corner{left:0;z-index:5;background:#EDEFFC;text-align:left;width:150px;}
+  table.consol td.rowhead, table.consol th.rowhead{
+    position:sticky;left:0;z-index:2;background:#FBFBFF;text-align:left;font-weight:600;color:var(--ink);
+    box-shadow:2px 0 0 #F1EEE4;width:150px;white-space:normal;
+  }
+  table.consol td.freecell{background:var(--free-bg);color:#177B3F;font-weight:600;font-size:10.5px;}
+  table.consol td.subjcell{
+    font-weight:700;color:#2B2A4A;font-size:11px;line-height:1.25;
+    white-space:normal;word-break:break-word;vertical-align:middle;
+  }
+  table.consol td.subjcell .rm{
+    display:block;font-weight:500;color:rgba(43,42,74,.62);font-size:9px;
+    margin-top:2px;font-family:'JetBrains Mono',monospace;letter-spacing:.01em;
+  }
+  table.consol tbody tr:nth-child(6n)>td{border-bottom:2px solid #E4E0D0;}
+
+  .load-legend{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:18px 0 0;font-size:13px;color:var(--sub-ink);}
+  .load-legend .lg-item{display:flex;align-items:center;gap:7px;}
+  .load-legend .sw{width:14px;height:14px;border-radius:4px;}
+  .sw.free{background:var(--free-bg);border:2px solid var(--free-border);}
+  .sw.busy{background:linear-gradient(135deg,#7AAADF,#DF7AC2);}
+
+  /* ---------- Tools ---------- */
+  .tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  @media(max-width:760px){.tools-grid{grid-template-columns:1fr;}}
+  .tool-card{
+    position:relative;border-radius:var(--radius);padding:30px;color:#fff;
+    overflow:hidden;text-decoration:none;display:block;
+    transition:transform .25s ease, box-shadow .25s ease;
+    box-shadow:0 10px 24px -14px rgba(27,27,58,.35);
+  }
+  .tool-card:hover{transform:translateY(-4px);}
+  .tool-card.a{background:linear-gradient(135deg,#4C5FD5,#7A86DF 60%, #59D8D8);}
+  .tool-card.b{background:linear-gradient(135deg,#FF5DA2,#DA7ADF 55%, #FFC93C);}
+  .tool-card h4{font-family:'Space Grotesk',sans-serif;font-size:22px;margin:14px 0 10px;}
+  .tool-card p{font-size:14.5px;line-height:1.6;color:rgba(255,255,255,.92);margin:0 0 18px;max-width:360px;}
+  .tool-card .go{
+    display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:13.5px;
+    background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);
+    padding:9px 16px;border-radius:999px;
+  }
+  .tool-card .go svg{transition:transform .2s ease;}
+  .tool-card:hover .go svg{transform:translateX(4px);}
+  .tool-icon{
+    width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.2);
+    display:flex;align-items:center;justify-content:center;font-size:22px;
+  }
+  .tool-card .blob-deco{position:absolute;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.13);top:-60px;right:-50px;}
+
+  footer{padding:44px 0 60px;text-align:center;color:var(--sub-ink);font-size:13.5px;}
+  footer .fmark{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--ink);font-size:16px;margin-bottom:6px;}
+  footer .credit{
+    display:inline-block;margin-top:16px;font-size:11.5px;
+    padding:6px 14px;border-radius:999px;
+    background:linear-gradient(90deg,#EDEFFC,#FDEBF4);
+    border:1px solid #E4D9F0;color:var(--sub-ink);
+  }
+  footer .credit span{font-weight:700;color:var(--primary-deep);}
+
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= HERO ================= -->
+<div class="hero">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+  <div class="wrap hero-inner">
+    <span class="eyebrow"><span class="dot"></span> Sarvajanik College of Engineering &amp; Technology, Surat</span>
+    <h1>Information Technology<br>Department <span>Timetable HQ</span></h1>
+    <p class="tag" id="typeTarget">Where bytes meet bright ideas — pick a faculty, spy on the weekly grid, and never double-book a lab again.<span class="type-cursor" id="cursorEl"></span></p>
+    <div class="hero-stats">
+      <div class="hstat"><b id="statFaculty">--</b><span>Faculty on the grid</span></div>
+      <div class="hstat"><b>6</b><span>Periods a day</span></div>
+      <div class="hstat"><b>5</b><span>Teaching days</span></div>
+      <div class="hstat"><b id="statSubjects">--</b><span>Subjects in play</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= VISION / MISSION ================= -->
+<section class="wrap reveal">
+  <div class="sec-head">
+    <span class="eyebrow"><span class="dot"></span> Who we are</span>
+    <h2>The compass we teach by</h2>
+    <p>Before the timetables — a quick look at why the department exists in the first place.</p>
+  </div>
+  <div class="vm-grid">
+    <div class="card vm-card vision">
+      <div style="font-size:28px;">👁️</div>
+      <h3>Our Vision</h3>
+      <p>To evolve as a global center of excellence in the field of Information Technology, imparting technical education and professional ethics to thrive in an era of globalization.</p>
+    </div>
+    <div class="card vm-card mission">
+      <div style="font-size:28px;">🎯</div>
+      <h3>Our Mission</h3>
+      <ul>
+        <li><span class="num">01</span><span>Impart sound technical knowledge in Information Technology through a creative balance of academic, research and co-curricular activities.</span></li>
+        <li><span class="num">02</span><span>Cultivate professional ethics and soft skills in students for global competitiveness.</span></li>
+        <li><span class="num">03</span><span>Collaborate with industries, government entities and academic institutions to deliver socially responsible, sustainable IT solutions.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TOOLS ================= -->
+<section class="wrap reveal" id="tools">
+  <div class="sec-head">
+    <span class="eyebrow"><span class="dot"></span> Quick Tools</span>
+    <h2>Two links every coordinator should bookmark 🔖</h2>
+    <p>Before you scroll through schedules — these two live trackers tell you what's actually happening right now.</p>
+  </div>
+  <div class="tools-grid">
+    <a class="tool-card a" href="https://bhumikaa7981.github.io/Resources/occupancy/" target="_blank" rel="noopener">
+      <div class="blob-deco"></div>
+      <div class="tool-icon">🏫</div>
+      <h4>Room Radar — Class &amp; Lab Occupancy</h4>
+      <p>Wondering if a classroom or lab is free right this minute? Open this link to check live occupancy before you walk over or block a room — no more knocking on locked doors.</p>
+      <span class="go">Check what's free now <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+    <a class="tool-card b" href="https://bhumikaa7981.github.io/Resources/" target="_blank" rel="noopener">
+      <div class="blob-deco"></div>
+      <div class="tool-icon">🧭</div>
+      <h4>Faculty Finder — Slot Availability</h4>
+      <p>Planning a meeting, assigning extra load, or covering someone's leave? Use this to check a faculty member's full or partial availability before you send that calendar invite.</p>
+      <span class="go">Find an open slot <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+  </div>
+</section>
+
+<!-- ================= FACULTY PICKER ================= -->
+<section class="wrap reveal" id="picker">
+  <div class="sec-head">
+    <span class="eyebrow"><span class="dot"></span> Faculty Finder</span>
+    <h2>Pick a professor, see their week 🧑‍🏫</h2>
+    <p>Choose any faculty member from the dropdown — their full weekly schedule pops up below, colour-coded by subject so free hours jump right out at you.</p>
+  </div>
+
+  <div class="picker-bar">
+    <label for="facultySelect">Faculty:</label>
+    <select id="facultySelect"></select>
+    <span class="now-chip" id="nowChip"><span class="pulse"></span> <span id="nowChipText">checking the clock…</span></span>
+  </div>
+
+  <div id="facultyCardHolder"></div>
+</section>
+
+<!-- ================= CONSOLIDATED ================= -->
+<section class="wrap reveal" id="consolidated">
+  <div class="sec-head">
+    <span class="eyebrow"><span class="dot"></span> Load Check</span>
+    <h2>Everyone, side by side 📊</h2>
+    <p>Every one of the <span id="statFaculty2">--</span> faculty members as a column, every day-period as a row — scan across a row to instantly see who's teaching, who's free, and who's about to be double-booked. Same subject = same colour; empty = free.</p>
+  </div>
+  <p class="scroll-hint">👉 Scroll sideways to see every faculty column <span class="arrow">→</span></p>
+  <div class="consol-wrap">
+    <div id="consolHolder"></div>
+  </div>
+  <div class="load-legend">
+    <div class="lg-item"><span class="sw free"></span> Free slot</div>
+    <div class="lg-item"><span class="sw busy"></span> Colour = subject (matches across faculty)</div>
+    <div class="lg-item">🟢 Highlighted column = right now, live</div>
+  </div>
+  <div class="legend-strip" id="fullLegend"></div>
+</section>
+
+<footer>
+  <div class="fmark">IT Department · SCET Surat</div>
+  Timetable effective from 06/07/2026 · Version 1 · Built for quick reference — always double-check with the official department notice board.
+  <div class="credit">Web interface &amp; application created by <span>Prof. Bhumika Shah</span></div>
+</footer>
+
+<script id="bundleData" type="application/json">{"faculty": {"MP": {"name": "Dr. Mita Parikh , Professor & HOD", "schedule": {"MON": [{"period": 1, "time": "09:00-10:00", "subject": "DSYS ( VII IT D1) A (IT 5)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "DSYS ( VII IT D1) A (IT 5)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "AUX (VII IT D1)", "room": "L-02"}], "TUE": [{"period": 3, "time": "11:15- 12:15", "subject": "NLP ( VII AIDS) A (IT 2)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "NLP ( VII AIDS) A (IT 2)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "AUX (VII IT D1)", "room": "G-201"}], "WED": [{"period": 5, "time": "02:00-03:00", "subject": "NLP (VII IT D1)", "room": "G-201"}], "THU": [{"period": 2, "time": "10:00- 11:00", "subject": "NLP (VII AIDS)", "room": "L-01"}, {"period": 3, "time": "11:15- 12:15", "subject": "NLP ( VII AIDS) B (IT 5)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "NLP ( VII AIDS) B (IT 5)", "room": ""}], "FRI": [{"period": 2, "time": "10:00- 11:00", "subject": "NLP (VII AIDS)", "room": "E-203"}, {"period": 4, "time": "12:15- 01:15", "subject": "AUX (VII IT D1)", "room": "L-01"}, {"period": 5, "time": "02:00-03:00", "subject": "PROJECT-I", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "PROJECT-I", "room": ""}]}, "subjects": {"AUX": {"full": "Agile Development and UI/UX design", "code": "BTIT14701"}, "NLP": {"full": "Natural Language Processing", "code": "BTIT14706"}, "DSYS": {"full": "Distributed Systems", "code": "BTIT13702"}}, "periods": [{"period": 1, "time": "09:00-10:00"}, {"period": 2, "time": "10:00- 11:00"}, {"period": 3, "time": "11:15- 12:15"}, {"period": 4, "time": "12:15- 01:15"}, {"period": 5, "time": "02:00-03:00"}, {"period": 6, "time": "03:00-04:00"}]}, "VJ": {"name": "Dr. Vivaksha Jariwala, Professor", "schedule": {"MON": [{"period": 1, "time": "09:00-10:00", "subject": "CNS ( V IT D1) B (IT 3)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "CNS ( V IT D1) B (IT 3)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "CNS (V IT D1)", "room": "G-202"}], "TUE": [{"period": 4, "time": "12:15- 01:15", "subject": "CNS (V IT D2)", "room": "G-203"}, {"period": 5, "time": "02:00-03:00", "subject": "CNS ( V IT D2) A (IT 2)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "CNS ( V IT D2) A (IT 2)", "room": ""}], "WED": [{"period": 1, "time": "09:00-10:00", "subject": "CNS ( V IT D2) B (IT 2)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "CNS ( V IT D2) B (IT 2)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "PROJECT-I", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "PROJECT-I", "room": ""}], "THU": [{"period": 2, "time": "10:00- 11:00", "subject": "DS (III IT D1)", "room": "E-202"}, {"period": 4, "time": "12:15- 01:15", "subject": "CNS (V IT D1)", "room": "G-202"}, {"period": 5, "time": "02:00-03:00", "subject": "CNS ( V IT D1) A (IT 1)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "CNS ( V IT D1) A (IT 1)", "room": ""}], "FRI": [{"period": 1, "time": "09:00-10:00", "subject": "DS (III AIDS)", "room": "F-203"}, {"period": 3, "time": "11:15- 12:15", "subject": "CNS (V IT D2)", "room": "G-203"}]}, "subjects": {"CNS": {"full": "Cryptography and Network Security", "code": "BTIT13502"}, "DS": {"full": "Data Structures", "code": "BTIT23301"}, "DBMS": {"full": "Database Management Systems", "code": "BTCO23305"}}, "periods": [{"period": 1, "time": "09:00-10:00"}, {"period": 2, "time": "10:00- 11:00"}, {"period": 3, "time": "11:15- 12:15"}, {"period": 4, "time": "12:15- 01:15"}, {"period": 5, "time": "02:00-03:00"}, {"period": 6, "time": "03:00-04:00"}]}, "DS": {"name": "Dr. Dhruti Sharma, Associate Professor", "schedule": {"MON": [{"period": 2, "time": "10:00- 11:00", "subject": "CNS (V IT D2)", "room": "G-203"}, {"period": 4, "time": "12:15- 01:15", "subject": "DS (III AIDS)", "room": "F-203"}], "TUE": [{"period": 1, "time": "09:00-10:00", "subject": "DS ( III AIDS) A (IT 5)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "DS ( III AIDS) A (IT 5)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DS (III IT D1)", "room": "E-202"}, {"period": 5, "time": "02:00-03:00", "subject": "CNS ( V IT D2) A (IT 2)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "CNS ( V IT D2) A (IT 2)", "room": ""}], "WED": [{"period": 3, "time": "11:15- 12:15", "subject": "DS ( III IT D1) B (IT 4)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DS ( III IT D1) B (IT 4)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "PROJECT-I", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "PROJECT-I", "room": ""}], "THU": [{"period": 3, "time": "11:15- 12:15", "subject": "DS (III AIDS)", "room": "F-203"}], "FRI": [{"period": 3, "time": "11:15- 12:15", "subject": "DS (III IT D1)", "room": "E-202"}, {"period": 5, "time": "02:00-03:00", "subject": "CNS (V IT D1)", "room": "G-202"}]}, "subjects": {"CNS": {"full": "Cryptography and Network Security", "code": "BTIT13502"}, "DS": {"full": "Data Structures", "code": "BTIT23301"}}, "periods": [{"period": 1, "time": "09:00-10:00"}, {"period": 2, "time": "10:00- 11:00"}, {"period": 3, "time": "11:15- 12:15"}, {"period": 4, "time": "12:15- 01:15"}, {"period": 5, "time": "02:00-03:00"}, {"period": 6, "time": "03:00-04:00"}]}, "HV": {"name": "Prof. Hiren Vavaiya, Assistant Professor", "schedule": {"MON": [{"period": 2, "time": "10:00- 11:00", "subject": "DBMS (III IT D1)", "room": "E-202"}, {"period": 4, "time": "12:15- 01:15", "subject": "DS (III IT D2)", "room": "E-203"}], "TUE": [{"period": 1, "time": "09:00-10:00", "subject": "DBMS ( III IT D1) A (IT 4)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "DBMS ( III IT D1) A (IT 4)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "DS ( III IT D2) A (IT 3)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DS ( III IT D2) A (IT 3)", "room": ""}], "WED": [{"period": 1, "time": "09:00-10:00", "subject": "DBMS (III IT D1)", "room": "E-202"}, {"period": 3, "time": "11:15- 12:15", "subject": "DS (III IT D2)", "room": "E-203"}, {"period": 5, "time": "02:00-03:00", "subject": "DMBI ( V AIDS) B (IT 2)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "DMBI ( V AIDS) B (IT 2)", "room": ""}], "THU": [{"period": 1, "time": "09:00-10:00", "subject": "DS ( III IT D2) B (IT 4)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "DS ( III IT D2) B (IT 4)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DS (III IT D2)", "room": "E-203"}], "FRI": [{"period": 1, "time": "09:00-10:00", "subject": "DBMS ( III IT D1) B (IT 5)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "DBMS ( III IT D1) B (IT 5)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DBMS (III IT D1)", "room": "E-202"}, {"period": 5, "time": "02:00-03:00", "subject": "PROJECT-I", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "PROJECT-I", "room": ""}]}, "subjects": {"DS": {"full": "Data Structures", "code": "BTIT23301"}, "DBMS": {"full": "Database Management Systems", "code": "BTCO23305"}, "DMBI": {"full": "Data Mining and Business Intelligence", "code": "BTIT13501"}}, "periods": [{"period": 1, "time": "09:00-10:00"}, {"period": 2, "time": "10:00- 11:00"}, {"period": 3, "time": "11:15- 12:15"}, {"period": 4, "time": "12:15- 01:15"}, {"period": 5, "time": "02:00-03:00"}, {"period": 6, "time": "03:00-04:00"}]}, "TG": {"name": "Prof. Tushar Gohil, Assistant Professor", "schedule": {"MON": [{"period": 1, "time": "09:00-10:00", "subject": "PP ( DIV C) B (IT 5)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "PP ( DIV C) B (IT 5)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "CC (V IT D2)", "room": "G-203"}], "TUE": [{"period": 5, "time": "02:00-03:00", "subject": "CC (V IT D1)", "room": "L-02"}], "WED": [{"period": 1, "time": "09:00-10:00", "subject": "DSYS ( VII IT D2) B (IT 5)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "DSYS ( VII IT D2) B (IT 5)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "CC (V IT D1)", "room": "G-202"}], "THU": [{"period": 1, "time": "09:00-10:00", "subject": "PROJECT-I", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "PROJECT-I", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "DL ( VII AIDS) A (IT 4)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DL ( VII AIDS) A (IT 4)", "room": ""}], "FRI": [{"period": 2, "time": "10:00- 11:00", "subject": "CC (V IT D2)", "room": "G-203"}, {"period": 3, "time": "11:15- 12:15", "subject": "WT ( V IT D1) B (IT 3)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "WT ( V IT D1) B (IT 3)", "room": ""}]}, "subjects": {"CC": {"full": "Cloud Computing", "code": "BTIT14502"}, "WT": {"full": "Web Technologies", "code": "BTCO13502"}, "DL": {"full": "Deep Learning", "code": "BTAI13701"}, "DSYS": {"full": "Distributed Systems", "code": "BTIT13702"}, "PP": {"full": "Python Programming", "code": "BTCO22102"}}, "periods": [{"period": 1, "time": "09:00-10:00"}, {"period": 2, "time": "10:00- 11:00"}, {"period": 3, "time": "11:15- 12:15"}, {"period": 4, "time": "12:15- 01:15"}, {"period": 5, "time": "02:00-03:00"}, {"period": 6, "time": "03:00-04:00"}]}, "AK": {"name": "Prof. Ashish Kharvar, Assistant Professor", "schedule": {"MON": [{"period": 4, "time": "12:15- 01:15", "subject": "AUX ( VII IT D2)", "room": "L-03"}, {"period": 6, "time": "03:00-04:00", "subject": "SE (V IT D1 & D2)", "room": "G-202"}], "TUE": [{"period": 1, "time": "09:00-10:00", "subject": "DBMS ( III AIDS) B (IT 2)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "DBMS ( III AIDS) B (IT 2)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "DBMS ( III IT D2) B (IT 6)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DBMS ( III IT D2) B (IT 6)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "AUX ( VII IT D2)", "room": "F-203"}], "WED": [{"period": 1, "time": "09:00-10:00", "subject": "ATCD ( VII IT D2) A (IT 1)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "ATCD ( VII IT D2) A (IT 1)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "OOAD ( III AIDS) B (IT 5)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "OOAD ( III AIDS) B (IT 5)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "SE (V IT D1 & D2)", "room": "L-02"}], "THU": [{"period": 1, "time": "09:00-10:00", "subject": "PROJECT-I", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "PROJECT-I", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "ATCD ( VII IT D2) B (IT 3)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "ATCD ( VII IT D2) B (IT 3)", "room": ""}], "FRI": [{"period": 2, "time": "10:00- 11:00", "subject": "SE (V IT D1 & D2)", "room": "IT-6"}, {"period": 4, "time": "12:15- 01:15", "subject": "AUX ( VII IT D2)", "room": "L-03"}]}, "subjects": {"AUX": {"full": "Agile Development and UI/UX design", "code": "BTIT14701"}, "ATCD": {"full": "Autometa Theory and Compiler Design", "code": "BTIT13701"}, "DBMS": {"full": "Database Management Systems", "code": "BTCO23305"}, "OOAD": {"full": "Object-Oriented Analysis and Design", "code": "BTIT23303"}, "SE": {"full": "Software Engineering", "code": "BTIT14501"}}, "periods": [{"period": 1, "time": "09:00-10:00"}, {"period": 2, "time": "10:00- 11:00"}, {"period": 3, "time": "11:15- 12:15"}, {"period": 4, "time": "12:15- 01:15"}, {"period": 5, "time": "02:00-03:00"}, {"period": 6, "time": "03:00-04:00"}]}, "AM": {"name": "Prof. Apurva Mandalaywala, Assistant Professor", "schedule": {"MON": [{"period": 1, "time": "09:00-10:00", "subject": "AUX ( VII AIDS)", "room": "L-03"}, {"period": 4, "time": "12:15- 01:15", "subject": "ST (VII IT D1 & D2)", "room": "G - 203"}, {"period": 6, "time": "03:00-04:00", "subject": "PROJECT-I", "room": ""}], "TUE": [{"period": 1, "time": "09:00-10:00", "subject": "OOAD ( III IT D1) B (IT 1)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "OOAD ( III IT D1) B (IT 1)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "DSYS ( VII IT D1) B (IT 1)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DSYS ( VII IT D1) B (IT 1)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "ST (VII IT D1 & D2)", "room": "G - 202"}], "WED": [{"period": 1, "time": "09:00-10:00", "subject": "AUX ( VII AIDS)", "room": "E-203"}, {"period": 3, "time": "11:15- 12:15", "subject": "OOAD ( III IT D1) A (IT 1)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "OOAD ( III IT D1) A (IT 1)", "room": ""}], "THU": [{"period": 3, "time": "11:15- 12:15", "subject": "PP ( DIV D) B (IT 1)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "PP ( DIV D) B (IT 1)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "AUX ( VII AIDS)", "room": "G-202"}], "FRI": [{"period": 1, "time": "09:00-10:00", "subject": "DBMS ( III IT D1) B (IT 5)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "DBMS ( III IT D1) B (IT 5)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "ST (VII IT D1 & D2)", "room": "IT -06"}, {"period": 5, "time": "02:00-03:00", "subject": "PROJECT-I", "room": ""}]}, "subjects": {"AUX": {"full": "Agile Development and UI/UX design", "code": "BTIT14701"}, "DBMS": {"full": "Database Management Systems", "code": "BTCO23305"}, "OOAD": {"full": "Object-Oriented Analysis and Design", "code": "BTIT23303"}, "ST": {"full": "Software Testing", "code": "BTIT14703"}, "DSYS": {"full": "Distributed Systems", "code": "BTIT13702"}, "PP": {"full": "Python Programming", "code": "BTCO22102"}}, "periods": [{"period": 1, "time": "09:00-10:00"}, {"period": 2, "time": "10:00- 11:00"}, {"period": 3, "time": "11:15- 12:15"}, {"period": 4, "time": "12:15- 01:15"}, {"period": 5, "time": "02:00-03:00"}, {"period": 6, "time": "03:00-04:00"}]}, "BP": {"name": "Prof. Bhumika Patel, Assistant Professor", "schedule": {"MON": [{"period": 1, "time": "09:00-10:00", "subject": "WT ( V IT D1) A (IT 1)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "WT ( V IT D1) A (IT 1)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "OOAD (III IT D1)", "room": "E-202"}], "TUE": [{"period": 1, "time": "09:00-10:00", "subject": "OOAD ( III IT D1) B (IT 1)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "OOAD ( III IT D1) B (IT 1)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "WT (V IT D1)", "room": "G-202"}, {"period": 5, "time": "02:00-03:00", "subject": "OOAD (III IT D2)", "room": "E-203"}], "WED": [{"period": 1, "time": "09:00-10:00", "subject": "WT (V IT D1)", "room": "G-202"}, {"period": 3, "time": "11:15- 12:15", "subject": "OOAD ( III IT D1) A (IT 1)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "OOAD ( III IT D1) A (IT 1)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "PROJECT-I", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "PROJECT-I", "room": ""}], "THU": [{"period": 1, "time": "09:00-10:00", "subject": "OOAD ( III IT D2) A (IT 1)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "OOAD ( III IT D2) A (IT 1)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "OOAD (III IT D1)", "room": "E-202"}], "FRI": [{"period": 3, "time": "11:15- 12:15", "subject": "WT ( V IT D1) B (IT 3)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "WT ( V IT D1) B (IT 3)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "OOAD (III IT D2)", "room": "E-203"}]}, "subjects": {"OOAD": {"full": "Object-Oriented Analysis and Design", "code": "BTIT23303"}, "WT": {"full": "Web Technologies", "code": "BTCO13502"}}, "periods": [{"period": 1, "time": "09:00-10:00"}, {"period": 2, "time": "10:00- 11:00"}, {"period": 3, "time": "11:15- 12:15"}, {"period": 4, "time": "12:15- 01:15"}, {"period": 5, "time": "02:00-03:00"}, {"period": 6, "time": "03:00-04:00"}]}, "MMP": {"name": "Prof. Mukesh Patel, Assistant Professor", "schedule": {"MON": [{"period": 2, "time": "10:00- 11:00", "subject": "SAAI (V AIDS)", "room": "G-201"}, {"period": 3, "time": "11:15- 12:15", "subject": "SAAI ( V AIDS) B (IT 2)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "SAAI ( V AIDS) B (IT 2)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "DMBI (V IT D1)", "room": "G-202"}], "TUE": [{"period": 3, "time": "11:15- 12:15", "subject": "SAAI (V AIDS)", "room": "G-201"}, {"period": 5, "time": "02:00-03:00", "subject": "DMBI ( V AIDS) A (IT 5)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "DMBI ( V AIDS) A (IT 5)", "room": ""}], "WED": [{"period": 2, "time": "10:00- 11:00", "subject": "DMBI (V IT D1)", "room": "G-202"}, {"period": 5, "time": "02:00-03:00", "subject": "SAAI ( V AIDS) A (IT 1)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "SAAI ( V AIDS) A (IT 1)", "room": ""}], "THU": [{"period": 1, "time": "09:00-10:00", "subject": "PROJECT-I", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "PROJECT-I", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "DMBI (V AIDS)", "room": "G-201"}, {"period": 5, "time": "02:00-03:00", "subject": "DMBI ( V IT D1) B (IT 2)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "DMBI ( V IT D1) B (IT 2)", "room": ""}], "FRI": [{"period": 2, "time": "10:00- 11:00", "subject": "DMBI (V AIDS)", "room": "G-201"}, {"period": 3, "time": "11:15- 12:15", "subject": "DMBI ( V IT D1) A (IT 4)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DMBI ( V IT D1) A (IT 4)", "room": ""}]}, "subjects": {"SAAI": {"full": "Search Algorithms in Artificial Intelligence", "code": "BTAI13501"}, "DMBI": {"full": "Data Mining and Business Intelligence", "code": "BTIT13501"}}, "periods": [{"period": 1, "time": "09:00-10:00"}, {"period": 2, "time": "10:00- 11:00"}, {"period": 3, "time": "11:15- 12:15"}, {"period": 4, "time": "12:15- 01:15"}, {"period": 5, "time": "02:00-03:00"}, {"period": 6, "time": "03:00-04:00"}]}, "ARK": {"name": "Dr. Ankit Kharwar, Assistant Professor", "schedule": {"MON": [{"period": 1, "time": "09:00-10:00", "subject": "COA (III IT D1)", "room": "E-202"}, {"period": 3, "time": "11:15- 12:15", "subject": "WT ( V IT D2) B (IT 5)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "WT ( V IT D2) B (IT 5)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "PROJECT-I", "room": ""}], "TUE": [{"period": 2, "time": "10:00- 11:00", "subject": "DBMS (III IT D2)", "room": "E-203"}, {"period": 3, "time": "11:15- 12:15", "subject": "DBMS ( III IT D2) B (IT 6)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DBMS ( III IT D2) B (IT 6)", "room": ""}], "WED": [{"period": 1, "time": "09:00-10:00", "subject": "WT ( V IT D2) A (IT 4)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "WT ( V IT D2) A (IT 4)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "DBMS (III IT D2)", "room": "E-203"}, {"period": 6, "time": "03:00-04:00", "subject": "PROJECT-I", "room": ""}], "THU": [{"period": 1, "time": "09:00-10:00", "subject": "PP ( DIV A) A (IT 5)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "PP ( DIV A) A (IT 5)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "COA (III IT D1)", "room": "E-202"}], "FRI": [{"period": 1, "time": "09:00-10:00", "subject": "DBMS ( III IT D2) A (IT 2)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "DBMS ( III IT D2) A (IT 2)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "DBMS (III IT D2)", "room": "E-203"}, {"period": 5, "time": "02:00-03:00", "subject": "COA (III IT D1)", "room": "E-202"}]}, "subjects": {"DBMS": {"full": "Database Management Systems", "code": "BTCO23305"}, "COA": {"full": "Computer Organization and Architecture", "code": "BTIT23305"}, "WT": {"full": "Web Technologies", "code": "BTCO13502"}, "PP": {"full": "Python Programming", "code": "BTCO22102"}}, "periods": [{"period": 1, "time": "09:00-10:00"}, {"period": 2, "time": "10:00- 11:00"}, {"period": 3, "time": "11:15- 12:15"}, {"period": 4, "time": "12:15- 01:15"}, {"period": 5, "time": "02:00-03:00"}, {"period": 6, "time": "03:00-04:00"}]}, "KD": {"name": "Prof. Karishma Desai, Assistant Professor", "schedule": {"MON": [{"period": 1, "time": "09:00-10:00", "subject": "ATCD ( VII IT D1) B (IT 4)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "ATCD ( VII IT D1) B (IT 4)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "ATCD (VII IT D1)", "room": "L-02"}, {"period": 5, "time": "02:00-03:00", "subject": "PP (DIV A)", "room": "L-01"}], "TUE": [{"period": 2, "time": "10:00- 11:00", "subject": "ATCD (VII IT D1)", "room": "L-01"}, {"period": 3, "time": "11:15- 12:15", "subject": "ATCD ( VII IT D1) A (IT 5)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "ATCD ( VII IT D1) A (IT 5)", "room": ""}], "WED": [{"period": 1, "time": "09:00-10:00", "subject": "PP (DIV A)", "room": "L-01"}, {"period": 4, "time": "12:15- 01:15", "subject": "PP (DIV K)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "PROJECT-I", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "PROJECT-I", "room": ""}], "THU": [{"period": 1, "time": "09:00-10:00", "subject": "PP ( DIV A) A (IT 5)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "PP ( DIV A) A (IT 5)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "CNS ( V IT D1) A (IT 1)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "CNS ( V IT D1) A (IT 1)", "room": ""}], "FRI": [{"period": 2, "time": "10:00- 11:00", "subject": "ATCD (VII IT D1)", "room": "L-02"}, {"period": 3, "time": "11:15- 12:15", "subject": "PP ( DIV A) B (IT 5)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "PP ( DIV A) B (IT 5)", "room": ""}]}, "subjects": {"ATCD": {"full": "Autometa Theory and Compiler Design", "code": "BTIT13701"}, "PP": {"full": "Python Programming", "code": "BTCO22101"}, "PP-LAB": {"full": "Python Programming Lab", "code": "BTCO22102"}, "CNS": {"full": "Cryptography and Network Security", "code": "BTIT13502"}}, "periods": [{"period": 1, "time": "09:00-10:00"}, {"period": 2, "time": "10:00- 11:00"}, {"period": 3, "time": "11:15- 12:15"}, {"period": 4, "time": "12:15- 01:15"}, {"period": 5, "time": "02:00-03:00"}, {"period": 6, "time": "03:00-04:00"}]}, "PD": {"name": "Prof. Palak Desai, Assistant Professor", "schedule": {"MON": [{"period": 1, "time": "09:00-10:00", "subject": "ATCD ( VII IT D1) B (IT 4)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "ATCD ( VII IT D1) B (IT 4)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DL ( VII AIDS)", "room": "G-201"}], "TUE": [{"period": 2, "time": "10:00- 11:00", "subject": "DL ( VII AIDS)", "room": "F-203"}, {"period": 3, "time": "11:15- 12:15", "subject": "DL ( VII AIDS) B (IT 4)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DL ( VII AIDS) B (IT 4)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "DMBI ( V IT D2) B (IT 1)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "DMBI ( V IT D2) B (IT 1)", "room": ""}], "WED": [{"period": 1, "time": "09:00-10:00", "subject": "CNS ( V IT D2) B (IT 2)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "CNS ( V IT D2) B (IT 2)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "IOE ( VII - IML) L-02", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "IOE ( VII - IML) L-02", "room": ""}], "THU": [{"period": 1, "time": "09:00-10:00", "subject": "OOAD ( III AIDS) A (IT 3)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "OOAD ( III AIDS) A (IT 3)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "DL ( VII AIDS) A (IT 4)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DL ( VII AIDS) A (IT 4)", "room": ""}], "FRI": [{"period": 1, "time": "09:00-10:00", "subject": "IOE ( VII - IML) L-02", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "DL ( VII AIDS)", "room": "G-202"}]}, "subjects": {"OOPD": {"full": "Object-Oriented Analysis and Design", "code": "BTIT23303"}, "DL": {"full": "Deep Learning", "code": "BTAI13701"}, "DMBI": {"full": "Data Mining and Business Intelligence", "code": "BTIT13501"}, "CNS": {"full": "Cryptography and Network Security", "code": "BTIT13502"}, "IML": {"full": "Introduction to Machine Learning", "code": "BTIT15702"}}, "periods": [{"period": 1, "time": "09:00-10:00"}, {"period": 2, "time": "10:00- 11:00"}, {"period": 3, "time": "11:15- 12:15"}, {"period": 4, "time": "12:15- 01:15"}, {"period": 5, "time": "02:00-03:00"}, {"period": 6, "time": "03:00-04:00"}]}, "MD": {"name": "Prof. Mitali Desai, Assistant Professor", "schedule": {"MON": [{"period": 1, "time": "09:00-10:00", "subject": "DSYS ( VII IT D1) A (IT 5)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "DSYS ( VII IT D1) A (IT 5)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "AAI ( VII AIDS)", "room": "G-201"}, {"period": 5, "time": "02:00-03:00", "subject": "DSYS (VII IT D1)", "room": "L-02"}], "TUE": [{"period": 1, "time": "09:00-10:00", "subject": "DSYS (VII IT D1)", "room": "L-01"}, {"period": 3, "time": "11:15- 12:15", "subject": "DSYS ( VII IT D1) B (IT 1)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DSYS ( VII IT D1) B (IT 1)", "room": ""}], "WED": [{"period": 2, "time": "10:00- 11:00", "subject": "AAI ( VII AIDS)", "room": "E-203"}, {"period": 3, "time": "11:15- 12:15", "subject": "DS ( III IT D1) B (IT 4)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DS ( III IT D1) B (IT 4)", "room": ""}], "THU": [{"period": 1, "time": "09:00-10:00", "subject": "DS ( III AIDS) B (IT 2)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "DS ( III AIDS) B (IT 2)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DSYS (VII IT D1)", "room": "L-03"}, {"period": 5, "time": "02:00-03:00", "subject": "DMBI ( V IT D1) B (IT 2)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "DMBI ( V IT D1) B (IT 2)", "room": ""}], "FRI": [{"period": 1, "time": "09:00-10:00", "subject": "DS ( III IT D1) A (IT 1)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "DS ( III IT D1) A (IT 1)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "AAI ( VII AIDS)", "room": "G-202"}]}, "subjects": {"DSYS": {"full": "Distributed Systems", "code": "BTIT13702"}, "AAI": {"full": "Advancements in AI", "code": "BTAI14704"}, "DS": {"full": "Data Structures", "code": "BTIT23301"}, "DMBI": {"full": "Data Mining and Business Intelligence", "code": "BTIT13501"}}, "periods": [{"period": 1, "time": "09:00-10:00"}, {"period": 2, "time": "10:00- 11:00"}, {"period": 3, "time": "11:15- 12:15"}, {"period": 4, "time": "12:15- 01:15"}, {"period": 5, "time": "02:00-03:00"}, {"period": 6, "time": "03:00-04:00"}]}, "NK": {"name": "Prof. Nitya Komalan, Assistant Professor", "schedule": {"MON": [{"period": 1, "time": "09:00-10:00", "subject": "ST ( VII AIDS)", "room": "G-202"}, {"period": 3, "time": "11:15- 12:15", "subject": "DBMI ( V IT D2) A (IT 1)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DBMI ( V IT D2) A (IT 1)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "DBMS (III AIDS)", "room": "F-203"}], "TUE": [{"period": 1, "time": "09:00-10:00", "subject": "DBMS ( III AIDS) B (IT 2)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "DBMS ( III AIDS) B (IT 2)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "DBMS (III AIDS)", "room": "F-203"}], "WED": [{"period": 1, "time": "09:00-10:00", "subject": "ST ( VII AIDS)", "room": "G-203"}, {"period": 3, "time": "11:15- 12:15", "subject": "DBMS ( III AIDS) A (IT 3)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DBMS ( III AIDS) A (IT 3)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "DBMS (III AIDS)", "room": "F-203"}], "THU": [{"period": 1, "time": "09:00-10:00", "subject": "DS ( III AIDS) B (IT 2)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "DS ( III AIDS) B (IT 2)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "NLP ( VII AIDS) B (IT 5)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "NLP ( VII AIDS) B (IT 5)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "ST ( VII AIDS)", "room": "G-203"}], "FRI": [{"period": 1, "time": "09:00-10:00", "subject": "DS ( III IT D1) A (IT 1)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "DS ( III IT D1) A (IT 1)", "room": ""}]}, "subjects": {"DS": {"full": "Data Structures", "code": "BTIT23301"}, "ST": {"full": "Software Testing", "code": "BTIT14703"}, "DBMS": {"full": "Database Management Systems", "code": "BTCO23305"}, "NLP": {"full": "Natural Language Processing", "code": "BTIT14706"}}, "periods": [{"period": 1, "time": "09:00-10:00"}, {"period": 2, "time": "10:00- 11:00"}, {"period": 3, "time": "11:15- 12:15"}, {"period": 4, "time": "12:15- 01:15"}, {"period": 5, "time": "02:00-03:00"}, {"period": 6, "time": "03:00-04:00"}]}, "VC": {"name": "Prof. Vivek Chapaneria, Assistant Professor", "schedule": {"MON": [{"period": 1, "time": "09:00-10:00", "subject": "PP ( DIV C) B (IT 5)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "PP ( DIV C) B (IT 5)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "ATCD ( VII IT D2)", "room": "L-03"}, {"period": 6, "time": "03:00-04:00", "subject": "CC ( V AIDS)", "room": "G-201"}], "TUE": [{"period": 1, "time": "09:00-10:00", "subject": "PP (DIV C)", "room": "L-03"}, {"period": 4, "time": "12:15- 01:15", "subject": "ATCD ( VII IT D2)", "room": "L-02"}], "WED": [{"period": 1, "time": "09:00-10:00", "subject": "ATCD ( VII IT D2) A (IT 1)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "ATCD ( VII IT D2) A (IT 1)", "room": ""}], "THU": [{"period": 1, "time": "09:00-10:00", "subject": "IOE - DSP ( V ) A (IT 6)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "IOE - DSP ( V ) A (IT 6)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "ATCD ( VII IT D2) B (IT 3)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "ATCD ( VII IT D2) B (IT 3)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "PP (DIV C)", "room": "L-03"}], "FRI": [{"period": 1, "time": "09:00-10:00", "subject": "OOAD ( III IT D2) B (IT 4)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "OOAD ( III IT D2) B (IT 4)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "ATCD ( VII IT D2)", "room": "L-03"}, {"period": 5, "time": "02:00-03:00", "subject": "PP ( DIV C) A (IT 5)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "PP ( DIV C) A (IT 5)", "room": ""}]}, "subjects": {"ATCD": {"full": "Autometa Theory and Compiler Design", "code": "BTIT13701"}, "PP": {"full": "Python Programming", "code": "BTCO22101"}, "CC": {"full": "Cloud Computing", "code": "BTIT14502"}, "PP-LAB": {"full": "Python Programming Lab", "code": "BTCO22102"}, "OOAD": {"full": "Object-Oriented Analysis and Design", "code": "BTIT23303"}, "DSP": {"full": "Data Science using Python", "code": "BTIT15501"}}, "periods": [{"period": 1, "time": "09:00-10:00"}, {"period": 2, "time": "10:00- 11:00"}, {"period": 3, "time": "11:15- 12:15"}, {"period": 4, "time": "12:15- 01:15"}, {"period": 5, "time": "02:00-03:00"}, {"period": 6, "time": "03:00-04:00"}]}, "KSD": {"name": "Dr. Krishna Delvadiya, Assistant Professor", "schedule": {"MON": [{"period": 2, "time": "10:00- 11:00", "subject": "NLP ( VII AIDS)", "room": "L-03"}, {"period": 3, "time": "11:15- 12:15", "subject": "FDS ( V AIDS) A (IT 3)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "FDS ( V AIDS) A (IT 3)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "PP ( DIV K) B (IT 3)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "PP ( DIV K) B (IT 3)", "room": ""}], "TUE": [{"period": 1, "time": "09:00-10:00", "subject": "DS ( III AIDS) A (IT 5)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "DS ( III AIDS) A (IT 5)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "NLP ( VII AIDS) A (IT 2)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "NLP ( VII AIDS) A (IT 2)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "FDS ( V AIDS) B (IT 4)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "FDS ( V AIDS) B (IT 4)", "room": ""}], "WED": [{"period": 1, "time": "09:00-10:00", "subject": "FDS (V AIDS)", "room": "G-201"}, {"period": 5, "time": "02:00-03:00", "subject": "SAAI ( V AIDS) A (IT 1)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "SAAI ( V AIDS) A (IT 1)", "room": ""}], "THU": [{"period": 3, "time": "11:15- 12:15", "subject": "NLP (VII IT D1)", "room": "L-03"}, {"period": 5, "time": "02:00-03:00", "subject": "FDS ( V AIDS)", "room": "G-201"}], "FRI": [{"period": 3, "time": "11:15- 12:15", "subject": "NLP (VII IT D1)", "room": "L-01"}, {"period": 5, "time": "02:00-03:00", "subject": "FDS ( V AIDS)", "room": "G-201"}]}, "subjects": {"NLP": {"full": "Natural Language Processing", "code": "BTIT14706"}, "DS": {"full": "Data Structures", "code": "BTIT23301"}, "FDS": {"full": "Fundamentals of Data Science", "code": "BTAI13502"}, "SAAI": {"full": "Search Algorithms in Artificial Intelligence", "code": "BTAI13501"}, "PP": {"full": "Python Programming", "code": "BTCO22101"}}, "periods": [{"period": 1, "time": "09:00-10:00"}, {"period": 2, "time": "10:00- 11:00"}, {"period": 3, "time": "11:15- 12:15"}, {"period": 4, "time": "12:15- 01:15"}, {"period": 5, "time": "02:00-03:00"}, {"period": 6, "time": "03:00-04:00"}]}, "MHP": {"name": "Prof. Mitul Patel, Assistant Professor", "schedule": {"MON": [{"period": 1, "time": "09:00-10:00", "subject": "COA (III AIDS)", "room": "F-203"}, {"period": 3, "time": "11:15- 12:15", "subject": "OOAD (III IT D2)", "room": "E-203"}], "TUE": [{"period": 1, "time": "09:00-10:00", "subject": "PP ( DIV D) A (IT 1)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "PP ( DIV D) A (IT 1)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "PP (DIV D)", "room": "L-202"}, {"period": 5, "time": "02:00-03:00", "subject": "PP ( DIV B) A (IT 5)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "PP ( DIV B) A (IT 5)", "room": ""}], "WED": [{"period": 2, "time": "10:00- 11:00", "subject": "COA (III AIDS)", "room": "F-203"}, {"period": 4, "time": "12:15- 01:15", "subject": "PP (DIV D)", "room": "L-202"}, {"period": 5, "time": "02:00-03:00", "subject": "PP ( DIV B) B (IT 5)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "PP ( DIV B) B (IT 5)", "room": ""}], "THU": [{"period": 3, "time": "11:15- 12:15", "subject": "PP ( DIV D) B (IT 1)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "PP ( DIV D) B (IT 1)", "room": ""}], "FRI": [{"period": 1, "time": "09:00-10:00", "subject": "OOAD ( III IT D2) B (IT 4)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "OOAD ( III IT D2) B (IT 4)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "COA (III AIDS)", "room": "F-203"}, {"period": 5, "time": "02:00-03:00", "subject": "PP ( DIV C) A (IT 5)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "PP ( DIV C) A (IT 5)", "room": ""}]}, "subjects": {"COA": {"full": "Computer Organization and Architecture", "code": "BTIT23305"}, "OOAD": {"full": "Object-Oriented Analysis and Design", "code": "BTIT23303"}, "PP": {"full": "Python Programming", "code": "BTCO22101"}, "PP-LAB": {"full": "Python Programming Lab", "code": "BTCO22102"}}, "periods": [{"period": 1, "time": "09:00-10:00"}, {"period": 2, "time": "10:00- 11:00"}, {"period": 3, "time": "11:15- 12:15"}, {"period": 4, "time": "12:15- 01:15"}, {"period": 5, "time": "02:00-03:00"}, {"period": 6, "time": "03:00-04:00"}]}, "VP": {"name": "Dr. Vibha Patel, Assistant Professor", "schedule": {"MON": [{"period": 1, "time": "09:00-10:00", "subject": "CNS ( V IT D1) B (IT 3)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "CNS ( V IT D1) B (IT 3)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "DBMI ( V IT D2) A (IT 1)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DBMI ( V IT D2) A (IT 1)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "DMBI (V IT D2)", "room": "G-203"}], "TUE": [{"period": 1, "time": "09:00-10:00", "subject": "IOE - DSP ( V ) B (IT 6)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "IOE - DSP ( V ) B (IT 6)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DMBI (V IT D1)", "room": "G-202"}, {"period": 5, "time": "02:00-03:00", "subject": "DBMI ( V IT D2) B (IT 1)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "DBMI ( V IT D2) B (IT 1)", "room": ""}], "WED": [{"period": 2, "time": "10:00- 11:00", "subject": "DMBI (V AIDS)", "room": "G-201"}, {"period": 5, "time": "02:00-03:00", "subject": "DMBI ( V AIDS) B (IT 2)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "DMBI ( V AIDS) B (IT 2)", "room": ""}], "THU": [{"period": 3, "time": "11:15- 12:15", "subject": "DMBI (V IT D2)", "room": "G-203"}], "FRI": [{"period": 1, "time": "09:00-10:00", "subject": "DBMS ( III IT D2) A (IT 2)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "DBMS ( III IT D2) A (IT 2)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "SAAI ( V AIDS)", "room": "G-201"}, {"period": 5, "time": "02:00-03:00", "subject": "DMBI (V IT D2)", "room": "G-203"}]}, "subjects": {"DMBI": {"full": "Data Mining and Business Intelligence", "code": "BTIT13501"}, "SAAI": {"full": "Search Algorithms in Artificial Intelligence", "code": "BTAI13501"}, "DBMS": {"full": "Database Management Systems", "code": "BTCO23305"}, "CNS": {"full": "Cryptography and Network Security", "code": "BTIT13502"}}, "periods": [{"period": 1, "time": "09:00-10:00"}, {"period": 2, "time": "10:00- 11:00"}, {"period": 3, "time": "11:15- 12:15"}, {"period": 4, "time": "12:15- 01:15"}, {"period": 5, "time": "02:00-03:00"}, {"period": 6, "time": "03:00-04:00"}]}, "DR": {"name": "Prof. Dhaval Rana, Assistant Professor", "schedule": {"MON": [{"period": 2, "time": "10:00- 11:00", "subject": "OOAD (III AIDS)", "room": "F-203"}, {"period": 3, "time": "11:15- 12:15", "subject": "WT ( V IT D2) B (IT 5)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "WT ( V IT D2) B (IT 5)", "room": ""}], "TUE": [{"period": 1, "time": "09:00-10:00", "subject": "DBMS ( III IT D1) A (IT 4)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "DBMS ( III IT D1) A (IT 4)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "OOAD (III IT D1)", "room": "E-202"}, {"period": 4, "time": "12:15- 01:15", "subject": "IC (III AIDS)", "room": "F-203"}], "WED": [{"period": 1, "time": "09:00-10:00", "subject": "WT ( V IT D2) A (IT 4)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "WT ( V IT D2) A (IT 4)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "OOAD ( III AIDS) B (IT 5)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "OOAD ( III AIDS) B (IT 5)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "WT (V IT D2)", "room": "G-203"}], "THU": [{"period": 1, "time": "09:00-10:00", "subject": "OOAD ( III AIDS) A (IT 3)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "OOAD ( III AIDS) A (IT 3)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "OOAD (III AIDS)", "room": "F-203"}], "FRI": [{"period": 2, "time": "10:00- 11:00", "subject": "OOAD (III AIDS)", "room": "F-203"}, {"period": 4, "time": "12:15- 01:15", "subject": "WT (V IT D2)", "room": "G-203"}]}, "subjects": {"WT": {"full": "Web Technologies", "code": "BTCO13502"}, "OOAD": {"full": "Object-Oriented Analysis and Design", "code": "BTIT23303"}, "DBMS": {"full": "Database Management Systems", "code": "BTCO23305"}, "IC": {"full": "Indian Constitution", "code": "BTMD27301"}}, "periods": [{"period": 1, "time": "09:00-10:00"}, {"period": 2, "time": "10:00- 11:00"}, {"period": 3, "time": "11:15- 12:15"}, {"period": 4, "time": "12:15- 01:15"}, {"period": 5, "time": "02:00-03:00"}, {"period": 6, "time": "03:00-04:00"}]}, "AC": {"name": "Prof. Ashish Chaudhary, Assistant Professor", "schedule": {"MON": [{"period": 1, "time": "09:00-10:00", "subject": "COA (III IT D2)", "room": "E-203"}, {"period": 5, "time": "02:00-03:00", "subject": "DSYS ( VII IT D2)", "room": "L-03"}], "TUE": [{"period": 2, "time": "10:00- 11:00", "subject": "DSYS ( VII IT D2)", "room": "E-202"}, {"period": 3, "time": "11:15- 12:15", "subject": "ATCD ( VII IT D1) A (IT 5)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "ATCD ( VII IT D1) A (IT 5)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "IC (III IT D1 & D2)", "room": "E-202"}], "WED": [{"period": 1, "time": "09:00-10:00", "subject": "DSYS ( VII IT D2) B (IT 5)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "DSYS ( VII IT D2) B (IT 5)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "DBMS ( III AIDS) A (IT 3)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DBMS ( III AIDS) A (IT 3)", "room": ""}], "THU": [{"period": 1, "time": "09:00-10:00", "subject": "DS ( III IT D2) B (IT 4)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "DS ( III IT D2) B (IT 4)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "DSYS ( VII IT D2) A (IT 1)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DSYS ( VII IT D2) A (IT 1)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "COA (III IT D2)", "room": "E-203"}], "FRI": [{"period": 2, "time": "10:00- 11:00", "subject": "DSYS ( VII IT D2)", "room": "E-202"}, {"period": 4, "time": "12:15- 01:15", "subject": "COA (III IT D2)", "room": "E-203"}]}, "subjects": {"COA": {"full": "Computer Organization and Architecture", "code": "BTCO13302"}, "DS": {"full": "Data Structures", "code": "BTIT13302"}, "CNS": {"full": "Cryptography and Network Security", "code": "BTIT13502"}, "DSYS": {"full": "Distributed Systems", "code": "BTIT13702"}, "IC": {"full": "Indian Constitution", "code": "BTMD27301"}}, "periods": [{"period": 1, "time": "09:00-10:00"}, {"period": 2, "time": "10:00- 11:00"}, {"period": 3, "time": "11:15- 12:15"}, {"period": 4, "time": "12:15- 01:15"}, {"period": 5, "time": "02:00-03:00"}, {"period": 6, "time": "03:00-04:00"}]}, "SK": {"name": "Prof. Snehal kathale, Assistant Professor", "schedule": {"MON": [{"period": 1, "time": "09:00-10:00", "subject": "WT ( V IT D1) A (IT 1)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "WT ( V IT D1) A (IT 1)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "PP ( DIV K) B (IT 3)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "PP ( DIV K) B (IT 3)", "room": ""}], "TUE": [{"period": 2, "time": "10:00- 11:00", "subject": "BA( M.TECH CO)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "DS ( III IT D2) A (IT 3)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DS ( III IT D2) A (IT 3)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "PP ( DIV B) A (IT 5)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "PP ( DIV B) A (IT 5)", "room": ""}], "WED": [{"period": 1, "time": "09:00-10:00", "subject": "PP (DIV B)", "room": "L-02"}, {"period": 4, "time": "12:15- 01:15", "subject": "BA( M.TECH CO)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "PP ( DIV B) B (IT 5)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "PP ( DIV B) B (IT 5)", "room": ""}], "THU": [{"period": 3, "time": "11:15- 12:15", "subject": "PP (DIV B)", "room": "L-02"}], "FRI": [{"period": 1, "time": "09:00-10:00", "subject": "PP (DIV K)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "PP ( DIV A) B (IT 5)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "PP ( DIV A) B (IT 5)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "BA( M.TECH CO)", "room": ""}]}, "subjects": {"WT": {"full": "Web Technologies", "code": "BTCO13502"}, "DS": {"full": "Data Structures", "code": "BTIT23301"}, "PP": {"full": "Python Programming", "code": "BTCO22101"}, "PP-LAB": {"full": "Python Programming Lab", "code": "BTCO22102"}, "BA": {"full": "Business Analytics", "code": "MTIT15301"}}, "periods": [{"period": 1, "time": "09:00-10:00"}, {"period": 2, "time": "10:00- 11:00"}, {"period": 3, "time": "11:15- 12:15"}, {"period": 4, "time": "12:15- 01:15"}, {"period": 5, "time": "02:00-03:00"}, {"period": 6, "time": "03:00-04:00"}]}, "BS": {"name": "Prof. Bhumika Shah Assistant Professor", "schedule": {"MON": [{"period": 2, "time": "10:00- 11:00", "subject": "NLP ( VII IT D2)", "room": "L-01"}, {"period": 3, "time": "11:15- 12:15", "subject": "SAAI ( V AIDS) B (IT 2)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "SAAI ( V AIDS) B (IT 2)", "room": ""}], "TUE": [{"period": 1, "time": "09:00-10:00", "subject": "IOE - DSP ( V ) B (IT 6)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "IOE - DSP ( V ) B (IT 6)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "NLP ( VII IT D2)", "room": "L-02"}, {"period": 5, "time": "02:00-03:00", "subject": "FDS ( V AIDS) B (IT 4)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "FDS ( V AIDS) B (IT 4)", "room": ""}], "WED": [{"period": 1, "time": "09:00-10:00", "subject": "PP ( DIV K) A (IT 4)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "PP ( DIV K) A (IT 4)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "IOE ( V - DSP) L-01", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "IOE ( V - DSP) L-01", "room": ""}], "THU": [{"period": 1, "time": "09:00-10:00", "subject": "IOE - DSP ( V ) A (IT 6)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "IOE - DSP ( V ) A (IT 6)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "DSYS ( VII IT D2) A (IT 1)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DSYS ( VII IT D2) A (IT 1)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "NLP ( VII IT D2)", "room": "L-02"}], "FRI": [{"period": 1, "time": "09:00-10:00", "subject": "IOE ( V - DSP) L-01", "room": ""}]}, "subjects": {"NLP": {"full": "Natural Language Processing", "code": "BTIT14706"}, "DSYS": {"full": "Distributed Systems", "code": "BTIT13702"}, "FDS": {"full": "Fundamentals of Data Science", "code": "BTAI13502"}, "DSP": {"full": "Data Science using Python", "code": "BTIT15501"}, "PP": {"full": "Python Programming", "code": "BTCO22101"}}, "periods": [{"period": 1, "time": "09:00-10:00"}, {"period": 2, "time": "10:00- 11:00"}, {"period": 3, "time": "11:15- 12:15"}, {"period": 4, "time": "12:15- 01:15"}, {"period": 5, "time": "02:00-03:00"}, {"period": 6, "time": "03:00-04:00"}]}, "DJ": {"name": "Prof. Dhyani Joshi, Adhoc Assistant Professor", "schedule": {"MON": [{"period": 3, "time": "11:15- 12:15", "subject": "FDS ( V AIDS) A (IT 3)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "FDS ( V AIDS) A (IT 3)", "room": ""}], "TUE": [{"period": 1, "time": "09:00-10:00", "subject": "PP ( DIV D) A (IT 1)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "PP ( DIV D) A (IT 1)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "DL ( VII AIDS) B (IT 4)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DL ( VII AIDS) B (IT 4)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "DMBI ( V AIDS) A (IT 5)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "DMBI ( V AIDS) A (IT 5)", "room": ""}], "WED": [{"period": 1, "time": "09:00-10:00", "subject": "PP ( DIV K) A (IT 4)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "PP ( DIV K) A (IT 4)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "CC (V IT D2)", "room": "G-203"}], "THU": [{"period": 1, "time": "09:00-10:00", "subject": "OOAD ( III IT D2) A (IT 1)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "OOAD ( III IT D2) A (IT 1)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "CC ( V AIDS)", "room": "G-201"}], "FRI": [{"period": 2, "time": "10:00- 11:00", "subject": "CC (V IT D1)", "room": "G-202"}, {"period": 3, "time": "11:15- 12:15", "subject": "DMBI ( V IT D1) A (IT 4)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DMBI ( V IT D1) A (IT 4)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "CC ( V AIDS)", "room": "G-201"}]}, "subjects": {"DL": {"full": "Deep Learning", "code": "BTAI13701"}, "DMBI": {"full": "Data Mining and Business Intelligence", "code": "BTIT13501"}, "CC": {"full": "Cloud Computing", "code": "BTIT14502"}, "PP": {"full": "Python Programming", "code": "BTCO22101"}, "OOAD": {"full": "Object-Oriented Analysis and Design", "code": "BTIT23303"}, "FDS": {"full": "Fundamentals of Data Science", "code": "BTAI13502"}}, "periods": [{"period": 1, "time": "09:00-10:00"}, {"period": 2, "time": "10:00- 11:00"}, {"period": 3, "time": "11:15- 12:15"}, {"period": 4, "time": "12:15- 01:15"}, {"period": 5, "time": "02:00-03:00"}, {"period": 6, "time": "03:00-04:00"}]}, "AB": {"name": "Prof. Aaishwarya Bajaj, Adhoc Assistant Professor", "schedule": {"MON": [{"period": 2, "time": "10:00- 11:00", "subject": "COA (II IT DIV-2)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "WD (II AIDS) (B) (IT-5)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "WD (II AIDS) (B) (IT-5)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "COA (II IT DIV-2) (A) (IT-3)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "COA (II IT DIV-2) (A) (IT-3)", "room": ""}], "TUE": [{"period": 3, "time": "11:15- 12:15", "subject": "OOP (II IT DIV 2) (B) (IT-3)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "OOP (II IT DIV 2) (B) (IT-3)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "DM (T) (II IT DIV-1)", "room": ""}], "WED": [{"period": 5, "time": "02:00-03:00", "subject": "COA (II IT DIV-1) (A) (IT-4)", "room": ""}, {"period": 6, "time": "03:00-04:00", "subject": "COA (II IT DIV-1) (A) (IT-4)", "room": ""}], "THU": [{"period": 1, "time": "09:00-10:00", "subject": "COA (II AIDS) (A) (IT-2)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "COA (II AIDS) (A) (IT-2)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "DSYS (IV IT) (B) (IT-2)", "room": ""}, {"period": 4, "time": "12:15- 01:15", "subject": "DSYS (IV IT) (B) (IT-2)", "room": ""}], "FRI": [{"period": 1, "time": "09:00-10:00", "subject": "COA (II IT DIV 2) (B) (IT-4)", "room": ""}, {"period": 2, "time": "10:00- 11:00", "subject": "COA (II IT DIV 2) (B) (IT-4)", "room": ""}, {"period": 3, "time": "11:15- 12:15", "subject": "WC (IV IT)", "room": "G-202"}, {"period": 4, "time": "12:15- 01:15", "subject": "COA (II IT DIV-2)", "room": ""}, {"period": 5, "time": "02:00-03:00", "subject": "DM (T) (II IT DIV-2)", "room": ""}]}, "subjects": {"COA": {"full": "Computer Organization and Architecture", "code": "BTCO13302"}, "WD": {"full": "Web Development", "code": "BTAI13301"}, "OOP": {"full": "Object Oriented Programming", "code": "BTCO13304"}, "DSYS": {"full": "Distributed Systems", "code": "BTIT13702"}, "PPS": {"full": "Programming for Problem Solving", "code": "BTCO12107"}}, "periods": [{"period": 1, "time": "09:00-10:00"}, {"period": 2, "time": "10:00- 11:00"}, {"period": 3, "time": "11:15- 12:15"}, {"period": 4, "time": "12:15- 01:15"}, {"period": 5, "time": "02:00-03:00"}, {"period": 6, "time": "03:00-04:00"}]}}, "subjects": {"AUX": {"full": "Agile Development and UI/UX design", "code": "BTIT14701"}, "NLP": {"full": "Natural Language Processing", "code": "BTIT14706"}, "DSYS": {"full": "Distributed Systems", "code": "BTIT13702"}, "CNS": {"full": "Cryptography and Network Security", "code": "BTIT13502"}, "DS": {"full": "Data Structures", "code": "BTIT23301"}, "DBMS": {"full": "Database Management Systems", "code": "BTCO23305"}, "DMBI": {"full": "Data Mining and Business Intelligence", "code": "BTIT13501"}, "CC": {"full": "Cloud Computing", "code": "BTIT14502"}, "WT": {"full": "Web Technologies", "code": "BTCO13502"}, "DL": {"full": "Deep Learning", "code": "BTAI13701"}, "PP": {"full": "Python Programming", "code": "BTCO22102"}, "ATCD": {"full": "Autometa Theory and Compiler Design", "code": "BTIT13701"}, "OOAD": {"full": "Object-Oriented Analysis and Design", "code": "BTIT23303"}, "SE": {"full": "Software Engineering", "code": "BTIT14501"}, "ST": {"full": "Software Testing", "code": "BTIT14703"}, "SAAI": {"full": "Search Algorithms in Artificial Intelligence", "code": "BTAI13501"}, "COA": {"full": "Computer Organization and Architecture", "code": "BTIT23305"}, "PP-LAB": {"full": "Python Programming Lab", "code": "BTCO22102"}, "OOPD": {"full": "Object-Oriented Analysis and Design", "code": "BTIT23303"}, "IML": {"full": "Introduction to Machine Learning", "code": "BTIT15702"}, "AAI": {"full": "Advancements in AI", "code": "BTAI14704"}, "DSP": {"full": "Data Science using Python", "code": "BTIT15501"}, "FDS": {"full": "Fundamentals of Data Science", "code": "BTAI13502"}, "IC": {"full": "Indian Constitution", "code": "BTMD27301"}, "BA": {"full": "Business Analytics", "code": "MTIT15301"}, "WD": {"full": "Web Development", "code": "BTAI13301"}, "OOP": {"full": "Object Oriented Programming", "code": "BTCO13304"}, "PPS": {"full": "Programming for Problem Solving", "code": "BTCO12107"}, "PROJECT-I": {"full": "Project - I", "code": ""}}, "colors": {"AAI": "#EEC7C7", "ATCD": "#E8BBAF", "AUX": "#EED7C7", "BA": "#E8D2AF", "CC": "#EEE8C7", "CNS": "#E6E8AF", "COA": "#E5EEC7", "DBMS": "#CEE8AF", "DL": "#D5EEC7", "DMBI": "#B7E8AF", "DS": "#C7EECA", "DSP": "#AFE8BF", "DSYS": "#C7EEDA", "FDS": "#AFE8D6", "IC": "#C7EEEA", "IML": "#AFE2E8", "NLP": "#C7E2EE", "OOAD": "#AFCBE8", "OOP": "#C7D2EE", "OOPD": "#AFB3E8", "PP": "#CDC7EE", "PP-LAB": "#C3AFE8", "PPS": "#DDC7EE", "PROJECT-I": "#DAAFE8", "SAAI": "#EDC7EE", "SE": "#E8AFDE", "ST": "#EEC7E0", "WD": "#E8AFC7", "WT": "#EEC7CF"}, "periods": [{"period": 1, "time": "09:00 - 10:00"}, {"period": 2, "time": "10:00 - 11:00"}, {"period": 3, "time": "11:15 - 12:15"}, {"period": 4, "time": "12:15 - 01:15"}, {"period": 5, "time": "02:00 - 03:00"}, {"period": 6, "time": "03:00 - 04:00"}], "days": ["MON", "TUE", "WED", "THU", "FRI"]}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('bundleData').textContent);
+const FAC = DATA.faculty, SUBJ = DATA.subjects, COLORS = DATA.colors, PERIODS = DATA.periods, DAYS = DATA.days;
+const DAY_LABEL = {MON:'Monday',TUE:'Tuesday',WED:'Wednesday',THU:'Thursday',FRI:'Friday'};
+
+function baseCode(subject){
+  const m = subject.match(/^([A-Za-z][A-Za-z0-9\-]*)/);
+  let code = m ? m[1].toUpperCase() : subject.toUpperCase();
+  if(code === 'PROJECT') code = 'PROJECT-I';
+  return code;
+}
+function colorFor(subject){
+  const code = baseCode(subject);
+  return COLORS[code] || '#D9D6EC';
+}
+function fullNameFor(subject){
+  const code = baseCode(subject);
+  if(code === 'PROJECT-I') return 'Project - I';
+  const meta = SUBJ[code];
+  return meta ? meta.full : subject;
+}
+// Some subject strings end with an embedded room code like "(IT 1)" when no
+// separate room row was given in the sheet. Pull that out so we can show it
+// as a proper room/lab number instead of leaving it stuck inside the subject text.
+function splitSubjectRoom(subject, room){
+  let s = (subject||'').trim();
+  let r = (room||'').trim();
+  if(!r){
+    const m = s.match(/\(([A-Za-z]{1,4}[\s\-]?\d{1,3})\)\s*$/);
+    if(m){
+      r = m[1].replace(/\s+/g,'-').toUpperCase();
+      s = (s.slice(0,m.index) + s.slice(m.index+m[0].length)).trim();
+    }
+  }
+  return {subject:s, room:r};
+}
+
+/* ---------- stats ---------- */
+document.getElementById('statFaculty').textContent = Object.keys(FAC).length;
+document.getElementById('statSubjects').textContent = Object.keys(SUBJ).length;
+document.getElementById('statFaculty2').textContent = Object.keys(FAC).length;
+
+/* ---------- typewriter cursor already CSS animated; small entrance ---------- */
+
+/* ---------- current day/period detection ---------- */
+function parseTimeRange(str){
+  // "09:00 - 10:00" / "12:15 - 01:15" style, PM inferred after 12:15 slot start hour < previous
+  const [a,b] = str.split('-').map(s=>s.trim());
+  function toMinutes(t, isSecond, firstHour){
+    let [h,m] = t.split(':').map(Number);
+    // periods 5 & 6 are afternoon (02:00-03:00, 03:00-04:00); period 4 end 01:15 is PM
+    if(h < 9) h += 12; // anything below 9 that's not the 9 o'clock start must be PM
+    return h*60+m;
+  }
+  const startMin = toMinutes(a);
+  let endMin = toMinutes(b);
+  if(endMin <= startMin) endMin += 12*60;
+  return [startMin, endMin];
+}
+function getNowInfo(){
+  const now = new Date();
+  const dayIdx = now.getDay(); // 0 Sun ... 6 Sat
+  const dayMap = {1:'MON',2:'TUE',3:'WED',4:'THU',5:'FRI'};
+  const day = dayMap[dayIdx];
+  const mins = now.getHours()*60 + now.getMinutes();
+  let period = null;
+  if(day){
+    for(const p of PERIODS){
+      const [s,e] = parseTimeRange(p.time);
+      if(mins >= s && mins < e){ period = p.period; break; }
+    }
+  }
+  return {day, period, mins};
+}
+const NOW = getNowInfo();
+const nowChipText = document.getElementById('nowChipText');
+const nowChip = document.getElementById('nowChip');
+if(NOW.day && NOW.period){
+  nowChipText.textContent = DAY_LABEL[NOW.day] + ' · Period ' + NOW.period + ' is live';
+} else if(NOW.day){
+  nowChipText.textContent = DAY_LABEL[NOW.day] + ' · outside teaching hours';
+  nowChip.style.background = '#F6F5FB'; nowChip.style.color = '#54527A'; nowChip.style.borderColor='#E6E4F2';
+} else {
+  nowChipText.textContent = 'Weekend — enjoy it 🎉';
+  nowChip.style.background = '#F6F5FB'; nowChip.style.color = '#54527A'; nowChip.style.borderColor='#E6E4F2';
+}
+
+/* ---------- populate faculty dropdown ---------- */
+const select = document.getElementById('facultySelect');
+const codes = Object.keys(FAC).sort((a,b)=> FAC[a].name.localeCompare(FAC[b].name));
+codes.forEach(code=>{
+  const opt = document.createElement('option');
+  opt.value = code;
+  opt.textContent = FAC[code].name;
+  select.appendChild(opt);
+});
+
+function renderFacultyCard(code){
+  const info = FAC[code];
+  const holder = document.getElementById('facultyCardHolder');
+  let totalSessions = 0;
+  DAYS.forEach(d => totalSessions += (info.schedule[d]||[]).length);
+
+  let subjectsUsed = new Set();
+  DAYS.forEach(d => (info.schedule[d]||[]).forEach(s=>subjectsUsed.add(baseCode(s.subject))));
+
+  let rows = '';
+  PERIODS.forEach(p=>{
+    rows += '<tr>';
+    rows += `<td class="rowhead">P${p.period}<br><span style="font-weight:400;color:var(--sub-ink);font-size:11px;">${p.time}</span></td>`;
+    DAYS.forEach(day=>{
+      const sess = (info.schedule[day]||[]).find(s=>s.period===p.period);
+      const isNow = (NOW.day===day && NOW.period===p.period);
+      if(sess){
+        const bg = colorFor(sess.subject);
+        const {subject, room} = splitSubjectRoom(sess.subject, sess.room);
+        rows += `<td class="cell-slot ${isNow?'now-row':''}"><span class="slot-tag" style="background:${bg}">${subject}</span>${room?`<span class="slot-room">📍 ${room}</span>`:''}</td>`;
+      } else {
+        rows += `<td class="cell-slot ${isNow?'now-row':''}"><span class="slot-free"><span class="dot"></span>Free</span></td>`;
+      }
+    });
+    rows += '</tr>';
+  });
+
+  let legend = '';
+  Array.from(subjectsUsed).sort().forEach(code=>{
+    const meta = SUBJ[code];
+    const label = code==='PROJECT-I' ? 'Project - I' : (meta ? `${code} — ${meta.full}` : code);
+    legend += `<span class="legend-chip"><span class="sw" style="background:${COLORS[code]||'#D9D6EC'}"></span>${label}</span>`;
+  });
+
+  holder.innerHTML = `
+    <div class="fac-card">
+      <div class="fac-head">
+        <div>
+          <h3>${info.name}</h3>
+          <div class="meta">Faculty code: ${code} · Semester: ODD · Year 2026-27</div>
+        </div>
+        <span class="load-pill">${totalSessions} periods / week</span>
+      </div>
+      <div class="tbl-scroll">
+        <table class="grid">
+          <thead><tr><th>Period</th>${DAYS.map(d=>`<th class="day-th">${DAY_LABEL[d]}</th>`).join('')}</tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+      <div class="legend-strip">${legend}</div>
+    </div>
+  `;
+}
+
+select.addEventListener('change', ()=> renderFacultyCard(select.value));
+// default to current-period-teaching faculty if any, else first
+let defaultCode = codes[0];
+if(NOW.day && NOW.period){
+  for(const c of codes){
+    const sess = (FAC[c].schedule[NOW.day]||[]).find(s=>s.period===NOW.period);
+    if(sess){ defaultCode = c; break; }
+  }
+}
+select.value = defaultCode;
+renderFacultyCard(defaultCode);
+
+/* ---------- Consolidated grid ---------- */
+function renderConsolidated(){
+  const holder = document.getElementById('consolHolder');
+  let thead = '<thead><tr><th class="corner">Day / Period</th>';
+  codes.forEach(code=>{
+    thead += `<th title="${FAC[code].name}">${code}</th>`;
+  });
+  thead += '</tr></thead>';
+
+  let tbody = '<tbody>';
+  DAYS.forEach(day=>{
+    PERIODS.forEach((p, pi)=>{
+      const isNowRow = (NOW.day===day && NOW.period===p.period);
+      tbody += '<tr>';
+      const label = pi===0 ? `${DAY_LABEL[day]}` : '';
+      tbody += `<td class="rowhead">${label ? `<b>${label}</b><br>`:''}P${p.period} <span class="mono" style="color:var(--sub-ink);font-weight:400;">${p.time}</span></td>`;
+      codes.forEach(code=>{
+        const sess = (FAC[code].schedule[day]||[]).find(s=>s.period===p.period);
+        const isNowCol = isNowRow;
+        if(sess){
+          const bg = colorFor(sess.subject);
+          const {subject, room} = splitSubjectRoom(sess.subject, sess.room);
+          const code = baseCode(subject);
+          const tip = `${fullNameFor(sess.subject)}${room?(' · Room/Lab '+room):''}`;
+          tbody += `<td class="subjcell ${isNowCol?'now-col':''}" style="background:${bg}" title="${tip}">${code}${room?`<span class="rm">📍 ${room}</span>`:''}</td>`;
+        } else {
+          tbody += `<td class="freecell ${isNowCol?'now-col':''}">free</td>`;
+        }
+      });
+      tbody += '</tr>';
+    });
+  });
+  tbody += '</tbody>';
+
+  holder.innerHTML = `<table class="consol">${thead}${tbody}</table>`;
+}
+renderConsolidated();
+
+/* full legend strip */
+const fullLegend = document.getElementById('fullLegend');
+Object.keys(SUBJ).sort().forEach(code=>{
+  fullLegend.innerHTML += `<span class="legend-chip"><span class="sw" style="background:${COLORS[code]||'#D9D6EC'}"></span>${code} — ${SUBJ[code].full}</span>`;
+});
+
+/* ---------- scroll reveal ---------- */
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+},{threshold:.12});
+revealEls.forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
