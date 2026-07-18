@@ -15,8 +15,8 @@
   --mint-deep:#0d9488;
   --peach:#ffc266;
   --peach-deep:#f97316;
-  --pink:#ff9ecf;
-  --pink-deep:#ec1f80;
+  --pink:#ffe066;
+  --pink-deep:#f5b700;
   --sky:#7dd3fc;
   --sky-deep:#0284c7;
   --ink:#2c1650;
@@ -25,8 +25,8 @@
   --card:#ffffff;
   --free:#12b886;
   --free-bg:#dffaf0;
-  --busy:#ec1f80;
-  --busy-bg:#ffe3f0;
+  --busy:#e8590c;
+  --busy-bg:#fff1e6;
   --line:#e8ddf9;
   --shadow: 0 10px 30px -12px rgba(124, 58, 237, 0.28);
   --radius: 20px;
@@ -39,9 +39,9 @@ body{
   color:var(--ink);
   background:
     radial-gradient(circle at 8% 8%, rgba(196,167,255,0.4), transparent 40%),
-    radial-gradient(circle at 92% 18%, rgba(255,158,207,0.38), transparent 42%),
+    radial-gradient(circle at 92% 18%, rgba(255,224,102,0.42), transparent 42%),
     radial-gradient(circle at 50% 95%, rgba(124,242,214,0.38), transparent 45%),
-    radial-gradient(circle at 70% 60%, rgba(125,211,252,0.22), transparent 40%),
+    radial-gradient(circle at 70% 60%, rgba(125,211,252,0.24), transparent 40%),
     var(--cream);
   background-size:200% 200%;
   animation: driftBg 22s ease-in-out infinite;
@@ -158,7 +158,7 @@ header.site{
 .radar-blip:nth-child(8){animation-delay:1.2s;}
 .radar-blip:nth-child(9){animation-delay:1.5s;}
 @keyframes blipPulseFree{ 0%,100%{box-shadow:0 0 0 5px rgba(18,184,134,0.35); transform:scale(1);} 50%{box-shadow:0 0 0 9px rgba(18,184,134,0.12); transform:scale(1.15);} }
-@keyframes blipPulseBusy{ 0%,100%{box-shadow:0 0 0 5px rgba(236,31,128,0.3); transform:scale(1);} 50%{box-shadow:0 0 0 9px rgba(236,31,128,0.1); transform:scale(1.15);} }
+@keyframes blipPulseBusy{ 0%,100%{box-shadow:0 0 0 5px rgba(232,89,12,0.3); transform:scale(1);} 50%{box-shadow:0 0 0 9px rgba(232,89,12,0.1); transform:scale(1.15);} }
 @media (prefers-reduced-motion: reduce){ .radar-blip{animation:none;} }
 .radar-center-label{
   position:relative; z-index:2; text-align:center; font-family:'Playfair Display',serif;
@@ -211,7 +211,7 @@ input[type="date"]:focus{border-color:var(--lavender-deep);}
 .day-readout .badge{
   background:var(--mint); color:#1f5c46; padding:3px 10px; border-radius:8px; font-size:12px;
 }
-.day-readout .badge.weekend{background:var(--pink); color:#7a1d38;}
+.day-readout .badge.weekend{background:var(--pink); color:#7a5c05;}
 
 .chip-row{display:flex; flex-wrap:wrap; gap:10px;}
 .chip{
@@ -283,7 +283,7 @@ input[type="date"]:focus{border-color:var(--lavender-deep);}
 .room-tile:hover{transform:translateY(-5px) rotate(-1deg) scale(1.035); box-shadow:0 16px 28px -10px rgba(124,58,237,.3); cursor:pointer;}
 .room-tile:active{transform:translateY(-1px) scale(.97);}
 .room-tile.free{background:var(--free-bg); border-color:rgba(18,184,134,0.35);}
-.room-tile.busy{background:var(--busy-bg); border-color:rgba(236,31,128,0.35);}
+.room-tile.busy{background:var(--busy-bg); border-color:rgba(232,89,12,0.35);}
 .room-tile .rname{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:19px;}
 .room-tile.free .rname{color:#1f6b4e;}
 .room-tile.busy .rname{color:#9c2144;}
@@ -335,7 +335,7 @@ table.heatmap td.cell{padding:12px 6px; font-family:'JetBrains Mono',monospace; 
   margin-top:16px; display:flex; gap:12px; flex-wrap:wrap;
 }
 .max-card{
-  background:linear-gradient(135deg, rgba(255,211,165,.55), rgba(255,181,199,.55));
+  background:linear-gradient(135deg, rgba(255,211,165,.55), rgba(255,224,102,.55));
   border-radius:14px; padding:14px 18px; flex:1; min-width:220px;
 }
 .max-card .k{font-size:11px; text-transform:uppercase; letter-spacing:.06em; font-weight:800; color:var(--ink-soft);}
@@ -469,8 +469,8 @@ footer .signoff{margin-top:4px; font-weight:700; color:var(--ink);}
       <div class="legend-row">
         <span><span class="sw" style="background:#e3faf1;"></span>Light use</span>
         <span><span class="sw" style="background:#ffe9a8;"></span>Moderate</span>
-        <span><span class="sw" style="background:#ffb5c7;"></span>Heavy use</span>
-        <span><span class="sw" style="background:#f2708f;"></span>Peak / near-capacity</span>
+        <span><span class="sw" style="background:#ffb84d;"></span>Heavy use</span>
+        <span><span class="sw" style="background:#e8590c;"></span>Peak / near-capacity</span>
       </div>
       <div class="max-callout" id="classroomMaxCallout"></div>
     </div>
@@ -480,8 +480,8 @@ footer .signoff{margin-top:4px; font-weight:700; color:var(--ink);}
       <div class="legend-row">
         <span><span class="sw" style="background:#e3faf1;"></span>Light use</span>
         <span><span class="sw" style="background:#ffe9a8;"></span>Moderate</span>
-        <span><span class="sw" style="background:#ffb5c7;"></span>Heavy use</span>
-        <span><span class="sw" style="background:#f2708f;"></span>Peak / near-capacity</span>
+        <span><span class="sw" style="background:#ffb84d;"></span>Heavy use</span>
+        <span><span class="sw" style="background:#e8590c;"></span>Peak / near-capacity</span>
       </div>
       <div class="max-callout" id="labMaxCallout"></div>
     </div>
@@ -4300,8 +4300,8 @@ footer .signoff{margin-top:4px; font-weight:700; color:var(--ink);}
         if(pct>0.16 && pct<=0.33){bg='#d7f3e1'; fg='#1f6b4e';}
         if(pct>0.33 && pct<=0.5){bg='#ffe9a8'; fg='#7a5b12';}
         if(pct>0.5 && pct<=0.66){bg='#ffcf8a'; fg='#7a4a12';}
-        if(pct>0.66 && pct<=0.83){bg='#ffb5c7'; fg='#7a1d38';}
-        if(pct>0.83){bg='#f2708f'; fg='#ffffff';}
+        if(pct>0.66 && pct<=0.83){bg='#ffb84d'; fg='#7a4a12';}
+        if(pct>0.83){bg='#e8590c'; fg='#ffffff';}
         if(v===0){bg='#f5f2fb'; fg='#b8abd1';}
         return `<td class="cell" style="background:${bg}; color:${fg};">${v>0? v+'/6' : '—'}</td>`;
       }).join('');
