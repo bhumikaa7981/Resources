@@ -21,6 +21,7 @@
   --sky:#B7E3FF; --sky-deep:#5FB3F5;
   --coral:#FFC7B8; --coral-deep:#FF8A69;
   --lilac:#E4D2FF; --lilac-deep:#B489FF;
+  --gold:#FFF2C2; --gold-deep:#C98A00; --gold-ink:#5C3D00;
   --line:#E7D9BE;
   --radius:18px;
   --shadow: 0 14px 30px -14px rgba(90,60,20,0.28);
@@ -58,7 +59,7 @@ header.hero{ max-width:1000px; margin:0 auto; padding:50px 24px 20px; text-align
 }
 .hero h1{ font-size:clamp(32px,5.6vw,52px); margin:0 0 12px; font-weight:700; line-height:1.08; }
 .hero h1 span{ color:var(--pin-deep); }
-.hero p.sub{ max-width:600px;margin:0 auto;color:var(--ink-soft);font-size:16.5px; }
+.hero p.sub{ max-width:640px;margin:0 auto;color:var(--ink-soft);font-size:16.5px; }
 
 /* ---------- generic containers ---------- */
 .wrap{ max-width:1000px; margin:0 auto; padding:0 24px; }
@@ -165,10 +166,18 @@ select:focus, input:focus{ outline:none; border-color:var(--pin); }
   border-radius:14px; padding:14px 18px; margin-bottom:20px; font-size:13.5px;
 }
 .summary-strip b{ color:var(--lemon-deep); }
+.legend-strip{
+  display:flex; gap:16px; flex-wrap:wrap; align-items:center; background:#FFFDF8;
+  border:1.5px dashed var(--cork-line); border-radius:12px; padding:10px 14px; margin-bottom:18px; font-size:12.5px;
+}
+.legend-strip .lg-item{ display:flex; align-items:center; gap:7px; }
+.legend-swatch{ width:14px;height:14px;border-radius:4px; display:inline-block; }
+.legend-swatch.gold{ background:var(--gold); border:1.5px dashed var(--gold-deep); }
+.legend-swatch.plain{ background:#F1ECE2; border:1.5px solid var(--line); }
 
 .note-grid{ display:flex; flex-wrap:wrap; gap:16px; }
 .sticky{
-  width:250px; padding:16px 16px 14px; border-radius:4px 4px 10px 10px;
+  width:260px; padding:16px 16px 14px; border-radius:4px 4px 10px 10px;
   box-shadow:0 8px 16px -6px rgba(50,30,10,.35); position:relative;
   font-size:13px; transition:transform .2s;
 }
@@ -186,13 +195,17 @@ select:focus, input:focus{ outline:none; border-color:var(--pin); }
 .sticky .period{ font-family:'JetBrains Mono'; font-size:11px; font-weight:700; opacity:.75; margin-bottom:4px; }
 .sticky .class-info{ font-family:'Fredoka'; font-weight:600; font-size:14.5px; margin-bottom:10px; line-height:1.25; }
 .sticky .subhead{ font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; opacity:.65; margin-bottom:6px; }
+.sticky .subhead.sameclass-head{ opacity:1; color:var(--gold-ink); }
 .sub-chip{
   display:inline-block; background:rgba(255,255,255,.75); border-radius:8px; padding:4px 8px;
   font-size:11.5px; font-weight:600; margin:0 4px 4px 0;
 }
+.sub-chip.sameclass{ background:var(--gold); border:1.5px dashed var(--gold-deep); color:var(--gold-ink); }
+.sub-chip.sameclass b{ font-weight:700; margin-left:2px; }
 .zero-cover{ background:#fff; border:2px dashed var(--pin-deep); border-radius:8px; padding:7px 9px; font-size:12px; font-weight:700; color:var(--pin-deep); }
 .sub-chip.partial{ background:rgba(255,255,255,.55); border:1px dashed rgba(0,0,0,.25); }
 .sub-chip.partial b{ font-family:'JetBrains Mono'; font-size:10.5px; margin-left:3px; }
+.same-tag{ background:rgba(255,255,255,.7); border-radius:6px; padding:1px 5px; font-size:10px; margin-left:3px; }
 
 .results-empty{
   text-align:center; padding:40px 20px; color:var(--ink-soft); font-size:14.5px;
@@ -235,7 +248,7 @@ footer{ margin-top:60px; background:var(--ink); color:#F1E9D8; padding:30px 24px
 <header class="hero">
   <div class="eyebrow">🗓️ IT Leave Support</div>
   <h1>Taking leave? Let's find your <span>stand-in squad.</span></h1>
-  <p class="sub">Pick your leave day(s) on the calendar and this reads the actual department timetable to tell you — period by period — exactly who's free to cover for you. Multi-hour labs (like 9–11, 11:15–1:15 or 2–4) are read as one full load, and only go to faculty free for every hour of it.</p>
+  <p class="sub">Pick your leave day(s) on the calendar and this reads the actual department timetable to tell you — period by period — exactly who's free to cover for you. Multi-hour labs (like 9–11, 11:15–1:15 or 2–4) are read as one full load, and only go to faculty free for every hour of it. Free faculty are also split into two groups: <b>🟡 those who already teach that exact class</b> (easiest swap — students already know them) and everyone else who's simply free.</p>
 </header>
 
 <main class="wrap">
@@ -323,7 +336,7 @@ footer{ margin-top:60px; background:var(--ink); color:#F1E9D8; padding:30px 24px
       <p>Timetable effective from 06/07/2026 · Version 1</p>
     </div>
   </div>
-  <div class="disclaimer">This tool mirrors the standing weekly timetable and repeats it every week — it doesn't know about holidays, exam schedules or one-off changes. Cross-check those separately, and always loop in your HOD for the final word.</div>
+  <div class="disclaimer">This tool mirrors the standing weekly timetable and repeats it every week — it doesn't know about holidays, exam schedules or one-off changes. Cross-check those separately, and always loop in your HOD for the final word. "Same class" matching is derived automatically from each entry's class/division label in the timetable — please sanity-check unusual cases (combined divisions, honors sessions, cross-branch electives) before finalising a swap.</div>
 </footer>
 
 <script>
@@ -353,13 +366,111 @@ FACULTY_CODES.forEach(code=>{
   DATA.faculty[code].dataGap = (n===0);
 });
 
+/* ============================= CLASS-MATCH HELPERS ============================= */
+/* Every schedule entry encodes the class/division it belongs to inside its FIRST
+   bracket, e.g. "DSYS ( VII IT D1) A (IT 5)" -> subject "DSYS", class "VII IT D1".
+   This lets the tool tell whether a candidate substitute already teaches that very
+   class (any subject, any day of their own week) — a far better fit than a random
+   free faculty, since they already know the batch and periods can genuinely be
+   swapped/adjusted around them. */
+function normClass(str){ return str.toUpperCase().replace(/\s+/g," ").trim(); }
+
+function classesMatch(a,b){
+  if (!a || !b) return false;
+  const na = normClass(a), nb = normClass(b);
+  if (na===nb) return true;
+  const shorter = na.length<=nb.length ? na : nb;
+  const longer  = na.length<=nb.length ? nb : na;
+  if (shorter.length < 3) return false; // avoid trivial 1-2 char matches (e.g. a bare "V")
+  const escaped = shorter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp('(^|[^A-Z0-9])'+escaped+'($|[^A-Z0-9])');
+  return re.test(longer);
+}
+
+function parseClassInfo(entry){
+  if (!entry) return null;
+  const m = entry.match(/\(([^)]+)\)/);
+  if (!m) return null; // e.g. "PROJECT-I" carries no class/division info
+  const subject = entry.slice(0, m.index).trim() || entry.trim();
+  const classLabel = m[1].trim().replace(/\s+/g," ");
+  return {subject, classLabel};
+}
+
+/* For every faculty member: the full set of (class, subjects) pairs they teach,
+   gathered across their ENTIRE week — used to check "do they already teach this
+   class, just at a different time?" regardless of the specific leave slot. */
+const FACULTY_CLASS_LOG = {};
+FACULTY_CODES.forEach(code=>{
+  const seen = new Map(); // normClass(classLabel) -> {classLabel, subjects:Set}
+  const sched = DATA.faculty[code].schedule;
+  DATA.days.forEach(day=> DATA.slots.forEach(s=>{
+    const info = parseClassInfo(sched[day][s.id]);
+    if (!info) return;
+    const key = normClass(info.classLabel);
+    if (!seen.has(key)) seen.set(key, {classLabel:info.classLabel, subjects:new Set()});
+    seen.get(key).subjects.add(info.subject);
+  }));
+  FACULTY_CLASS_LOG[code] = Array.from(seen.values());
+});
+
+/* Does `code` teach the given class (or an overlapping combined division like
+   "V IT D1 & D2") anywhere in their week? Returns the matching subject(s) joined
+   by a comma, or null if there's no match at all. */
+function subjectsForClass(code, targetClassLabel){
+  if (!targetClassLabel) return null;
+  const hits = FACULTY_CLASS_LOG[code].filter(e=> classesMatch(e.classLabel, targetClassLabel));
+  if (hits.length===0) return null;
+  const subs = new Set();
+  hits.forEach(h=> h.subjects.forEach(s=> subs.add(s)));
+  return Array.from(subs).join(", ");
+}
+
+/* Splits a list of free faculty codes into two groups:
+   1) sameClass — already teach this exact class elsewhere in the week (best-fit
+      substitute: students already know them, easiest to adjust/swap).
+   2) other — simply free, with no existing tie to this particular class. */
+function splitByClassMatch(codes, targetClassLabel){
+  const sameClass = [], other = [];
+  codes.forEach(code=>{
+    const subj = targetClassLabel ? subjectsForClass(code, targetClassLabel) : null;
+    if (subj) sameClass.push({code, subj}); else other.push({code});
+  });
+  return {sameClass, other};
+}
+
+function chipsSameClass(list){
+  return list.map(x=>
+    '<span class="sub-chip sameclass" title="'+DATA.faculty[x.code].name+' already teaches this class ('+x.subj+')">'
+    + DATA.faculty[x.code].name + ' (' + x.code + ') <b>(' + x.subj + ')</b></span>'
+  ).join("");
+}
+function chipsOther(list){
+  return list.map(x=> '<span class="sub-chip">'+DATA.faculty[x.code].name+' ('+x.code+')</span>').join("");
+}
+
+/* Renders the two-part "who's free" block for a single period or a fully-free lab
+   block: gold group first (already teach this class — easiest swap), then everyone
+   else who's simply free. */
+function groupedFreeHtml(codes, targetClassLabel){
+  const {sameClass, other} = splitByClassMatch(codes, targetClassLabel);
+  let html = "";
+  if (sameClass.length){
+    html += '<div class="subhead sameclass-head">🟡 Already teach this class — easiest swap</div>' + chipsSameClass(sameClass);
+  }
+  if (other.length){
+    const label = targetClassLabel ? "Free, new to this class" : "Free to cover";
+    html += '<div class="subhead" style="margin-top:'+(sameClass.length?'10px':'0')+';">'+label+'</div>' + chipsOther(other);
+  }
+  return html;
+}
+
 /* ============================= SETUP: DROPDOWNS ============================= */
 const facultySelect = document.getElementById("facultySelect");
 FACULTY_CODES.forEach(code=>{
   const f = DATA.faculty[code];
   const opt = document.createElement("option");
   opt.value = code;
-  opt.textContent = `${f.name} (${code}) — ${f.designation}`;
+  opt.textContent = f.name + " (" + code + ") — " + f.designation;
   facultySelect.appendChild(opt);
 });
 
@@ -413,7 +524,7 @@ function getDayBlocks(faculty, dayName){
     // multi-hour lab/load block rather than two coincidentally-adjacent single classes.
     const chainIdx = [i];
     let cur = i;
-    while (isTrueAdjacent.has(`${cur}-${cur+1}`)){
+    while (isTrueAdjacent.has(cur+"-"+(cur+1))){
       const nextVal = sched[slots[cur+1].id];
       if (nextVal && nextVal.trim() === val.trim()){
         chainIdx.push(cur+1);
@@ -449,7 +560,7 @@ function fmtDate(date){
 }
 function isoDate(date){
   const y=date.getFullYear(), m=String(date.getMonth()+1).padStart(2,"0"), d=String(date.getDate()).padStart(2,"0");
-  return `${y}-${m}-${d}`;
+  return y+"-"+m+"-"+d;
 }
 
 /* ============================= CALENDAR (multi-day, non-contiguous selection) ============================= */
@@ -469,7 +580,7 @@ function renderCalendar(){
   const todayIso = isoDate(new Date());
 
   let cells = "";
-  for (let i=0;i<startWeekday;i++) cells += `<div class="cal-cell empty"></div>`;
+  for (let i=0;i<startWeekday;i++) cells += '<div class="cal-cell empty"></div>';
   for (let d=1; d<=daysInMonth; d++){
     const dateObj = new Date(calViewYear, calViewMonth, d);
     const iso = isoDate(dateObj);
@@ -481,18 +592,17 @@ function renderCalendar(){
     if (isWeekend) cls += " weekend";
     if (isSelected) cls += " selected";
     if (isToday) cls += " today";
-    cells += `<button type="button" class="${cls}" data-iso="${iso}" ${isWeekend? 'disabled title="Weekend — no lectures on the books"':''}>${d}</button>`;
+    cells += '<button type="button" class="'+cls+'" data-iso="'+iso+'" '+(isWeekend? 'disabled title="Weekend — no lectures on the books"':'')+'>'+d+'</button>';
   }
 
-  wrap.innerHTML = `
-    <div class="cal-head">
-      <button type="button" class="cal-nav" id="calPrev" aria-label="Previous month">‹</button>
-      <div class="cal-month">${monthName}</div>
-      <button type="button" class="cal-nav" id="calNext" aria-label="Next month">›</button>
-    </div>
-    <div class="cal-grid cal-dow"><div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div></div>
-    <div class="cal-grid">${cells}</div>
-  `;
+  wrap.innerHTML =
+    '<div class="cal-head">'
+    + '<button type="button" class="cal-nav" id="calPrev" aria-label="Previous month">‹</button>'
+    + '<div class="cal-month">'+monthName+'</div>'
+    + '<button type="button" class="cal-nav" id="calNext" aria-label="Next month">›</button>'
+    + '</div>'
+    + '<div class="cal-grid cal-dow"><div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div></div>'
+    + '<div class="cal-grid">'+cells+'</div>';
 
   document.getElementById("calPrev").addEventListener("click", ()=>{
     calViewMonth--; if (calViewMonth<0){ calViewMonth=11; calViewYear--; }
@@ -516,10 +626,10 @@ function renderChipsAndCards(){
   const chipsWrap = document.getElementById("selectedChips");
   const sorted = Array.from(selectedDates).sort();
   chipsWrap.innerHTML = sorted.length===0
-    ? `<p class="empty-note">No dates picked yet — tap days on the calendar above.</p>`
+    ? '<p class="empty-note">No dates picked yet — tap days on the calendar above.</p>'
     : sorted.map(iso=>{
         const d = new Date(iso+"T00:00:00");
-        return `<span class="date-chip">${fmtDate(d)}<button type="button" class="chip-x" data-iso="${iso}" title="Remove this date">×</button></span>`;
+        return '<span class="date-chip">'+fmtDate(d)+'<button type="button" class="chip-x" data-iso="'+iso+'" title="Remove this date">×</button></span>';
       }).join("");
   rebuildDayCards(sorted);
 }
@@ -562,12 +672,12 @@ function rebuildDayCards(sortedDates){
   dayPlans = {};
   document.getElementById("resultsSection").style.display = "none";
 
-  if (!code){ wrap.innerHTML = `<p class="empty-note">Pick yourself above, then choose your leave day(s) on the calendar.</p>`; countNote.textContent=""; return; }
-  if (!sortedDates || sortedDates.length===0){ wrap.innerHTML = `<p class="empty-note">Tap at least one day on the calendar to see what needs covering.</p>`; countNote.textContent=""; return; }
+  if (!code){ wrap.innerHTML = '<p class="empty-note">Pick yourself above, then choose your leave day(s) on the calendar.</p>'; countNote.textContent=""; return; }
+  if (!sortedDates || sortedDates.length===0){ wrap.innerHTML = '<p class="empty-note">Tap at least one day on the calendar to see what needs covering.</p>'; countNote.textContent=""; return; }
 
   countNote.textContent = sortedDates.length===1
     ? "That's a single day."
-    : `That's ${sortedDates.length} days picked — scroll down, every one of them gets its own card.`;
+    : "That's "+sortedDates.length+" days picked — scroll down, every one of them gets its own card.";
 
   const faculty = DATA.faculty[code];
 
@@ -581,11 +691,9 @@ function rebuildDayCards(sortedDates){
     dayPlans[key] = {dayName:dn, checks:{}, blocks:{}};
 
     if (blocks.length===0){
-      card.innerHTML = `
-        <div class="day-card-head">
-          <div class="day-card-title">${fmtDate(d)}<small>${DAY_FULL[dn]}</small></div>
-        </div>
-        <p class="empty-note">🙌 Lucky day — no scheduled classes for ${faculty.name.split(" ").slice(-1)[0]} on the timetable. Nothing to cover.</p>`;
+      card.innerHTML =
+        '<div class="day-card-head"><div class="day-card-title">'+fmtDate(d)+'<small>'+DAY_FULL[dn]+'</small></div></div>'
+        + '<p class="empty-note">🙌 Lucky day — no scheduled classes for '+faculty.name.split(" ").slice(-1)[0]+' on the timetable. Nothing to cover.</p>';
       wrap.appendChild(card);
       return;
     }
@@ -594,39 +702,33 @@ function rebuildDayCards(sortedDates){
 
     const checksHtml = blocks.map(b=>{
       const k = blockKeyOf(b);
-      const labTag = b.type==="lab2" ? ` <span title="${b.slots.length} back-to-back periods, same class — treated as one ${b.slots.length}-hour block. Only faculty free for ALL ${b.slots.length} hours count as a full cover.">🔬 ${b.slots.length}-hr lab</span>` : "";
-      return `
-      <label class="class-check">
-        <input type="checkbox" data-date="${key}" data-block="${k}" checked>
-        <span><span class="t">${b.label}</span>${b.subject}${labTag}</span>
-      </label>`;
+      const labTag = b.type==="lab2" ? ' <span title="'+b.slots.length+' back-to-back periods, same class — treated as one '+b.slots.length+'-hour block. Only faculty free for ALL '+b.slots.length+' hours count as a full cover.">🔬 '+b.slots.length+'-hr lab</span>' : "";
+      return '<label class="class-check"><input type="checkbox" data-date="'+key+'" data-block="'+k+'" checked><span><span class="t">'+b.label+'</span>'+b.subject+labTag+'</span></label>';
     }).join("");
 
-    card.innerHTML = `
-      <div class="day-card-head">
-        <div class="day-card-title">${fmtDate(d)}<small>${DAY_FULL[dn]}</small></div>
-        <div class="quick-toggles">
-          <button type="button" class="qtbtn" data-act="all" data-date="${key}">Full day off</button>
-          <button type="button" class="qtbtn" data-act="morning" data-date="${key}">Morning only</button>
-          <button type="button" class="qtbtn" data-act="afternoon" data-date="${key}">Afternoon only</button>
-          <button type="button" class="qtbtn" data-act="none" data-date="${key}">Clear</button>
-        </div>
-      </div>
-      ${checksHtml}
-    `;
+    card.innerHTML =
+      '<div class="day-card-head">'
+      + '<div class="day-card-title">'+fmtDate(d)+'<small>'+DAY_FULL[dn]+'</small></div>'
+      + '<div class="quick-toggles">'
+      + '<button type="button" class="qtbtn" data-act="all" data-date="'+key+'">Full day off</button>'
+      + '<button type="button" class="qtbtn" data-act="morning" data-date="'+key+'">Morning only</button>'
+      + '<button type="button" class="qtbtn" data-act="afternoon" data-date="'+key+'">Afternoon only</button>'
+      + '<button type="button" class="qtbtn" data-act="none" data-date="'+key+'">Clear</button>'
+      + '</div></div>'
+      + checksHtml;
     wrap.appendChild(card);
   });
 }
 
 document.getElementById("dayCards").addEventListener("change", e=>{
   if (e.target.matches('input[type="checkbox"]')){
-    const {date, block} = e.target.dataset;
+    const date = e.target.dataset.date, block = e.target.dataset.block;
     dayPlans[date].checks[block] = e.target.checked;
   }
 });
 document.getElementById("dayCards").addEventListener("click", e=>{
   if (!e.target.matches(".qtbtn")) return;
-  const {act, date} = e.target.dataset;
+  const act = e.target.dataset.act, date = e.target.dataset.date;
   const card = e.target.closest(".day-card");
   card.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
     const k = cb.dataset.block;
@@ -648,7 +750,7 @@ renderChipsAndCards();
 
 /* ============================= FIND SUBSTITUTES ============================= */
 /* Returns faculty free at ONE given slot. Used for single-period classes and as the
-   building block for the 2-hour lab check below. */
+   building block for the multi-hour lab check below. */
 function freeFacultyAt(dayName, slotId, excludeCode){
   return FACULTY_CODES.filter(code=>{
     if (code===excludeCode) return false;
@@ -679,74 +781,82 @@ document.getElementById("findBtn").addEventListener("click", ()=>{
     const notes = blockKeys.map((k,i)=>{
       totalChecked++;
       const block = plan.blocks[k];
+      const classInfo = parseClassInfo(block.subject);
       let subsHtml;
 
       if (block.type==="lab2"){
-        /* Full-load consecutive block (2 hours, or more for a longer chained run): only
-           faculty free for EVERY period in the block count as a genuine substitute.
-           Faculty free for just some of the hours are listed separately, clearly marked
-           with exactly which hours they can actually cover. */
+        /* Full-load consecutive block (2+ hours): only faculty free for EVERY period in
+           the block count as a genuine full substitute. Faculty free for just part of it
+           are listed separately, clearly marked with exactly which part (1st half / 2nd
+           half, or period X of Y for longer runs) they can actually cover. */
         const slotIds = block.slots.map(s=>s.id);
         const freeSets = slotIds.map(sid => new Set(freeFacultyAt(plan.dayName, sid, code)));
         const fullyFree = FACULTY_CODES.filter(c=> c!==code && freeSets.every(set=>set.has(c)));
         if (fullyFree.length===0) zeroCover++;
 
         const fullHtml = fullyFree.length
-          ? fullyFree.map(c=>`<span class="sub-chip">${DATA.faculty[c].name} (${c})</span>`).join("")
-          : `<div class="zero-cover">😬 Nobody's free for the full ${slotIds.length} hours — flag to HOD</div>`;
+          ? groupedFreeHtml(fullyFree, classInfo && classInfo.classLabel)
+          : '<div class="zero-cover">😬 Nobody free for the full '+slotIds.length+' hours — flag to HOD</div>';
 
         const partials = FACULTY_CODES
           .filter(c=> c!==code && !fullyFree.includes(c))
           .map(c=>({ c, freeIdx: freeSets.map((set,idx)=> set.has(c) ? idx : -1).filter(x=>x>=0) }))
           .filter(p=> p.freeIdx.length>0);
 
-        const partialHtml = partials.length ? `
-          <div class="subhead" style="margin-top:12px;">Free for only part of it <span style="font-weight:400;text-transform:none;">(not the full ${slotIds.length}-hr block)</span></div>
-          ${partials.map(p=>{
-            const hourWord = p.freeIdx.length===1 ? "hour" : "hours";
-            const which = p.freeIdx.map(idx=> block.slots[idx].label).join(", ");
-            return `<span class="sub-chip partial" title="${DATA.faculty[p.c].name} is free for ${which} only, not the whole block">${DATA.faculty[p.c].name} (${p.c}) <b>${p.freeIdx.length}/${slotIds.length} ${hourWord}</b></span>`;
-          }).join("")}
-        ` : "";
+        const halfWord = idx => (slotIds.length===2 ? (idx===0 ? "1st half" : "2nd half") : ("period "+(idx+1)+" of "+slotIds.length));
+
+        const partialHtml = partials.length ? (
+          '<div class="subhead" style="margin-top:12px;">Free for only part of it <span style="font-weight:400;text-transform:none;">(not the full '+slotIds.length+'-hr block)</span></div>'
+          + partials.map(p=>{
+              const subj = classInfo ? subjectsForClass(p.c, classInfo.classLabel) : null;
+              const which = p.freeIdx.map(idx=> halfWord(idx)+': '+block.slots[idx].label).join(' · ');
+              const sameClassTag = subj ? ' <span class="same-tag" title="Already teaches this class ('+subj+')">🟡 '+subj+'</span>' : '';
+              return '<span class="sub-chip partial" title="'+DATA.faculty[p.c].name+' is free for '+which+' only, not the whole block">'+DATA.faculty[p.c].name+' ('+p.c+')'+sameClassTag+' <b>('+which+')</b></span>';
+            }).join("")
+        ) : "";
 
         subsHtml = fullHtml + partialHtml;
       } else {
         const subs = freeFacultyAt(plan.dayName, block.slots[0].id, code);
         if (subs.length===0) zeroCover++;
         subsHtml = subs.length
-          ? subs.map(c=>`<span class="sub-chip">${DATA.faculty[c].name} (${c})</span>`).join("")
-          : `<div class="zero-cover">😬 Nobody's free — flag to HOD</div>`;
+          ? groupedFreeHtml(subs, classInfo && classInfo.classLabel)
+          : '<div class="zero-cover">😬 Nobody free — flag to HOD</div>';
       }
 
-      const labTag = block.type==="lab2" ? ` <span title="${block.slots.length}-hour consecutive block — full cover requires all ${block.slots.length} hours free">🔬 ${block.slots.length}-hr lab</span>` : "";
+      const labTag = block.type==="lab2" ? ' <span title="'+block.slots.length+'-hour consecutive block — full cover requires all '+block.slots.length+' hours free">🔬 '+block.slots.length+'-hr lab</span>' : "";
 
-      return `
-        <div class="sticky c${i%5}">
-          <div class="period">${block.label}</div>
-          <div class="class-info">${block.subject}${labTag}</div>
-          <div class="subhead">Free to cover</div>
-          ${subsHtml}
-        </div>`;
+      return '<div class="sticky c'+(i%5)+'">'
+        + '<div class="period">'+block.label+'</div>'
+        + '<div class="class-info">'+block.subject+labTag+'</div>'
+        + subsHtml
+        + '</div>';
     }).join("");
 
-    dateBlocks.push(`
-      <div class="pinboard-date">${fmtDate(d)} <span style="font-weight:400;color:var(--ink-soft);font-size:13px;">· ${DAY_FULL[plan.dayName]}</span></div>
-      <div class="note-grid">${notes}</div>
-    `);
+    dateBlocks.push(
+      '<div class="pinboard-date">'+fmtDate(d)+' <span style="font-weight:400;color:var(--ink-soft);font-size:13px;">· '+DAY_FULL[plan.dayName]+'</span></div>'
+      + '<div class="note-grid">'+notes+'</div>'
+    );
   });
 
   if (dateBlocks.length===0){
-    board.innerHTML = `<div class="results-empty">Nothing's checked off above — tick at least one class you'll miss, then hit the button again.</div>`;
+    board.innerHTML = '<div class="results-empty">Nothing checked off above — tick at least one class you will miss, then hit the button again.</div>';
     return;
   }
 
-  const summary = `
-    <div class="summary-strip">
-      <div><b>${totalChecked}</b> class${totalChecked===1?'':'es'} need${totalChecked===1?'s':''} covering</div>
-      <div><b>${zeroCover}</b> slot${zeroCover===1?'':'s'} with zero full backup</div>
-      <div>Requesting: <b>${faculty.name}</b> (${code})</div>
-    </div>`;
-  board.innerHTML = summary + dateBlocks.join("");
+  const legend =
+    '<div class="legend-strip">'
+    + '<div class="lg-item"><span class="legend-swatch gold"></span> 🟡 Already teaches this class elsewhere — easiest swap, students already know them</div>'
+    + '<div class="lg-item"><span class="legend-swatch plain"></span> Free, but new to this particular class</div>'
+    + '</div>';
+
+  const summary =
+    '<div class="summary-strip">'
+    + '<div><b>'+totalChecked+'</b> class'+(totalChecked===1?'':'es')+' need'+(totalChecked===1?'s':'')+' covering</div>'
+    + '<div><b>'+zeroCover+'</b> slot'+(zeroCover===1?'':'s')+' with zero full backup</div>'
+    + '<div>Requesting: <b>'+faculty.name+'</b> ('+code+')</div>'
+    + '</div>';
+  board.innerHTML = legend + summary + dateBlocks.join("");
   resultsSection.scrollIntoView({behavior:"smooth", block:"start"});
 });
 
@@ -759,7 +869,7 @@ function renderRoster(){
     const busyText = f.schedule[day][slot];
     const free = !busyText;
     const gapNote = f.dataGap ? ' ⚠️ no data on file' : '';
-    return `<div class="roster-chip ${free?'free':'busy'}"><span class="dot"></span>${f.name} (${code})${free?gapNote:' — busy'}</div>`;
+    return '<div class="roster-chip '+(free?'free':'busy')+'"><span class="dot"></span>'+f.name+' ('+code+')'+(free?gapNote:' — busy')+'</div>';
   }).join("");
   grid.innerHTML = items;
 }
@@ -772,7 +882,7 @@ FACULTY_CODES.forEach(code=>{
   const f = DATA.faculty[code];
   const div = document.createElement("div");
   div.className = "legend-item";
-  div.innerHTML = `<b>${code}</b> — ${f.name}<br><span style="color:var(--ink-soft);">${f.designation}</span>${f.dataGap?'<br><span style="color:var(--pin-deep);font-weight:700;">⚠️ no classes on file — schedule not confirmed</span>':''}`;
+  div.innerHTML = '<b>'+code+'</b> — '+f.name+'<br><span style="color:var(--ink-soft);">'+f.designation+'</span>'+(f.dataGap?'<br><span style="color:var(--pin-deep);font-weight:700;">⚠️ no classes on file — schedule not confirmed</span>':'');
   legendGrid.appendChild(div);
 });
 </script>
