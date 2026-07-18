@@ -1,1 +1,4344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RoomRadar — SCET IT Dept. Slot &amp; Space Finder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Quicksand:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --lavender:#c4a7ff;
+  --lavender-deep:#7c3aed;
+  --mint:#7cf2d6;
+  --mint-deep:#0d9488;
+  --peach:#ffc266;
+  --peach-deep:#f97316;
+  --pink:#ff9ecf;
+  --pink-deep:#ec1f80;
+  --sky:#7dd3fc;
+  --sky-deep:#0284c7;
+  --ink:#2c1650;
+  --ink-soft:#5d4a76;
+  --cream:#fbf7ff;
+  --card:#ffffff;
+  --free:#12b886;
+  --free-bg:#dffaf0;
+  --busy:#ec1f80;
+  --busy-bg:#ffe3f0;
+  --line:#e8ddf9;
+  --shadow: 0 10px 30px -12px rgba(124, 58, 237, 0.28);
+  --radius: 20px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  font-family:'Quicksand', sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 8% 8%, rgba(196,167,255,0.4), transparent 40%),
+    radial-gradient(circle at 92% 18%, rgba(255,158,207,0.38), transparent 42%),
+    radial-gradient(circle at 50% 95%, rgba(124,242,214,0.38), transparent 45%),
+    radial-gradient(circle at 70% 60%, rgba(125,211,252,0.22), transparent 40%),
+    var(--cream);
+  background-size:200% 200%;
+  animation: driftBg 22s ease-in-out infinite;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+@keyframes driftBg{
+  0%,100%{background-position:0% 0%, 100% 0%, 50% 100%, 100% 100%, 0 0;}
+  50%{background-position:10% 10%, 90% 20%, 45% 92%, 85% 80%, 0 0;}
+}
+h1,h2,h3{font-family:'Playfair Display', serif; margin:0;}
+.mono{font-family:'JetBrains Mono', monospace;}
+a{color:inherit;}
+.wrap{max-width:1180px; margin:0 auto; padding:0 24px;}
+@media (prefers-reduced-motion: reduce){ body{animation:none;} }
 
+/* ---------- HEADER ---------- */
+header.site{
+  padding:22px 0 10px;
+  position:relative;
+}
+.brandbar{
+  display:flex; align-items:center; justify-content:space-between; gap:18px;
+  flex-wrap:wrap;
+}
+.brandbar .dept{
+  font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft);
+  font-weight:600;
+}
+.brandbar .dept b{color:var(--ink);}
+.pill{
+  display:inline-flex; align-items:center; gap:6px;
+  background:var(--card); border:1px solid var(--line);
+  padding:6px 14px; border-radius:999px; font-size:12.5px; font-weight:600; color:var(--ink-soft);
+  box-shadow: var(--shadow);
+}
+.pill .dot{width:8px;height:8px;border-radius:50%; background:var(--mint-deep); box-shadow:0 0 0 3px rgba(13,148,136,.25); animation:dotPulse 1.8s ease-in-out infinite;}
+@keyframes dotPulse{ 0%,100%{box-shadow:0 0 0 3px rgba(13,148,136,.25);} 50%{box-shadow:0 0 0 7px rgba(13,148,136,.12);} }
+.pill{transition:.2s transform;}
+.pill:hover{transform:translateY(-2px) rotate(-1deg);}
+
+/* ---------- HERO ---------- */
+.hero{
+  padding:38px 0 26px;
+  display:grid; grid-template-columns: 1.15fr 0.85fr; gap:40px; align-items:center;
+}
+@media (max-width:860px){ .hero{grid-template-columns:1fr; text-align:center;} }
+.hero h1{
+  font-size:clamp(40px, 6vw, 62px);
+  line-height:0.98;
+  font-weight:800;
+  background:linear-gradient(100deg, var(--lavender-deep), var(--pink-deep) 35%, var(--peach-deep) 65%, var(--sky-deep));
+  background-size:300% 100%;
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  animation: hueSlide 6s ease-in-out infinite;
+  display:inline-block;
+}
+@keyframes hueSlide{
+  0%,100%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+}
+@media (prefers-reduced-motion: reduce){ .hero h1{animation:none;} }
+.hero .tagline{
+  margin-top:14px; font-size:19px; font-weight:600; color:var(--ink-soft); max-width:520px;
+}
+.hero .sub{margin-top:10px; font-size:15px; color:var(--ink-soft); opacity:.85; max-width:540px;}
+@media (max-width:860px){ .hero .tagline, .hero .sub{margin-left:auto;margin-right:auto;} }
+
+.hero-stats{display:flex; gap:10px; margin-top:22px; flex-wrap:wrap;}
+@media (max-width:860px){ .hero-stats{justify-content:center;} }
+.stat-chip{
+  background:var(--card); border:1px solid var(--line); border-radius:16px; padding:10px 16px;
+  box-shadow:var(--shadow); text-align:left;
+  transition:.25s cubic-bezier(.34,1.56,.64,1) transform, .25s box-shadow;
+}
+.stat-chip:hover{transform:translateY(-4px) rotate(-2deg) scale(1.04); box-shadow:0 16px 28px -12px rgba(124,58,237,0.35);}
+.stat-chip:nth-child(2):hover{transform:translateY(-4px) rotate(2deg) scale(1.04);}
+.stat-chip:nth-child(4):hover{transform:translateY(-4px) rotate(2deg) scale(1.04);}
+.stat-chip .n{font-family:'Playfair Display',serif; font-size:24px; font-weight:800; color:var(--lavender-deep);}
+.stat-chip .l{font-size:11.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); font-weight:700;}
+
+/* ---------- RADAR SIGNATURE ---------- */
+.radar-box{
+  position:relative; width:100%; aspect-ratio:1/1; max-width:360px; margin:0 auto;
+  display:flex; align-items:center; justify-content:center;
+}
+.radar-ring{
+  position:absolute; border-radius:50%; border:1.5px dashed rgba(155,127,214,0.35);
+}
+.radar-ring.r1{inset:0;}
+.radar-ring.r2{inset:15%;}
+.radar-ring.r3{inset:32%;}
+.radar-core{
+  position:absolute; inset:0; border-radius:50%;
+  background: radial-gradient(circle at 50% 50%, rgba(201,182,240,0.35), rgba(255,255,255,0) 70%);
+}
+.radar-sweep{
+  position:absolute; inset:0; border-radius:50%;
+  background: conic-gradient(from 0deg, rgba(155,127,214,0.55), rgba(155,127,214,0) 28%);
+  animation: spin 4.5s linear infinite;
+  -webkit-mask-image: radial-gradient(circle, transparent 0, black 1px);
+}
+@keyframes spin{ to{ transform:rotate(360deg);} }
+.radar-blip{
+  position:absolute; width:11px; height:11px; border-radius:50%;
+  box-shadow:0 0 0 5px rgba(255,255,255,0.5);
+  animation: blipPulse 2.2s ease-in-out infinite;
+}
+.radar-blip.free{background:var(--free); animation-name: blipPulseFree;}
+.radar-blip.busy{background:var(--busy); animation-name: blipPulseBusy;}
+.radar-blip:nth-child(5){animation-delay:.3s;}
+.radar-blip:nth-child(6){animation-delay:.6s;}
+.radar-blip:nth-child(7){animation-delay:.9s;}
+.radar-blip:nth-child(8){animation-delay:1.2s;}
+.radar-blip:nth-child(9){animation-delay:1.5s;}
+@keyframes blipPulseFree{ 0%,100%{box-shadow:0 0 0 5px rgba(18,184,134,0.35); transform:scale(1);} 50%{box-shadow:0 0 0 9px rgba(18,184,134,0.12); transform:scale(1.15);} }
+@keyframes blipPulseBusy{ 0%,100%{box-shadow:0 0 0 5px rgba(236,31,128,0.3); transform:scale(1);} 50%{box-shadow:0 0 0 9px rgba(236,31,128,0.1); transform:scale(1.15);} }
+@media (prefers-reduced-motion: reduce){ .radar-blip{animation:none;} }
+.radar-center-label{
+  position:relative; z-index:2; text-align:center; font-family:'Playfair Display',serif;
+  font-weight:800; font-size:15px; color:var(--ink); background:rgba(255,255,255,0.72);
+  padding:10px 16px; border-radius:14px; backdrop-filter:blur(2px);
+  box-shadow: var(--shadow);
+}
+.radar-center-label span{display:block; font-family:'Quicksand',sans-serif; font-weight:600; font-size:11px; color:var(--ink-soft); margin-top:2px;}
+@media (prefers-reduced-motion: reduce){
+  .radar-sweep{animation:none;}
+}
+</style>
+</head>
+<style>
+/* ---------- CONTROL PANEL ---------- */
+.panel{
+  background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+  border:1px solid var(--line); padding:26px 28px; margin-top:8px; position:relative; overflow:hidden;
+}
+.panel::before{
+  content:""; position:absolute; top:-60px; right:-60px; width:180px; height:180px; border-radius:50%;
+  background:radial-gradient(circle, rgba(255,194,102,0.5), transparent 70%);
+  animation: blobFloat 6s ease-in-out infinite;
+}
+@keyframes blobFloat{ 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(-14px,10px) scale(1.08);} }
+@media (prefers-reduced-motion: reduce){ .panel::before{animation:none;} }
+.panel h2{font-size:24px; font-weight:700;}
+.panel .eyebrow{
+  font-size:12px; letter-spacing:.08em; text-transform:uppercase; font-weight:700; color:var(--lavender-deep);
+  margin-bottom:4px; display:block;
+}
+.panel-grid{display:grid; grid-template-columns: auto 1fr; gap:26px; margin-top:20px; align-items:start;}
+@media (max-width:760px){ .panel-grid{grid-template-columns:1fr;} }
+
+.field-label{font-weight:700; font-size:13.5px; margin-bottom:8px; display:flex; align-items:center; gap:8px;}
+.field-label .num{
+  width:22px;height:22px;border-radius:50%; background:var(--lavender); color:#fff; font-size:12px;
+  display:inline-flex; align-items:center; justify-content:center; font-weight:800;
+}
+input[type="date"]{
+  font-family:'JetBrains Mono', monospace; font-size:15px; font-weight:600; color:var(--ink);
+  border:2px solid var(--line); border-radius:12px; padding:11px 14px; background:#fff;
+  outline:none; transition:border-color .15s; width:210px;
+}
+input[type="date"]:focus{border-color:var(--lavender-deep);}
+.day-readout{
+  margin-top:10px; font-size:13px; font-weight:700; color:var(--ink-soft);
+  display:flex; align-items:center; gap:8px;
+}
+.day-readout .badge{
+  background:var(--mint); color:#1f5c46; padding:3px 10px; border-radius:8px; font-size:12px;
+}
+.day-readout .badge.weekend{background:var(--pink); color:#7a1d38;}
+
+.chip-row{display:flex; flex-wrap:wrap; gap:10px;}
+.chip{
+  cursor:pointer; user-select:none;
+  border:2px solid var(--line); background:#fff; border-radius:14px;
+  padding:10px 14px; text-align:left; min-width:118px;
+  transition:.15s transform, .15s border-color, .15s background, .15s box-shadow;
+}
+.chip:hover{transform:translateY(-3px) scale(1.03); border-color:var(--lavender);}
+.chip .p{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:13px; color:var(--lavender-deep);}
+.chip .t{font-size:11.5px; color:var(--ink-soft); font-weight:600; margin-top:2px;}
+.chip.active{
+  background:linear-gradient(135deg, var(--lavender-deep), var(--pink-deep) 55%, var(--peach-deep)); border-color:transparent; color:#fff;
+  box-shadow:0 8px 18px -8px rgba(124,58,237,0.6);
+  animation:chipPop .35s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes chipPop{ 0%{transform:scale(.85);} 55%{transform:scale(1.08);} 100%{transform:scale(1);} }
+.chip.active .p, .chip.active .t{color:#fff;}
+.chip[disabled]{opacity:.4; cursor:not-allowed; pointer-events:none;}
+
+.scan-btn{
+  margin-top:22px; border:none; cursor:pointer;
+  background:linear-gradient(120deg, var(--lavender-deep), var(--pink-deep) 50%, var(--peach-deep));
+  background-size:220% 100%;
+  color:#fff; font-family:'Playfair Display',serif; font-weight:700; font-size:17px;
+  padding:14px 30px; border-radius:14px; box-shadow:0 10px 24px -10px rgba(124,58,237,.6);
+  transition:.2s transform, .4s background-position;
+  display:inline-flex; align-items:center; gap:10px;
+  position:relative; overflow:hidden;
+}
+.scan-btn:hover{transform:translateY(-3px) scale(1.02); background-position:100% 0;}
+.scan-btn:active{transform:translateY(0px) scale(.96);}
+.scan-btn .ripple{
+  position:absolute; border-radius:50%; background:rgba(255,255,255,.55);
+  transform:scale(0); animation:rippleGo .55s ease-out forwards; pointer-events:none;
+}
+@keyframes rippleGo{ to{ transform:scale(1); opacity:0; } }
+.helper-text{font-size:12.5px; color:var(--ink-soft); margin-top:10px; max-width:520px; line-height:1.5;}
+
+/* ---------- RESULTS ---------- */
+.results{margin-top:40px; display:none;}
+.results.show{display:block;}
+.result-summary-line{
+  font-size:15px; font-weight:600; color:var(--ink-soft); margin-bottom:22px;
+  background:var(--card); border:1px dashed var(--lavender); border-radius:14px; padding:14px 18px;
+}
+.result-summary-line b{color:var(--ink);}
+
+.section-heading{
+  display:flex; align-items:baseline; gap:12px; margin:34px 0 16px;
+}
+.section-heading h3{font-size:26px;}
+.section-heading .tag{
+  font-family:'JetBrains Mono',monospace; font-size:12px; background:var(--ink); color:#fff;
+  padding:3px 10px; border-radius:8px;
+}
+
+.room-grid{
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(150px,1fr)); gap:14px;
+}
+.room-tile{
+  border-radius:16px; padding:16px 14px; position:relative; overflow:hidden;
+  border:2px solid transparent; box-shadow:var(--shadow);
+  transition:.2s cubic-bezier(.34,1.56,.64,1) transform, .2s box-shadow;
+  animation: tilePop .4s cubic-bezier(.34,1.56,.64,1) both;
+  animation-delay: calc(var(--i, 0) * 35ms);
+}
+@keyframes tilePop{ from{opacity:0; transform:translateY(10px) scale(.92);} to{opacity:1; transform:translateY(0) scale(1);} }
+.room-tile:hover{transform:translateY(-5px) rotate(-1deg) scale(1.035); box-shadow:0 16px 28px -10px rgba(124,58,237,.3); cursor:pointer;}
+.room-tile:active{transform:translateY(-1px) scale(.97);}
+.room-tile.free{background:var(--free-bg); border-color:rgba(18,184,134,0.35);}
+.room-tile.busy{background:var(--busy-bg); border-color:rgba(236,31,128,0.35);}
+.room-tile .rname{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:19px;}
+.room-tile.free .rname{color:#1f6b4e;}
+.room-tile.busy .rname{color:#9c2144;}
+.room-tile .rstatus{
+  margin-top:6px; font-size:11.5px; font-weight:800; letter-spacing:.05em; text-transform:uppercase;
+}
+.room-tile.free .rstatus{color:var(--free);}
+.room-tile.busy .rstatus{color:var(--busy);}
+.room-tile .ricon{position:absolute; right:10px; top:10px; font-size:20px; opacity:.8;}
+.room-tile .rmeta{margin-top:8px; font-size:11px; color:var(--ink-soft); line-height:1.4;}
+
+.occupied-list{margin-top:18px; display:flex; flex-direction:column; gap:10px;}
+.occ-card{
+  background:#fff; border:1px solid var(--line); border-radius:14px; padding:12px 16px;
+  display:flex; align-items:center; gap:14px; box-shadow:var(--shadow); flex-wrap:wrap;
+}
+.occ-room{
+  font-family:'JetBrains Mono',monospace; font-weight:800; font-size:15px; color:#fff;
+  background:var(--busy); border-radius:10px; padding:6px 12px; min-width:64px; text-align:center;
+}
+.occ-body{flex:1; min-width:200px;}
+.occ-subject{font-weight:700; font-size:14.5px;}
+.occ-subject .fac{color:var(--lavender-deep); font-weight:700;}
+.occ-meta{font-size:12px; color:var(--ink-soft); margin-top:2px;}
+.occ-slot{
+  font-family:'JetBrains Mono',monospace; font-size:11.5px; background:var(--cream);
+  border:1px solid var(--line); padding:4px 9px; border-radius:8px; color:var(--ink-soft); font-weight:700;
+}
+.empty-note{
+  font-size:14px; color:var(--ink-soft); font-style:italic; padding:14px 0;
+}
+
+/* ---------- HEATMAP ---------- */
+.heatmap-wrap{overflow-x:auto; margin-top:14px; border-radius:16px; box-shadow:var(--shadow);}
+table.heatmap{border-collapse:collapse; width:100%; min-width:640px; background:#fff;}
+table.heatmap th, table.heatmap td{padding:0; text-align:center; border:1px solid var(--line);}
+table.heatmap th{
+  background:var(--ink); color:#fff; font-size:12px; padding:10px 8px; font-weight:700;
+  font-family:'JetBrains Mono',monospace; letter-spacing:.03em;
+}
+table.heatmap td.rowlabel{
+  font-family:'JetBrains Mono',monospace; font-weight:700; font-size:13px; background:var(--cream);
+  padding:10px 12px; text-align:left; white-space:nowrap;
+}
+table.heatmap td.cell{padding:12px 6px; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:12.5px;}
+.legend-row{display:flex; gap:18px; margin-top:14px; flex-wrap:wrap; font-size:12px; color:var(--ink-soft); font-weight:600;}
+.legend-row .sw{display:inline-block; width:13px; height:13px; border-radius:4px; margin-right:6px; vertical-align:-2px;}
+.max-callout{
+  margin-top:16px; display:flex; gap:12px; flex-wrap:wrap;
+}
+.max-card{
+  background:linear-gradient(135deg, rgba(255,211,165,.55), rgba(255,181,199,.55));
+  border-radius:14px; padding:14px 18px; flex:1; min-width:220px;
+}
+.max-card .k{font-size:11px; text-transform:uppercase; letter-spacing:.06em; font-weight:800; color:var(--ink-soft);}
+.max-card .v{font-family:'Playfair Display',serif; font-size:22px; font-weight:800; margin-top:4px;}
+.max-card .v small{font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600; color:var(--ink-soft);}
+
+/* ---------- TABS ---------- */
+.tabbar{display:flex; gap:8px; margin-top:44px; border-bottom:2px solid var(--line); padding-bottom:0;}
+.tabbtn{
+  cursor:pointer; border:none; background:none; font-family:'Playfair Display',serif; font-weight:700;
+  font-size:17px; color:var(--ink-soft); padding:10px 4px; position:relative;
+  transition:.15s transform, .15s color;
+}
+.tabbtn:hover{transform:translateY(-2px); color:var(--lavender-deep);}
+.tabbtn.active{color:var(--ink);}
+.tabbtn.active::after{
+  content:""; position:absolute; left:0; right:0; bottom:-2px; height:3px; border-radius:3px;
+  background:linear-gradient(90deg, var(--lavender-deep), var(--pink-deep), var(--peach-deep));
+  background-size:200% 100%;
+  animation: hueSlide 4s ease-in-out infinite;
+}
+.tabpage{display:none;}
+.tabpage.active{display:block;}
+
+/* ---------- FOOTER ---------- */
+footer{
+  margin-top:70px; padding:36px 0 44px; border-top:1px solid var(--line);
+  color:var(--ink-soft); font-size:13px;
+}
+footer .foot-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:24px;}
+@media (max-width:760px){ footer .foot-grid{grid-template-columns:1fr;} }
+footer h4{font-family:'Playfair Display',serif; font-size:15px; color:var(--ink); margin-bottom:8px;}
+footer .coords{line-height:1.9;}
+footer .fineprint{margin-top:26px; font-size:11.5px; opacity:.75; line-height:1.6;}
+footer .signoff{margin-top:4px; font-weight:700; color:var(--ink);}
+
+.scroll-fade{animation:fadeUp .5s ease both;}
+@keyframes fadeUp{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+::selection{background:var(--lavender); color:#fff;}
+
+.toast{
+  position:fixed; bottom:22px; left:50%; transform:translateX(-50%) translateY(20px) scale(.9);
+  background:linear-gradient(120deg, var(--ink), #4a2b7a); color:#fff; padding:12px 22px; border-radius:12px; font-weight:600; font-size:13.5px;
+  opacity:0; pointer-events:none; transition:.3s cubic-bezier(.34,1.56,.64,1); z-index:50; box-shadow:0 12px 30px -10px rgba(0,0,0,.4);
+}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(0) scale(1);}
+</style>
+<body>
+
+<div class="wrap">
+  <header class="site">
+    <div class="brandbar">
+      <div class="dept">Sarvajanik College of Engineering &amp; Technology, Surat &nbsp;·&nbsp; <b>Department of Information Technology</b></div>
+      <div class="pill"><span class="dot"></span> Live for Odd Term 2026&#8209;27 · effective 06 Jul 2026</div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="scroll-fade">
+      <h1>RoomRadar</h1>
+      <div class="tagline">Scan a day. Pick your slots. Spot every open room and lab — instantly.</div>
+      <div class="sub">Built for the IT Department's timetable coordinators &amp; faculty: find a free classroom for an extra lecture, resolve a resource clash, or see exactly who's holding down which room, in one clean sweep.</div>
+      <div class="hero-stats">
+        <div class="stat-chip"><div class="n" id="statClassrooms">10</div><div class="l">Classrooms tracked</div></div>
+        <div class="stat-chip"><div class="n" id="statLabs">6</div><div class="l">Computer labs tracked</div></div>
+        <div class="stat-chip"><div class="n" id="statDivisions">9</div><div class="l">Divisions mapped</div></div>
+        <div class="stat-chip"><div class="n" id="statSessions">229</div><div class="l">Weekly sessions parsed</div></div>
+      </div>
+    </div>
+    <div class="radar-box scroll-fade" aria-hidden="true">
+      <div class="radar-ring r1"></div>
+      <div class="radar-ring r2"></div>
+      <div class="radar-ring r3"></div>
+      <div class="radar-core"></div>
+      <div class="radar-sweep"></div>
+      <div class="radar-blip free" style="top:18%; left:62%;"></div>
+      <div class="radar-blip busy" style="top:58%; left:22%;"></div>
+      <div class="radar-blip free" style="top:70%; left:68%;"></div>
+      <div class="radar-blip busy" style="top:30%; left:30%;"></div>
+      <div class="radar-blip free" style="top:46%; left:50%;"></div>
+      <div class="radar-center-label">Scanning campus<span>free vs. busy, live</span></div>
+    </div>
+  </section>
+
+  <!-- ===================== CONTROL PANEL ===================== -->
+  <section class="panel scroll-fade" id="controlPanel">
+    <span class="eyebrow">Step 1 &amp; 2</span>
+    <h2>Pick a day, then pick your slot(s)</h2>
+    <div class="panel-grid">
+      <div>
+        <div class="field-label"><span class="num">1</span> Date</div>
+        <input type="date" id="datePicker" />
+        <div class="day-readout" id="dayReadout"></div>
+      </div>
+      <div>
+        <div class="field-label"><span class="num">2</span> Period(s) — tap one or several, consecutive or scattered</div>
+        <div class="chip-row" id="chipRow"></div>
+        <div class="helper-text">A room only counts as <b>free</b> below if it's open across <i>every</i> period you've selected — perfect for checking whether a room can host a class spanning several slots, or for scanning a handful of scattered periods at once.</div>
+      </div>
+    </div>
+    <button class="scan-btn" id="scanBtn">📡 Scan for free rooms</button>
+  </section>
+
+  <!-- ===================== RESULTS ===================== -->
+  <section class="results" id="results">
+    <div class="result-summary-line" id="resultSummary"></div>
+
+    <div class="section-heading"><h3>🏫 Classrooms</h3><span class="tag" id="classroomTag"></span></div>
+    <div class="room-grid" id="classroomGrid"></div>
+    <div class="occupied-list" id="classroomOccupied"></div>
+
+    <div class="section-heading"><h3>🖥️ Computer Labs</h3><span class="tag" id="labTag"></span></div>
+    <div class="room-grid" id="labGrid"></div>
+    <div class="occupied-list" id="labOccupied"></div>
+  </section>
+
+  <!-- ===================== UTILISATION ===================== -->
+  <section style="margin-top:60px;">
+    <span class="eyebrow" style="color:var(--pink-deep); font-size:12px; letter-spacing:.08em; text-transform:uppercase; font-weight:700;">Weekly overview</span>
+    <h2 style="font-size:28px; margin-top:6px;">Resource utilisation heatmap</h2>
+    <div class="sub" style="margin-top:8px; max-width:640px;">How hard is each room working across the week? Darker = busier. Use this to spot your most squeezed rooms and your most under-used ones at a glance.</div>
+
+    <div class="tabbar">
+      <button class="tabbtn active" data-tab="classroomHeat">Classrooms</button>
+      <button class="tabbtn" data-tab="labHeat">Labs</button>
+    </div>
+
+    <div class="tabpage active" id="classroomHeat">
+      <div class="heatmap-wrap"><table class="heatmap" id="classroomHeatTable"></table></div>
+      <div class="legend-row">
+        <span><span class="sw" style="background:#e3faf1;"></span>Light use</span>
+        <span><span class="sw" style="background:#ffe9a8;"></span>Moderate</span>
+        <span><span class="sw" style="background:#ffb5c7;"></span>Heavy use</span>
+        <span><span class="sw" style="background:#f2708f;"></span>Peak / near-capacity</span>
+      </div>
+      <div class="max-callout" id="classroomMaxCallout"></div>
+    </div>
+
+    <div class="tabpage" id="labHeat">
+      <div class="heatmap-wrap"><table class="heatmap" id="labHeatTable"></table></div>
+      <div class="legend-row">
+        <span><span class="sw" style="background:#e3faf1;"></span>Light use</span>
+        <span><span class="sw" style="background:#ffe9a8;"></span>Moderate</span>
+        <span><span class="sw" style="background:#ffb5c7;"></span>Heavy use</span>
+        <span><span class="sw" style="background:#f2708f;"></span>Peak / near-capacity</span>
+      </div>
+      <div class="max-callout" id="labMaxCallout"></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot-grid">
+      <div>
+        <h4>RoomRadar</h4>
+        <div>A resource-conflict &amp; free-slot finder built from the Odd Term 2026&#8209;27 class timetable (v1, effective 06/07/2026) for the IT Department, SCET Surat. Covers 2nd, 3rd &amp; 4th year IT and AI&#8209;DS divisions — where classroom and lab assignments are explicitly recorded in the source timetable.</div>
+      </div>
+      <div>
+        <h4>Time Table Coordinators</h4>
+        <div class="coords">Prof. Ashish Kharvar<br/>Prof. Ankit Kharwar</div>
+      </div>
+      <div>
+        <h4>Approvals</h4>
+        <div class="coords">HOD — Dr. Mita Parikh<br/>Dean Academic — Dr. Maulin Joshi<br/>Principal, SCET — Dr. Hiren H. Patel</div>
+      </div>
+    </div>
+    <div class="fineprint">
+      <div class="signoff">Crafted for the IT Department by Prof. Bhumika Shah.</div>
+      Data parsed directly from "Time Table (Odd 2026-27).xlsx". Double-check against the official timetable before finalising any room reallocation.
+    </div>
+  </footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script id="tt-data" type="application/json">{
+ "divisions": {
+  "Sem3-IT-D1": {
+   "label": "SE IT \u2014 Div 1",
+   "year": "2nd Yr (Sem 3)"
+  },
+  "Sem3-IT-D2": {
+   "label": "SE IT \u2014 Div 2",
+   "year": "2nd Yr (Sem 3)"
+  },
+  "Sem3-AIDS": {
+   "label": "SE AI-DS",
+   "year": "2nd Yr (Sem 3)"
+  },
+  "Sem5-IT-D1": {
+   "label": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)"
+  },
+  "Sem5-IT-D2": {
+   "label": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)"
+  },
+  "Sem5-AIDS": {
+   "label": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)"
+  },
+  "Sem7-IT-D1": {
+   "label": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)"
+  },
+  "Sem7-IT-D2": {
+   "label": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)"
+  },
+  "Sem7-AIDS": {
+   "label": "BE AI-DS",
+   "year": "4th Yr (Sem 7)"
+  }
+ },
+ "sessions": [
+  {
+   "div": "Sem3-IT-D1",
+   "divLabel": "SE IT \u2014 Div 1",
+   "year": "2nd Yr (Sem 3)",
+   "day": "MON",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "COA",
+   "faculty": [
+    "ARK"
+   ],
+   "batch": "-",
+   "room": "E-202"
+  },
+  {
+   "div": "Sem3-IT-D1",
+   "divLabel": "SE IT \u2014 Div 1",
+   "year": "2nd Yr (Sem 3)",
+   "day": "MON",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "DBMS",
+   "faculty": [
+    "HV"
+   ],
+   "batch": "-",
+   "room": "E-202"
+  },
+  {
+   "div": "Sem3-IT-D1",
+   "divLabel": "SE IT \u2014 Div 1",
+   "year": "2nd Yr (Sem 3)",
+   "day": "MON",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "OOAD",
+   "faculty": [
+    "BP"
+   ],
+   "batch": "-",
+   "room": "E-202"
+  },
+  {
+   "div": "Sem3-IT-D1",
+   "divLabel": "SE IT \u2014 Div 1",
+   "year": "2nd Yr (Sem 3)",
+   "day": "MON",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "PS",
+   "faculty": [
+    "MPP"
+   ],
+   "batch": "-",
+   "room": "E-202"
+  },
+  {
+   "div": "Sem3-IT-D1",
+   "divLabel": "SE IT \u2014 Div 1",
+   "year": "2nd Yr (Sem 3)",
+   "day": "TUE",
+   "ps": 1,
+   "pe": 2,
+   "type": "Lab",
+   "subject": "DBMS",
+   "faculty": [
+    "HV",
+    "DR"
+   ],
+   "batch": "A",
+   "room": "IT-4"
+  },
+  {
+   "div": "Sem3-IT-D1",
+   "divLabel": "SE IT \u2014 Div 1",
+   "year": "2nd Yr (Sem 3)",
+   "day": "TUE",
+   "ps": 1,
+   "pe": 2,
+   "type": "Lab",
+   "subject": "OOAD",
+   "faculty": [
+    "BP",
+    "AM"
+   ],
+   "batch": "B",
+   "room": "IT-1"
+  },
+  {
+   "div": "Sem3-IT-D1",
+   "divLabel": "SE IT \u2014 Div 1",
+   "year": "2nd Yr (Sem 3)",
+   "day": "TUE",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "OOAD",
+   "faculty": [
+    "DR"
+   ],
+   "batch": "-",
+   "room": "E-202"
+  },
+  {
+   "div": "Sem3-IT-D1",
+   "divLabel": "SE IT \u2014 Div 1",
+   "year": "2nd Yr (Sem 3)",
+   "day": "TUE",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "DS",
+   "faculty": [
+    "DS"
+   ],
+   "batch": "-",
+   "room": "E-202"
+  },
+  {
+   "div": "Sem3-IT-D1",
+   "divLabel": "SE IT \u2014 Div 1",
+   "year": "2nd Yr (Sem 3)",
+   "day": "TUE",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "PS",
+   "faculty": [
+    "MPP"
+   ],
+   "batch": "-",
+   "room": "E-202"
+  },
+  {
+   "div": "Sem3-IT-D1",
+   "divLabel": "SE IT \u2014 Div 1",
+   "year": "2nd Yr (Sem 3)",
+   "day": "TUE",
+   "ps": 6,
+   "pe": 6,
+   "type": "Lecture",
+   "subject": "IC",
+   "faculty": [
+    "AC"
+   ],
+   "batch": "-",
+   "room": "E-202"
+  },
+  {
+   "div": "Sem3-IT-D1",
+   "divLabel": "SE IT \u2014 Div 1",
+   "year": "2nd Yr (Sem 3)",
+   "day": "WED",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "DBMS",
+   "faculty": [
+    "HV"
+   ],
+   "batch": "-",
+   "room": "E-202"
+  },
+  {
+   "div": "Sem3-IT-D1",
+   "divLabel": "SE IT \u2014 Div 1",
+   "year": "2nd Yr (Sem 3)",
+   "day": "WED",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "PS",
+   "faculty": [
+    "MPP"
+   ],
+   "batch": "-",
+   "room": "E-202"
+  },
+  {
+   "div": "Sem3-IT-D1",
+   "divLabel": "SE IT \u2014 Div 1",
+   "year": "2nd Yr (Sem 3)",
+   "day": "WED",
+   "ps": 3,
+   "pe": 4,
+   "type": "Lab",
+   "subject": "OOAD",
+   "faculty": [
+    "BP",
+    "AM"
+   ],
+   "batch": "A",
+   "room": "IT-1"
+  },
+  {
+   "div": "Sem3-IT-D1",
+   "divLabel": "SE IT \u2014 Div 1",
+   "year": "2nd Yr (Sem 3)",
+   "day": "WED",
+   "ps": 3,
+   "pe": 4,
+   "type": "Lab",
+   "subject": "DS",
+   "faculty": [
+    "DS",
+    "MD"
+   ],
+   "batch": "B",
+   "room": "IT-4"
+  },
+  {
+   "div": "Sem3-IT-D1",
+   "divLabel": "SE IT \u2014 Div 1",
+   "year": "2nd Yr (Sem 3)",
+   "day": "THU",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "PS",
+   "faculty": [
+    "MPP"
+   ],
+   "batch": "-",
+   "room": "E-202"
+  },
+  {
+   "div": "Sem3-IT-D1",
+   "divLabel": "SE IT \u2014 Div 1",
+   "year": "2nd Yr (Sem 3)",
+   "day": "THU",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "DS",
+   "faculty": [
+    "VJ"
+   ],
+   "batch": "-",
+   "room": "E-202"
+  },
+  {
+   "div": "Sem3-IT-D1",
+   "divLabel": "SE IT \u2014 Div 1",
+   "year": "2nd Yr (Sem 3)",
+   "day": "THU",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "COA",
+   "faculty": [
+    "ARK"
+   ],
+   "batch": "-",
+   "room": "E-202"
+  },
+  {
+   "div": "Sem3-IT-D1",
+   "divLabel": "SE IT \u2014 Div 1",
+   "year": "2nd Yr (Sem 3)",
+   "day": "THU",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "OOAD",
+   "faculty": [
+    "BP"
+   ],
+   "batch": "-",
+   "room": "E-202"
+  },
+  {
+   "div": "Sem3-IT-D1",
+   "divLabel": "SE IT \u2014 Div 1",
+   "year": "2nd Yr (Sem 3)",
+   "day": "FRI",
+   "ps": 1,
+   "pe": 2,
+   "type": "Lab",
+   "subject": "DS",
+   "faculty": [
+    "NK",
+    "MD"
+   ],
+   "batch": "A",
+   "room": "IT-1"
+  },
+  {
+   "div": "Sem3-IT-D1",
+   "divLabel": "SE IT \u2014 Div 1",
+   "year": "2nd Yr (Sem 3)",
+   "day": "FRI",
+   "ps": 1,
+   "pe": 2,
+   "type": "Lab",
+   "subject": "DBMS",
+   "faculty": [
+    "HV",
+    "AM"
+   ],
+   "batch": "B",
+   "room": "IT-5"
+  },
+  {
+   "div": "Sem3-IT-D1",
+   "divLabel": "SE IT \u2014 Div 1",
+   "year": "2nd Yr (Sem 3)",
+   "day": "FRI",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "DS",
+   "faculty": [
+    "DS"
+   ],
+   "batch": "-",
+   "room": "E-202"
+  },
+  {
+   "div": "Sem3-IT-D1",
+   "divLabel": "SE IT \u2014 Div 1",
+   "year": "2nd Yr (Sem 3)",
+   "day": "FRI",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "DBMS",
+   "faculty": [
+    "HV"
+   ],
+   "batch": "-",
+   "room": "E-202"
+  },
+  {
+   "div": "Sem3-IT-D1",
+   "divLabel": "SE IT \u2014 Div 1",
+   "year": "2nd Yr (Sem 3)",
+   "day": "FRI",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "COA",
+   "faculty": [
+    "ARK"
+   ],
+   "batch": "-",
+   "room": "E-202"
+  },
+  {
+   "div": "Sem3-IT-D2",
+   "divLabel": "SE IT \u2014 Div 2",
+   "year": "2nd Yr (Sem 3)",
+   "day": "MON",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "COA",
+   "faculty": [
+    "AC"
+   ],
+   "batch": "-",
+   "room": "E-203"
+  },
+  {
+   "div": "Sem3-IT-D2",
+   "divLabel": "SE IT \u2014 Div 2",
+   "year": "2nd Yr (Sem 3)",
+   "day": "MON",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "PS",
+   "faculty": [
+    "RMD"
+   ],
+   "batch": "-",
+   "room": "E-203"
+  },
+  {
+   "div": "Sem3-IT-D2",
+   "divLabel": "SE IT \u2014 Div 2",
+   "year": "2nd Yr (Sem 3)",
+   "day": "MON",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "OOAD",
+   "faculty": [
+    "MHP"
+   ],
+   "batch": "-",
+   "room": "E-203"
+  },
+  {
+   "div": "Sem3-IT-D2",
+   "divLabel": "SE IT \u2014 Div 2",
+   "year": "2nd Yr (Sem 3)",
+   "day": "MON",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "DS",
+   "faculty": [
+    "HV"
+   ],
+   "batch": "-",
+   "room": "E-203"
+  },
+  {
+   "div": "Sem3-IT-D2",
+   "divLabel": "SE IT \u2014 Div 2",
+   "year": "2nd Yr (Sem 3)",
+   "day": "TUE",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "PS",
+   "faculty": [
+    "RMD"
+   ],
+   "batch": "-",
+   "room": "E-203"
+  },
+  {
+   "div": "Sem3-IT-D2",
+   "divLabel": "SE IT \u2014 Div 2",
+   "year": "2nd Yr (Sem 3)",
+   "day": "TUE",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "DBMS",
+   "faculty": [
+    "ARK"
+   ],
+   "batch": "-",
+   "room": "E-203"
+  },
+  {
+   "div": "Sem3-IT-D2",
+   "divLabel": "SE IT \u2014 Div 2",
+   "year": "2nd Yr (Sem 3)",
+   "day": "TUE",
+   "ps": 3,
+   "pe": 4,
+   "type": "Lab",
+   "subject": "DS",
+   "faculty": [
+    "HV",
+    "SK"
+   ],
+   "batch": "A",
+   "room": "IT-3"
+  },
+  {
+   "div": "Sem3-IT-D2",
+   "divLabel": "SE IT \u2014 Div 2",
+   "year": "2nd Yr (Sem 3)",
+   "day": "TUE",
+   "ps": 3,
+   "pe": 4,
+   "type": "Lab",
+   "subject": "DBMS",
+   "faculty": [
+    "ARK",
+    "AK"
+   ],
+   "batch": "B",
+   "room": "IT-6"
+  },
+  {
+   "div": "Sem3-IT-D2",
+   "divLabel": "SE IT \u2014 Div 2",
+   "year": "2nd Yr (Sem 3)",
+   "day": "TUE",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "OOAD",
+   "faculty": [
+    "BP"
+   ],
+   "batch": "-",
+   "room": "E-203"
+  },
+  {
+   "div": "Sem3-IT-D2",
+   "divLabel": "SE IT \u2014 Div 2",
+   "year": "2nd Yr (Sem 3)",
+   "day": "TUE",
+   "ps": 6,
+   "pe": 6,
+   "type": "Lecture",
+   "subject": "IC",
+   "faculty": [
+    "AC"
+   ],
+   "batch": "-",
+   "room": "E-203"
+  },
+  {
+   "div": "Sem3-IT-D2",
+   "divLabel": "SE IT \u2014 Div 2",
+   "year": "2nd Yr (Sem 3)",
+   "day": "WED",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "DS",
+   "faculty": [
+    "HV"
+   ],
+   "batch": "-",
+   "room": "E-203"
+  },
+  {
+   "div": "Sem3-IT-D2",
+   "divLabel": "SE IT \u2014 Div 2",
+   "year": "2nd Yr (Sem 3)",
+   "day": "WED",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "PS",
+   "faculty": [
+    "RMD"
+   ],
+   "batch": "-",
+   "room": "E-203"
+  },
+  {
+   "div": "Sem3-IT-D2",
+   "divLabel": "SE IT \u2014 Div 2",
+   "year": "2nd Yr (Sem 3)",
+   "day": "WED",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "DBMS",
+   "faculty": [
+    "ARK"
+   ],
+   "batch": "-",
+   "room": "E-203"
+  },
+  {
+   "div": "Sem3-IT-D2",
+   "divLabel": "SE IT \u2014 Div 2",
+   "year": "2nd Yr (Sem 3)",
+   "day": "THU",
+   "ps": 1,
+   "pe": 2,
+   "type": "Lab",
+   "subject": "OOAD",
+   "faculty": [
+    "BP",
+    "DJ"
+   ],
+   "batch": "A",
+   "room": "IT-1"
+  },
+  {
+   "div": "Sem3-IT-D2",
+   "divLabel": "SE IT \u2014 Div 2",
+   "year": "2nd Yr (Sem 3)",
+   "day": "THU",
+   "ps": 1,
+   "pe": 2,
+   "type": "Lab",
+   "subject": "DS",
+   "faculty": [
+    "HV",
+    "AC"
+   ],
+   "batch": "B",
+   "room": "IT-4"
+  },
+  {
+   "div": "Sem3-IT-D2",
+   "divLabel": "SE IT \u2014 Div 2",
+   "year": "2nd Yr (Sem 3)",
+   "day": "THU",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "PS",
+   "faculty": [
+    "RMD"
+   ],
+   "batch": "-",
+   "room": "E-203"
+  },
+  {
+   "div": "Sem3-IT-D2",
+   "divLabel": "SE IT \u2014 Div 2",
+   "year": "2nd Yr (Sem 3)",
+   "day": "THU",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "DS",
+   "faculty": [
+    "HV"
+   ],
+   "batch": "-",
+   "room": "E-203"
+  },
+  {
+   "div": "Sem3-IT-D2",
+   "divLabel": "SE IT \u2014 Div 2",
+   "year": "2nd Yr (Sem 3)",
+   "day": "THU",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "COA",
+   "faculty": [
+    "AC"
+   ],
+   "batch": "-",
+   "room": "E-203"
+  },
+  {
+   "div": "Sem3-IT-D2",
+   "divLabel": "SE IT \u2014 Div 2",
+   "year": "2nd Yr (Sem 3)",
+   "day": "FRI",
+   "ps": 1,
+   "pe": 2,
+   "type": "Lab",
+   "subject": "DBMS",
+   "faculty": [
+    "ARK",
+    "VP"
+   ],
+   "batch": "A",
+   "room": "IT-2"
+  },
+  {
+   "div": "Sem3-IT-D2",
+   "divLabel": "SE IT \u2014 Div 2",
+   "year": "2nd Yr (Sem 3)",
+   "day": "FRI",
+   "ps": 1,
+   "pe": 2,
+   "type": "Lab",
+   "subject": "OOAD",
+   "faculty": [
+    "MHP",
+    "VC"
+   ],
+   "batch": "B",
+   "room": "IT-4"
+  },
+  {
+   "div": "Sem3-IT-D2",
+   "divLabel": "SE IT \u2014 Div 2",
+   "year": "2nd Yr (Sem 3)",
+   "day": "FRI",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "DBMS",
+   "faculty": [
+    "ARK"
+   ],
+   "batch": "-",
+   "room": "E-203"
+  },
+  {
+   "div": "Sem3-IT-D2",
+   "divLabel": "SE IT \u2014 Div 2",
+   "year": "2nd Yr (Sem 3)",
+   "day": "FRI",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "COA",
+   "faculty": [
+    "AC"
+   ],
+   "batch": "-",
+   "room": "E-203"
+  },
+  {
+   "div": "Sem3-IT-D2",
+   "divLabel": "SE IT \u2014 Div 2",
+   "year": "2nd Yr (Sem 3)",
+   "day": "FRI",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "OOAD",
+   "faculty": [
+    "BP"
+   ],
+   "batch": "-",
+   "room": "E-203"
+  },
+  {
+   "div": "Sem3-AIDS",
+   "divLabel": "SE AI-DS",
+   "year": "2nd Yr (Sem 3)",
+   "day": "MON",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "COA",
+   "faculty": [
+    "MHP"
+   ],
+   "batch": "-",
+   "room": "F-203"
+  },
+  {
+   "div": "Sem3-AIDS",
+   "divLabel": "SE AI-DS",
+   "year": "2nd Yr (Sem 3)",
+   "day": "MON",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "OOAD",
+   "faculty": [
+    "DR"
+   ],
+   "batch": "-",
+   "room": "F-203"
+  },
+  {
+   "div": "Sem3-AIDS",
+   "divLabel": "SE AI-DS",
+   "year": "2nd Yr (Sem 3)",
+   "day": "MON",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "PS",
+   "faculty": [
+    "PG"
+   ],
+   "batch": "-",
+   "room": "F-203"
+  },
+  {
+   "div": "Sem3-AIDS",
+   "divLabel": "SE AI-DS",
+   "year": "2nd Yr (Sem 3)",
+   "day": "MON",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "DS",
+   "faculty": [
+    "DS"
+   ],
+   "batch": "-",
+   "room": "F-203"
+  },
+  {
+   "div": "Sem3-AIDS",
+   "divLabel": "SE AI-DS",
+   "year": "2nd Yr (Sem 3)",
+   "day": "MON",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "DBMS",
+   "faculty": [
+    "NK"
+   ],
+   "batch": "-",
+   "room": "F-203"
+  },
+  {
+   "div": "Sem3-AIDS",
+   "divLabel": "SE AI-DS",
+   "year": "2nd Yr (Sem 3)",
+   "day": "TUE",
+   "ps": 1,
+   "pe": 2,
+   "type": "Lab",
+   "subject": "DS",
+   "faculty": [
+    "DS",
+    "KSD"
+   ],
+   "batch": "A",
+   "room": "IT-5"
+  },
+  {
+   "div": "Sem3-AIDS",
+   "divLabel": "SE AI-DS",
+   "year": "2nd Yr (Sem 3)",
+   "day": "TUE",
+   "ps": 1,
+   "pe": 2,
+   "type": "Lab",
+   "subject": "DBMS",
+   "faculty": [
+    "NK",
+    "AK"
+   ],
+   "batch": "B",
+   "room": "IT-2"
+  },
+  {
+   "div": "Sem3-AIDS",
+   "divLabel": "SE AI-DS",
+   "year": "2nd Yr (Sem 3)",
+   "day": "TUE",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "DBMS",
+   "faculty": [
+    "NK"
+   ],
+   "batch": "-",
+   "room": "F-203"
+  },
+  {
+   "div": "Sem3-AIDS",
+   "divLabel": "SE AI-DS",
+   "year": "2nd Yr (Sem 3)",
+   "day": "TUE",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "IC",
+   "faculty": [
+    "DR"
+   ],
+   "batch": "-",
+   "room": "F-203"
+  },
+  {
+   "div": "Sem3-AIDS",
+   "divLabel": "SE AI-DS",
+   "year": "2nd Yr (Sem 3)",
+   "day": "WED",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "PS",
+   "faculty": [
+    "PG"
+   ],
+   "batch": "-",
+   "room": "F-203"
+  },
+  {
+   "div": "Sem3-AIDS",
+   "divLabel": "SE AI-DS",
+   "year": "2nd Yr (Sem 3)",
+   "day": "WED",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "COA",
+   "faculty": [
+    "MHP"
+   ],
+   "batch": "-",
+   "room": "F-203"
+  },
+  {
+   "div": "Sem3-AIDS",
+   "divLabel": "SE AI-DS",
+   "year": "2nd Yr (Sem 3)",
+   "day": "WED",
+   "ps": 3,
+   "pe": 4,
+   "type": "Lab",
+   "subject": "DBMS",
+   "faculty": [
+    "NK",
+    "AC"
+   ],
+   "batch": "A",
+   "room": "IT-3"
+  },
+  {
+   "div": "Sem3-AIDS",
+   "divLabel": "SE AI-DS",
+   "year": "2nd Yr (Sem 3)",
+   "day": "WED",
+   "ps": 3,
+   "pe": 4,
+   "type": "Lab",
+   "subject": "OOAD",
+   "faculty": [
+    "DR",
+    "AK"
+   ],
+   "batch": "B",
+   "room": "IT-5"
+  },
+  {
+   "div": "Sem3-AIDS",
+   "divLabel": "SE AI-DS",
+   "year": "2nd Yr (Sem 3)",
+   "day": "WED",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "DBMS",
+   "faculty": [
+    "NK"
+   ],
+   "batch": "-",
+   "room": "F-203"
+  },
+  {
+   "div": "Sem3-AIDS",
+   "divLabel": "SE AI-DS",
+   "year": "2nd Yr (Sem 3)",
+   "day": "THU",
+   "ps": 1,
+   "pe": 2,
+   "type": "Lab",
+   "subject": "OOAD",
+   "faculty": [
+    "DR",
+    "PD"
+   ],
+   "batch": "A",
+   "room": "IT-3"
+  },
+  {
+   "div": "Sem3-AIDS",
+   "divLabel": "SE AI-DS",
+   "year": "2nd Yr (Sem 3)",
+   "day": "THU",
+   "ps": 1,
+   "pe": 2,
+   "type": "Lab",
+   "subject": "DS",
+   "faculty": [
+    "NK",
+    "MD"
+   ],
+   "batch": "B",
+   "room": "IT-2"
+  },
+  {
+   "div": "Sem3-AIDS",
+   "divLabel": "SE AI-DS",
+   "year": "2nd Yr (Sem 3)",
+   "day": "THU",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "DS",
+   "faculty": [
+    "DS"
+   ],
+   "batch": "-",
+   "room": "F-203"
+  },
+  {
+   "div": "Sem3-AIDS",
+   "divLabel": "SE AI-DS",
+   "year": "2nd Yr (Sem 3)",
+   "day": "THU",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "OOAD",
+   "faculty": [
+    "DR"
+   ],
+   "batch": "-",
+   "room": "F-203"
+  },
+  {
+   "div": "Sem3-AIDS",
+   "divLabel": "SE AI-DS",
+   "year": "2nd Yr (Sem 3)",
+   "day": "THU",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "PS",
+   "faculty": [
+    "PG"
+   ],
+   "batch": "-",
+   "room": "F-203"
+  },
+  {
+   "div": "Sem3-AIDS",
+   "divLabel": "SE AI-DS",
+   "year": "2nd Yr (Sem 3)",
+   "day": "FRI",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "DS",
+   "faculty": [
+    "VJ"
+   ],
+   "batch": "-",
+   "room": "F-203"
+  },
+  {
+   "div": "Sem3-AIDS",
+   "divLabel": "SE AI-DS",
+   "year": "2nd Yr (Sem 3)",
+   "day": "FRI",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "OOAD",
+   "faculty": [
+    "DR"
+   ],
+   "batch": "-",
+   "room": "F-203"
+  },
+  {
+   "div": "Sem3-AIDS",
+   "divLabel": "SE AI-DS",
+   "year": "2nd Yr (Sem 3)",
+   "day": "FRI",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "PS",
+   "faculty": [
+    "PG"
+   ],
+   "batch": "-",
+   "room": "F-203"
+  },
+  {
+   "div": "Sem3-AIDS",
+   "divLabel": "SE AI-DS",
+   "year": "2nd Yr (Sem 3)",
+   "day": "FRI",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "COA",
+   "faculty": [
+    "MHP"
+   ],
+   "batch": "-",
+   "room": "F-203"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "MON",
+   "ps": 1,
+   "pe": 2,
+   "type": "Lab",
+   "subject": "WT",
+   "faculty": [
+    "BP",
+    "SK"
+   ],
+   "batch": "A",
+   "room": "IT-1"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "MON",
+   "ps": 1,
+   "pe": 2,
+   "type": "Lab",
+   "subject": "CNS",
+   "faculty": [
+    "VJ",
+    "VP"
+   ],
+   "batch": "B",
+   "room": "IT-3"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "MON",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "CNS",
+   "faculty": [
+    "VJ"
+   ],
+   "batch": "-",
+   "room": "G-202"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "MON",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "EO",
+   "faculty": [
+    "SD"
+   ],
+   "batch": "-",
+   "room": "G-202"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "MON",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "DMBI",
+   "faculty": [
+    "MMP"
+   ],
+   "batch": "-",
+   "room": "G-202"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "MON",
+   "ps": 6,
+   "pe": 6,
+   "type": "Lecture",
+   "subject": "SE",
+   "faculty": [
+    "AK"
+   ],
+   "batch": "-",
+   "room": "G-202"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "TUE",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "WT",
+   "faculty": [
+    "BP"
+   ],
+   "batch": "-",
+   "room": "G-202"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "TUE",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "DMBI",
+   "faculty": [
+    "VP"
+   ],
+   "batch": "-",
+   "room": "G-202"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "TUE",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "CC",
+   "faculty": [
+    "TG"
+   ],
+   "batch": "-",
+   "room": "L-02"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "WED",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "WT",
+   "faculty": [
+    "BP"
+   ],
+   "batch": "-",
+   "room": "G-202"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "WED",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "DMBI",
+   "faculty": [
+    "MMP"
+   ],
+   "batch": "-",
+   "room": "G-202"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "WED",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "IOE - I",
+   "faculty": [],
+   "batch": "-",
+   "room": "G-202"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "WED",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "IOE - I",
+   "faculty": [],
+   "batch": "-",
+   "room": "G-202"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "WED",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "EO (T)",
+   "faculty": [
+    "AUM",
+    "SD",
+    "DLS",
+    "PTP"
+   ],
+   "batch": "-",
+   "room": "G-202"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "WED",
+   "ps": 6,
+   "pe": 6,
+   "type": "Lecture",
+   "subject": "SE",
+   "faculty": [
+    "AK"
+   ],
+   "batch": "-",
+   "room": "L-02"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "WED",
+   "ps": 6,
+   "pe": 6,
+   "type": "Lecture",
+   "subject": "CC",
+   "faculty": [
+    "TG"
+   ],
+   "batch": "-",
+   "room": "G-202"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "THU",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "EO",
+   "faculty": [
+    "AUM"
+   ],
+   "batch": "-",
+   "room": "G-202"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "THU",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "CNS",
+   "faculty": [
+    "VJ"
+   ],
+   "batch": "-",
+   "room": "G-202"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "THU",
+   "ps": 5,
+   "pe": 6,
+   "type": "Lab",
+   "subject": "CNS",
+   "faculty": [
+    "VJ",
+    "KD"
+   ],
+   "batch": "A",
+   "room": "IT-1"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "THU",
+   "ps": 5,
+   "pe": 6,
+   "type": "Lab",
+   "subject": "DMBI",
+   "faculty": [
+    "MMP",
+    "MD"
+   ],
+   "batch": "B",
+   "room": "IT-2"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "FRI",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "IOE - I",
+   "faculty": [],
+   "batch": "-",
+   "room": "G-202"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "FRI",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "SE",
+   "faculty": [
+    "AK"
+   ],
+   "batch": "-",
+   "room": "IT-6"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "FRI",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "CC",
+   "faculty": [
+    "DJ"
+   ],
+   "batch": "-",
+   "room": "G-202"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "FRI",
+   "ps": 3,
+   "pe": 4,
+   "type": "Lab",
+   "subject": "DMBI",
+   "faculty": [
+    "MMP",
+    "DJ"
+   ],
+   "batch": "A",
+   "room": "IT-4"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "FRI",
+   "ps": 3,
+   "pe": 4,
+   "type": "Lab",
+   "subject": "WT",
+   "faculty": [
+    "BP",
+    "TG"
+   ],
+   "batch": "B",
+   "room": "IT-3"
+  },
+  {
+   "div": "Sem5-IT-D1",
+   "divLabel": "TE IT \u2014 Div 1",
+   "year": "3rd Yr (Sem 5)",
+   "day": "FRI",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "CNS",
+   "faculty": [
+    "DS"
+   ],
+   "batch": "-",
+   "room": "G-202"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "MON",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "EO",
+   "faculty": [
+    "DLS"
+   ],
+   "batch": "-",
+   "room": "G-203"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "MON",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "CNS",
+   "faculty": [
+    "DS"
+   ],
+   "batch": "-",
+   "room": "G-203"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "MON",
+   "ps": 3,
+   "pe": 4,
+   "type": "Lab",
+   "subject": "DMBI",
+   "faculty": [
+    "VP",
+    "NK"
+   ],
+   "batch": "A",
+   "room": "IT-1"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "MON",
+   "ps": 3,
+   "pe": 4,
+   "type": "Lab",
+   "subject": "WT",
+   "faculty": [
+    "DR",
+    "ARK"
+   ],
+   "batch": "B",
+   "room": "IT-5"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "MON",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "DMBI",
+   "faculty": [
+    "VP"
+   ],
+   "batch": "-",
+   "room": "G-203"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "MON",
+   "ps": 6,
+   "pe": 6,
+   "type": "Lecture",
+   "subject": "SE",
+   "faculty": [
+    "AK"
+   ],
+   "batch": "-",
+   "room": "G-202"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "MON",
+   "ps": 6,
+   "pe": 6,
+   "type": "Lecture",
+   "subject": "CC",
+   "faculty": [
+    "TG"
+   ],
+   "batch": "-",
+   "room": "G-203"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "TUE",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "EO (T)",
+   "faculty": [
+    "AUM",
+    "PTP",
+    "NNP",
+    "HAS"
+   ],
+   "batch": "-",
+   "room": "G-203"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "TUE",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "CNS",
+   "faculty": [
+    "VJ"
+   ],
+   "batch": "-",
+   "room": "G-203"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "TUE",
+   "ps": 5,
+   "pe": 6,
+   "type": "Lab",
+   "subject": "CNS",
+   "faculty": [
+    "DS",
+    "VJ"
+   ],
+   "batch": "A",
+   "room": "IT-2"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "TUE",
+   "ps": 5,
+   "pe": 6,
+   "type": "Lab",
+   "subject": "DMBI",
+   "faculty": [
+    "VP",
+    "PD"
+   ],
+   "batch": "B",
+   "room": "IT-1"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "WED",
+   "ps": 1,
+   "pe": 2,
+   "type": "Lab",
+   "subject": "WT",
+   "faculty": [
+    "DR",
+    "ARK"
+   ],
+   "batch": "A",
+   "room": "IT-4"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "WED",
+   "ps": 1,
+   "pe": 2,
+   "type": "Lab",
+   "subject": "CNS",
+   "faculty": [
+    "VJ",
+    "PD"
+   ],
+   "batch": "B",
+   "room": "IT-2"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "WED",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "IOE - I",
+   "faculty": [],
+   "batch": "-",
+   "room": "G-203"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "WED",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "IOE - I",
+   "faculty": [],
+   "batch": "-",
+   "room": "G-203"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "WED",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "WT",
+   "faculty": [
+    "DR"
+   ],
+   "batch": "-",
+   "room": "G-203"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "WED",
+   "ps": 6,
+   "pe": 6,
+   "type": "Lecture",
+   "subject": "SE",
+   "faculty": [
+    "AK"
+   ],
+   "batch": "-",
+   "room": "L-02"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "WED",
+   "ps": 6,
+   "pe": 6,
+   "type": "Lecture",
+   "subject": "CC",
+   "faculty": [
+    "DJ"
+   ],
+   "batch": "-",
+   "room": "G-203"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "THU",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "DMBI",
+   "faculty": [
+    "VP"
+   ],
+   "batch": "-",
+   "room": "G-203"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "THU",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "EO",
+   "faculty": [
+    "AUM"
+   ],
+   "batch": "-",
+   "room": "G-203"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "FRI",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "IOE - 1",
+   "faculty": [],
+   "batch": "-",
+   "room": "G-203"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "FRI",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "SE",
+   "faculty": [
+    "AK"
+   ],
+   "batch": "-",
+   "room": "IT-6"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "FRI",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "CC",
+   "faculty": [
+    "TG"
+   ],
+   "batch": "-",
+   "room": "G-203"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "FRI",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "CNS",
+   "faculty": [
+    "VJ"
+   ],
+   "batch": "-",
+   "room": "G-203"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "FRI",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "WT",
+   "faculty": [
+    "DR"
+   ],
+   "batch": "-",
+   "room": "G-203"
+  },
+  {
+   "div": "Sem5-IT-D2",
+   "divLabel": "TE IT \u2014 Div 2",
+   "year": "3rd Yr (Sem 5)",
+   "day": "FRI",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "DMBI",
+   "faculty": [
+    "VP"
+   ],
+   "batch": "-",
+   "room": "G-203"
+  },
+  {
+   "div": "Sem5-AIDS",
+   "divLabel": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)",
+   "day": "MON",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "SAAI",
+   "faculty": [
+    "MMP"
+   ],
+   "batch": "-",
+   "room": "G-201"
+  },
+  {
+   "div": "Sem5-AIDS",
+   "divLabel": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)",
+   "day": "MON",
+   "ps": 3,
+   "pe": 4,
+   "type": "Lab",
+   "subject": "FDS",
+   "faculty": [
+    "KSD",
+    "DJ"
+   ],
+   "batch": "A",
+   "room": "IT-3"
+  },
+  {
+   "div": "Sem5-AIDS",
+   "divLabel": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)",
+   "day": "MON",
+   "ps": 3,
+   "pe": 4,
+   "type": "Lab",
+   "subject": "SAAI",
+   "faculty": [
+    "MMP",
+    "BS"
+   ],
+   "batch": "B",
+   "room": "IT-2"
+  },
+  {
+   "div": "Sem5-AIDS",
+   "divLabel": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)",
+   "day": "MON",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "EO",
+   "faculty": [
+    "SD"
+   ],
+   "batch": "-",
+   "room": "G-201"
+  },
+  {
+   "div": "Sem5-AIDS",
+   "divLabel": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)",
+   "day": "MON",
+   "ps": 6,
+   "pe": 6,
+   "type": "Lecture",
+   "subject": "CC",
+   "faculty": [
+    "VC"
+   ],
+   "batch": "-",
+   "room": "G-201"
+  },
+  {
+   "div": "Sem5-AIDS",
+   "divLabel": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)",
+   "day": "TUE",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "SAAI",
+   "faculty": [
+    "MMP"
+   ],
+   "batch": "-",
+   "room": "G-201"
+  },
+  {
+   "div": "Sem5-AIDS",
+   "divLabel": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)",
+   "day": "TUE",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "EO",
+   "faculty": [
+    "AUM"
+   ],
+   "batch": "-",
+   "room": "G-201"
+  },
+  {
+   "div": "Sem5-AIDS",
+   "divLabel": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)",
+   "day": "TUE",
+   "ps": 5,
+   "pe": 6,
+   "type": "Lab",
+   "subject": "DMBI",
+   "faculty": [
+    "MMP",
+    "DJ"
+   ],
+   "batch": "A",
+   "room": "IT-5"
+  },
+  {
+   "div": "Sem5-AIDS",
+   "divLabel": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)",
+   "day": "TUE",
+   "ps": 5,
+   "pe": 6,
+   "type": "Lab",
+   "subject": "FDS",
+   "faculty": [
+    "KSD",
+    "BS"
+   ],
+   "batch": "B",
+   "room": "IT-4"
+  },
+  {
+   "div": "Sem5-AIDS",
+   "divLabel": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)",
+   "day": "WED",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "FDS",
+   "faculty": [
+    "KSD"
+   ],
+   "batch": "-",
+   "room": "G-201"
+  },
+  {
+   "div": "Sem5-AIDS",
+   "divLabel": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)",
+   "day": "WED",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "DMBI",
+   "faculty": [
+    "VP"
+   ],
+   "batch": "-",
+   "room": "G-201"
+  },
+  {
+   "div": "Sem5-AIDS",
+   "divLabel": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)",
+   "day": "WED",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "IOE - I",
+   "faculty": [],
+   "batch": "-",
+   "room": "G-201"
+  },
+  {
+   "div": "Sem5-AIDS",
+   "divLabel": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)",
+   "day": "WED",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "IOE- I",
+   "faculty": [],
+   "batch": "-",
+   "room": "G-201"
+  },
+  {
+   "div": "Sem5-AIDS",
+   "divLabel": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)",
+   "day": "WED",
+   "ps": 5,
+   "pe": 6,
+   "type": "Lab",
+   "subject": "SAAI",
+   "faculty": [
+    "MMP",
+    "KSD"
+   ],
+   "batch": "A",
+   "room": "IT-1"
+  },
+  {
+   "div": "Sem5-AIDS",
+   "divLabel": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)",
+   "day": "WED",
+   "ps": 5,
+   "pe": 6,
+   "type": "Lab",
+   "subject": "DMBI",
+   "faculty": [
+    "VP",
+    "HV"
+   ],
+   "batch": "B",
+   "room": "IT-2"
+  },
+  {
+   "div": "Sem5-AIDS",
+   "divLabel": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)",
+   "day": "THU",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "DMBI",
+   "faculty": [
+    "MMP"
+   ],
+   "batch": "-",
+   "room": "G-201"
+  },
+  {
+   "div": "Sem5-AIDS",
+   "divLabel": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)",
+   "day": "THU",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "CC",
+   "faculty": [
+    "DJ"
+   ],
+   "batch": "-",
+   "room": "G-201"
+  },
+  {
+   "div": "Sem5-AIDS",
+   "divLabel": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)",
+   "day": "THU",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "FDS",
+   "faculty": [
+    "KSD"
+   ],
+   "batch": "-",
+   "room": "G-201"
+  },
+  {
+   "div": "Sem5-AIDS",
+   "divLabel": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)",
+   "day": "FRI",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "IOE -I",
+   "faculty": [],
+   "batch": "-",
+   "room": "G-201"
+  },
+  {
+   "div": "Sem5-AIDS",
+   "divLabel": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)",
+   "day": "FRI",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "DMBI",
+   "faculty": [
+    "MMP"
+   ],
+   "batch": "-",
+   "room": "G-201"
+  },
+  {
+   "div": "Sem5-AIDS",
+   "divLabel": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)",
+   "day": "FRI",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "EO (T)",
+   "faculty": [
+    "RMP",
+    "NNP",
+    "UDG",
+    "HAS"
+   ],
+   "batch": "-",
+   "room": "G-201"
+  },
+  {
+   "div": "Sem5-AIDS",
+   "divLabel": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)",
+   "day": "FRI",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "SAAI",
+   "faculty": [
+    "VP"
+   ],
+   "batch": "-",
+   "room": "G-201"
+  },
+  {
+   "div": "Sem5-AIDS",
+   "divLabel": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)",
+   "day": "FRI",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "FDS",
+   "faculty": [
+    "KSD"
+   ],
+   "batch": "-",
+   "room": "G-201"
+  },
+  {
+   "div": "Sem5-AIDS",
+   "divLabel": "TE AI-DS",
+   "year": "3rd Yr (Sem 5)",
+   "day": "FRI",
+   "ps": 6,
+   "pe": 6,
+   "type": "Lecture",
+   "subject": "CC",
+   "faculty": [
+    "DJ"
+   ],
+   "batch": "-",
+   "room": "G-201"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "MON",
+   "ps": 1,
+   "pe": 2,
+   "type": "Lab",
+   "subject": "DSYS",
+   "faculty": [
+    "MD",
+    "MP"
+   ],
+   "batch": "A",
+   "room": "IT-5"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "MON",
+   "ps": 1,
+   "pe": 2,
+   "type": "Lab",
+   "subject": "ATCD",
+   "faculty": [
+    "KD",
+    "PD"
+   ],
+   "batch": "B",
+   "room": "IT-4"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "MON",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "ATCD",
+   "faculty": [
+    "KD"
+   ],
+   "batch": "-",
+   "room": "L-02"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "MON",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "AUX",
+   "faculty": [
+    "MP"
+   ],
+   "batch": "-",
+   "room": "L-02"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "MON",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "ST",
+   "faculty": [
+    "AM"
+   ],
+   "batch": "-",
+   "room": "G-203"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "MON",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "DSYS",
+   "faculty": [
+    "MD"
+   ],
+   "batch": "-",
+   "room": "L-02"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "TUE",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "DSYS",
+   "faculty": [
+    "MD"
+   ],
+   "batch": "-",
+   "room": "L-01"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "TUE",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "ATCD",
+   "faculty": [
+    "KD"
+   ],
+   "batch": "-",
+   "room": "L-01"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "TUE",
+   "ps": 3,
+   "pe": 4,
+   "type": "Lab",
+   "subject": "ATCD",
+   "faculty": [
+    "KD",
+    "AC"
+   ],
+   "batch": "A",
+   "room": "IT-5"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "TUE",
+   "ps": 3,
+   "pe": 4,
+   "type": "Lab",
+   "subject": "DSYS",
+   "faculty": [
+    "MD",
+    "AM"
+   ],
+   "batch": "B",
+   "room": "IT-1"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "TUE",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "AUX",
+   "faculty": [
+    "MP"
+   ],
+   "batch": "-",
+   "room": "G-201"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "TUE",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "ST",
+   "faculty": [
+    "AM"
+   ],
+   "batch": "-",
+   "room": "G-202"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "WED",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "IOE - III",
+   "faculty": [],
+   "batch": "-",
+   "room": "N/A"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "WED",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "IOE - III",
+   "faculty": [],
+   "batch": "-",
+   "room": "N/A"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "WED",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "NLP",
+   "faculty": [
+    "MP"
+   ],
+   "batch": "-",
+   "room": "G-201"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "WED",
+   "ps": 6,
+   "pe": 6,
+   "type": "Lecture",
+   "subject": "IC",
+   "faculty": [
+    "AB"
+   ],
+   "batch": "-",
+   "room": "G-201"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "THU",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "PROJECT-I",
+   "faculty": [],
+   "batch": "-",
+   "room": "N/A"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "THU",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "PROJECT-I",
+   "faculty": [],
+   "batch": "-",
+   "room": "N/A"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "THU",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "NLP",
+   "faculty": [
+    "KSD"
+   ],
+   "batch": "-",
+   "room": "L-03"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "THU",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "DSYS",
+   "faculty": [
+    "MD"
+   ],
+   "batch": "-",
+   "room": "L-03"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "THU",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "IC",
+   "faculty": [
+    "AB"
+   ],
+   "batch": "-",
+   "room": "L-01"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "FRI",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "IOE - III",
+   "faculty": [],
+   "batch": "-",
+   "room": "N/A"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "FRI",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "ATCD",
+   "faculty": [
+    "KD"
+   ],
+   "batch": "-",
+   "room": "L-02"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "FRI",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "NLP",
+   "faculty": [
+    "KSD"
+   ],
+   "batch": "-",
+   "room": "L-01"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "FRI",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "AUX",
+   "faculty": [
+    "MP"
+   ],
+   "batch": "-",
+   "room": "L-01"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "FRI",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "ST",
+   "faculty": [
+    "AM"
+   ],
+   "batch": "-",
+   "room": "IT-6"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "FRI",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "PROJECT-I",
+   "faculty": [],
+   "batch": "-",
+   "room": "N/A"
+  },
+  {
+   "div": "Sem7-IT-D1",
+   "divLabel": "BE IT \u2014 Div 1",
+   "year": "4th Yr (Sem 7)",
+   "day": "FRI",
+   "ps": 6,
+   "pe": 6,
+   "type": "Lecture",
+   "subject": "PROJECT-I",
+   "faculty": [],
+   "batch": "-",
+   "room": "N/A"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "MON",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "IC",
+   "faculty": [
+    "AB"
+   ],
+   "batch": "-",
+   "room": "L-01"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "MON",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "NLP",
+   "faculty": [
+    "BS"
+   ],
+   "batch": "-",
+   "room": "L-01"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "MON",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "ATCD",
+   "faculty": [
+    "VC"
+   ],
+   "batch": "-",
+   "room": "L-03"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "MON",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "AUX",
+   "faculty": [
+    "AK"
+   ],
+   "batch": "-",
+   "room": "L-03"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "MON",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "ST",
+   "faculty": [
+    "AM"
+   ],
+   "batch": "-",
+   "room": "G-203"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "MON",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "DSYS",
+   "faculty": [
+    "AC"
+   ],
+   "batch": "-",
+   "room": "L-03"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "MON",
+   "ps": 6,
+   "pe": 6,
+   "type": "Lecture",
+   "subject": "PROJECT-I",
+   "faculty": [],
+   "batch": "-",
+   "room": "N/A"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "TUE",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "DSYS",
+   "faculty": [
+    "AC"
+   ],
+   "batch": "-",
+   "room": "E-202"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "TUE",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "NLP",
+   "faculty": [
+    "BS"
+   ],
+   "batch": "-",
+   "room": "L-02"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "TUE",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "ATCD",
+   "faculty": [
+    "VC"
+   ],
+   "batch": "-",
+   "room": "L-02"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "TUE",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "AUX",
+   "faculty": [
+    "AK"
+   ],
+   "batch": "-",
+   "room": "F-203"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "TUE",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "ST",
+   "faculty": [
+    "AM"
+   ],
+   "batch": "-",
+   "room": "G-202"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "WED",
+   "ps": 1,
+   "pe": 2,
+   "type": "Lab",
+   "subject": "ATCD",
+   "faculty": [
+    "VC",
+    "AK"
+   ],
+   "batch": "A",
+   "room": "IT-1"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "WED",
+   "ps": 1,
+   "pe": 2,
+   "type": "Lab",
+   "subject": "DSYS",
+   "faculty": [
+    "AC",
+    "TG"
+   ],
+   "batch": "B",
+   "room": "IT-5"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "WED",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "IOE - III",
+   "faculty": [],
+   "batch": "-",
+   "room": "N/A"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "WED",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "IOE - III",
+   "faculty": [],
+   "batch": "-",
+   "room": "N/A"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "WED",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "PROJECT-I",
+   "faculty": [],
+   "batch": "-",
+   "room": "N/A"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "WED",
+   "ps": 6,
+   "pe": 6,
+   "type": "Lecture",
+   "subject": "PROJECT-I",
+   "faculty": [],
+   "batch": "-",
+   "room": "N/A"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "THU",
+   "ps": 3,
+   "pe": 4,
+   "type": "Lab",
+   "subject": "DSYS",
+   "faculty": [
+    "AC",
+    "BS"
+   ],
+   "batch": "A",
+   "room": "IT-1"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "THU",
+   "ps": 3,
+   "pe": 4,
+   "type": "Lab",
+   "subject": "ATCD",
+   "faculty": [
+    "VC",
+    "AK"
+   ],
+   "batch": "B",
+   "room": "IT-3"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "THU",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "NLP",
+   "faculty": [
+    "BS"
+   ],
+   "batch": "-",
+   "room": "L-02"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "THU",
+   "ps": 6,
+   "pe": 6,
+   "type": "Lecture",
+   "subject": "IC",
+   "faculty": [
+    "AB"
+   ],
+   "batch": "-",
+   "room": "L-02"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "FRI",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "IOE - III",
+   "faculty": [],
+   "batch": "-",
+   "room": "N/A"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "FRI",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "DSYS",
+   "faculty": [
+    "AC"
+   ],
+   "batch": "-",
+   "room": "E-202"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "FRI",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "ATCD",
+   "faculty": [
+    "VC"
+   ],
+   "batch": "-",
+   "room": "L-03"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "FRI",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "AUX",
+   "faculty": [
+    "AK"
+   ],
+   "batch": "-",
+   "room": "L-03"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "FRI",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "ST",
+   "faculty": [
+    "AM"
+   ],
+   "batch": "-",
+   "room": "IT-6"
+  },
+  {
+   "div": "Sem7-IT-D2",
+   "divLabel": "BE IT \u2014 Div 2",
+   "year": "4th Yr (Sem 7)",
+   "day": "FRI",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "PROJECT-I",
+   "faculty": [],
+   "batch": "-",
+   "room": "N/A"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "MON",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "AUX",
+   "faculty": [
+    "AM"
+   ],
+   "batch": "-",
+   "room": "L-03"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "MON",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "ST",
+   "faculty": [
+    "NK"
+   ],
+   "batch": "-",
+   "room": "G-202"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "MON",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "NLP",
+   "faculty": [
+    "KSD"
+   ],
+   "batch": "-",
+   "room": "L-03"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "MON",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "AAI",
+   "faculty": [
+    "MD"
+   ],
+   "batch": "-",
+   "room": "G-201"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "MON",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "DL",
+   "faculty": [
+    "PD"
+   ],
+   "batch": "-",
+   "room": "G-201"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "TUE",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "DL",
+   "faculty": [
+    "PD"
+   ],
+   "batch": "-",
+   "room": "F-203"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "TUE",
+   "ps": 3,
+   "pe": 4,
+   "type": "Lab",
+   "subject": "NLP",
+   "faculty": [
+    "MP",
+    "KSD"
+   ],
+   "batch": "A",
+   "room": "IT-2"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "TUE",
+   "ps": 3,
+   "pe": 4,
+   "type": "Lab",
+   "subject": "DL",
+   "faculty": [
+    "PD",
+    "DJ"
+   ],
+   "batch": "B",
+   "room": "IT-4"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "TUE",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "IC",
+   "faculty": [
+    "AB"
+   ],
+   "batch": "-",
+   "room": "G-203"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "WED",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "AUX",
+   "faculty": [
+    "AM"
+   ],
+   "batch": "-",
+   "room": "E-203"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "WED",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "ST",
+   "faculty": [
+    "NK"
+   ],
+   "batch": "-",
+   "room": "G-203"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "WED",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "AAI",
+   "faculty": [
+    "MD"
+   ],
+   "batch": "-",
+   "room": "E-203"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "WED",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "IOE-III",
+   "faculty": [],
+   "batch": "-",
+   "room": "N/A"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "WED",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "IOE-III",
+   "faculty": [],
+   "batch": "-",
+   "room": "N/A"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "WED",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "PROJECT-I",
+   "faculty": [],
+   "batch": "-",
+   "room": "N/A"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "WED",
+   "ps": 6,
+   "pe": 6,
+   "type": "Lecture",
+   "subject": "PROJECT-I",
+   "faculty": [],
+   "batch": "-",
+   "room": "N/A"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "THU",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "IC",
+   "faculty": [
+    "AB"
+   ],
+   "batch": "-",
+   "room": "L-01"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "THU",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "NLP",
+   "faculty": [
+    "MP"
+   ],
+   "batch": "-",
+   "room": "L-01"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "THU",
+   "ps": 3,
+   "pe": 4,
+   "type": "Lab",
+   "subject": "DL",
+   "faculty": [
+    "PD",
+    "TG"
+   ],
+   "batch": "A",
+   "room": "IT-4"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "THU",
+   "ps": 3,
+   "pe": 4,
+   "type": "Lab",
+   "subject": "NLP",
+   "faculty": [
+    "MP",
+    "NK"
+   ],
+   "batch": "B",
+   "room": "IT-5"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "THU",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "AUX",
+   "faculty": [
+    "AM"
+   ],
+   "batch": "-",
+   "room": "G-202"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "THU",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "ST",
+   "faculty": [
+    "NK"
+   ],
+   "batch": "-",
+   "room": "G-203"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "FRI",
+   "ps": 1,
+   "pe": 1,
+   "type": "Lecture",
+   "subject": "IOE-III",
+   "faculty": [],
+   "batch": "-",
+   "room": "N/A"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "FRI",
+   "ps": 2,
+   "pe": 2,
+   "type": "Lecture",
+   "subject": "NLP",
+   "faculty": [
+    "MP"
+   ],
+   "batch": "-",
+   "room": "E-203"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "FRI",
+   "ps": 3,
+   "pe": 3,
+   "type": "Lecture",
+   "subject": "DL",
+   "faculty": [
+    "PD"
+   ],
+   "batch": "-",
+   "room": "G-202"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "FRI",
+   "ps": 4,
+   "pe": 4,
+   "type": "Lecture",
+   "subject": "AAI",
+   "faculty": [
+    "MD"
+   ],
+   "batch": "-",
+   "room": "G-202"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "FRI",
+   "ps": 5,
+   "pe": 5,
+   "type": "Lecture",
+   "subject": "PROJECT-I",
+   "faculty": [],
+   "batch": "-",
+   "room": "N/A"
+  },
+  {
+   "div": "Sem7-AIDS",
+   "divLabel": "BE AI-DS",
+   "year": "4th Yr (Sem 7)",
+   "day": "FRI",
+   "ps": 6,
+   "pe": 6,
+   "type": "Lecture",
+   "subject": "PROJECT-I",
+   "faculty": [],
+   "batch": "-",
+   "room": "N/A"
+  }
+ ],
+ "facultyDirectory": {
+  "VJ": "Dr. Vivaksha Jariwala",
+  "DS": "Dr. Dhruti Sharma",
+  "HV": "Prof. Hiren Vavaiya",
+  "BP": "Prof. Bhumika Patel",
+  "AM": "Prof. Apurva Mandalaywala",
+  "NK": "Prof. Nitya Komlan",
+  "ARK": "Prof. Ankit Kharwar",
+  "MD": "Prof. Mitali Desai",
+  "DR": "Prof. Dhaval Rana",
+  "AC": "Prof. Ashish Chaudhary",
+  "MPP": "Prof. Manisha Patel",
+  "SK": "Prof. Snehal kathale",
+  "AK": "Prof. Ashish Kharvar",
+  "RMD": "Prof. Rajesh Darji",
+  "MHP": "Prof. Mitul Patel",
+  "VP": "Prof. Vibha Patel",
+  "VC": "Prof. Vivek Chapaneria",
+  "DJ": "Prof. Dhyani Joshi",
+  "KSD": "Prof. Krishna Delvadiya",
+  "PD": "Prof. Palak Desai",
+  "TG": "Prof. Tushar Gohil",
+  "MMP": "Prof. Mukesh Patel",
+  "KD": "Prof. Karishma Desai",
+  "DLS": "Prof. Dhruvin Shukla",
+  "SD": "Prof. Satish Dokiparti",
+  "PTP": "Prof. Piyush T. Patel",
+  "AUM": "Prof. Amit Mehta",
+  "NNP": "Prof. Milesh N. Patel",
+  "HAS": "Prof. Hiren A Shah",
+  "UDG": "Prof. Umang Gajjar",
+  "RMP": "Prof. Rahul Painter",
+  "BS": "Prof. Bhumika Shah",
+  "MP": "Dr. Mita Parikh",
+  "AB": "Prof. Apurva Bhagvagar"
+ },
+ "subjectDirectory": {
+  "COA": "Computer Organisation and Architecture",
+  "DBMS": "Database Management Systems",
+  "OOAD": "Object-Oriented Analysis and Design",
+  "DS": "Data Structures",
+  "PS": "Probability and Statistics",
+  "IC": "Indian Constitution",
+  "CNS": "Cryptography and Network Security",
+  "SE": "Software Engineering",
+  "WT": "Web Technologies",
+  "DMBI": "Data Mining and Business Intelligence",
+  "IOE - I": "Data Science using Python",
+  "EO": "Engineering Optimization",
+  "CC": "Cloud Computing",
+  "FDS": "Fundamentals of Data Science",
+  "SAAI": "Search Algorithms in AI",
+  "AUX": "Agile Development and UI/UX design",
+  "DSYS": "Distributed Systems",
+  "ATCD": "Automata Theory & Compiler Design",
+  "NLP": "Natural Language Processing",
+  "ST": "Software Testing",
+  "DL": "Deep Learning",
+  "AAI": "Advancements in AI"
+ },
+ "classrooms": [
+  "E-202",
+  "E-203",
+  "F-203",
+  "G-201",
+  "G-202",
+  "G-203",
+  "L-01",
+  "L-02",
+  "L-03"
+ ],
+ "labs": [
+  "IT-1",
+  "IT-2",
+  "IT-3",
+  "IT-4",
+  "IT-5",
+  "IT-6"
+ ],
+ "periodTimes": {
+  "1": "09:00-10:00",
+  "2": "10:00-11:00",
+  "3": "11:15-12:15",
+  "4": "12:15-13:15",
+  "5": "14:00-15:00",
+  "6": "15:00-16:00"
+ }
+}</script>
+<script>
+(function(){
+  const DATA = JSON.parse(document.getElementById('tt-data').textContent);
+  const DAY_CODES = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+  const WEEKDAYS = ['MON','TUE','WED','THU','FRI'];
+  const PERIODS = [1,2,3,4,5,6];
+  const PT = DATA.periodTimes;
+
+  // ---- populate hero stats (with a playful count-up) ----
+  function countUp(id, target, duration){
+    const el = document.getElementById(id);
+    const start = performance.now();
+    function tick(now){
+      const p = Math.min(1, (now-start)/duration);
+      const eased = 1 - Math.pow(1-p, 3);
+      el.textContent = Math.round(eased*target);
+      if(p<1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  countUp('statClassrooms', DATA.classrooms.length, 700);
+  countUp('statLabs', DATA.labs.length, 700);
+  countUp('statDivisions', Object.keys(DATA.divisions).length, 700);
+  countUp('statSessions', DATA.sessions.length, 1100);
+
+  // ---- date picker default: next weekday ----
+  const datePicker = document.getElementById('datePicker');
+  function toISO(d){ return d.toISOString().slice(0,10); }
+  (function setDefaultDate(){
+    let d = new Date();
+    while(d.getDay()===0 || d.getDay()===6){ d.setDate(d.getDate()+1); }
+    datePicker.value = toISO(d);
+  })();
+
+  // ---- period chips ----
+  const chipRow = document.getElementById('chipRow');
+  const selectedPeriods = new Set();
+  PERIODS.forEach(p=>{
+    const chip = document.createElement('div');
+    chip.className = 'chip';
+    chip.dataset.period = p;
+    chip.innerHTML = `<div class="p">Period ${p}</div><div class="t">${PT[p]}</div>`;
+    chip.addEventListener('click', ()=>{
+      if(chip.hasAttribute('disabled')) return;
+      chip.classList.toggle('active');
+      if(chip.classList.contains('active')) selectedPeriods.add(p); else selectedPeriods.delete(p);
+    });
+    chipRow.appendChild(chip);
+  });
+
+  const dayReadout = document.getElementById('dayReadout');
+  let currentDayCode = null;
+
+  function refreshDayReadout(){
+    const val = datePicker.value;
+    if(!val){ dayReadout.innerHTML=''; currentDayCode=null; return; }
+    const d = new Date(val+'T00:00:00');
+    const dow = d.getDay();
+    const code = DAY_CODES[dow];
+    const pretty = d.toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+    if(WEEKDAYS.includes(code)){
+      currentDayCode = code;
+      dayReadout.innerHTML = `<span class="badge">${pretty}</span> classes run as usual`;
+      chipRow.querySelectorAll('.chip').forEach(c=>c.removeAttribute('disabled'));
+    } else {
+      currentDayCode = null;
+      dayReadout.innerHTML = `<span class="badge weekend">${pretty}</span> weekend — no scheduled classes`;
+      chipRow.querySelectorAll('.chip').forEach(c=>{c.classList.remove('active'); c.setAttribute('disabled','');});
+      selectedPeriods.clear();
+    }
+  }
+  datePicker.addEventListener('change', refreshDayReadout);
+  refreshDayReadout();
+
+  // ---- toast ----
+  const toastEl = document.getElementById('toast');
+  let toastTimer;
+  function toast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=>toastEl.classList.remove('show'), 2400);
+  }
+
+  // ---- occupancy lookup ----
+  // returns array of sessions occupying `room` on `day` during `period`
+  function sessionsAt(room, day, period){
+    return DATA.sessions.filter(s => s.room===room && s.day===day && period>=s.ps && period<=s.pe);
+  }
+
+  function facultyName(code){
+    return DATA.facultyDirectory[code] || code;
+  }
+  function subjectName(code){
+    const clean = code.replace(/\(T\)/i,'').trim();
+    return DATA.subjectDirectory[clean] || DATA.subjectDirectory[code] || null;
+  }
+
+  function periodLabel(ps, pe){
+    if(ps===pe) return `P${ps} · ${PT[ps]}`;
+    return `P${ps}\u2013P${pe} · ${PT[ps].split('-')[0]}\u2013${PT[pe].split('-')[1]}`;
+  }
+
+  // ---- scan / render ----
+  const resultsEl = document.getElementById('results');
+  const resultSummary = document.getElementById('resultSummary');
+
+  function renderRoomSet(listId, occupiedListId, tagId, rooms, roomKind){
+    const grid = document.getElementById(listId);
+    const occWrap = document.getElementById(occupiedListId);
+    grid.innerHTML = '';
+    occWrap.innerHTML = '';
+    const periodsArr = Array.from(selectedPeriods).sort((a,b)=>a-b);
+    let freeCount = 0, busyCount = 0;
+    const occupiedEntries = [];
+
+    rooms.forEach(room=>{
+      // gather occupancy across selected periods
+      let busySessions = [];
+      periodsArr.forEach(p=>{
+        sessionsAt(room, currentDayCode, p).forEach(s=>{
+          if(!busySessions.find(x=>x.div===s.div && x.ps===s.ps && x.subject===s.subject)) busySessions.push(s);
+        });
+      });
+      const isFree = busySessions.length===0;
+      if(isFree) freeCount++; else busyCount++;
+
+      const tile = document.createElement('div');
+      tile.className = 'room-tile ' + (isFree ? 'free':'busy');
+      tile.style.setProperty('--i', grid.children.length);
+      tile.innerHTML = `
+        <div class="ricon">${isFree ? '✅' : '🔒'}</div>
+        <div class="rname">${room}</div>
+        <div class="rstatus">${isFree ? 'Free all slots' : 'In use'}</div>
+        ${!isFree ? `<div class="rmeta">${busySessions.length} clash${busySessions.length>1?'es':''} in range</div>` : `<div class="rmeta">Ready for ${periodsArr.length} slot${periodsArr.length>1?'s':''}</div>`}
+      `;
+      tile.addEventListener('click', ()=>{
+        if(isFree){ toast(`${room} is free for all ${periodsArr.length} selected slot${periodsArr.length>1?'s':''} ✨`); }
+        else{
+          const s = busySessions[0];
+          const sname = subjectName(s.subject) || s.subject;
+          toast(`${room} · ${sname} (${s.divLabel}) · ${periodLabel(s.ps,s.pe)}`);
+        }
+      });
+      grid.appendChild(tile);
+
+      busySessions.forEach(s=>occupiedEntries.push(s));
+    });
+
+    document.getElementById(tagId).textContent = `${freeCount} free · ${busyCount} occupied · ${rooms.length} total`;
+
+    if(occupiedEntries.length===0){
+      occWrap.innerHTML = `<div class="empty-note">Nothing occupied here in your selected slot(s) — every ${roomKind} is wide open. 🎉</div>`;
+    } else {
+      occupiedEntries
+        .sort((a,b)=> a.ps-b.ps || a.room.localeCompare(b.room))
+        .forEach(s=>{
+          const facs = s.faculty.map(f=>`${facultyName(f)} (${f})`).join(', ') || 'Faculty TBD';
+          const sname = subjectName(s.subject);
+          const card = document.createElement('div');
+          card.className = 'occ-card';
+          card.innerHTML = `
+            <div class="occ-room">${s.room}</div>
+            <div class="occ-body">
+              <div class="occ-subject">${sname ? sname : s.subject} <span class="fac">(${s.subject})</span></div>
+              <div class="occ-meta">${facs} &nbsp;·&nbsp; ${s.divLabel} ${s.batch && s.batch!=='-' ? '· Batch '+s.batch : ''} ${s.type==='Lab' ? '· Lab' : ''}</div>
+            </div>
+            <div class="occ-slot">${periodLabel(s.ps, s.pe)}</div>
+          `;
+          occWrap.appendChild(card);
+        });
+    }
+  }
+
+  const scanBtnEl = document.getElementById('scanBtn');
+  scanBtnEl.addEventListener('click', (e)=>{
+    const rect = scanBtnEl.getBoundingClientRect();
+    const r = document.createElement('span');
+    r.className = 'ripple';
+    const size = Math.max(rect.width, rect.height) * 1.4;
+    r.style.width = r.style.height = size + 'px';
+    r.style.left = (e.clientX - rect.left - size/2) + 'px';
+    r.style.top = (e.clientY - rect.top - size/2) + 'px';
+    scanBtnEl.appendChild(r);
+    setTimeout(()=>r.remove(), 600);
+  });
+
+  document.getElementById('scanBtn').addEventListener('click', ()=>{
+    if(!currentDayCode){ toast('Pick a weekday first — campus is quiet on weekends 🌤️'); return; }
+    if(selectedPeriods.size===0){ toast('Select at least one period to scan.'); return; }
+    const periodsArr = Array.from(selectedPeriods).sort((a,b)=>a-b);
+    const d = new Date(datePicker.value+'T00:00:00');
+    const pretty = d.toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long'});
+    resultSummary.innerHTML = `Scanning <b>${pretty}</b> across <b>${periodsArr.map(p=>'P'+p).join(', ')}</b> (${periodsArr.map(p=>PT[p]).join(' · ')}). A room needs to be open in <b>all</b> selected periods to count as free below.`;
+    renderRoomSet('classroomGrid','classroomOccupied','classroomTag', DATA.classrooms, 'classroom');
+    renderRoomSet('labGrid','labOccupied','labTag', DATA.labs, 'lab');
+    resultsEl.classList.add('show');
+    if(resultsEl.scrollIntoView) resultsEl.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  // ---- weekly utilisation heatmap ----
+  function buildHeatmap(tableId, rooms, calloutId){
+    const table = document.getElementById(tableId);
+    let occCount = {}; // room -> per day count
+    rooms.forEach(r=>{ occCount[r]={}; WEEKDAYS.forEach(d=>occCount[r][d]=0); });
+
+    DATA.sessions.forEach(s=>{
+      if(!rooms.includes(s.room)) return;
+      if(!WEEKDAYS.includes(s.day)) return;
+      const span = (s.pe - s.ps + 1);
+      occCount[s.room][s.day] += span;
+    });
+
+    let thead = '<tr><th>Room</th>' + WEEKDAYS.map(d=>`<th>${d}</th>`).join('') + '<th>Weekly load</th></tr>';
+    let rows = '';
+    let maxRoom=null, maxVal=-1;
+    let minRoom=null, minVal=999;
+
+    rooms.forEach(r=>{
+      let total = 0;
+      let cells = WEEKDAYS.map(d=>{
+        const v = occCount[r][d];
+        total += v;
+        const pct = v/6; // 6 periods per day max
+        let bg = '#e3faf1', fg='#1f6b4e';
+        if(pct>0.16 && pct<=0.33){bg='#d7f3e1'; fg='#1f6b4e';}
+        if(pct>0.33 && pct<=0.5){bg='#ffe9a8'; fg='#7a5b12';}
+        if(pct>0.5 && pct<=0.66){bg='#ffcf8a'; fg='#7a4a12';}
+        if(pct>0.66 && pct<=0.83){bg='#ffb5c7'; fg='#7a1d38';}
+        if(pct>0.83){bg='#f2708f'; fg='#ffffff';}
+        if(v===0){bg='#f5f2fb'; fg='#b8abd1';}
+        return `<td class="cell" style="background:${bg}; color:${fg};">${v>0? v+'/6' : '—'}</td>`;
+      }).join('');
+      const totalPct = Math.round(total/30*100);
+      if(total>maxVal){maxVal=total; maxRoom=r;}
+      if(total<minVal){minVal=total; minRoom=r;}
+      rows += `<tr><td class="rowlabel">${r}</td>${cells}<td class="cell" style="font-weight:800;">${total}/30 · ${totalPct}%</td></tr>`;
+    });
+
+    table.innerHTML = thead + rows;
+
+    const callout = document.getElementById(calloutId);
+    callout.innerHTML = `
+      <div class="max-card">
+        <div class="k">Busiest room</div>
+        <div class="v">${maxRoom} <small>${maxVal}/30 slots · ${Math.round(maxVal/30*100)}%</small></div>
+      </div>
+      <div class="max-card">
+        <div class="k">Quietest room</div>
+        <div class="v">${minRoom} <small>${minVal}/30 slots · ${Math.round(minVal/30*100)}%</small></div>
+      </div>
+    `;
+  }
+  buildHeatmap('classroomHeatTable', DATA.classrooms, 'classroomMaxCallout');
+  buildHeatmap('labHeatTable', DATA.labs, 'labMaxCallout');
+
+  // ---- tabs ----
+  document.querySelectorAll('.tabbtn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.tabbtn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.tabpage').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+
+})();
+</script>
+</body>
+</html>
