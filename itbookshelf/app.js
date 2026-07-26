@@ -1,7 +1,11 @@
 /* ================= helpers ================= */
 function el(tag, cls, html){ const e=document.createElement(tag); if(cls) e.className=cls; if(html!==undefined) e.innerHTML=html; return e; }
-function money(n){ return n ? '₹' + Math.round(n).toLocaleString('en-IN') : '—'; }
 function norm(s){ return (s||'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim(); }
+function emptyCtaHTML(){ return `<button class="emptyCta">📮 Can't find it? Suggest it →</button>`; }
+function wireEmptyCta(container){
+  const btn = container.querySelector('.emptyCta');
+  if(btn) btn.addEventListener('click', ()=>{ document.getElementById('suggestSection').scrollIntoView({behavior:'smooth'}); });
+}
 
 function levenshtein(a,b){
   const m=a.length, n=b.length;
@@ -70,10 +74,8 @@ function bookCardHTML(b, idx){
       <span class="badge badge-dept-${b.dept}">${b.dept==='IT'?'💻 IT':'🤖 AI-DS'}</span>
       ${b.semester ? `<span class="badge badge-sem">Sem ${b.semester}</span>` : `<span class="badge badge-sem">Elective</span>`}
       <span class="badge badge-subj" data-subj="${b.subject}">${b.subject}</span>
-      ${b.amount ? `<span class="badge badge-price">${money(b.amount)}</span>` : ''}
     </div>
     <div class="pub">📗 ${b.publisher}${b.qty?` · Qty requested: ${b.qty}`:''}</div>
-    <div class="recby">✍️ Recommended by ${b.recBy}</div>
   </div>`;
 }
 function wireCards(container){
@@ -83,7 +85,7 @@ function wireCards(container){
       const key = btn.dataset.key;
       if(bookmarks.has(key)){ bookmarks.delete(key); btn.classList.remove('saved'); }
       else{ bookmarks.add(key); btn.classList.add('saved'); btn.style.animation='none'; requestAnimationFrame(()=>{btn.style.animation='pulseHeart .4s ease';}); }
-      saveBookmarks(); renderShelfDrawer();
+      saveBookmarks(); renderShelfTab();
     });
   });
   container.querySelectorAll('.badge-subj').forEach(b=>{
@@ -125,12 +127,10 @@ function renderStats(){
   const list = deptFiltered();
   const subjects = buildSubjects(list);
   const authors = new Set(list.map(b=>b.author.toLowerCase()));
-  const value = list.reduce((s,b)=>s+(b.amount||0),0);
   const stats = [
     [list.length, '📚 books'],
     [subjects.length, '🎓 subjects'],
     [authors.size, '✍️ authors'],
-    [money(value), '💰 collection value'],
   ];
   const bar = document.getElementById('statbar');
   bar.innerHTML = stats.map(s=>`<div class="statpill"><b>${s[0]}</b><span>${s[1]}</span></div>`).join('');
@@ -144,7 +144,8 @@ function runSubjectSearch(query){
   if(!query || !query.trim()){ box.innerHTML=''; return; }
   const scored = subjects.map(s=>({s, sc:matchScore(query,s.name)})).filter(x=>x.sc>=0).sort((a,b)=>b.sc-a.sc);
   if(!scored.length){
-    box.innerHTML = `<div class="empty"><div class="big">🕵️‍♀️</div>No subject matches "${query}". Maybe try a shorter word?</div>`;
+    box.innerHTML = `<div class="empty"><div class="big">🕵️‍♀️</div>No subject matches "${query}". Maybe try a shorter word?${emptyCtaHTML()}</div>`;
+    wireEmptyCta(box);
     return;
   }
   const top = scored[0].s;
@@ -214,7 +215,7 @@ function runBookSearch(query){
   const box = document.getElementById('bookResults');
   if(!query || !query.trim()){ box.innerHTML=''; return; }
   const scored = list.map(b=>({b, sc:matchScore(query,b.title)})).filter(x=>x.sc>=0).sort((a,b)=>b.sc-a.sc);
-  if(!scored.length){ box.innerHTML = `<div class="empty"><div class="big">📭</div>No book titled anything like "${query}". Try fewer words!</div>`; return; }
+  if(!scored.length){ box.innerHTML = `<div class="empty"><div class="big">📭</div>No book titled anything like "${query}". Try fewer words!${emptyCtaHTML()}</div>`; wireEmptyCta(box); return; }
   showBookDetail(scored[0].b);
 }
 function showBookDetail(b){
@@ -230,9 +231,7 @@ function showBookDetail(b){
         <div class="detailitem"><span>Department</span><b>${b.dept==='IT'?'💻 IT':'🤖 AI-DS'}</b></div>
         <div class="detailitem"><span>Subject</span><b>${b.subject}</b></div>
         <div class="detailitem"><span>Semester</span><b>${b.semester?('Semester '+b.semester):'Elective / N.A.'}</b></div>
-        <div class="detailitem"><span>Approx. price</span><b>${money(b.amount)}</b></div>
         <div class="detailitem"><span>Qty requested</span><b>${b.qty||'—'}</b></div>
-        <div class="detailitem"><span>Recommended by</span><b>${b.recBy}</b></div>
       </div>
     </div>
     ${shelfmates.length? `<div class="resultsHead">👀 ${shelfmates.length} more pick${shelfmates.length!==1?'s':''} for ${b.subject}</div><div class="grid">${shelfmates.map((s,i)=>bookCardHTML(s,i)).join('')}</div>` : ''}
@@ -269,58 +268,62 @@ document.getElementById('surpriseBtn').addEventListener('click', ()=>{
   wireCards(box);
 });
 
-/* ================= leaderboard ================= */
-function renderLeaderboard(){
+/* ================= shelf trivia ================= */
+function renderFunFacts(){
   const list = deptFiltered();
-  const counts = new Map();
-  list.forEach(b=>{ if(b.recBy && b.recBy!=='Department pick') counts.set(b.recBy, (counts.get(b.recBy)||0)+1); });
-  const top = [...counts.entries()].sort((a,b)=>b[1]-a[1]).slice(0,8);
-  const max = top.length? top[0][1] : 1;
-  const lb = document.getElementById('leaderboardList');
-  lb.innerHTML = top.map((t,i)=>`
-    <div class="lbrow">
-      <div class="lbrank">${['🥇','🥈','🥉'][i]||('#'+(i+1))}</div>
-      <div class="lbname">${t[0]}</div>
-      <div class="lbbar-wrap"><div class="lbbar" data-w="${(t[1]/max*100)}"></div></div>
-      <div class="lbcount">${t[1]}</div>
-    </div>`).join('');
-  setTimeout(()=>lb.querySelectorAll('.lbbar').forEach(b=>b.style.width=b.dataset.w+'%'), 100);
-
-  // fun facts
-  const priciest = list.reduce((a,b)=> (b.amount||0) > (a.amount||0) ? b : a, list[0]);
   const pubCounts = new Map(); list.forEach(b=>pubCounts.set(b.publisher,(pubCounts.get(b.publisher)||0)+1));
   const topPub = [...pubCounts.entries()].sort((a,b)=>b[1]-a[1])[0];
   const subjCounts = buildSubjects(list).sort((a,b)=>b.books.length-a.books.length)[0];
+  const authors = new Set(list.map(b=>b.author.toLowerCase()));
   const facts = [
-    ['💸','Priciest pick', `${priciest.title} — ${money(priciest.amount)}`],
     ['🏢','Top publisher', `${topPub[0]} (${topPub[1]} books)`],
     ['📚','Best-stocked subject', `${subjCounts.name} (${subjCounts.books.length} books)`],
+    ['✍️','Author pool', `${authors.size} different authors on the shelf`],
   ];
   document.getElementById('funfacts').innerHTML = facts.map(f=>`<div class="funcard"><div class="fico">${f[0]}</div><h4>${f[1]}</h4><p>${f[2]}</p></div>`).join('');
 }
 
-/* ================= shelf drawer ================= */
-function renderShelfDrawer(){
-  const list = document.getElementById('shelfList');
-  if(!bookmarks.size){ list.innerHTML = `<div class="empty"><div class="big">🦗</div>Your shelf's emptier than a library on exam day. Tap a ❤️ on any book to save it here.</div>`; return; }
+/* ================= shelf tab (bookmarked/liked books) ================= */
+function renderShelfTab(){
+  const box = document.getElementById('shelfResults');
+  if(!box) return;
+  if(!bookmarks.size){
+    box.innerHTML = `<div class="empty"><div class="big">🦗</div>Your shelf's emptier than a library on exam day. Tap the ❤️ on any book to save it here.</div>`;
+    return;
+  }
   const items = [...bookmarks].map(key=>{
     const [t,a] = key.split('|');
     return BOOKS.find(b=>b.title.toLowerCase()===t && b.author.toLowerCase()===a);
   }).filter(Boolean);
-  list.innerHTML = items.map(b=>`<div class="shelfitem"><button data-key="${bmKey(b)}">✕</button><h5>${b.title}</h5><p>${b.author} · ${b.subject}</p></div>`).join('');
-  list.querySelectorAll('button').forEach(btn=>btn.addEventListener('click', ()=>{
-    bookmarks.delete(btn.dataset.key); saveBookmarks(); renderShelfDrawer();
-    document.querySelectorAll(`.heartbtn[data-key="${CSS.escape(btn.dataset.key)}"]`).forEach(h=>h.classList.remove('saved'));
-  }));
+  box.innerHTML = `<div class="resultsHead">❤️ ${items.length} book${items.length!==1?'s':''} on your shelf</div>
+    <div class="grid">${items.map((b,i)=>bookCardHTML(b,i)).join('')}</div>`;
+  wireCards(box);
 }
 document.getElementById('shelfBtn').addEventListener('click', ()=>{
-  document.getElementById('shelfOverlay').classList.add('show');
-  document.getElementById('shelfDrawer').classList.add('show');
-  renderShelfDrawer();
+  switchTab('shelf');
+  renderShelfTab();
+  document.getElementById('hub').scrollIntoView({behavior:'smooth'});
 });
-document.getElementById('closeDrawer').addEventListener('click', closeShelf);
-document.getElementById('shelfOverlay').addEventListener('click', closeShelf);
-function closeShelf(){ document.getElementById('shelfOverlay').classList.remove('show'); document.getElementById('shelfDrawer').classList.remove('show'); }
+
+/* ================= suggest-a-book (mail-in) ================= */
+document.getElementById('suggestBtn').addEventListener('click', ()=>{
+  const title = document.getElementById('sugTitle').value.trim();
+  const author = document.getElementById('sugAuthor').value.trim();
+  const publisher = document.getElementById('sugPublisher').value.trim();
+  const subject = document.getElementById('sugSubject').value.trim();
+  const lines = [
+    "Hi,", "",
+    "I'd like to suggest / ask about a book for the IT & AI-DS library shelf:", "",
+    `Book title: ${title || '(not specified)'}`,
+    `Author: ${author || '(not specified)'}`,
+    `Publisher: ${publisher || '(not specified)'}`,
+    `Subject: ${subject || '(not specified)'}`, "",
+    "Thanks!"
+  ];
+  const body = encodeURIComponent(lines.join('\n'));
+  const subjLine = encodeURIComponent('Shelfie book suggestion' + (title ? ' — ' + title : ''));
+  window.location.href = `mailto:bhumika.patel@scet.ac.in,bhumika.shah@scet.ac.in?subject=${subjLine}&body=${body}`;
+});
 
 /* ================= reveal on scroll ================= */
 const io = new IntersectionObserver((entries)=>{ entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('show'); io.unobserve(en.target);} }); },{threshold:0.1});
@@ -335,4 +338,5 @@ document.head.appendChild(styleTag);
 updateShelfCount();
 renderStats();
 renderSemChips();
-renderLeaderboard();
+renderFunFacts();
+renderShelfTab();
