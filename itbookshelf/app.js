@@ -305,25 +305,25 @@ document.getElementById('shelfBtn').addEventListener('click', ()=>{
   document.getElementById('hub').scrollIntoView({behavior:'smooth'});
 });
 
-/* ================= suggest-a-book (mail-in) ================= */
-document.getElementById('suggestBtn').addEventListener('click', ()=>{
-  const title = document.getElementById('sugTitle').value.trim();
-  const author = document.getElementById('sugAuthor').value.trim();
-  const publisher = document.getElementById('sugPublisher').value.trim();
-  const subject = document.getElementById('sugSubject').value.trim();
-  const lines = [
-    "Hi,", "",
-    "I'd like to suggest / ask about a book for the IT & AI-DS library shelf:", "",
-    `Book title: ${title || '(not specified)'}`,
-    `Author: ${author || '(not specified)'}`,
-    `Publisher: ${publisher || '(not specified)'}`,
-    `Subject: ${subject || '(not specified)'}`, "",
-    "Thanks!"
-  ];
-  const body = encodeURIComponent(lines.join('\n'));
-  const subjLine = encodeURIComponent('Shelfie book suggestion' + (title ? ' — ' + title : ''));
-  window.location.href = `mailto:bhumika.patel@scet.ac.in,bhumika.shah@scet.ac.in?subject=${subjLine}&body=${body}`;
+/* ================= suggest-a-book (copy template) ================= */
+document.getElementById('copyTemplateBtn').addEventListener('click', ()=>{
+  const text = document.getElementById('templateText').innerText;
+  const btn = document.getElementById('copyTemplateBtn');
+  const done = ()=>{ btn.textContent = '✅ Copied!'; setTimeout(()=>{ btn.textContent = '📋 Copy'; }, 1800); };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(()=>fallbackCopy(text, done));
+  } else {
+    fallbackCopy(text, done);
+  }
 });
+function fallbackCopy(text, done){
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  try{ document.execCommand('copy'); }catch(e){}
+  document.body.removeChild(ta);
+  done();
+}
 
 /* ================= reveal on scroll ================= */
 const io = new IntersectionObserver((entries)=>{ entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('show'); io.unobserve(en.target);} }); },{threshold:0.1});
