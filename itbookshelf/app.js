@@ -264,7 +264,7 @@ document.getElementById('surpriseBtn').addEventListener('click', ()=>{
   const b = list[Math.floor(Math.random()*list.length)];
   const box = document.getElementById('surpriseCard');
   box.innerHTML = `<div class="grid" style="grid-template-columns:1fr;">${bookCardHTML(b,0)}</div>`;
-  box.querySelector('.bookcard').style.animation = 'cardIn .5s cubic-bezier(.34,1.56,.64,1)';
+  box.querySelector('.bookcard').style.animation = 'cardIn .5s cubic-bezier(.34,1.56,.64,1) forwards';
   wireCards(box);
 });
 
