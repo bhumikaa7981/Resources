@@ -1,1 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shelfie 📚 — SCET IT & AI-DS Library Finder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
 
+<!-- ===================== floating blobs ===================== -->
+<div class="blobfield" aria-hidden="true">
+  <span class="blob b1"></span>
+  <span class="blob b2"></span>
+  <span class="blob b3"></span>
+  <span class="blob b4"></span>
+</div>
+
+<!-- ===================== header / hero ===================== -->
+<header class="hero reveal">
+  <div class="hero-inner">
+    <div class="brandmark">
+      <span class="brandicon">📚</span>
+      <div>
+        <h1>Shelfie<span class="dot">.</span></h1>
+        <p class="tagline">Your syllabus, shelfie-fied. Snap the subject, we fetch the shelf. 📸</p>
+      </div>
+    </div>
+
+    <p class="heroblurb">Built for the IT &amp; AI-DS fam at SCET — type a subject, punch in your semester, or just remember half a book title. We'll dig up every book your department actually recommends, no library-counter awkwardness required.</p>
+
+    <div class="deptrow">
+      <span class="deptlabel">Show me books from</span>
+      <div class="dchips">
+        <button class="dchip active" data-d="ALL">🌈 Everyone</button>
+        <button class="dchip" data-d="IT">💻 IT dept</button>
+        <button class="dchip" data-d="AIDS">🤖 AI-DS dept</button>
+      </div>
+    </div>
+
+    <div id="statbar" class="statbar"></div>
+  </div>
+</header>
+
+<!-- ===================== main hub: search tabs ===================== -->
+<section id="hub" class="hub reveal">
+  <div class="hubcard">
+    <div class="tabbar">
+      <button class="tabbtn active" data-tab="subject">📖 By Subject</button>
+      <button class="tabbtn" data-tab="semester">🎓 By Semester</button>
+      <button class="tabbtn" data-tab="book">🔍 By Book Title</button>
+    </div>
+
+    <!-- Subject tab -->
+    <div id="tab-subject" class="tabpanel active">
+      <p class="panelhint">Type a subject — even a sleepy half-typed guess works. We'll autocorrect your typo faster than your prof corrects your code.</p>
+      <div class="searchbox">
+        <span class="sbicon">📖</span>
+        <input id="subjectInput" type="text" placeholder="e.g. Deep Learning, DBMS, Compiler Design..." autocomplete="off" />
+        <div id="subjectAC" class="acdrop"></div>
+      </div>
+      <div id="subjectResults" class="results"></div>
+    </div>
+
+    <!-- Semester tab -->
+    <div id="tab-semester" class="tabpanel">
+      <p class="panelhint">Pick your semester. We'll round up every subject and every book you're supposed to (pretend to) read.</p>
+      <div id="semRow" class="semrow"></div>
+      <div id="semesterResults" class="results"></div>
+    </div>
+
+    <!-- Book tab -->
+    <div id="tab-book" class="tabpanel">
+      <p class="panelhint">Half-remember a title? Perfect, that's our specialty. Type it and we'll find it — plus its shelf-mates.</p>
+      <div class="searchbox">
+        <span class="sbicon">🔎</span>
+        <input id="bookInput" type="text" placeholder="e.g. Deep Learning, Kurose Ross, Jurafsky..." autocomplete="off" />
+        <div id="bookAC" class="acdrop"></div>
+      </div>
+      <div id="bookResults" class="results"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== surprise me ===================== -->
+<section class="surprise reveal">
+  <div class="surprise-inner">
+    <div class="surprise-text">
+      <h2>Feeling indecisive? 🎲</h2>
+      <p>Let fate (aka our RNG) pick your next read. Zero commitment, 100% vibes.</p>
+      <button id="surpriseBtn" class="bigbtn">✨ Surprise Me</button>
+    </div>
+    <div id="surpriseCard" class="surprisecard"></div>
+  </div>
+</section>
+
+<!-- ===================== hall of fame / leaderboard ===================== -->
+<section class="hall reveal">
+  <div class="hallhead">
+    <h2>🏆 Faculty Recommendation Hall of Fame</h2>
+    <p>The profs putting in the most work to keep your shelf stocked.</p>
+  </div>
+  <div id="leaderboardList" class="leaderboard"></div>
+
+  <div class="hallhead" style="margin-top:36px;">
+    <h2>🎉 Fun Shelf Facts</h2>
+    <p>Trivia nobody asked for, but everybody needs.</p>
+  </div>
+  <div id="funfacts" class="funfacts"></div>
+</section>
+
+<!-- ===================== footer ===================== -->
+<footer class="footer reveal">
+  <p>Made with 🧋 and mild sleep deprivation for the IT &amp; AI-DS departments, SCET.</p>
+  <p class="footersmall">Every recommendation on this shelf came from a real faculty member — the ❤️ button just helps you remember which ones spoke to you.</p>
+</footer>
+
+<!-- ===================== floating shelf button ===================== -->
+<button id="shelfBtn" class="shelffab" title="My Shelf">
+  🎒 <span>My Shelf</span> <span id="shelfCount" class="shelfcount">0</span>
+</button>
+
+<!-- ===================== shelf drawer ===================== -->
+<div id="shelfOverlay" class="shelfoverlay"></div>
+<aside id="shelfDrawer" class="shelfdrawer">
+  <div class="shelfdrawer-head">
+    <h3>🎒 My Shelf</h3>
+    <button id="closeDrawer" class="closebtn" aria-label="Close">✕</button>
+  </div>
+  <p class="shelfdrawer-sub">Every book you've hearted, saved right here in your browser. No login, no drama.</p>
+  <div id="shelfList" class="shelflist"></div>
+</aside>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
