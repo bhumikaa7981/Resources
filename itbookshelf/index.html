@@ -52,6 +52,7 @@
       <button class="tabbtn active" data-tab="subject">📖 By Subject</button>
       <button class="tabbtn" data-tab="semester">🎓 By Semester</button>
       <button class="tabbtn" data-tab="book">🔍 By Book Title</button>
+      <button class="tabbtn" data-tab="shelf">❤️ My Shelf</button>
     </div>
 
     <!-- Subject tab -->
@@ -82,6 +83,12 @@
       </div>
       <div id="bookResults" class="results"></div>
     </div>
+
+    <!-- Shelf tab -->
+    <div id="tab-shelf" class="tabpanel">
+      <p class="panelhint">Every book you've hearted, saved right here in your browser. No login, no drama — just tap ❤️ on any book to add it.</p>
+      <div id="shelfResults" class="results"></div>
+    </div>
   </div>
 </section>
 
@@ -97,42 +104,56 @@
   </div>
 </section>
 
-<!-- ===================== hall of fame / leaderboard ===================== -->
+<!-- ===================== shelf trivia ===================== -->
 <section class="hall reveal">
   <div class="hallhead">
-    <h2>🏆 Faculty Recommendation Hall of Fame</h2>
-    <p>The profs putting in the most work to keep your shelf stocked.</p>
-  </div>
-  <div id="leaderboardList" class="leaderboard"></div>
-
-  <div class="hallhead" style="margin-top:36px;">
-    <h2>🎉 Fun Shelf Facts</h2>
+    <h2>🎉 Shelf Trivia</h2>
     <p>Trivia nobody asked for, but everybody needs.</p>
   </div>
   <div id="funfacts" class="funfacts"></div>
 </section>
 
+<!-- ===================== suggest a book ===================== -->
+<section id="suggestSection" class="suggest reveal">
+  <div class="suggest-inner">
+    <div class="hallhead">
+      <h2>📮 Can't Find Your Book?</h2>
+      <p>Hunting for something that's not on the shelf, or think we're missing a gem? Tell us whatever you know — even one field is plenty. We'll take it from there.</p>
+    </div>
+    <div class="suggestform">
+      <div class="sfield">
+        <label for="sugTitle">Book title <span>optional</span></label>
+        <input id="sugTitle" type="text" placeholder="e.g. Clean Architecture" />
+      </div>
+      <div class="sfield">
+        <label for="sugAuthor">Author <span>optional</span></label>
+        <input id="sugAuthor" type="text" placeholder="e.g. Robert C. Martin" />
+      </div>
+      <div class="sfield">
+        <label for="sugPublisher">Publisher <span>optional</span></label>
+        <input id="sugPublisher" type="text" placeholder="e.g. Pearson" />
+      </div>
+      <div class="sfield">
+        <label for="sugSubject">Subject <span>optional</span></label>
+        <input id="sugSubject" type="text" placeholder="e.g. Software Engineering" />
+      </div>
+    </div>
+    <button id="suggestBtn" class="bigbtn">📧 Email This Suggestion</button>
+    <p class="suggestnote">Opens your email app, addressed to the department for you.</p>
+  </div>
+</section>
+
 <!-- ===================== footer ===================== -->
 <footer class="footer reveal">
   <p>Made with 🧋 and mild sleep deprivation for the IT &amp; AI-DS departments, SCET.</p>
-  <p class="footersmall">Every recommendation on this shelf came from a real faculty member — the ❤️ button just helps you remember which ones spoke to you.</p>
+  <p class="footersmall">Every book on this shelf was chosen by SCET faculty to help you study smarter. The ❤️ button just helps you remember your favorites.</p>
 </footer>
 
 <!-- ===================== floating shelf button ===================== -->
 <button id="shelfBtn" class="shelffab" title="My Shelf">
-  🎒 <span>My Shelf</span> <span id="shelfCount" class="shelfcount">0</span>
+  ❤️ <span>My Shelf</span> <span id="shelfCount" class="shelfcount">0</span>
 </button>
 
-<!-- ===================== shelf drawer ===================== -->
-<div id="shelfOverlay" class="shelfoverlay"></div>
-<aside id="shelfDrawer" class="shelfdrawer">
-  <div class="shelfdrawer-head">
-    <h3>🎒 My Shelf</h3>
-    <button id="closeDrawer" class="closebtn" aria-label="Close">✕</button>
-  </div>
-  <p class="shelfdrawer-sub">Every book you've hearted, saved right here in your browser. No login, no drama.</p>
-  <div id="shelfList" class="shelflist"></div>
-</aside>
 
 <script src="data.js"></script>
 <script src="app.js"></script>
