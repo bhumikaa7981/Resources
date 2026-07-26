@@ -217,9 +217,7 @@ input{ font-family:var(--font-body); }
 .badge-sem{ background:var(--sky); color:#2B6CB0; }
 .badge-subj{ background:var(--lavender); color:var(--grape-deep); cursor:pointer; }
 .badge-subj:hover{ background:var(--grape); color:#fff; }
-.badge-price{ background:var(--butter); color:#9A6B00; font-family:var(--font-mono); }
 .pub{ font-size:.82rem; color:var(--ink-soft); margin-bottom:4px; }
-.recby{ font-size:.8rem; color:var(--grape-deep); font-weight:600; }
 
 /* ============================================================
    accordion (semester results)
@@ -276,17 +274,6 @@ input{ font-family:var(--font-body); }
 .hallhead h2{ font-size:1.6rem; margin-bottom:4px; }
 .hallhead p{ color:var(--ink-soft); font-weight:500; }
 
-.leaderboard{ display:flex; flex-direction:column; gap:10px; }
-.lbrow{
-  display:grid; grid-template-columns:44px 1fr 2fr 40px; align-items:center; gap:12px;
-  background:#fff; border:2px solid var(--border); border-radius:var(--r-md); padding:12px 16px;
-}
-.lbrank{ font-size:1.3rem; text-align:center; }
-.lbname{ font-weight:700; font-size:.92rem; }
-.lbbar-wrap{ background:var(--lavender); border-radius:var(--r-pill); height:10px; overflow:hidden; }
-.lbbar{ height:100%; width:0; background:linear-gradient(90deg,var(--grape),var(--coral)); border-radius:var(--r-pill); transition:width 1s cubic-bezier(.2,.8,.2,1); }
-.lbcount{ font-family:var(--font-mono); font-weight:700; color:var(--grape-deep); text-align:right; }
-
 .funfacts{ display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:14px; margin-top:8px; }
 .funcard{
   background:#fff; border:2px solid var(--border); border-radius:var(--r-md); padding:18px;
@@ -318,33 +305,31 @@ input{ font-family:var(--font-body); }
   background:#fff; color:var(--grape-deep); border-radius:50%; min-width:22px; height:22px;
   display:grid; place-items:center; font-size:.78rem; font-family:var(--font-mono); padding:0 4px;
 }
-.shelfoverlay{
-  display:none; position:fixed; inset:0; background:rgba(51,36,77,.45); backdrop-filter:blur(2px);
-  z-index:70; opacity:0; transition:opacity .25s ease;
+/* empty-state suggest-it CTA */
+.emptyCta{
+  display:inline-block; margin-top:14px; padding:10px 20px; border-radius:var(--r-pill);
+  background:linear-gradient(135deg,var(--grape),var(--grape-deep)); color:#fff;
+  font-weight:700; font-size:.86rem; transition:.2s ease;
 }
-.shelfoverlay.show{ display:block; opacity:1; }
-.shelfdrawer{
-  position:fixed; top:0; right:0; height:100%; width:min(380px, 92vw);
-  background:#fff; z-index:80; box-shadow:-10px 0 40px rgba(51,36,77,.25);
-  transform:translateX(100%); transition:transform .3s cubic-bezier(.2,.8,.2,1);
-  padding:26px 22px; overflow-y:auto;
+.emptyCta:hover{ transform:translateY(-2px); box-shadow:var(--shadow-sm); }
+
+/* ============================================================
+   suggest a book (mail-in)
+   ============================================================ */
+.suggest{ max-width:920px; margin:0 auto; padding:10px 20px 40px; }
+.suggest-inner{
+  background:linear-gradient(120deg,var(--sky),var(--lavender));
+  border-radius:var(--r-lg); padding:32px; border:2px solid var(--border); box-shadow:var(--shadow-md);
 }
-.shelfdrawer.show{ transform:translateX(0); }
-.shelfdrawer-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
-.shelfdrawer-sub{ color:var(--ink-soft); font-size:.86rem; margin-bottom:18px; line-height:1.4; }
-.closebtn{ font-size:1.1rem; color:var(--ink-soft); width:32px; height:32px; border-radius:50%; display:grid; place-items:center; transition:.2s; }
-.closebtn:hover{ background:var(--lavender); color:var(--ink); }
-.shelflist{ display:flex; flex-direction:column; gap:10px; }
-.shelfitem{
-  position:relative; background:var(--lavender); border-radius:var(--r-sm); padding:12px 36px 12px 14px;
+.suggestform{ display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:14px; margin:20px 0 22px; }
+.sfield label{ display:block; font-size:.8rem; font-weight:700; color:var(--ink-soft); margin-bottom:6px; }
+.sfield label span{ font-weight:500; color:var(--ink-faint); font-size:.72rem; text-transform:uppercase; margin-left:4px; }
+.sfield input{
+  width:100%; padding:12px 14px; border-radius:var(--r-sm); border:2px solid var(--border);
+  background:#fff; font-size:.94rem; color:var(--ink); outline:none; transition:.2s ease;
 }
-.shelfitem h5{ margin:0 0 3px; font-family:var(--font-body); font-weight:700; font-size:.9rem; }
-.shelfitem p{ font-size:.78rem; color:var(--ink-soft); font-weight:500; }
-.shelfitem button{
-  position:absolute; top:10px; right:10px; color:var(--ink-faint); font-size:.9rem;
-  width:24px; height:24px; border-radius:50%; display:grid; place-items:center; transition:.2s;
-}
-.shelfitem button:hover{ background:#fff; color:var(--coral); }
+.sfield input:focus{ border-color:var(--grape); box-shadow:0 0 0 4px rgba(139,92,246,.14); }
+.suggestnote{ margin-top:12px; font-size:.8rem; color:var(--ink-soft); font-weight:500; }
 
 /* ============================================================
    responsive
