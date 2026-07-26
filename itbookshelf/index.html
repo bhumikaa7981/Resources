@@ -118,28 +118,31 @@
   <div class="suggest-inner">
     <div class="hallhead">
       <h2>📮 Can't Find Your Book?</h2>
-      <p>Hunting for something that's not on the shelf, or think we're missing a gem? Tell us whatever you know — even one field is plenty. We'll take it from there.</p>
+      <p>Hunting for something that's not on the shelf, or think we're missing a gem? Just drop us an email — even one line helps, no form-filling required.</p>
     </div>
-    <div class="suggestform">
-      <div class="sfield">
-        <label for="sugTitle">Book title <span>optional</span></label>
-        <input id="sugTitle" type="text" placeholder="e.g. Clean Architecture" />
-      </div>
-      <div class="sfield">
-        <label for="sugAuthor">Author <span>optional</span></label>
-        <input id="sugAuthor" type="text" placeholder="e.g. Robert C. Martin" />
-      </div>
-      <div class="sfield">
-        <label for="sugPublisher">Publisher <span>optional</span></label>
-        <input id="sugPublisher" type="text" placeholder="e.g. Pearson" />
-      </div>
-      <div class="sfield">
-        <label for="sugSubject">Subject <span>optional</span></label>
-        <input id="sugSubject" type="text" placeholder="e.g. Software Engineering" />
-      </div>
+
+    <div class="mailrow">
+      <a class="mailchip" href="mailto:bhumika.patel@scet.ac.in">📧 bhumika.patel@scet.ac.in</a>
+      <a class="mailchip" href="mailto:bhumika.shah@scet.ac.in">📧 bhumika.shah@scet.ac.in</a>
     </div>
-    <button id="suggestBtn" class="bigbtn">📧 Email This Suggestion</button>
-    <p class="suggestnote">Opens your email app, addressed to the department for you.</p>
+
+    <div class="templatebox">
+      <div class="templatehead">
+        <span>Sample subject &amp; message — copy it, paste into your own email app, fill in whatever you know</span>
+        <button id="copyTemplateBtn" class="copybtn">📋 Copy</button>
+      </div>
+      <pre id="templateText" class="templatetext">Subject: Shelfie book suggestion
+
+Hi,
+I'd like to suggest / ask about a book for the IT & AI-DS library shelf:
+
+Book title:
+Author:
+Publisher:
+Subject:
+
+Thanks!</pre>
+    </div>
   </div>
 </section>
 
