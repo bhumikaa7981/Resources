@@ -1,1 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Puzzle Playground 🧩 — 8-Puzzle & Water Jug, Explained</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FFF6E9;
+  --ink:#211B3E;
+  --coral:#FF6B6B;
+  --sun:#FFC94D;
+  --mint:#2FD4A5;
+  --grape:#9B7EDE;
+  --sky:#3FB8E8;
+  --white:#FFFFFF;
+  --shadow: 6px 6px 0 rgba(33,27,62,0.9);
+  --shadow-sm: 3px 3px 0 rgba(33,27,62,0.9);
+  --radius: 20px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--cream);
+  color:var(--ink);
+  font-family:'Nunito',sans-serif;
+  overflow-x:hidden;
+}
+h1,h2,h3,.display{font-family:'Fredoka',sans-serif;}
+code, .mono{font-family:'Space Mono',monospace;}
 
+/* floating blobs background */
+.blob{position:fixed;border-radius:50%;filter:blur(2px);opacity:.35;z-index:0;pointer-events:none;animation:float 9s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-26px) rotate(8deg);}}
+.blob1{width:180px;height:180px;background:var(--sun);top:-60px;left:-60px;}
+.blob2{width:140px;height:140px;background:var(--mint);top:40%;right:-50px;animation-delay:2s;}
+.blob3{width:120px;height:120px;background:var(--grape);bottom:5%;left:6%;animation-delay:4s;}
+.blob4{width:100px;height:100px;background:var(--sky);bottom:-40px;right:15%;animation-delay:1s;}
+
+/* NAV */
+.topbar{position:sticky;top:0;z-index:50;background:var(--ink);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;box-shadow:0 4px 0 rgba(0,0,0,.15);}
+.brand{color:var(--white);font-family:'Fredoka',sans-serif;font-size:1.3rem;display:flex;align-items:center;gap:8px;}
+.brand span.wig{display:inline-block;animation:wiggle 2.4s ease-in-out infinite;}
+@keyframes wiggle{0%,100%{transform:rotate(0deg);}25%{transform:rotate(-12deg);}75%{transform:rotate(12deg);}}
+.tabbtns{display:flex;gap:10px;}
+.tabbtn{cursor:pointer;border:none;border-radius:999px;padding:10px 20px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:.95rem;background:transparent;color:var(--white);border:2px solid rgba(255,255,255,.3);transition:.2s;}
+.tabbtn:hover{transform:translateY(-2px);}
+.tabbtn.active{background:var(--sun);color:var(--ink);border-color:var(--sun);box-shadow:var(--shadow-sm);}
+
+/* SUBNAV pills */
+.subnav{position:sticky;top:64px;z-index:40;display:flex;gap:8px;flex-wrap:wrap;padding:12px 24px;background:rgba(255,246,233,.9);backdrop-filter:blur(6px);border-bottom:3px dashed var(--ink);}
+.pill{cursor:pointer;border:2px solid var(--ink);background:var(--white);border-radius:999px;padding:7px 16px;font-weight:800;font-size:.85rem;transition:.15s;}
+.pill:hover{background:var(--sky);color:var(--white);transform:translateY(-2px);}
+.pill.active{background:var(--coral);color:var(--white);}
+
+.app{max-width:1100px;margin:0 auto;padding:0 20px 80px;position:relative;z-index:1;}
+.hero{padding:50px 0 30px;text-align:center;}
+.hero h1{font-size:2.6rem;margin:0 0 10px;color:var(--ink);}
+.hero p{font-size:1.15rem;max-width:640px;margin:0 auto;line-height:1.6;}
+.tag{display:inline-block;background:var(--mint);color:var(--ink);font-weight:800;padding:5px 14px;border-radius:999px;margin-bottom:14px;border:2px solid var(--ink);}
+
+.panel{display:none;}
+.panel.active{display:block;animation:fadein .4s ease;}
+@keyframes fadein{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+.sub{display:none;}
+.sub.active{display:block;}
+
+.card{background:var(--white);border:3px solid var(--ink);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin:24px 0;}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease, transform .6s ease;}
+.reveal.in-view{opacity:1;transform:translateY(0);}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+@media(max-width:760px){.grid2{grid-template-columns:1fr;}}
+
+/* ---- 8 puzzle board ---- */
+.boardwrap{display:flex;flex-direction:column;align-items:center;gap:16px;}
+.board{position:relative;width:296px;height:296px;background:var(--ink);border-radius:16px;padding:8px;}
+.tile{position:absolute;width:92px;height:92px;border-radius:12px;background:var(--coral);color:var(--white);display:flex;align-items:center;justify-content:center;font-family:'Fredoka',sans-serif;font-size:2rem;font-weight:700;cursor:pointer;transition:transform .22s cubic-bezier(.4,1.6,.6,1),background .2s;box-shadow:0 4px 0 rgba(0,0,0,.35);user-select:none;}
+.tile:hover{background:var(--sky);}
+.tile.blankghost{visibility:hidden;}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.btn{cursor:pointer;border:2px solid var(--ink);border-radius:12px;padding:10px 18px;font-family:'Fredoka',sans-serif;font-weight:600;background:var(--sun);box-shadow:var(--shadow-sm);transition:.15s;}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 rgba(33,27,62,.9);}
+.btn:active{transform:translate(0,0);box-shadow:1px 1px 0 rgba(33,27,62,.9);}
+.btn.alt{background:var(--mint);}
+.btn.alt2{background:var(--grape);color:#fff;}
+.btn.alt3{background:var(--sky);color:#fff;}
+.stat{font-weight:800;background:var(--white);border:2px solid var(--ink);border-radius:10px;padding:6px 14px;}
+.winbanner{display:none;background:var(--mint);border:3px solid var(--ink);border-radius:14px;padding:12px 18px;font-family:'Fredoka',sans-serif;font-weight:700;text-align:center;margin-top:10px;animation:pop .4s ease;}
+@keyframes pop{0%{transform:scale(.7);opacity:0;}70%{transform:scale(1.08);}100%{transform:scale(1);opacity:1;}}
+
+/* steps */
+.steps{list-style:none;padding:0;margin:0;counter-reset:step;}
+.step{counter-increment:step;position:relative;padding:14px 14px 14px 56px;margin-bottom:10px;background:var(--white);border:2px solid var(--ink);border-radius:14px;cursor:pointer;transition:.2s;}
+.step::before{content:counter(step);position:absolute;left:12px;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;background:var(--coral);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Fredoka',sans-serif;font-weight:700;}
+.step.active{background:var(--sun);transform:translateX(4px);}
+.step p{margin:6px 0 0;font-size:.92rem;display:none;}
+.step.active p{display:block;}
+
+/* data structure cards */
+.dscards{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+@media(max-width:760px){.dscards{grid-template-columns:1fr;}}
+.dscard{background:var(--white);border:3px solid var(--ink);border-radius:16px;padding:18px;position:relative;overflow:hidden;}
+.dscard h4{margin:4px 0 8px;font-size:1.1rem;}
+.dscard .emoji{font-size:2rem;}
+
+/* code block */
+.codebox{background:var(--ink);color:#eee;border-radius:16px;padding:18px 20px;overflow-x:auto;font-size:.82rem;line-height:1.55;border:3px solid var(--ink);box-shadow:var(--shadow);}
+.codebox .c1{color:#7fdbca;} .codebox .c2{color:#ffd166;} .codebox .c3{color:#ff8fa3;} .codebox .cm{color:#8b87a8;}
+.copybtn{float:right;cursor:pointer;background:var(--sun);border:2px solid var(--ink);border-radius:8px;padding:4px 10px;font-family:'Fredoka';font-weight:700;font-size:.75rem;}
+
+/* build-roadmap (guided implementation steps, not full solutions) */
+.roadmap{display:flex;flex-direction:column;gap:26px;margin-top:18px;}
+.buildstep{position:relative;background:var(--white);border:3px dashed var(--ink);border-radius:16px;padding:22px 20px 18px;}
+.buildstep .bnum{position:absolute;top:-16px;left:18px;background:var(--coral);color:#fff;font-family:'Fredoka',sans-serif;font-weight:700;padding:5px 16px;border-radius:999px;border:2px solid var(--ink);font-size:.8rem;box-shadow:var(--shadow-sm);}
+.buildstep .fname{display:inline-block;background:var(--ink);color:#fff;font-family:'Space Mono',monospace;font-size:.85rem;padding:3px 10px;border-radius:8px;margin:6px 0 6px;}
+.buildstep h4{margin:2px 0 4px;font-size:1.15rem;}
+.buildstep .witty{font-style:italic;color:#6b6489;margin:0 0 10px;font-size:.92rem;}
+.buildstep .logic{margin:12px 0 0;padding-left:20px;font-size:.9rem;line-height:1.55;}
+.buildstep .logic li{margin-bottom:5px;}
+.buildstep .logic b{color:var(--coral);}
+.skeleton{background:#1a1533;color:#eee;border-radius:12px;padding:14px 16px;font-size:.78rem;overflow-x:auto;margin-top:10px;line-height:1.6;}
+.skeleton .todo{color:#FFC94D;font-weight:700;}
+.arrow-down{text-align:center;font-size:1.5rem;color:var(--ink);opacity:.5;margin:-10px 0;}
+.roadmap-intro{background:var(--grape);color:#fff;border:3px solid var(--ink);border-radius:16px;padding:16px 20px;font-weight:700;margin-top:16px;}
+
+/* tree viz */
+.treewrap{overflow-x:auto;padding:20px 0;}
+.tree{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:640px;}
+.tlevel{display:flex;gap:18px;justify-content:center;}
+.tnode{display:flex;flex-direction:column;align-items:center;opacity:0;transform:scale(.6);animation:nodepop .5s forwards;}
+@keyframes nodepop{to{opacity:1;transform:scale(1);}}
+.minigrid{display:grid;grid-template-columns:repeat(3,20px);grid-template-rows:repeat(3,20px);gap:2px;background:var(--ink);padding:3px;border-radius:6px;}
+.minicell{width:20px;height:20px;background:var(--coral);color:#fff;font-size:.6rem;display:flex;align-items:center;justify-content:center;border-radius:3px;font-weight:700;}
+.minicell.blank{background:#ffffff22;}
+.tnode.root .minicell{background:var(--grape);}
+.tconnector{width:2px;height:16px;background:var(--ink);}
+.tnote{font-size:.8rem;text-align:center;color:#555;margin-top:2px;}
+
+/* jugs */
+.jugrow{display:flex;gap:50px;justify-content:center;align-items:flex-end;flex-wrap:wrap;padding:14px 0;}
+.jugbox{display:flex;flex-direction:column;align-items:center;gap:8px;}
+.jugsvgwrap{width:110px;height:170px;position:relative;}
+.jugcap{font-weight:800;font-size:.8rem;}
+.amount{font-family:'Fredoka';font-size:1.3rem;background:var(--white);border:2px solid var(--ink);border-radius:10px;padding:2px 14px;}
+
+/* graph viz */
+.graphwrap{overflow-x:auto;}
+.actionlog{max-height:160px;overflow-y:auto;background:var(--white);border:2px dashed var(--ink);border-radius:12px;padding:10px 14px;font-size:.85rem;margin-top:10px;}
+.actionlog div{padding:3px 0;border-bottom:1px dotted #ccc;}
+
+.footnote{text-align:center;font-size:.85rem;color:#555;padding:40px 0 10px;}
+.footnote a{color:var(--grape);font-weight:700;}
+
+@media(max-width:600px){
+ .hero h1{font-size:1.9rem;}
+ .board{width:270px;height:270px;}
+ .tile{width:83px;height:83px;font-size:1.6rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+<div class="blob blob4"></div>
+
+<div class="topbar">
+  <div class="brand"><span class="wig">🧩</span> Puzzle Playground</div>
+  <div class="tabbtns">
+    <button class="tabbtn active" data-tab="puzzle">8-Puzzle</button>
+    <button class="tabbtn" data-tab="jug">Water Jug</button>
+  </div>
+</div>
+
+<!-- ============ 8 PUZZLE APP ============ -->
+<div class="panel active" id="tab-puzzle">
+  <div class="subnav">
+    <div class="pill active" data-sub="p-intro">😃 What is it?</div>
+    <div class="pill" data-sub="p-play">🎮 Play it</div>
+    <div class="pill" data-sub="p-poss">🌳 All possibilities</div>
+    <div class="pill" data-sub="p-algo">🧠 Algorithm</div>
+    <div class="pill" data-sub="p-ds">📦 Data structures</div>
+    <div class="pill" data-sub="p-code">💻 Code it</div>
+  </div>
+
+  <div class="app">
+    <div class="hero">
+      <div class="tag">CLASSIC AI SEARCH PROBLEM</div>
+      <h1>The 8-Puzzle 🧩</h1>
+      <p>Slide numbered tiles around a 3×3 grid until they land in order. Sounds simple — but finding the <em>shortest</em> path to the goal is a real search problem that AI textbooks love. Let's play, peek under the hood, and build it ourselves!</p>
+    </div>
+
+    <!-- INTRO -->
+    <div class="sub active" id="p-intro">
+      <div class="card reveal">
+        <h2>😃 What exactly is the 8-Puzzle?</h2>
+        <p>You have a 3×3 board with 8 numbered tiles and <b>one empty space</b>. You can slide any tile that's next to the empty space into it. The goal: reach a target arrangement (usually 1→8 in order) starting from a shuffled one.</p>
+        <div class="grid2">
+          <div>
+            <p><b>Start (shuffled)</b></p>
+            <div class="minigrid" style="grid-template-columns:repeat(3,46px);grid-template-rows:repeat(3,46px);width:fit-content;">
+              <div class="minicell" style="width:46px;height:46px;font-size:1.1rem;">2</div>
+              <div class="minicell" style="width:46px;height:46px;font-size:1.1rem;">8</div>
+              <div class="minicell" style="width:46px;height:46px;font-size:1.1rem;">3</div>
+              <div class="minicell" style="width:46px;height:46px;font-size:1.1rem;">1</div>
+              <div class="minicell blank" style="width:46px;height:46px;"></div>
+              <div class="minicell" style="width:46px;height:46px;font-size:1.1rem;">4</div>
+              <div class="minicell" style="width:46px;height:46px;font-size:1.1rem;">7</div>
+              <div class="minicell" style="width:46px;height:46px;font-size:1.1rem;">6</div>
+              <div class="minicell" style="width:46px;height:46px;font-size:1.1rem;">5</div>
+            </div>
+          </div>
+          <div>
+            <p><b>Goal</b></p>
+            <div class="minigrid" style="grid-template-columns:repeat(3,46px);grid-template-rows:repeat(3,46px);width:fit-content;background:var(--mint);">
+              <div class="minicell" style="width:46px;height:46px;font-size:1.1rem;background:var(--ink);">1</div>
+              <div class="minicell" style="width:46px;height:46px;font-size:1.1rem;background:var(--ink);">2</div>
+              <div class="minicell" style="width:46px;height:46px;font-size:1.1rem;background:var(--ink);">3</div>
+              <div class="minicell" style="width:46px;height:46px;font-size:1.1rem;background:var(--ink);">4</div>
+              <div class="minicell" style="width:46px;height:46px;font-size:1.1rem;background:var(--ink);">5</div>
+              <div class="minicell" style="width:46px;height:46px;font-size:1.1rem;background:var(--ink);">6</div>
+              <div class="minicell" style="width:46px;height:46px;font-size:1.1rem;background:var(--ink);">7</div>
+              <div class="minicell" style="width:46px;height:46px;font-size:1.1rem;background:var(--ink);">8</div>
+              <div class="minicell blank" style="width:46px;height:46px;"></div>
+            </div>
+          </div>
+        </div>
+        <p style="margin-top:16px;">Why AI folks love it: at every step you have up to 4 choices (up/down/left/right move into the blank). It's small enough to reason about, but big enough (<b>181,440</b> reachable arrangements) that "just try everything" gets expensive — perfect for teaching <b>search algorithms</b> like BFS, A*, and Branch & Bound.</p>
+      </div>
+    </div>
+
+    <!-- PLAY -->
+    <div class="sub" id="p-play">
+      <div class="card reveal">
+        <h2>🎮 Slide it yourself</h2>
+        <p>Click any tile touching the empty slot to slide it. Hit <b>Shuffle</b> to scramble (always solvable!), or let the computer <b>Auto-Solve</b> using breadth-first search.</p>
+        <div class="boardwrap">
+          <div class="board" id="board"></div>
+          <div class="btnrow">
+            <button class="btn" id="btnShuffle">🔀 Shuffle</button>
+            <button class="btn alt" id="btnSolve">🤖 Auto-Solve</button>
+            <button class="btn alt3" id="btnReset">↩️ Reset</button>
+            <div class="stat">Moves: <span id="moveCount">0</span></div>
+          </div>
+          <div class="winbanner" id="winBanner">🎉 Solved! Great job! 🎉</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POSSIBILITIES -->
+    <div class="sub" id="p-poss">
+      <div class="card reveal">
+        <h2>🌳 "Show me all the possibilities"</h2>
+        <p>From any arrangement, the blank tile can usually move in <b>2–4 directions</b> — each move branches into a new state. That branching, repeated over and over, is called the <b>state space</b>. Below is a real slice of it: the root state and every state reachable in 1 and 2 moves.</p>
+        <div class="treewrap"><div class="tree" id="treeViz"></div></div>
+        <p style="font-size:.9rem;color:#555;">Notice states can even reconnect (moving right then left just undoes itself) — that's why we need a <b>visited set</b>, coming up next. Zoomed out, the <em>entire</em> 8-puzzle has 9!/2 = <b>181,440</b> reachable states — far too many to draw, which is exactly why smart search (not brute force drawing) is the answer.</p>
+        <div class="btnrow" style="margin-top:10px;"><button class="btn alt2" id="btnRegenTree">🔄 Try another starting shuffle</button></div>
+      </div>
+    </div>
+
+    <!-- ALGORITHM -->
+    <div class="sub" id="p-algo">
+      <div class="card reveal">
+        <h2>🧠 The algorithm, step by step</h2>
+        <p>Click a step to expand it. This is the classic <b>A\* search</b> (a smarter Branch & Bound) used to solve the 8-puzzle optimally.</p>
+        <ul class="steps" id="algoSteps">
+          <li class="step active">Represent each board as a state (a list of 9 numbers, 0 = blank).<p>e.g. <code>[1,2,3,4,5,6,7,0,8]</code> means the blank sits in position 7 (0-indexed).</p></li>
+          <li class="step">Define a cost function <b>f(n) = g(n) + h(n)</b>.<p><b>g(n)</b> = moves taken so far. <b>h(n)</b> = heuristic estimate to the goal — usually "Manhattan distance": sum of how far each tile is from its goal position.</p></li>
+          <li class="step">Put the start state into a <b>priority queue</b>, ordered by lowest f(n).<p>Lower f(n) = "looks more promising" — explore those first.</p></li>
+          <li class="step">Pop the most promising state. If it's the goal — done! Return the path.<p>We reconstruct the path by remembering each state's parent.</p></li>
+          <li class="step">Otherwise, generate its neighbors (slide blank up/down/left/right).<p>Skip moves that would push the blank off the board.</p></li>
+          <li class="step">Skip any neighbor already in the <b>visited set</b>; push new ones into the queue with updated f(n).<p>This avoids infinite loops and re-exploring the same board twice.</p></li>
+          <li class="step">Repeat steps 4–6 until the goal pops out (or queue empties = unsolvable).<p>Because we always expand the lowest f(n) first, the first time we pop the goal, it's guaranteed optimal (fewest moves).</p></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- DATA STRUCTURES -->
+    <div class="sub" id="p-ds">
+      <div class="card reveal">
+        <h2>📦 Which data structures — and why</h2>
+        <div class="dscards">
+          <div class="dscard"><div class="emoji">⛰️</div><h4>Priority Queue (min-heap)</h4><p>Holds all "discovered but not yet expanded" states, always giving you the one with the lowest f(n) = g+h next. Without it you'd have to scan every waiting state each time — a heap does it in O(log n) instead of O(n).</p></div>
+          <div class="dscard"><div class="emoji">🕵️</div><h4>Hash Set (visited)</h4><p>Stores boards we've already expanded (as a string key like "1,2,3,4,5,6,7,0,8"). Lookup is O(1), which is what stops the search from looping forever between two boards that just undo each other's move.</p></div>
+          <div class="dscard"><div class="emoji">🧵</div><h4>Parent map / linked path</h4><p>Every time we discover a new state, we record "came from this state, via this move." When we hit the goal we just walk this chain backwards — that's how we recover the actual solution, not just its length.</p></div>
+          <div class="dscard"><div class="emoji">🔢</div><h4>Plain array / tuple (the state)</h4><p>The board itself is just a flat array of 9 numbers. Simple, hashable (great for the visited set), and cheap to copy when generating neighbors.</p></div>
+        </div>
+        <p style="margin-top:14px;font-size:.9rem;color:#555;">💡 Fun fact: if you swap the priority queue for a plain FIFO <b>queue</b> and drop the heuristic, you get plain <b>BFS</b> — still optimal, just slower because it explores blindly instead of "toward" the goal.</p>
+      </div>
+    </div>
+
+    <!-- CODE -->
+    <div class="sub" id="p-code">
+      <div class="card reveal">
+        <h2>💻 Language: Python 🐍 — build-it-yourself roadmap</h2>
+        <p>Why Python: <code>heapq</code> gives you a priority queue for free, and tuples hash cleanly for a visited-set. (Java works too — <code>PriorityQueue&lt;&gt;</code> + <code>HashSet&lt;String&gt;</code> — just more typing.)</p>
+        <div class="roadmap-intro">🗺️ Don't copy-paste a solution — build 5 small functions in this order. Each one is dumb-simple on its own; stacked together they become an AI search agent.</div>
+
+        <div class="roadmap">
+
+          <div class="buildstep reveal">
+            <div class="bnum">STEP 1</div>
+            <div class="fname">the state</div>
+            <h4>Represent the board</h4>
+            <p class="witty">No class, no fuss — a puzzle is just 9 nosy numbers standing in a line.</p>
+            <ul class="logic">
+              <li>Use a flat <b>tuple</b> of length 9 (not a 3×3 grid) — index <code>i</code> maps to row <code>i//3</code>, col <code>i%3</code>.</li>
+              <li><code>0</code> always means "blank."</li>
+              <li>Tuples matter: they're <b>hashable</b>, so they can go straight into a Python <code>set</code> later (visited states).</li>
+            </ul>
+            <div class="skeleton">state = (1, 2, 3, 4, 5, 6, 7, 8, 0)  <span class="cm"># this is the goal too</span></div>
+          </div>
+
+          <div class="arrow-down">⬇</div>
+
+          <div class="buildstep reveal">
+            <div class="bnum">STEP 2</div>
+            <div class="fname">def h(state, goal):</div>
+            <h4>Write the heuristic — "how far off are we?"</h4>
+            <p class="witty">This is your gut-feeling function: it never actually solves anything, it just guesses smartly.</p>
+            <ul class="logic">
+              <li>Loop over every position <code>i</code> in <code>state</code>. <b>Skip</b> it if the tile there is <code>0</code>.</li>
+              <li>Find where that tile <em>should</em> be: <code>goal.index(tile)</code>.</li>
+              <li>Convert both the current index and goal index into <code>(row, col)</code> using <code>//3</code> and <code>%3</code>.</li>
+              <li>Add <code>abs(row diff) + abs(col diff)</code> to a running total — that's the "Manhattan distance" for one tile.</li>
+              <li>Return the total after the loop. Lower = closer to solved.</li>
+            </ul>
+            <div class="skeleton">def h(state, goal):
+    total = 0
+    <span class="todo"># TODO: loop over each tile, skip the blank</span>
+    <span class="todo"># TODO: work out its (row, col) now vs. in goal</span>
+    <span class="todo"># TODO: add the distance between them to total</span>
+    return total</div>
+          </div>
+
+          <div class="arrow-down">⬇</div>
+
+          <div class="buildstep reveal">
+            <div class="bnum">STEP 3</div>
+            <div class="fname">def neighbors(state):</div>
+            <h4>Write the move-generator</h4>
+            <p class="witty">Ask the blank tile: "where CAN you go?" — up to 4 honest answers.</p>
+            <ul class="logic">
+              <li>Find the blank's flat index: <code>state.index(0)</code>, then its <code>(row, col)</code>.</li>
+              <li>Try all 4 directions: <code>(-1,0) (1,0) (0,-1) (0,1)</code>.</li>
+              <li>For each, check the new row/col is still <b>inside the 3×3 grid</b> — throw away the rest.</li>
+              <li>If valid: copy the state, <b>swap</b> the blank with that neighbor tile, and hand back the new board.</li>
+            </ul>
+            <div class="skeleton">def neighbors(state):
+    results = []
+    <span class="todo"># TODO: find blank's row, col</span>
+    <span class="todo"># TODO: for each of the 4 directions...</span>
+    <span class="todo">#   TODO: skip if it falls off the board</span>
+    <span class="todo">#   TODO: else copy state, swap, append to results</span>
+    return results</div>
+          </div>
+
+          <div class="arrow-down">⬇</div>
+
+          <div class="buildstep reveal">
+            <div class="bnum">STEP 4</div>
+            <div class="fname">def reconstruct(came_from, state):</div>
+            <h4>Write the path-rebuilder</h4>
+            <p class="witty">The unglamorous function nobody remembers — but without it you only know the puzzle IS solvable, not HOW.</p>
+            <ul class="logic">
+              <li>Start a list with just the goal <code>state</code>.</li>
+              <li>Keep looking up <code>came_from[state]</code> and stepping backwards, appending each parent.</li>
+              <li>Stop when you hit the start (its parent is <code>None</code>).</li>
+              <li>Reverse the list before returning it — you built it backwards!</li>
+            </ul>
+            <div class="skeleton">def reconstruct(came_from, state):
+    path = [state]
+    <span class="todo"># TODO: while came_from[state] is not None:</span>
+    <span class="todo">#   TODO: move state = came_from[state], append it</span>
+    <span class="todo"># TODO: reverse path before returning</span>
+    return path</div>
+          </div>
+
+          <div class="arrow-down">⬇</div>
+
+          <div class="buildstep reveal">
+            <div class="bnum">STEP 5</div>
+            <div class="fname">def a_star(start, goal):</div>
+            <h4>Wire everything together</h4>
+            <p class="witty">The boss function. It doesn't know how to guess or move tiles — it just bosses steps 2 &amp; 3 around in the right order.</p>
+            <ul class="logic">
+              <li>Import <code>heapq</code>. Push <code>(f, g, state, parent)</code> for the start — use <code>f = h(start, goal)</code>, <code>g = 0</code>.</li>
+              <li>Loop while the heap isn't empty: <code>heapq.heappop()</code> the lowest-<code>f</code> entry.</li>
+              <li>If you've seen this state before → <code>continue</code>. Otherwise mark it visited + record its parent.</li>
+              <li>If <code>state == goal</code> → call <b>Step 4</b> and return the path. 🎉</li>
+              <li>Else, call <b>Step 3</b> for neighbors; for each unvisited one, <code>heappush</code> it with <code>g+1</code> and a fresh <code>h()</code> from <b>Step 2</b>.</li>
+            </ul>
+            <div class="skeleton">import heapq
+
+def a_star(start, goal):
+    pq = [(h(start, goal), 0, start, None)]
+    came_from, visited = {}, set()
+    <span class="todo"># TODO: while pq: pop lowest f</span>
+    <span class="todo"># TODO: skip if already visited, else mark visited + came_from</span>
+    <span class="todo"># TODO: if state == goal: return reconstruct(...)</span>
+    <span class="todo"># TODO: else push each neighbor with g+1 + h(neighbor, goal)</span>
+    return None  <span class="cm"># unsolvable</span></div>
+          </div>
+
+        </div>
+        <p style="margin-top:18px;font-size:.9rem;color:#555;">✅ Checkpoint: once all 5 functions run without errors, call <code>a_star((2,8,3,1,0,4,7,6,5), (1,2,3,4,5,6,7,8,0))</code> and print the returned path length — that's your move count!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ WATER JUG APP ============ -->
+<div class="panel" id="tab-jug">
+  <div class="subnav">
+    <div class="pill active" data-sub="j-intro">😃 What is it?</div>
+    <div class="pill" data-sub="j-play">🎮 Play it</div>
+    <div class="pill" data-sub="j-poss">🕸️ All possibilities</div>
+    <div class="pill" data-sub="j-algo">🧠 Algorithm</div>
+    <div class="pill" data-sub="j-ds">📦 Data structures</div>
+    <div class="pill" data-sub="j-code">💻 Code it</div>
+  </div>
+
+  <div class="app">
+    <div class="hero">
+      <div class="tag">CLASSIC AI SEARCH PROBLEM</div>
+      <h1>The Water Jug Problem 🪣</h1>
+      <p>You've got a 4-litre jug and a 3-litre jug, no measuring marks. Can you measure out exactly 2 litres? This tiny puzzle is a favourite for teaching state-space search because you can hold the <em>whole</em> problem in your head — and on one screen.</p>
+    </div>
+
+    <!-- INTRO -->
+    <div class="sub active" id="j-intro">
+      <div class="card reveal">
+        <h2>😃 What exactly is it?</h2>
+        <p>Two jugs, capacities <b>4L</b> and <b>3L</b>. Allowed moves: <b>fill</b> a jug fully, <b>empty</b> a jug fully, or <b>pour</b> one jug into the other until either the source is empty or the destination is full. Starting from (0, 0), reach a state where one jug holds exactly the <b>target</b> amount (e.g. 2L).</p>
+        <div class="jugrow">
+          <div class="jugbox"><div class="jugcap">Jug A · 4L</div><div class="jugsvgwrap" id="introJugA"></div></div>
+          <div class="jugbox"><div class="jugcap">Jug B · 3L</div><div class="jugsvgwrap" id="introJugB"></div></div>
+        </div>
+        <p>It looks trivial with two jugs, but it's a real illustration of <b>state-space search</b>: each (amount-in-A, amount-in-B) pair is a "state," and each fill/empty/pour is an "edge" to a new state — exactly the same idea as the 8-puzzle, just small enough to draw the <em>whole</em> map.</p>
+      </div>
+    </div>
+
+    <!-- PLAY -->
+    <div class="sub" id="j-play">
+      <div class="card reveal">
+        <h2>🎮 Try to make exactly 2 litres</h2>
+        <p>Use the buttons to fill, empty, and pour. Watch the water animate. Can you reach <b>2L</b> in either jug in the fewest moves?</p>
+        <div class="jugrow">
+          <div class="jugbox"><div class="jugcap">Jug A · capacity 4L</div><div class="jugsvgwrap" id="jugA"></div><div class="amount"><span id="amtA">0</span> L</div></div>
+          <div class="jugbox"><div class="jugcap">Jug B · capacity 3L</div><div class="jugsvgwrap" id="jugB"></div><div class="amount"><span id="amtB">0</span> L</div></div>
+        </div>
+        <div class="btnrow">
+          <button class="btn" onclick="jugAction('fillA')">🚰 Fill A</button>
+          <button class="btn" onclick="jugAction('fillB')">🚰 Fill B</button>
+          <button class="btn alt3" onclick="jugAction('emptyA')">🕳️ Empty A</button>
+          <button class="btn alt3" onclick="jugAction('emptyB')">🕳️ Empty B</button>
+          <button class="btn alt2" onclick="jugAction('pourAB')">➡️ Pour A→B</button>
+          <button class="btn alt2" onclick="jugAction('pourBA')">⬅️ Pour B→A</button>
+          <button class="btn alt" onclick="jugAction('autosolve')">🤖 Auto-Solve to 2L</button>
+          <button class="btn" onclick="jugAction('reset')">↩️ Reset</button>
+        </div>
+        <div class="winbanner" id="jugWin">🎉 You measured exactly 2 litres! 🎉</div>
+        <div class="actionlog" id="jugLog"><div>Ready — target is <b>2 litres</b>. Make a move!</div></div>
+      </div>
+    </div>
+
+    <!-- POSSIBILITIES -->
+    <div class="sub" id="j-poss">
+      <div class="card reveal">
+        <h2>🕸️ Every possible state, mapped</h2>
+        <p>Unlike the 8-puzzle, the water jug's whole universe is tiny: only <b>5 × 4 = 20</b> possible (A, B) states. Here they all are — the ones actually reachable from (0,0) light up as our BFS search "discovers" them, and the target(s) pulse gold.</p>
+        <div class="graphwrap"><div id="jugGraph"></div></div>
+        <div class="btnrow" style="margin-top:10px;"><button class="btn alt2" id="btnReplayBFS">▶️ Replay the search</button></div>
+      </div>
+    </div>
+
+    <!-- ALGORITHM -->
+    <div class="sub" id="j-algo">
+      <div class="card reveal">
+        <h2>🧠 The algorithm, step by step</h2>
+        <p>Click a step to expand it. Because the state space is so small, plain <b>BFS</b> (breadth-first search) already finds the shortest sequence of moves.</p>
+        <ul class="steps" id="algoSteps2">
+          <li class="step active">Represent a state as a pair (a, b) — litres currently in Jug A and Jug B.<p>Start state: <code>(0, 0)</code>.</p></li>
+          <li class="step">Put the start state into a <b>FIFO queue</b>, and mark it visited.<p>FIFO = first-in-first-out, so we always explore in "distance order" from the start.</p></li>
+          <li class="step">Pop the front state. If a==target or b==target, stop — success!<p>Reconstruct the path from the parent map.</p></li>
+          <li class="step">Otherwise generate all 6 possible next states: fillA, fillB, emptyA, emptyB, pourA→B, pourB→A.<p>Pouring math: pour amount = min(source amount, space left in destination).</p></li>
+          <li class="step">For each next state not yet visited: mark visited, record its parent, and enqueue it.<p>This guarantees we never re-explore a state and never loop forever.</p></li>
+          <li class="step">Repeat steps 3–5 until target is found or the queue is empty (no solution).<p>With capacities 4 & 3 and target 2, a solution always exists here — try target 5 to see "no solution" instead!</p></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- DATA STRUCTURES -->
+    <div class="sub" id="j-ds">
+      <div class="card reveal">
+        <h2>📦 Which data structures — and why</h2>
+        <div class="dscards">
+          <div class="dscard"><div class="emoji">🚋</div><h4>Queue (FIFO)</h4><p>BFS explores level-by-level — all 1-move states, then all 2-move states, etc. A queue naturally preserves that order, which is exactly what guarantees the <em>first</em> time we see the target, it's reached in the fewest moves.</p></div>
+          <div class="dscard"><div class="emoji">🕵️</div><h4>Visited set</h4><p>Stores every (a,b) pair we've already queued, so we don't loop between the same two or three states forever (e.g. fill then empty then fill again).</p></div>
+          <div class="dscard"><div class="emoji">🧵</div><h4>Parent map</h4><p>Same trick as the 8-puzzle: remember which state led to which, so once we hit the target we can walk backwards and print the actual move sequence.</p></div>
+          <div class="dscard"><div class="emoji">🔢</div><h4>Tuple (the state)</h4><p>(a, b) as a simple tuple — small, hashable, easy to put straight into a Python set or a Java <code>HashSet&lt;String&gt;</code>.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CODE -->
+    <div class="sub" id="j-code">
+      <div class="card reveal">
+        <h2>💻 Language: Python 🐍 — build-it-yourself roadmap</h2>
+        <p>Why Python: <code>collections.deque</code> is an O(1) queue out of the box, and tuples slot straight into a <code>set</code>. (Java: <code>LinkedList&lt;&gt;</code> as your <code>Queue&lt;int[]&gt;</code> + a <code>HashSet&lt;String&gt;</code> — works, just chattier.)</p>
+        <div class="roadmap-intro">🗺️ Only 3 functions this time — the water jug is the 8-puzzle's baby cousin. Build them in order and you're done.</div>
+
+        <div class="roadmap">
+
+          <div class="buildstep reveal">
+            <div class="bnum">STEP 1</div>
+            <div class="fname">the state</div>
+            <h4>Represent a state</h4>
+            <p class="witty">Just two numbers, nothing fancier. Physics homework has harder variable names.</p>
+            <ul class="logic">
+              <li>A state is <code>(a, b)</code> — litres currently in Jug A and Jug B.</li>
+              <li>Start state is always <code>(0, 0)</code>.</li>
+              <li>Keep <code>cap_a</code>, <code>cap_b</code>, and <code>target</code> as separate variables you pass around.</li>
+            </ul>
+            <div class="skeleton">start = (0, 0)
+cap_a, cap_b, target = 4, 3, 2</div>
+          </div>
+
+          <div class="arrow-down">⬇</div>
+
+          <div class="buildstep reveal">
+            <div class="bnum">STEP 2</div>
+            <div class="fname">def next_states(a, b, cap_a, cap_b):</div>
+            <h4>Write the move-generator</h4>
+            <p class="witty">Six buttons, six outcomes. Your job is just translating each button into arithmetic.</p>
+            <ul class="logic">
+              <li><b>Fill A</b> → <code>(cap_a, b)</code>. <b>Fill B</b> → <code>(a, cap_b)</code>.</li>
+              <li><b>Empty A</b> → <code>(0, b)</code>. <b>Empty B</b> → <code>(a, 0)</code>.</li>
+              <li><b>Pour A→B</b> — the only tricky one. Hint: you can only pour the smaller of "what A has" and "what room B has left": <code>pour = min(a, cap_b - b)</code>, new state <code>(a-pour, b+pour)</code>.</li>
+              <li><b>Pour B→A</b> — mirror the hint above, swapping A and B.</li>
+              <li>Return all 6 as a list of <code>(state, move_label)</code> pairs — the label makes step 3's printout readable later.</li>
+            </ul>
+            <div class="skeleton">def next_states(a, b, cap_a, cap_b):
+    moves = []
+    <span class="todo"># TODO: append Fill A, Fill B, Empty A, Empty B</span>
+    <span class="todo"># TODO: work out pour = min(a, cap_b - b) for A->B</span>
+    <span class="todo"># TODO: work out pour = min(b, cap_a - a) for B->A</span>
+    return moves</div>
+          </div>
+
+          <div class="arrow-down">⬇</div>
+
+          <div class="buildstep reveal">
+            <div class="bnum">STEP 3</div>
+            <div class="fname">def solve_jug(cap_a, cap_b, target):</div>
+            <h4>Wire up the BFS search</h4>
+            <p class="witty">The boss function again — it just keeps asking Step 2 "what's next?" in the right order until it hears "target!"</p>
+            <ul class="logic">
+              <li>Import <code>deque</code>. Start a queue with <code>(0,0)</code>, and a <code>parent</code> dict marking it as seen: <code>{(0,0): None}</code>.</li>
+              <li>Loop while the queue isn't empty: <code>popleft()</code> the front state <code>(a, b)</code>.</li>
+              <li>Win check: if <code>a == target or b == target</code> → you're done, reconstruct and return the path.</li>
+              <li>Otherwise call <b>Step 2</b> for all next states. For each one <b>not already in</b> <code>parent</code>: record its parent + move label, and enqueue it.</li>
+              <li>If the queue empties without hitting target → <code>return None</code> (genuinely unreachable, e.g. target 5 with these jugs).</li>
+            </ul>
+            <div class="skeleton">from collections import deque
+
+def solve_jug(cap_a, cap_b, target):
+    start = (0, 0)
+    q = deque([start])
+    parent = {start: None}
+    <span class="todo"># TODO: while q: pop left -> a, b</span>
+    <span class="todo"># TODO: if a == target or b == target: return path</span>
+    <span class="todo"># TODO: else for state, label in next_states(...):</span>
+    <span class="todo">#   TODO: if state not in parent: record + enqueue</span>
+    return None  <span class="cm"># unreachable target</span></div>
+          </div>
+
+        </div>
+        <p style="margin-top:18px;font-size:.9rem;color:#555;">✅ Checkpoint: <code>solve_jug(4, 3, 2)</code> should return a path whose last state has a <code>2</code> in it. Print each move label along the way — that's your fill/empty/pour instructions!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footnote">
+  Created by — IT Department (Prof. Bhumika Shah)
+</div>
+
+<script>
+/* ---------------- TAB / SUBNAV SWITCHING ---------------- */
+document.querySelectorAll('.tabbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tabbtn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+  });
+});
+document.querySelectorAll('.subnav').forEach(nav=>{
+  nav.querySelectorAll('.pill').forEach(pill=>{
+    pill.addEventListener('click',()=>{
+      nav.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+      pill.classList.add('active');
+      const parentApp = nav.parentElement;
+      parentApp.querySelectorAll('.sub').forEach(s=>s.classList.remove('active'));
+      document.getElementById(pill.dataset.sub).classList.add('active');
+    });
+  });
+});
+/* steps expand */
+document.querySelectorAll('.steps').forEach(list=>{
+  list.querySelectorAll('.step').forEach(step=>{
+    step.addEventListener('click',()=>{
+      list.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+      step.classList.add('active');
+    });
+  });
+});
+/* reveal on scroll */
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in-view'); });
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+function copyCode(id){
+  const text = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(text);
+}
+
+/* ======================================================
+   8-PUZZLE ENGINE
+====================================================== */
+const GOAL = [1,2,3,4,5,6,7,8,0];
+let puzzle = [...GOAL];
+let moveCount = 0;
+const TILE=92, GAP=8;
+
+function renderBoard(){
+  const board = document.getElementById('board');
+  board.innerHTML='';
+  puzzle.forEach((val,i)=>{
+    if(val===0) return;
+    const r = Math.floor(i/3), c = i%3;
+    const el = document.createElement('div');
+    el.className='tile';
+    el.textContent = val;
+    el.style.transform = `translate(${c*(TILE+GAP)}px, ${r*(TILE+GAP)}px)`;
+    el.addEventListener('click',()=>tryMove(i));
+    board.appendChild(el);
+  });
+  document.getElementById('moveCount').textContent = moveCount;
+  document.getElementById('winBanner').style.display = arraysEqual(puzzle,GOAL) ? 'block' : 'none';
+}
+function arraysEqual(a,b){ return a.every((v,i)=>v===b[i]); }
+function blankIndex(arr){ return arr.indexOf(0); }
+function isAdjacent(i,j){
+  const r1=Math.floor(i/3),c1=i%3,r2=Math.floor(j/3),c2=j%3;
+  return Math.abs(r1-r2)+Math.abs(c1-c2)===1;
+}
+function tryMove(i){
+  const b = blankIndex(puzzle);
+  if(isAdjacent(i,b)){
+    [puzzle[i],puzzle[b]] = [puzzle[b],puzzle[i]];
+    moveCount++;
+    renderBoard();
+  }
+}
+function shuffleBoard(){
+  puzzle = [...GOAL];
+  moveCount = 0;
+  let last=-1;
+  for(let k=0;k<80;k++){
+    const b = blankIndex(puzzle);
+    const neighborsIdx=[];
+    const r=Math.floor(b/3),c=b%3;
+    [[r-1,c],[r+1,c],[r,c-1],[r,c+1]].forEach(([nr,nc])=>{
+      if(nr>=0&&nr<3&&nc>=0&&nc<3) neighborsIdx.push(nr*3+nc);
+    });
+    const options = neighborsIdx.filter(x=>x!==last);
+    const pick = options[Math.floor(Math.random()*options.length)];
+    [puzzle[pick],puzzle[b]] = [puzzle[b],puzzle[pick]];
+    last = b;
+  }
+  renderBoard();
+}
+function stateKey(arr){ return arr.join(','); }
+function neighborsOf(arr){
+  const res=[];
+  const b = blankIndex(arr);
+  const r=Math.floor(b/3),c=b%3;
+  [[r-1,c],[r+1,c],[r,c-1],[r,c+1]].forEach(([nr,nc])=>{
+    if(nr>=0&&nr<3&&nc>=0&&nc<3){
+      const ni=nr*3+nc;
+      const copy=[...arr];
+      [copy[b],copy[ni]]=[copy[ni],copy[b]];
+      res.push(copy);
+    }
+  });
+  return res;
+}
+function bfsSolve(start,goal){
+  if(arraysEqual(start,goal)) return [];
+  const startKey = stateKey(start);
+  const visited = new Set([startKey]);
+  const queue=[start];
+  const parent = new Map(); // key -> [parentArr, ]
+  let qi=0;
+  while(qi<queue.length){
+    const cur = queue[qi++];
+    const curKey = stateKey(cur);
+    for(const n of neighborsOf(cur)){
+      const k = stateKey(n);
+      if(!visited.has(k)){
+        visited.add(k);
+        parent.set(k,cur);
+        if(arraysEqual(n,goal)){
+          // reconstruct
+          const path=[n];
+          let ck=k;
+          while(ck!==startKey){
+            const p = parent.get(ck);
+            path.unshift(p);
+            ck = stateKey(p);
+          }
+          return path.slice(1); // exclude start
+        }
+        queue.push(n);
+      }
+    }
+  }
+  return null;
+}
+function autoSolve(){
+  const path = bfsSolve(puzzle, GOAL);
+  if(!path || path.length===0){ return; }
+  let idx=0;
+  const btn = document.getElementById('btnSolve');
+  btn.disabled=true;
+  const timer = setInterval(()=>{
+    if(idx>=path.length){ clearInterval(timer); btn.disabled=false; return; }
+    puzzle = path[idx]; moveCount++; renderBoard(); idx++;
+  }, 380);
+}
+document.getElementById('btnShuffle').addEventListener('click',shuffleBoard);
+document.getElementById('btnSolve').addEventListener('click',autoSolve);
+document.getElementById('btnReset').addEventListener('click',()=>{ puzzle=[...GOAL]; moveCount=0; renderBoard(); });
+renderBoard();
+shuffleBoard();
+
+/* ---- possibility tree viz ---- */
+function miniGridHTML(arr, isRoot){
+  let html = `<div class="minigrid">`;
+  arr.forEach(v=>{
+    html += v===0 ? `<div class="minicell blank"></div>` : `<div class="minicell">${v}</div>`;
+  });
+  html += `</div>`;
+  return html;
+}
+function buildTree(){
+  const container = document.getElementById('treeViz');
+  container.innerHTML='';
+  // random small scramble (3-4 moves) as root
+  let root = [...GOAL];
+  let lastB=-1;
+  const scrambleMoves = 3;
+  for(let k=0;k<scrambleMoves;k++){
+    const b = blankIndex(root);
+    const r=Math.floor(b/3),c=b%3;
+    const opts=[];
+    [[r-1,c],[r+1,c],[r,c-1],[r,c+1]].forEach(([nr,nc])=>{
+      if(nr>=0&&nr<3&&nc>=0&&nc<3){const ni=nr*3+nc; if(ni!==lastB) opts.push(ni);}
+    });
+    const pick = opts[Math.floor(Math.random()*opts.length)];
+    [root[pick],root[b]]=[root[b],root[pick]];
+    lastB=b;
+  }
+  const rootWrap = document.createElement('div');
+  rootWrap.className='tlevel';
+  const rootNode = document.createElement('div');
+  rootNode.className='tnode root';
+  rootNode.style.animationDelay='0s';
+  rootNode.innerHTML = miniGridHTML(root) + `<div class="tnote">start</div>`;
+  rootWrap.appendChild(rootNode);
+  container.appendChild(rootWrap);
+
+  const connWrap1 = document.createElement('div');
+  connWrap1.className='tconnector';
+  container.appendChild(connWrap1);
+
+  const level1 = neighborsOf(root);
+  const level1Wrap = document.createElement('div');
+  level1Wrap.className='tlevel';
+  level1.forEach((s,idx)=>{
+    const n=document.createElement('div');
+    n.className='tnode';
+    n.style.animationDelay=(0.15*(idx+1))+'s';
+    n.innerHTML = miniGridHTML(s) + `<div class="tnote">move ${idx+1}</div>`;
+    level1Wrap.appendChild(n);
+  });
+  container.appendChild(level1Wrap);
+
+  const connWrap2 = document.createElement('div');
+  connWrap2.className='tconnector';
+  container.appendChild(connWrap2);
+  container.appendChild(Object.assign(document.createElement('div'),{className:'tnote',textContent:'…branching from move 1…'}));
+
+  const level2 = neighborsOf(level1[0]);
+  const level2Wrap = document.createElement('div');
+  level2Wrap.className='tlevel';
+  level2.forEach((s,idx)=>{
+    const n=document.createElement('div');
+    n.className='tnode';
+    n.style.animationDelay=(0.6+0.15*(idx+1))+'s';
+    n.innerHTML = miniGridHTML(s) + `<div class="tnote">depth 2</div>`;
+    level2Wrap.appendChild(n);
+  });
+  container.appendChild(level2Wrap);
+}
+buildTree();
+document.getElementById('btnRegenTree').addEventListener('click',buildTree);
+
+/* ======================================================
+   WATER JUG ENGINE
+====================================================== */
+const CAP_A=4, CAP_B=3, TARGET=2;
+let jugState = {a:0,b:0};
+
+function jugSVG(amount, cap, wrapId){
+  const wrap = document.getElementById(wrapId);
+  const pct = amount/cap;
+  const h = 150, w=100;
+  const waterH = h*pct;
+  wrap.innerHTML = `
+  <svg width="${w}" height="${h+16}" viewBox="0 0 ${w} ${h+16}">
+    <defs>
+      <clipPath id="clip-${wrapId}"><path d="M6,4 L${w-6},4 L${w-14},${h+8} Q${w/2},${h+16} 14,${h+8} Z"/></clipPath>
+    </defs>
+    <path d="M6,4 L${w-6},4 L${w-14},${h+8} Q${w/2},${h+16} 14,${h+8} Z" fill="#ffffff88" stroke="#211B3E" stroke-width="4"/>
+    <rect x="0" y="${h+16-waterH}" width="${w}" height="${waterH+20}" fill="#3FB8E8" clip-path="url(#clip-${wrapId})" style="transition: y .5s ease, height .5s ease;"/>
+  </svg>`;
+}
+function renderJugs(){
+  jugSVG(jugState.a, CAP_A, 'jugA');
+  jugSVG(jugState.b, CAP_B, 'jugB');
+  document.getElementById('amtA').textContent = jugState.a;
+  document.getElementById('amtB').textContent = jugState.b;
+  document.getElementById('jugWin').style.display = (jugState.a===TARGET || jugState.b===TARGET) ? 'block':'none';
+}
+function jugLog(msg){
+  const log = document.getElementById('jugLog');
+  const d = document.createElement('div');
+  d.textContent = msg;
+  log.appendChild(d);
+  log.scrollTop = log.scrollHeight;
+}
+function jugAction(action){
+  let {a,b} = jugState;
+  switch(action){
+    case 'fillA': a=CAP_A; jugLog('🚰 Filled Jug A → 4L'); break;
+    case 'fillB': b=CAP_B; jugLog('🚰 Filled Jug B → 3L'); break;
+    case 'emptyA': a=0; jugLog('🕳️ Emptied Jug A'); break;
+    case 'emptyB': b=0; jugLog('🕳️ Emptied Jug B'); break;
+    case 'pourAB': { const pour=Math.min(a,CAP_B-b); a-=pour; b+=pour; jugLog(`➡️ Poured ${pour}L from A to B`); break; }
+    case 'pourBA': { const pour=Math.min(b,CAP_A-a); b-=pour; a+=pour; jugLog(`⬅️ Poured ${pour}L from B to A`); break; }
+    case 'reset': a=0;b=0; jugLog('↩️ Reset both jugs'); break;
+    case 'autosolve': jugAutoSolve(); return;
+  }
+  jugState={a,b};
+  renderJugs();
+}
+function jugNextStates(a,b){
+  const moves=[];
+  moves.push([[CAP_A,b],'Fill A']);
+  moves.push([[a,CAP_B],'Fill B']);
+  moves.push([[0,b],'Empty A']);
+  moves.push([[a,0],'Empty B']);
+  let pour=Math.min(a,CAP_B-b);
+  moves.push([[a-pour,b+pour],'Pour A→B']);
+  pour=Math.min(b,CAP_A-a);
+  moves.push([[a+pour,b-pour],'Pour B→A']);
+  return moves;
+}
+function jugBFS(){
+  const start='0,0';
+  const queue=[[0,0]];
+  const visited=new Set([start]);
+  const parent={ '0,0': null };
+  let qi=0;
+  while(qi<queue.length){
+    const [a,b]=queue[qi++];
+    if(a===TARGET||b===TARGET){
+      const path=[];
+      let ck=`${a},${b}`;
+      while(ck!==null){
+        path.unshift(ck);
+        ck = parent[ck];
+      }
+      return path.map(s=>s.split(',').map(Number));
+    }
+    for(const [state,label] of jugNextStates(a,b)){
+      const key = state.join(',');
+      if(!visited.has(key)){
+        visited.add(key);
+        parent[key]=`${a},${b}`;
+        queue.push(state);
+      }
+    }
+  }
+  return null;
+}
+function jugAutoSolve(){
+  const path = jugBFS();
+  if(!path) return;
+  jugState={a:0,b:0}; renderJugs();
+  jugLog('🤖 Auto-solving with BFS...');
+  let idx=1;
+  const timer=setInterval(()=>{
+    if(idx>=path.length){ clearInterval(timer); jugLog('✅ Reached target!'); return; }
+    jugState={a:path[idx][0],b:path[idx][1]};
+    jugLog(`Step ${idx}: → (${path[idx][0]}, ${path[idx][1]})`);
+    renderJugs();
+    idx++;
+  },700);
+}
+renderJugs();
+jugSVG(0,CAP_A,'introJugA');
+jugSVG(0,CAP_B,'introJugB');
+
+/* ---- jug possibility graph ---- */
+function buildJugGraph(){
+  const wrap = document.getElementById('jugGraph');
+  const w=560,h=280;
+  const cellW = w/(CAP_A+1), cellH=(h-30)/(CAP_B+1);
+  let svg = `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">`;
+  // axis labels
+  svg += `<text x="${w/2}" y="${h-4}" text-anchor="middle" font-size="12" fill="#211B3E" font-family="Nunito">Jug A amount →</text>`;
+  svg += `<text x="12" y="14" font-size="12" fill="#211B3E" font-family="Nunito">Jug B ↑</text>`;
+  const nodePos = (a,b)=>({x: 40+a*cellW*0.85, y: h-40-b*cellH});
+  // reachable set via BFS order for animation
+  const order=[]; const start=[0,0]; const visited=new Set(['0,0']); const q=[start]; let qi=0;
+  const parentMap={'0,0':null};
+  while(qi<q.length){
+    const [a,b]=q[qi++]; order.push([a,b]);
+    for(const [state] of jugNextStates(a,b)){
+      const key=state.join(',');
+      if(!visited.has(key)){ visited.add(key); parentMap[key]=[a,b]; q.push(state); }
+    }
+  }
+  // draw all 20 possible nodes faint
+  for(let a=0;a<=CAP_A;a++){
+    for(let b=0;b<=CAP_B;b++){
+      const p = nodePos(a,b);
+      svg += `<circle cx="${p.x}" cy="${p.y}" r="14" fill="#fff" stroke="#ccc" stroke-width="2"/>`;
+      svg += `<text x="${p.x}" y="${p.y+4}" text-anchor="middle" font-size="10" fill="#bbb" font-family="Space Mono">${a},${b}</text>`;
+    }
+  }
+  // edges + nodes for reachable, with stagger animation classes
+  order.forEach(([a,b],i)=>{
+    const par = parentMap[`${a},${b}`];
+    if(par){
+      const p1=nodePos(par[0],par[1]), p2=nodePos(a,b);
+      svg += `<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="#9B7EDE" stroke-width="2" opacity="0" style="animation: fadeInLine .4s forwards; animation-delay:${i*0.18}s"/>`;
+    }
+  });
+  order.forEach(([a,b],i)=>{
+    const p = nodePos(a,b);
+    const isTarget = (a===TARGET||b===TARGET);
+    svg += `<circle cx="${p.x}" cy="${p.y}" r="14" fill="${isTarget?'#FFC94D':'#3FB8E8'}" stroke="#211B3E" stroke-width="2" opacity="0" style="animation: popIn .4s forwards; animation-delay:${i*0.18}s"/>`;
+    svg += `<text x="${p.x}" y="${p.y+4}" text-anchor="middle" font-size="10" fill="#211B3E" font-weight="700" font-family="Space Mono" opacity="0" style="animation: popIn .4s forwards; animation-delay:${i*0.18}s">${a},${b}</text>`;
+  });
+  svg += `<style>
+    @keyframes fadeInLine{to{opacity:.7;}}
+    @keyframes popIn{to{opacity:1;}}
+  </style>`;
+  svg += `</svg>`;
+  wrap.innerHTML = svg;
+}
+buildJugGraph();
+document.getElementById('btnReplayBFS').addEventListener('click',buildJugGraph);
+</script>
+</body>
+</html>
