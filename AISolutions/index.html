@@ -129,6 +129,50 @@ code, .mono{font-family:'Space Mono',monospace;}
 .arrow-down{text-align:center;font-size:1.5rem;color:var(--ink);opacity:.5;margin:-10px 0;}
 .roadmap-intro{background:var(--grape);color:#fff;border:3px solid var(--ink);border-radius:16px;padding:16px 20px;font-weight:700;margin-top:16px;}
 
+/* AI search problem formulation box */
+.formulation-box{background:var(--ink);color:#f4f2ff;border-radius:18px;padding:22px 24px;margin:18px 0;border:3px solid var(--ink);}
+.formulation-box h3{margin:0 0 12px;color:var(--sun);font-size:1.15rem;}
+.formulation-box ul{margin:0;padding-left:20px;line-height:1.8;font-size:.95rem;}
+.formulation-box ul b{color:var(--mint);}
+.formula{text-align:center;font-family:'Space Mono',monospace;font-size:1.25rem;background:rgba(255,255,255,.1);border-radius:10px;padding:12px;margin:16px 0;letter-spacing:1px;}
+.formula-legend{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;font-size:.82rem;margin-top:6px;}
+.formula-legend span b{color:var(--sun);}
+
+/* flow diagram graphic */
+.flowdiagram{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;padding:22px 10px 10px;}
+.flownode{background:var(--white);border:3px solid var(--ink);border-radius:12px;padding:10px 14px;font-family:'Space Mono',monospace;font-size:.76rem;font-weight:700;text-align:center;box-shadow:var(--shadow-sm);min-width:88px;transition:.2s;}
+.flownode span{display:block;font-family:'Nunito',sans-serif;font-weight:800;font-size:.65rem;color:#888;margin-top:2px;}
+.flownode:hover{transform:translateY(-3px);background:var(--sun);}
+.flowarrow{font-size:1.3rem;color:var(--ink);opacity:.55;}
+
+/* worked example trace */
+.example-trace{display:flex;align-items:center;gap:4px;overflow-x:auto;padding:18px 6px;}
+.extile{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;opacity:0;transform:scale(.7);animation:nodepop .5s forwards;}
+.exarrow{display:flex;flex-direction:column;align-items:center;font-size:.68rem;font-weight:800;color:#555;flex-shrink:0;min-width:78px;text-align:center;}
+.exarrow .ar{font-size:1.2rem;color:var(--coral);}
+.expill{font-family:'Fredoka',sans-serif;font-weight:700;background:var(--white);border:3px solid var(--ink);border-radius:12px;padding:10px 16px;font-size:1.1rem;box-shadow:var(--shadow-sm);}
+.expill.goal{background:var(--mint);}
+.extag{font-size:.68rem;font-weight:800;color:#888;}
+
+/* quiz gate to unlock full solution */
+.quizgate{background:var(--white);border:3px dashed var(--ink);border-radius:18px;padding:28px 20px;text-align:center;margin-top:24px;}
+.quizgate .lock{font-size:2.6rem;display:block;margin-bottom:8px;animation:wiggle 3s ease-in-out infinite;}
+.quizgate h4{margin:0 0 6px;font-family:'Fredoka',sans-serif;font-size:1.15rem;}
+.quizgate p{font-size:.9rem;color:#666;margin:0 0 14px;}
+.quizcard{display:none;background:var(--white);border:3px solid var(--ink);border-radius:18px;padding:22px;margin-top:20px;box-shadow:var(--shadow);}
+.quizcard.active{display:block;animation:pop .35s ease;}
+.quizprogress{font-size:.78rem;font-weight:800;color:#999;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;}
+.quizq{font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:16px;}
+.quizoptions{display:flex;flex-direction:column;gap:9px;}
+.quizopt{cursor:pointer;text-align:left;border:2px solid var(--ink);border-radius:12px;padding:11px 16px;background:var(--cream);font-weight:700;font-size:.92rem;transition:.15s;}
+.quizopt:hover{background:var(--sky);color:#fff;transform:translateX(3px);}
+.quizopt.chosen{background:var(--sun);}
+.quizopt.disabled{pointer-events:none;opacity:.55;}
+.quizfeedback{margin-top:14px;font-size:.88rem;font-style:italic;color:#555;display:none;}
+.quiznextbtn{margin-top:14px;}
+.solution-wrap{display:none;}
+.unlockflash{text-align:center;font-family:'Fredoka',sans-serif;font-weight:700;color:var(--mint);font-size:1.1rem;margin:0 0 16px;animation:pop .5s ease;}
+
 /* tree viz */
 .treewrap{overflow-x:auto;padding:20px 0;}
 .tree{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:640px;}
@@ -277,7 +321,7 @@ code, .mono{font-family:'Space Mono',monospace;}
           <li class="step">Pop the most promising state. If it's the goal — done! Return the path.<p>We reconstruct the path by remembering each state's parent.</p></li>
           <li class="step">Otherwise, generate its neighbors (slide blank up/down/left/right).<p>Skip moves that would push the blank off the board.</p></li>
           <li class="step">Skip any neighbor already in the <b>visited set</b>; push new ones into the queue with updated f(n).<p>This avoids infinite loops and re-exploring the same board twice.</p></li>
-          <li class="step">Repeat steps 4–6 until the goal pops out (or queue empties = unsolvable).<p>Because we always expand the lowest f(n) first, the first time we pop the goal, it's guaranteed optimal (fewest moves).</p></li>
+          <li class="step">Repeat steps 4–6 until the goal pops out, or the queue empties.<p>Because we always expand the lowest f(n) first, the first time we pop the goal, it's guaranteed optimal (fewest moves). If the queue empties before that happens, every reachable state has been checked and none was the goal — <b>no solution exists</b> from this start (A* doesn't test solvability up front, it just exhausts the search).</p></li>
         </ul>
       </div>
     </div>
@@ -299,9 +343,44 @@ code, .mono{font-family:'Space Mono',monospace;}
     <!-- CODE -->
     <div class="sub" id="p-code">
       <div class="card reveal">
-        <h2>💻 Language: Python 🐍 — build-it-yourself roadmap</h2>
+        <h2>💻 Language: Python 🐍 — the complete solution</h2>
         <p>Why Python: <code>heapq</code> gives you a priority queue for free, and tuples hash cleanly for a visited-set. (Java works too — <code>PriorityQueue&lt;&gt;</code> + <code>HashSet&lt;String&gt;</code> — just more typing.)</p>
-        <div class="roadmap-intro">🗺️ Don't copy-paste a solution — build 5 small functions in this order. Each one is dumb-simple on its own; stacked together they become an AI search agent.</div>
+
+        <p style="margin-top:18px;"><b>🗺️ First, the big picture — how the 5 functions call each other:</b></p>
+        <div class="flowdiagram">
+          <div class="flownode">state<span>tuple of 9</span></div>
+          <div class="flowarrow">→</div>
+          <div class="flownode">h()<span>guess distance</span></div>
+          <div class="flowarrow">→</div>
+          <div class="flownode">neighbors()<span>legal moves</span></div>
+          <div class="flowarrow">→</div>
+          <div class="flownode">a_star()<span>the search loop</span></div>
+          <div class="flowarrow">→</div>
+          <div class="flownode">reconstruct()<span>build the path</span></div>
+          <div class="flowarrow">→</div>
+          <div class="flownode" style="background:var(--mint);">solution ✅</div>
+        </div>
+        <p style="font-size:.85rem;color:#666;text-align:center;">a_star() is the boss: it calls h() and neighbors() over and over, and calls reconstruct() once, right at the end.</p>
+
+        <div class="roadmap-intro">✅ Every function below is now fully filled in — read top to bottom, run it, tweak it, make it yours.</div>
+
+        <div class="formulation-box reveal">
+          <h3>🧩 AI Search Problem Formulation</h3>
+          <p style="margin:0 0 10px;">Before writing any code, every AI search agent needs 4 things defined. Here's what they are <em>for the 8-puzzle specifically</em>:</p>
+          <ul>
+            <li><b>State</b> → the current arrangement of the 9 tiles</li>
+            <li><b>Actions</b> → move the blank Up, Down, Left, or Right</li>
+            <li><b>Goal Test</b> → does the board exactly equal the goal state?</li>
+            <li><b>Path Cost</b> → every single move costs <b>1</b></li>
+          </ul>
+          <div class="formula">f(n) = g(n) + h(n)</div>
+          <div class="formula-legend">
+            <span><b>g(n)</b> = cost so far (moves taken)</span>
+            <span><b>h(n)</b> = estimated cost remaining (Manhattan distance)</span>
+            <span><b>f(n)</b> = estimated total cost of a path through n</span>
+          </div>
+          <p style="margin:12px 0 0;font-size:.88rem;color:#cfc9ea;">This is exactly <em>why</em> we need 5 functions: one to hold the <b>state</b>, one to estimate <b>h</b>, one to generate legal <b>actions</b>, one to check the <b>goal test</b> and rebuild the path, and one to run the whole <b>f = g + h</b> search loop.</p>
+        </div>
 
         <div class="roadmap">
 
@@ -315,7 +394,8 @@ code, .mono{font-family:'Space Mono',monospace;}
               <li><code>0</code> always means "blank."</li>
               <li>Tuples matter: they're <b>hashable</b>, so they can go straight into a Python <code>set</code> later (visited states).</li>
             </ul>
-            <div class="skeleton">state = (1, 2, 3, 4, 5, 6, 7, 8, 0)  <span class="cm"># this is the goal too</span></div>
+            <div class="skeleton">state = (1, 2, 3, 4, 0, 6, 7, 5, 8)  <span class="cm"># shuffled start</span>
+goal  = (1, 2, 3, 4, 5, 6, 7, 8, 0)  <span class="cm"># solved board</span></div>
           </div>
 
           <div class="arrow-down">⬇</div>
@@ -323,20 +403,23 @@ code, .mono{font-family:'Space Mono',monospace;}
           <div class="buildstep reveal">
             <div class="bnum">STEP 2</div>
             <div class="fname">def h(state, goal):</div>
-            <h4>Write the heuristic — "how far off are we?"</h4>
-            <p class="witty">This is your gut-feeling function: it never actually solves anything, it just guesses smartly.</p>
+            <h4>The heuristic — "how far off are we?"</h4>
+            <p class="witty">This is your gut-feeling function: it never actually solves anything, it just guesses smartly. This is the <code>h(n)</code> from <code>f = g + h</code>.</p>
             <ul class="logic">
               <li>Loop over every position <code>i</code> in <code>state</code>. <b>Skip</b> it if the tile there is <code>0</code>.</li>
               <li>Find where that tile <em>should</em> be: <code>goal.index(tile)</code>.</li>
-              <li>Convert both the current index and goal index into <code>(row, col)</code> using <code>//3</code> and <code>%3</code>.</li>
-              <li>Add <code>abs(row diff) + abs(col diff)</code> to a running total — that's the "Manhattan distance" for one tile.</li>
-              <li>Return the total after the loop. Lower = closer to solved.</li>
+              <li>Convert both indices into <code>(row, col)</code> using <code>//3</code> and <code>%3</code>, then add up the distances.</li>
+              <li>💡 Optional level-up: <code>goal.index(tile)</code> re-scans the goal every time. For bigger puzzles, precompute <code>goal_pos = {tile: i for i, tile in enumerate(goal)}</code> once, so lookup becomes instant. Not needed for 3×3, but good habit for scaling up.</li>
             </ul>
             <div class="skeleton">def h(state, goal):
     total = 0
-    <span class="todo"># TODO: loop over each tile, skip the blank</span>
-    <span class="todo"># TODO: work out its (row, col) now vs. in goal</span>
-    <span class="todo"># TODO: add the distance between them to total</span>
+    for i, tile in enumerate(state):
+        if tile == 0:
+            continue
+        gi = goal.index(tile)
+        row1, col1 = i // 3, i % 3
+        row2, col2 = gi // 3, gi % 3
+        total += abs(row1 - row2) + abs(col1 - col2)
     return total</div>
           </div>
 
@@ -345,20 +428,24 @@ code, .mono{font-family:'Space Mono',monospace;}
           <div class="buildstep reveal">
             <div class="bnum">STEP 3</div>
             <div class="fname">def neighbors(state):</div>
-            <h4>Write the move-generator</h4>
-            <p class="witty">Ask the blank tile: "where CAN you go?" — up to 4 honest answers.</p>
+            <h4>The move-generator</h4>
+            <p class="witty">Ask the blank tile: "where CAN you go?" — up to 4 honest answers. This is the <b>Actions</b> piece of our problem formulation.</p>
             <ul class="logic">
               <li>Find the blank's flat index: <code>state.index(0)</code>, then its <code>(row, col)</code>.</li>
-              <li>Try all 4 directions: <code>(-1,0) (1,0) (0,-1) (0,1)</code>.</li>
-              <li>For each, check the new row/col is still <b>inside the 3×3 grid</b> — throw away the rest.</li>
-              <li>If valid: copy the state, <b>swap</b> the blank with that neighbor tile, and hand back the new board.</li>
+              <li>Try all 4 directions, skip anything that falls off the 3×3 grid.</li>
+              <li>Copy the state, <b>swap</b> the blank with that neighbor tile, and collect the new board.</li>
             </ul>
             <div class="skeleton">def neighbors(state):
     results = []
-    <span class="todo"># TODO: find blank's row, col</span>
-    <span class="todo"># TODO: for each of the 4 directions...</span>
-    <span class="todo">#   TODO: skip if it falls off the board</span>
-    <span class="todo">#   TODO: else copy state, swap, append to results</span>
+    i = state.index(0)
+    row, col = i // 3, i % 3
+    for dr, dc in [(-1,0), (1,0), (0,-1), (0,1)]:
+        nr, nc = row + dr, col + dc
+        if 0 <= nr < 3 and 0 <= nc < 3:
+            ni = nr * 3 + nc
+            new_state = list(state)
+            new_state[i], new_state[ni] = new_state[ni], new_state[i]
+            results.append(tuple(new_state))
     return results</div>
           </div>
 
@@ -367,19 +454,19 @@ code, .mono{font-family:'Space Mono',monospace;}
           <div class="buildstep reveal">
             <div class="bnum">STEP 4</div>
             <div class="fname">def reconstruct(came_from, state):</div>
-            <h4>Write the path-rebuilder</h4>
+            <h4>The path-rebuilder</h4>
             <p class="witty">The unglamorous function nobody remembers — but without it you only know the puzzle IS solvable, not HOW.</p>
             <ul class="logic">
               <li>Start a list with just the goal <code>state</code>.</li>
               <li>Keep looking up <code>came_from[state]</code> and stepping backwards, appending each parent.</li>
-              <li>Stop when you hit the start (its parent is <code>None</code>).</li>
               <li>Reverse the list before returning it — you built it backwards!</li>
             </ul>
             <div class="skeleton">def reconstruct(came_from, state):
     path = [state]
-    <span class="todo"># TODO: while came_from[state] is not None:</span>
-    <span class="todo">#   TODO: move state = came_from[state], append it</span>
-    <span class="todo"># TODO: reverse path before returning</span>
+    while came_from[state] is not None:
+        state = came_from[state]
+        path.append(state)
+    path.reverse()
     return path</div>
           </div>
 
@@ -389,28 +476,112 @@ code, .mono{font-family:'Space Mono',monospace;}
             <div class="bnum">STEP 5</div>
             <div class="fname">def a_star(start, goal):</div>
             <h4>Wire everything together</h4>
-            <p class="witty">The boss function. It doesn't know how to guess or move tiles — it just bosses steps 2 &amp; 3 around in the right order.</p>
+            <p class="witty">The boss function. It doesn't know how to guess or move tiles — it just bosses steps 2 &amp; 3 around, always chasing the lowest <code>f = g + h</code>.</p>
             <ul class="logic">
-              <li>Import <code>heapq</code>. Push <code>(f, g, state, parent)</code> for the start — use <code>f = h(start, goal)</code>, <code>g = 0</code>.</li>
-              <li>Loop while the heap isn't empty: <code>heapq.heappop()</code> the lowest-<code>f</code> entry.</li>
-              <li>If you've seen this state before → <code>continue</code>. Otherwise mark it visited + record its parent.</li>
-              <li>If <code>state == goal</code> → call <b>Step 4</b> and return the path. 🎉</li>
-              <li>Else, call <b>Step 3</b> for neighbors; for each unvisited one, <code>heappush</code> it with <code>g+1</code> and a fresh <code>h()</code> from <b>Step 2</b>.</li>
+              <li>Push <code>(f, g, state, parent)</code> for the start, where <code>g = 0</code> (no moves yet) and <code>f = g + h(start, goal)</code>.</li>
+              <li>Loop: <code>heapq.heappop()</code> always hands you the entry with the <b>lowest f</b> — the most "promising" state so far.</li>
+              <li><b>Check visited before recording anything</b> — if this state was already expanded, <code>continue</code> immediately. Otherwise <i>then</i> mark it visited and record its parent (this order matters, or you can accidentally overwrite a shorter path).</li>
+              <li><b>Goal test:</b> if <code>state == goal</code> → call <b>Step 4</b> and return the path. 🎉</li>
+              <li>Else expand with <b>Step 3</b>. Every move costs 1, so each neighbor gets <code>new_g = g + 1</code> and <code>new_f = new_g + h(neighbor, goal)</code>, then gets pushed onto the heap.</li>
+              <li>If the heap runs completely empty before the goal ever pops out — no solution exists from this start (the search exhausted every reachable state, it didn't "check" solvability in advance).</li>
             </ul>
             <div class="skeleton">import heapq
 
 def a_star(start, goal):
-    pq = [(h(start, goal), 0, start, None)]
+    pq = [(h(start, goal), 0, start, None)]   <span class="cm"># f, g, state, parent</span>
     came_from, visited = {}, set()
-    <span class="todo"># TODO: while pq: pop lowest f</span>
-    <span class="todo"># TODO: skip if already visited, else mark visited + came_from</span>
-    <span class="todo"># TODO: if state == goal: return reconstruct(...)</span>
-    <span class="todo"># TODO: else push each neighbor with g+1 + h(neighbor, goal)</span>
-    return None  <span class="cm"># unsolvable</span></div>
+    while pq:
+        f, g, state, parent = heapq.heappop(pq)   <span class="cm"># lowest f first</span>
+        if state in visited:
+            continue
+        visited.add(state)
+        came_from[state] = parent
+        if state == goal:                          <span class="cm"># goal test</span>
+            return reconstruct(came_from, goal)
+        for nxt in neighbors(state):                <span class="cm"># actions</span>
+            if nxt not in visited:
+                new_g = g + 1                       <span class="cm"># path cost: every move = 1</span>
+                new_f = new_g + h(nxt, goal)
+                heapq.heappush(pq, (new_f, new_g, nxt, state))
+    return None  <span class="cm"># heap exhausted -> no solution exists</span></div>
           </div>
 
         </div>
-        <p style="margin-top:18px;font-size:.9rem;color:#555;">✅ Checkpoint: once all 5 functions run without errors, call <code>a_star((2,8,3,1,0,4,7,6,5), (1,2,3,4,5,6,7,8,0))</code> and print the returned path length — that's your move count!</p>
+
+        <p style="margin-top:26px;"><b>🎬 Worked example — watch <code>a_star()</code> solve a real 2-move puzzle:</b></p>
+        <div class="example-trace" id="pExampleTrace"></div>
+
+        <div class="quizgate" id="pQuizGate">
+          <span class="lock">🔒</span>
+          <h4>Full solution is locked!</h4>
+          <p>Answer 3 random just-for-fun questions to unlock it. No wrong answers, promise. 😄</p>
+          <button class="btn alt2" id="pQuizStart">🎲 Take the fun quiz</button>
+        </div>
+        <div class="quizcard" id="pQuizCard"></div>
+
+        <div class="solution-wrap" id="pSolutionWrap">
+        <div class="unlockflash">🔓 Unlocked! Here's the full solution:</div>
+        <p style="margin-top:0;"><b>📋 Full solution, all together (copy &amp; run):</b></p>
+        <div class="codebox"><button class="copybtn" onclick="copyCode('code1')">Copy</button><pre id="code1"><span class="c1">import</span> heapq
+
+<span class="c2">def</span> <span class="c3">h</span>(state, goal):
+    total = <span class="c1">0</span>
+    <span class="c2">for</span> i, tile <span class="c2">in</span> enumerate(state):
+        <span class="c2">if</span> tile == <span class="c1">0</span>:
+            <span class="c2">continue</span>
+        gi = goal.index(tile)
+        row1, col1 = i <span class="c1">//</span> <span class="c1">3</span>, i <span class="c1">%</span> <span class="c1">3</span>
+        row2, col2 = gi <span class="c1">//</span> <span class="c1">3</span>, gi <span class="c1">%</span> <span class="c1">3</span>
+        total += abs(row1 - row2) + abs(col1 - col2)
+    <span class="c2">return</span> total
+
+<span class="c2">def</span> <span class="c3">neighbors</span>(state):
+    results = []
+    i = state.index(<span class="c1">0</span>)
+    row, col = i <span class="c1">//</span> <span class="c1">3</span>, i <span class="c1">%</span> <span class="c1">3</span>
+    <span class="c2">for</span> dr, dc <span class="c2">in</span> [(<span class="c1">-1</span>,<span class="c1">0</span>), (<span class="c1">1</span>,<span class="c1">0</span>), (<span class="c1">0</span>,<span class="c1">-1</span>), (<span class="c1">0</span>,<span class="c1">1</span>)]:
+        nr, nc = row + dr, col + dc
+        <span class="c2">if</span> <span class="c1">0</span> &lt;= nr &lt; <span class="c1">3</span> <span class="c2">and</span> <span class="c1">0</span> &lt;= nc &lt; <span class="c1">3</span>:
+            ni = nr * <span class="c1">3</span> + nc
+            new_state = list(state)
+            new_state[i], new_state[ni] = new_state[ni], new_state[i]
+            results.append(tuple(new_state))
+    <span class="c2">return</span> results
+
+<span class="c2">def</span> <span class="c3">reconstruct</span>(came_from, state):
+    path = [state]
+    <span class="c2">while</span> came_from[state] <span class="c2">is not</span> <span class="c1">None</span>:
+        state = came_from[state]
+        path.append(state)
+    path.reverse()
+    <span class="c2">return</span> path
+
+<span class="c2">def</span> <span class="c3">a_star</span>(start, goal):
+    pq = [(h(start, goal), <span class="c1">0</span>, start, <span class="c1">None</span>)]   <span class="cm"># f, g, state, parent</span>
+    came_from, visited = {}, <span class="c1">set</span>()
+    <span class="c2">while</span> pq:
+        f, g, state, parent = heapq.heappop(pq)   <span class="cm"># lowest f first</span>
+        <span class="c2">if</span> state <span class="c2">in</span> visited:
+            <span class="c2">continue</span>
+        visited.add(state)
+        came_from[state] = parent
+        <span class="c2">if</span> state == goal:                          <span class="cm"># goal test</span>
+            <span class="c2">return</span> reconstruct(came_from, goal)
+        <span class="c2">for</span> nxt <span class="c2">in</span> neighbors(state):                <span class="cm"># actions</span>
+            <span class="c2">if</span> nxt <span class="c2">not in</span> visited:
+                new_g = g + <span class="c1">1</span>                       <span class="cm"># path cost: every move = 1</span>
+                new_f = new_g + h(nxt, goal)
+                heapq.heappush(pq, (new_f, new_g, nxt, state))
+    <span class="c2">return</span> <span class="c1">None</span>  <span class="cm"># heap exhausted -> no solution exists</span>
+
+<span class="cm"># --- try it ---</span>
+start = (<span class="c1">1</span>, <span class="c1">2</span>, <span class="c1">3</span>, <span class="c1">4</span>, <span class="c1">0</span>, <span class="c1">6</span>, <span class="c1">7</span>, <span class="c1">5</span>, <span class="c1">8</span>)
+goal  = (<span class="c1">1</span>, <span class="c1">2</span>, <span class="c1">3</span>, <span class="c1">4</span>, <span class="c1">5</span>, <span class="c1">6</span>, <span class="c1">7</span>, <span class="c1">8</span>, <span class="c1">0</span>)
+path = a_star(start, goal)
+<span class="c2">print</span>(<span class="cm">f"Solved in {len(path)-1} moves"</span>)
+</pre></div>
+        <p style="margin-top:14px;font-size:.9rem;color:#555;">✅ Run it as-is — it prints the number of moves for the sample start above. Swap in your own <code>start</code> tuple (must be a valid shuffle of 0-8) to solve any board.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -492,7 +663,7 @@ def a_star(start, goal):
           <li class="step">Pop the front state. If a==target or b==target, stop — success!<p>Reconstruct the path from the parent map.</p></li>
           <li class="step">Otherwise generate all 6 possible next states: fillA, fillB, emptyA, emptyB, pourA→B, pourB→A.<p>Pouring math: pour amount = min(source amount, space left in destination).</p></li>
           <li class="step">For each next state not yet visited: mark visited, record its parent, and enqueue it.<p>This guarantees we never re-explore a state and never loop forever.</p></li>
-          <li class="step">Repeat steps 3–5 until target is found or the queue is empty (no solution).<p>With capacities 4 & 3 and target 2, a solution always exists here — try target 5 to see "no solution" instead!</p></li>
+          <li class="step">Repeat steps 3–5 until target is found or the queue is empty.<p>If BFS explores every reachable state without ever finding the target, the queue empties and we return "no solution" — that target amount simply can't be measured with these two jug sizes.</p></li>
         </ul>
       </div>
     </div>
@@ -513,9 +684,24 @@ def a_star(start, goal):
     <!-- CODE -->
     <div class="sub" id="j-code">
       <div class="card reveal">
-        <h2>💻 Language: Python 🐍 — build-it-yourself roadmap</h2>
+        <h2>💻 Language: Python 🐍 — the complete solution</h2>
         <p>Why Python: <code>collections.deque</code> is an O(1) queue out of the box, and tuples slot straight into a <code>set</code>. (Java: <code>LinkedList&lt;&gt;</code> as your <code>Queue&lt;int[]&gt;</code> + a <code>HashSet&lt;String&gt;</code> — works, just chattier.)</p>
-        <div class="roadmap-intro">🗺️ Only 3 functions this time — the water jug is the 8-puzzle's baby cousin. Build them in order and you're done.</div>
+
+        <p style="margin-top:18px;"><b>🗺️ First, the big picture — how the functions call each other:</b></p>
+        <div class="flowdiagram">
+          <div class="flownode">state<span>(a, b) pair</span></div>
+          <div class="flowarrow">→</div>
+          <div class="flownode">next_states()<span>6 possible moves</span></div>
+          <div class="flowarrow">→</div>
+          <div class="flownode">solve_jug()<span>the BFS loop</span></div>
+          <div class="flowarrow">→</div>
+          <div class="flownode">reconstruct()<span>build the path</span></div>
+          <div class="flowarrow">→</div>
+          <div class="flownode" style="background:var(--mint);">solution ✅</div>
+        </div>
+        <p style="font-size:.85rem;color:#666;text-align:center;">solve_jug() is the boss: it calls next_states() every loop, and reconstruct() once at the very end.</p>
+
+        <div class="roadmap-intro">✅ Only 3 functions this time — the water jug is the 8-puzzle's baby cousin. All fully filled in below.</div>
 
         <div class="roadmap">
 
@@ -538,20 +724,25 @@ cap_a, cap_b, target = 4, 3, 2</div>
           <div class="buildstep reveal">
             <div class="bnum">STEP 2</div>
             <div class="fname">def next_states(a, b, cap_a, cap_b):</div>
-            <h4>Write the move-generator</h4>
+            <h4>The move-generator</h4>
             <p class="witty">Six buttons, six outcomes. Your job is just translating each button into arithmetic.</p>
             <ul class="logic">
               <li><b>Fill A</b> → <code>(cap_a, b)</code>. <b>Fill B</b> → <code>(a, cap_b)</code>.</li>
               <li><b>Empty A</b> → <code>(0, b)</code>. <b>Empty B</b> → <code>(a, 0)</code>.</li>
-              <li><b>Pour A→B</b> — the only tricky one. Hint: you can only pour the smaller of "what A has" and "what room B has left": <code>pour = min(a, cap_b - b)</code>, new state <code>(a-pour, b+pour)</code>.</li>
-              <li><b>Pour B→A</b> — mirror the hint above, swapping A and B.</li>
-              <li>Return all 6 as a list of <code>(state, move_label)</code> pairs — the label makes step 3's printout readable later.</li>
+              <li><b>Pour A→B</b> — pour the smaller of "what A has" and "what room B has left": <code>pour = min(a, cap_b - b)</code>.</li>
+              <li><b>Pour B→A</b> — same idea, mirrored.</li>
+              <li>💡 Note: some moves can return a state you're <em>already</em> in — e.g. "Fill A" when A is already full just gives back the same <code>(a, b)</code>. Totally fine — Step 4's <code>if state not in parent</code> check quietly ignores it.</li>
             </ul>
             <div class="skeleton">def next_states(a, b, cap_a, cap_b):
     moves = []
-    <span class="todo"># TODO: append Fill A, Fill B, Empty A, Empty B</span>
-    <span class="todo"># TODO: work out pour = min(a, cap_b - b) for A->B</span>
-    <span class="todo"># TODO: work out pour = min(b, cap_a - a) for B->A</span>
+    moves.append(((cap_a, b), "Fill A"))
+    moves.append(((a, cap_b), "Fill B"))
+    moves.append(((0, b), "Empty A"))
+    moves.append(((a, 0), "Empty B"))
+    pour = min(a, cap_b - b)
+    moves.append(((a - pour, b + pour), "Pour A->B"))
+    pour = min(b, cap_a - a)
+    moves.append(((a + pour, b - pour), "Pour B->A"))
     return moves</div>
           </div>
 
@@ -559,31 +750,114 @@ cap_a, cap_b, target = 4, 3, 2</div>
 
           <div class="buildstep reveal">
             <div class="bnum">STEP 3</div>
+            <div class="fname">def reconstruct(parent, state):</div>
+            <h4>The path-rebuilder</h4>
+            <p class="witty">Same trick as the 8-puzzle: walk the breadcrumbs back home, then flip the list around.</p>
+            <ul class="logic">
+              <li>Every state's entry in <code>parent</code> stores <code>(previous_state, move_label)</code> — the start's entry is <code>(None, None)</code>.</li>
+              <li><b>In plain English:</b> starting from the goal state, repeatedly follow the parent links back to <code>(0, 0)</code>, collecting each state and the move that led to it, until you hit the start.</li>
+              <li>Reverse the collected list before returning it — you built it goal-to-start, backwards!</li>
+            </ul>
+            <div class="skeleton">def reconstruct(parent, state):
+    path = []
+    while state is not None:
+        prev_state, label = parent[state]
+        path.append((state, label))
+        state = prev_state
+    path.reverse()
+    return path</div>
+          </div>
+
+          <div class="arrow-down">⬇</div>
+
+          <div class="buildstep reveal">
+            <div class="bnum">STEP 4</div>
             <div class="fname">def solve_jug(cap_a, cap_b, target):</div>
             <h4>Wire up the BFS search</h4>
-            <p class="witty">The boss function again — it just keeps asking Step 2 "what's next?" in the right order until it hears "target!"</p>
+            <p class="witty">The boss function — it just keeps asking Step 2 "what's next?" in the right order until it hears "target!"</p>
             <ul class="logic">
-              <li>Import <code>deque</code>. Start a queue with <code>(0,0)</code>, and a <code>parent</code> dict marking it as seen: <code>{(0,0): None}</code>.</li>
-              <li>Loop while the queue isn't empty: <code>popleft()</code> the front state <code>(a, b)</code>.</li>
-              <li>Win check: if <code>a == target or b == target</code> → you're done, reconstruct and return the path.</li>
-              <li>Otherwise call <b>Step 2</b> for all next states. For each one <b>not already in</b> <code>parent</code>: record its parent + move label, and enqueue it.</li>
-              <li>If the queue empties without hitting target → <code>return None</code> (genuinely unreachable, e.g. target 5 with these jugs).</li>
+              <li>Start a queue with <code>(0,0)</code>, and a <code>parent</code> dict marking it as seen: <code>{(0,0): (None, None)}</code> — the tuple makes "this is the start" explicit rather than a bare <code>None</code>.</li>
+              <li>Loop: <code>popleft()</code> the front state. <b>Goal test:</b> <code>a == target or b == target</code>.</li>
+              <li>Otherwise call <b>Step 2</b>; for each state <b>not already in</b> <code>parent</code>, store <code>parent[state] = (current_state, move_label)</code> and enqueue it.</li>
+              <li>If the queue empties and the goal test never passed, that target amount is genuinely unreachable with these jug sizes — return <code>None</code>.</li>
             </ul>
             <div class="skeleton">from collections import deque
 
 def solve_jug(cap_a, cap_b, target):
     start = (0, 0)
     q = deque([start])
-    parent = {start: None}
-    <span class="todo"># TODO: while q: pop left -> a, b</span>
-    <span class="todo"># TODO: if a == target or b == target: return path</span>
-    <span class="todo"># TODO: else for state, label in next_states(...):</span>
-    <span class="todo">#   TODO: if state not in parent: record + enqueue</span>
-    return None  <span class="cm"># unreachable target</span></div>
+    parent = {start: (None, None)}
+    while q:
+        a, b = q.popleft()
+        if a == target or b == target:
+            return reconstruct(parent, (a, b))
+        for state, label in next_states(a, b, cap_a, cap_b):
+            if state not in parent:
+                parent[state] = ((a, b), label)
+                q.append(state)
+    return None  <span class="cm"># every reachable state checked -> target not measurable</span></div>
           </div>
 
         </div>
-        <p style="margin-top:18px;font-size:.9rem;color:#555;">✅ Checkpoint: <code>solve_jug(4, 3, 2)</code> should return a path whose last state has a <code>2</code> in it. Print each move label along the way — that's your fill/empty/pour instructions!</p>
+
+        <p style="margin-top:26px;"><b>🎬 Worked example — watch <code>solve_jug()</code> reach exactly 2 litres:</b></p>
+        <div class="example-trace" id="jExampleTrace"></div>
+
+        <div class="quizgate" id="jQuizGate">
+          <span class="lock">🔒</span>
+          <h4>Full solution is locked!</h4>
+          <p>Answer 3 random just-for-fun questions to unlock it. No wrong answers, promise. 😄</p>
+          <button class="btn alt2" id="jQuizStart">🎲 Take the fun quiz</button>
+        </div>
+        <div class="quizcard" id="jQuizCard"></div>
+
+        <div class="solution-wrap" id="jSolutionWrap">
+        <div class="unlockflash">🔓 Unlocked! Here's the full solution:</div>
+        <p style="margin-top:0;"><b>📋 Full solution, all together (copy &amp; run):</b></p>
+        <div class="codebox"><button class="copybtn" onclick="copyCode('code2')">Copy</button><pre id="code2"><span class="c1">from</span> collections <span class="c1">import</span> deque
+
+<span class="c2">def</span> <span class="c3">next_states</span>(a, b, cap_a, cap_b):
+    moves = []
+    moves.append(((cap_a, b), <span class="cm">"Fill A"</span>))
+    moves.append(((a, cap_b), <span class="cm">"Fill B"</span>))
+    moves.append(((<span class="c1">0</span>, b), <span class="cm">"Empty A"</span>))
+    moves.append(((a, <span class="c1">0</span>), <span class="cm">"Empty B"</span>))
+    pour = min(a, cap_b - b)
+    moves.append(((a - pour, b + pour), <span class="cm">"Pour A->B"</span>))
+    pour = min(b, cap_a - a)
+    moves.append(((a + pour, b - pour), <span class="cm">"Pour B->A"</span>))
+    <span class="c2">return</span> moves
+
+<span class="c2">def</span> <span class="c3">reconstruct</span>(parent, state):
+    path = []
+    <span class="c2">while</span> state <span class="c2">is not</span> <span class="c1">None</span>:
+        prev_state, label = parent[state]
+        path.append((state, label))
+        state = prev_state
+    path.reverse()
+    <span class="c2">return</span> path
+
+<span class="c2">def</span> <span class="c3">solve_jug</span>(cap_a, cap_b, target):
+    start = (<span class="c1">0</span>, <span class="c1">0</span>)
+    q = deque([start])
+    parent = {start: (<span class="c1">None</span>, <span class="c1">None</span>)}
+    <span class="c2">while</span> q:
+        a, b = q.popleft()
+        <span class="c2">if</span> a == target <span class="c2">or</span> b == target:
+            <span class="c2">return</span> reconstruct(parent, (a, b))
+        <span class="c2">for</span> state, label <span class="c2">in</span> next_states(a, b, cap_a, cap_b):
+            <span class="c2">if</span> state <span class="c2">not in</span> parent:
+                parent[state] = ((a, b), label)
+                q.append(state)
+    <span class="c2">return</span> <span class="c1">None</span>  <span class="cm"># every reachable state checked -> target not measurable</span>
+
+<span class="cm"># --- try it ---</span>
+path = solve_jug(<span class="c1">4</span>, <span class="c1">3</span>, <span class="c1">2</span>)
+<span class="c2">for</span> state, label <span class="c2">in</span> path:
+    <span class="c2">print</span>(label, <span class="cm">"->"</span>, state)
+</pre></div>
+        <p style="margin-top:14px;font-size:.9rem;color:#555;">✅ Checkpoint: the final <code>state</code> printed should satisfy <code>a == target or b == target</code> — that works for <em>any</em> target you try, not just 2. Change <code>target</code> to any value 0–4 and re-run to explore other goals (try one that's genuinely unreachable and watch it return <code>None</code>).</p>
+        </div>
       </div>
     </div>
   </div>
@@ -984,6 +1258,170 @@ function buildJugGraph(){
 }
 buildJugGraph();
 document.getElementById('btnReplayBFS').addEventListener('click',buildJugGraph);
+
+/* ---- worked example trace: 8-puzzle ---- */
+function renderPuzzleExample(){
+  const exStart = [1,2,3,4,0,6,7,5,8];
+  const path = bfsSolve(exStart, GOAL); // array of states after the start
+  const full = [exStart, ...(path||[])];
+  const wrap = document.getElementById('pExampleTrace');
+  wrap.innerHTML='';
+  full.forEach((st,idx)=>{
+    if(idx>0){
+      const arrow=document.createElement('div');
+      arrow.className='exarrow';
+      arrow.innerHTML = `<span class="ar">→</span>move ${idx}`;
+      wrap.appendChild(arrow);
+    }
+    const tile=document.createElement('div');
+    tile.className='extile';
+    tile.style.animationDelay=(idx*0.35)+'s';
+    const isGoal = arraysEqual(st,GOAL);
+    tile.innerHTML = miniGridHTML(st) + `<div class="extag">${idx===0?'start':(isGoal?'goal 🎉':'step '+idx)}</div>`;
+    wrap.appendChild(tile);
+  });
+}
+renderPuzzleExample();
+
+/* ---- worked example trace: water jug ---- */
+function jugBFSWithLabels(){
+  const start='0,0';
+  const queue=[[0,0]];
+  const visited=new Set([start]);
+  const parent={ '0,0': [null,null] }; // key -> [parentKey, label]
+  let qi=0;
+  while(qi<queue.length){
+    const [a,b]=queue[qi++];
+    if(a===TARGET||b===TARGET){
+      const steps=[];
+      let ck=`${a},${b}`;
+      while(ck!==null){
+        const [pk,label]=parent[ck];
+        steps.unshift({state:ck.split(',').map(Number), label});
+        ck=pk;
+      }
+      return steps;
+    }
+    for(const [state,label] of jugNextStates(a,b)){
+      const key = state.join(',');
+      if(!visited.has(key)){
+        visited.add(key);
+        parent[key]=[`${a},${b}`,label];
+        queue.push(state);
+      }
+    }
+  }
+  return null;
+}
+function renderJugExample(){
+  const steps = jugBFSWithLabels();
+  const wrap = document.getElementById('jExampleTrace');
+  wrap.innerHTML='';
+  if(!steps) return;
+  steps.forEach((s,idx)=>{
+    if(idx>0){
+      const arrow=document.createElement('div');
+      arrow.className='exarrow';
+      arrow.innerHTML = `<span class="ar">→</span>${s.label}`;
+      wrap.appendChild(arrow);
+    }
+    const isTarget = (s.state[0]===TARGET || s.state[1]===TARGET);
+    const tile=document.createElement('div');
+    tile.className='extile';
+    tile.style.animationDelay=(idx*0.35)+'s';
+    tile.innerHTML = `<div class="expill${isTarget?' goal':''}">${s.state[0]}, ${s.state[1]}</div><div class="extag">${idx===0?'start':(isTarget?'target 🎉':'step '+idx)}</div>`;
+    wrap.appendChild(tile);
+  });
+}
+renderJugExample();
+
+/* ======================================================
+   FUN EQ QUIZ — gates the "full solution" reveal
+====================================================== */
+const EQ_QUESTIONS = [
+  { q: "Your code crashes for the 10th time in a row. Inner mood:", opts: ["Zen master calm 🧘","Mild sense of betrayal 😤","Ready to duel a semicolon ⚔️","Weirdly impressed by the bug's creativity 🤔"] },
+  { q: "A friend says 'nice try' after you score 99/100. You:", opts: ["Laugh it off 😂","Quietly recalculate their friendship value 🧮","Demand the 1 point's whereabouts 🕵️","Feel unstoppable regardless 🚀"] },
+  { q: "You finally solve a puzzle after 50 tries. Inner voice says:", opts: ["'I am become bug, destroyer of bugs' 😤","'Never doing that again' 😮‍💨","'Screenshot. This is going on LinkedIn.' 📸","Complete, blissful silence 🕊️"] },
+  { q: "Someone hands you a jug that's exactly half full. You call it:", opts: ["Half full, obviously 🥤","Half empty, let's be real 📉","An unsolved state-space problem 🤓","A snack opportunity 🍪"] },
+  { q: "Rainy Monday, zero coffee left. Mood:", opts: ["Adapting like a true stoic 🧘","Personally targeted by the universe ☔","Time to reroute through the nearest café 🚗","Honestly kind of cozy? 🌧️"] },
+  { q: "A teammate quietly takes credit for your idea. You:", opts: ["Let karma handle it ⚖️","Politely clarify in the next meeting 🗣️","Start a very detailed paper trail 📝","Shrug — ideas are meant to be free 🕊️"] },
+  { q: "You see someone struggling to parallel park. Gut reaction:", opts: ["Look away, give them privacy 🙈","Offer quiet moral support 🤝","Narrate it like a sports commentator (internally) 🎙️","Full send, offer to park it for them 🚗"] },
+  { q: "Best way to celebrate cracking a hard problem:", opts: ["Snack immediately 🍫","Tell literally everyone nearby 📢","Sit in silence and savor it 😌","Immediately look for a harder problem 😈"] }
+];
+
+function shuffleArr(arr){
+  const a = [...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+const QUIZ_REACTIONS = ["Bold choice 😎","Noted, no judgement here 📝","EQ level: rising 📈","That's... valid 🤷","Certified vibe check ✅","Interesting data point 🔍","Big mood, honestly 🫶","Filed away for science 🔬"];
+
+function initQuizGate(prefix){
+  const gate = document.getElementById(prefix+'QuizGate');
+  const card = document.getElementById(prefix+'QuizCard');
+  const solWrap = document.getElementById(prefix+'SolutionWrap');
+  const startBtn = document.getElementById(prefix+'QuizStart');
+  let pool = [];
+  let idx = 0;
+
+  function renderQuestion(){
+    const item = pool[idx];
+    card.innerHTML = `
+      <div class="quizprogress">Question ${idx+1} of 3 · just for fun, no wrong answers 😄</div>
+      <div class="quizq">${item.q}</div>
+      <div class="quizoptions"></div>
+      <div class="quizfeedback"></div>
+    `;
+    const optsWrap = card.querySelector('.quizoptions');
+    item.opts.forEach((opt,i)=>{
+      const b = document.createElement('div');
+      b.className='quizopt';
+      b.textContent = opt;
+      b.addEventListener('click',()=>chooseOption(b, optsWrap));
+      optsWrap.appendChild(b);
+    });
+  }
+
+  function chooseOption(chosenEl, optsWrap){
+    optsWrap.querySelectorAll('.quizopt').forEach(o=>{
+      o.classList.add('disabled');
+      if(o===chosenEl) o.classList.add('chosen');
+    });
+    const fb = card.querySelector('.quizfeedback');
+    fb.style.display='block';
+    fb.textContent = QUIZ_REACTIONS[Math.floor(Math.random()*QUIZ_REACTIONS.length)];
+    const nextBtn = document.createElement('button');
+    nextBtn.className='btn alt quiznextbtn';
+    nextBtn.textContent = idx < 2 ? 'Next ➡️' : '🔓 Unlock the Solution';
+    nextBtn.addEventListener('click',()=>{
+      idx++;
+      if(idx < 3){ renderQuestion(); }
+      else { unlockSolution(); }
+    });
+    card.appendChild(nextBtn);
+  }
+
+  function unlockSolution(){
+    gate.style.display='none';
+    card.classList.remove('active');
+    card.style.display='none';
+    solWrap.style.display='block';
+    solWrap.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  startBtn.addEventListener('click',()=>{
+    pool = shuffleArr(EQ_QUESTIONS).slice(0,3);
+    idx = 0;
+    gate.style.display='none';
+    card.classList.add('active');
+    renderQuestion();
+  });
+}
+initQuizGate('p');
+initQuizGate('j');
 </script>
 </body>
 </html>
