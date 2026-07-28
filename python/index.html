@@ -1,1 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PyStart 🐍 — Python Playground for First-Year Coders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFF8EF;
+    --bg2:#FFF1F8;
+    --ink:#2B2140;
+    --ink-soft:#5B5270;
+    --coral:#FF6F61;
+    --mint:#2FBF9F;
+    --sun:#FFC93C;
+    --sky:#3FA9F5;
+    --lav:#9B7BF0;
+    --card:#FFFFFF;
+    --line:#EFE6D8;
+    --radius:22px;
+    --radius-sm:14px;
+    --shadow: 0 10px 30px rgba(43,33,64,0.08);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Nunito',sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4{
+    font-family:'Fredoka',sans-serif;
+    margin:0 0 .4em;
+    letter-spacing:.2px;
+  }
+  a{color:inherit;}
+  code, pre{font-family:'Space Mono',monospace;}
+  ::selection{background:var(--sun); color:var(--ink);}
 
+  /* ---------- scroll progress ---------- */
+  #progress{
+    position:fixed; top:0; left:0; height:4px; width:0%;
+    background:linear-gradient(90deg,var(--coral),var(--sun),var(--mint),var(--sky),var(--lav));
+    z-index:999; transition:width .1s linear;
+  }
+
+  /* ---------- top nav ---------- */
+  header.nav{
+    position:sticky; top:0; z-index:900;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 26px;
+    background:rgba(255,248,239,.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .logo{
+    font-family:'Fredoka',sans-serif; font-weight:700; font-size:1.35rem;
+    display:flex; align-items:center; gap:8px;
+  }
+  .logo .snake{display:inline-block; animation:wiggle 2.4s ease-in-out infinite;}
+  @keyframes wiggle{0%,100%{transform:rotate(0deg)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+  nav.links{display:flex; gap:22px; font-weight:700; font-size:.95rem;}
+  nav.links a{text-decoration:none; padding:6px 4px; border-bottom:3px solid transparent; transition:.2s;}
+  nav.links a:hover{border-color:var(--coral);}
+  #menuBtn{
+    display:none; background:var(--ink); color:#fff; border:none; border-radius:10px;
+    padding:10px 14px; font-size:1.1rem; cursor:pointer;
+  }
+
+  /* ---------- TOC drawer ---------- */
+  #tocOverlay{
+    position:fixed; inset:0; background:rgba(43,33,64,.45); z-index:998;
+    opacity:0; pointer-events:none; transition:opacity .25s;
+  }
+  #tocOverlay.open{opacity:1; pointer-events:auto;}
+  #toc{
+    position:fixed; top:0; right:-380px; width:340px; max-width:86vw; height:100%;
+    background:var(--card); z-index:999; padding:26px 20px; overflow-y:auto;
+    transition:right .3s cubic-bezier(.2,.9,.3,1);
+    box-shadow:-10px 0 40px rgba(0,0,0,.15);
+  }
+  #toc.open{right:0;}
+  #toc h3{font-size:1.1rem; margin-top:18px; color:var(--coral);}
+  #toc h3:first-of-type{margin-top:0;}
+  #toc ol{padding-left:20px; margin:8px 0 4px;}
+  #toc li{margin:4px 0;}
+  #toc a{text-decoration:none; font-weight:700; font-size:.92rem; color:var(--ink-soft); cursor:pointer;}
+  #toc a:hover{color:var(--coral);}
+  #closeTocBtn{
+    position:absolute; top:16px; right:16px; background:var(--bg2); border:none;
+    border-radius:50%; width:34px; height:34px; cursor:pointer; font-size:1rem;
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative; min-height:92vh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center; padding:60px 20px;
+    overflow:hidden;
+  }
+  .blob{
+    position:absolute; border-radius:50%; filter:blur(2px); opacity:.55;
+    animation:float 9s ease-in-out infinite;
+  }
+  .blob.b1{width:220px; height:220px; background:var(--sun); top:8%; left:8%; animation-delay:0s;}
+  .blob.b2{width:160px; height:160px; background:var(--mint); bottom:12%; left:14%; animation-delay:1.5s;}
+  .blob.b3{width:260px; height:260px; background:var(--sky); top:14%; right:6%; animation-delay:.8s;}
+  .blob.b4{width:140px; height:140px; background:var(--coral); bottom:8%; right:12%; animation-delay:2.2s;}
+  @keyframes float{
+    0%,100%{transform:translateY(0) translateX(0) scale(1);}
+    50%{transform:translateY(-26px) translateX(14px) scale(1.06);}
+  }
+  .eyebrow{
+    font-weight:800; letter-spacing:2px; text-transform:uppercase; font-size:.8rem;
+    background:var(--ink); color:#fff; padding:8px 16px; border-radius:30px; z-index:2;
+  }
+  .hero h1{
+    font-size:clamp(2.4rem,6vw,4.4rem); z-index:2; max-width:900px; margin-top:22px;
+  }
+  .hero h1 .hl{
+    background:linear-gradient(90deg,var(--coral),var(--sun));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero p.sub{max-width:640px; font-size:1.15rem; color:var(--ink-soft); z-index:2; margin:14px 0 26px;}
+  .hero-code{
+    z-index:2; background:var(--ink); color:#DFF7EA; padding:18px 24px; border-radius:16px;
+    font-family:'Space Mono',monospace; font-size:1rem; box-shadow:var(--shadow);
+    display:inline-block;
+  }
+  .typewriter{border-right:2px solid var(--sun); white-space:nowrap; overflow:hidden; display:inline-block;}
+  .cta-row{display:flex; gap:14px; margin-top:30px; z-index:2; flex-wrap:wrap; justify-content:center;}
+  .btn{
+    font-family:'Fredoka',sans-serif; font-weight:600; font-size:1rem; padding:14px 26px;
+    border-radius:40px; border:none; cursor:pointer; text-decoration:none; display:inline-block;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{transform:translateY(-3px) scale(1.02);}
+  .btn.primary{background:var(--coral); color:#fff; box-shadow:0 8px 20px rgba(255,111,97,.4);}
+  .btn.ghost{background:#fff; color:var(--ink); border:2px solid var(--ink);}
+  .scroll-hint{margin-top:46px; font-size:.85rem; color:var(--ink-soft); z-index:2; animation:bob 1.6s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(8px);}}
+
+  /* ---------- slide deck (concepts) ---------- */
+  .deck-wrap{padding:70px 0 30px; background:var(--bg2);}
+  .deck-heading{text-align:center; padding:0 20px 30px;}
+  .deck-heading .tag{color:var(--coral); font-weight:800; text-transform:uppercase; letter-spacing:2px; font-size:.8rem;}
+  .deck-heading h2{font-size:clamp(1.7rem,3.6vw,2.6rem);}
+  .slides{
+    display:flex; gap:22px; overflow-x:auto; scroll-snap-type:x mandatory;
+    padding:10px 8vw 30px; -webkit-overflow-scrolling:touch;
+  }
+  .slides::-webkit-scrollbar{height:8px;}
+  .slides::-webkit-scrollbar-thumb{background:var(--lav); border-radius:10px;}
+  .slide{
+    scroll-snap-align:center; flex:0 0 min(560px,82vw); background:var(--card);
+    border-radius:var(--radius); padding:34px 30px; box-shadow:var(--shadow);
+    border:2px solid var(--line); position:relative; overflow:hidden;
+  }
+  .slide .num{
+    position:absolute; top:-18px; right:-6px; font-size:6rem; font-weight:800; font-family:'Fredoka';
+    color:var(--bg2); z-index:0; -webkit-text-stroke:2px var(--line);
+  }
+  .slide h3{font-size:1.5rem; position:relative; z-index:1;}
+  .slide p, .slide li{color:var(--ink-soft); position:relative; z-index:1;}
+  .slide .icon{font-size:2.4rem; margin-bottom:10px; display:block;}
+  .slide-dots{display:flex; justify-content:center; gap:8px; margin-top:6px;}
+  .dot{width:8px; height:8px; border-radius:50%; background:var(--line);}
+  .slide ul{padding-left:20px;}
+  .mini-syntax{
+    background:var(--ink); color:#FFE9B3; padding:12px 16px; border-radius:10px;
+    font-family:'Space Mono',monospace; font-size:.92rem; margin:12px 0; position:relative; z-index:1;
+  }
+  .mini-syntax .p1{color:#8AF0C4;}
+  .mini-syntax .p2{color:#FFB4B0;}
+
+  /* ---------- unit sections ---------- */
+  .unit{padding:80px 6vw; max-width:1180px; margin:0 auto;}
+  .unit-head{display:flex; align-items:flex-start; gap:20px; margin-bottom:26px; flex-wrap:wrap;}
+  .unit-badge{
+    font-family:'Fredoka'; font-weight:700; font-size:1.1rem; color:#fff; padding:10px 18px;
+    border-radius:16px; white-space:nowrap;
+  }
+  .unit1 .unit-badge{background:var(--coral);}
+  .unit2 .unit-badge{background:var(--sky);}
+  .unit3 .unit-badge{background:var(--lav);}
+  .unit-head h2{font-size:clamp(1.6rem,3.4vw,2.3rem); margin:0;}
+  .unit-intro{
+    background:var(--card); border:2px solid var(--line); border-radius:var(--radius);
+    padding:22px 26px; margin-bottom:34px; box-shadow:var(--shadow);
+  }
+  .unit-intro h4{margin-top:0; color:var(--ink);}
+  .unit-intro .syntax-box{
+    background:var(--ink); color:#DFF7EA; padding:14px 18px; border-radius:12px;
+    font-family:'Space Mono',monospace; margin-top:12px; font-size:.95rem; overflow-x:auto;
+  }
+
+  .prog-list{display:flex; flex-direction:column; gap:16px;}
+  .prog-card{
+    background:var(--card); border:2px solid var(--line); border-radius:var(--radius-sm);
+    overflow:hidden; transition:box-shadow .2s, transform .2s;
+  }
+  .prog-card:hover{box-shadow:var(--shadow);}
+  .prog-head{
+    display:flex; align-items:center; gap:16px; width:100%; background:none; border:none;
+    padding:18px 20px; cursor:pointer; text-align:left; font-family:'Nunito';
+  }
+  .prog-num{
+    font-family:'Fredoka'; font-weight:700; font-size:1rem; width:42px; height:42px; flex:0 0 42px;
+    border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff;
+  }
+  .unit1 .prog-num{background:var(--coral);}
+  .unit2 .prog-num{background:var(--sky);}
+  .unit3 .prog-num{background:var(--lav);}
+  .prog-title{font-weight:800; font-size:1.05rem; flex:1;}
+  .chev{transition:transform .25s; font-size:1.1rem; color:var(--ink-soft);}
+  .prog-card.open .chev{transform:rotate(180deg);}
+  .prog-body{
+    max-height:0; overflow:hidden; transition:max-height .4s ease;
+    padding:0 22px;
+  }
+  .prog-card.open .prog-body{padding:0 22px 22px;}
+  .prog-body h5{
+    font-family:'Fredoka'; font-size:.95rem; margin:16px 0 8px; display:flex; align-items:center; gap:6px;
+  }
+  .prog-body ol, .prog-body ul{margin:0; padding-left:22px; color:var(--ink-soft);}
+  .prog-body li{margin:4px 0;}
+  .code-box{position:relative; margin-top:6px;}
+  .code-box pre{
+    background:var(--ink); color:#EAF7EE; padding:16px 18px; border-radius:12px;
+    overflow-x:auto; font-size:.9rem; margin:0; line-height:1.55;
+  }
+  .copy-btn{
+    position:absolute; top:8px; right:8px; background:rgba(255,255,255,.12); color:#fff;
+    border:none; border-radius:8px; padding:5px 10px; font-size:.75rem; cursor:pointer;
+    font-family:'Nunito'; font-weight:700;
+  }
+  .copy-btn:hover{background:rgba(255,255,255,.25);}
+  .output-box pre{
+    background:#0F1F17; color:#8AF0C4; padding:14px 18px; border-radius:12px;
+    margin:0; font-size:.9rem;
+  }
+  .explain-list li{margin-bottom:6px;}
+  .explain-list code{background:var(--bg2); padding:1px 6px; border-radius:6px; color:var(--coral); font-weight:700;}
+
+  /* ---------- footer ---------- */
+  footer{
+    background:var(--ink); color:#EFE6D8; text-align:center; padding:50px 20px;
+  }
+  footer h3{color:#fff;}
+  footer p{color:#B7ACC9; max-width:520px; margin:10px auto 0; font-size:.95rem;}
+  .foot-emoji{font-size:2rem; margin-bottom:10px;}
+
+  @media (max-width:760px){
+    nav.links{display:none;}
+    #menuBtn{display:inline-block;}
+    .unit{padding:60px 5vw;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<header class="nav">
+  <div class="logo"><span class="snake">🐍</span> PyStart</div>
+  <nav class="links">
+    <a href="#why-python">Why Python</a>
+    <a href="#unit1">Print</a>
+    <a href="#unit2">Variables</a>
+    <a href="#unit3">Input &amp; Operators</a>
+  </nav>
+  <button id="menuBtn" onclick="toggleToc(true)">☰ Programs</button>
+  <button class="btn ghost" style="padding:10px 18px; font-size:.85rem;" onclick="toggleToc(true)">📋 All 32 Programs</button>
+</header>
+
+<div id="tocOverlay" onclick="toggleToc(false)"></div>
+<aside id="toc">
+  <button id="closeTocBtn" onclick="toggleToc(false)">✕</button>
+  <h2 style="margin-top:0;">Jump to a program</h2>
+  <p style="color:var(--ink-soft); font-size:.9rem; margin-top:-6px;">Tap any line — it scrolls straight there and pops it open.</p>
+  <div id="tocContent"></div>
+</aside>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+  <div class="blob b4"></div>
+  <span class="eyebrow">Sarvajanik University · B.Tech Sem 1 · BTCO22101</span>
+  <h1>Learn Python by <span class="hl">actually typing it.</span></h1>
+  <p class="sub">A friendly, no-nonsense practice ground for first-year coders. 32 bite-sized programs, explained in plain human words — one keyword at a time, one giggle at a time.</p>
+  <div class="hero-code"><span class="typewriter" id="typewriter">print("Hello, future engineer!")</span></div>
+  <div class="cta-row">
+    <a href="#why-python" class="btn primary">Start the story →</a>
+    <a href="#unit1" class="btn ghost">Skip to programs 💻</a>
+  </div>
+  <div class="scroll-hint">↓ scroll down, the story slides sideways from here ↓</div>
+</section>
+
+<!-- ================= CONCEPT SLIDES ================= -->
+<section class="deck-wrap" id="why-python">
+  <div class="deck-heading">
+    <div class="tag">Before you type a single line</div>
+    <h2>Slide through the basics</h2>
+  </div>
+  <div class="slides" id="slideTrack">
+
+    <div class="slide">
+      <div class="num">01</div>
+      <span class="icon">🤔</span>
+      <h3>Why Python, of all languages?</h3>
+      <p>Imagine two people writing the same sentence — one in shorthand only they understand, another in plain English anyone can read. That's the difference between most programming languages and Python.</p>
+      <ul>
+        <li>Reads almost like plain English — <code style="background:var(--bg2); padding:2px 6px; border-radius:6px;">print("hi")</code> really does mean "print hi".</li>
+        <li>No semicolons, no curly braces — spacing itself is the grammar.</li>
+        <li>Runs everything from Instagram's backend to NASA's data pipelines to the AI writing this sentence.</li>
+        <li>Huge beginner community — someone has already asked (and answered) your doubt online.</li>
+      </ul>
+    </div>
+
+    <div class="slide">
+      <div class="num">02</div>
+      <span class="icon">🧠</span>
+      <h3>What even is "programming"?</h3>
+      <p>Programming is just <strong>writing a recipe for a very obedient, very literal chef</strong> — your computer. It will do exactly what you say, in the exact order you say it, and not one step more.</p>
+      <p>Tell it "add sugar" before "boil water," and it will happily add sugar to an empty pan. So a program is simply: a clear list of instructions, written in a language the computer understands, to get a result.</p>
+    </div>
+
+    <div class="slide">
+      <div class="num">03</div>
+      <span class="icon">🖨️</span>
+      <h3>Meet <code>print()</code> — your first word</h3>
+      <p>Every language you learn starts with saying something out loud. In Python, that first sentence is the <code>print()</code> function.</p>
+      <div class="mini-syntax">print(<span class="p1">value</span>, <span class="p1">value2</span>, ..., <span class="p2">sep</span>=<span class="p2">" "</span>, <span class="p2">end</span>=<span class="p2">"\n"</span>)</div>
+      <p>Anything inside the round brackets gets displayed on screen. Text always goes inside quotes ("like this"); numbers don't need quotes at all.</p>
+    </div>
+
+    <div class="slide">
+      <div class="num">04</div>
+      <span class="icon">📦</span>
+      <h3>What is a variable?</h3>
+      <p>A variable is a <strong>labelled box</strong>. You choose a name for the box (say, <code style="background:var(--bg2); padding:2px 6px; border-radius:6px;">age</code>), drop a value inside it (<code style="background:var(--bg2); padding:2px 6px; border-radius:6px;">19</code>), and Python remembers it for you.</p>
+      <div class="mini-syntax">box_name <span class="p2">=</span> value</div>
+      <p>Later you just say the box's name, and Python hands you back whatever is inside — no need to retype the value again and again.</p>
+    </div>
+
+    <div class="slide">
+      <div class="num">05</div>
+      <span class="icon">⌨️</span>
+      <h3>Input &amp; operators — Python starts listening</h3>
+      <p><code>input()</code> pauses the program and waits for the user to type something. Whatever they type comes back as text (a string) — even if it looks like a number.</p>
+      <p>Operators are the math/logic symbols: <code>+ − × ÷ // % **</code> for arithmetic, and <code>&gt; &lt; == !=</code> for comparisons. Combine <code>input()</code> with <code>int()</code>/<code>float()</code> and operators, and your program finally reacts to a real human.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= UNIT 1 ================= -->
+<section class="unit unit1" id="unit1">
+  <div class="unit-head">
+    <span class="unit-badge">Unit 1</span>
+    <h2>Say it with <code>print()</code> — 10 programs</h2>
+  </div>
+  <div class="unit-intro">
+    <h4>🎯 The concept, in one breath</h4>
+    <p><code>print()</code> is a built-in function — a ready-made tool Python gives you — whose only job is to display things on screen. You "call" it by writing its name followed by round brackets, and you put whatever you want shown inside those brackets.</p>
+    <p>Two quiet superpowers hide inside it: the <code>sep</code> parameter decides what goes <em>between</em> multiple items (default is a space), and the <code>end</code> parameter decides what comes <em>after</em> everything (default is a new line). Master those two, and you control exactly how your output looks.</p>
+    <div class="syntax-box">print(value1, value2, ..., sep=" ", end="\n")</div>
+  </div>
+  <div class="prog-list" id="unit1List"></div>
+</section>
+
+<!-- ================= UNIT 2 ================= -->
+<section class="unit unit2" id="unit2">
+  <div class="unit-head">
+    <span class="unit-badge">Unit 2</span>
+    <h2>Boxes that remember — 10 variable programs</h2>
+  </div>
+  <div class="unit-intro">
+    <h4>🎯 The concept, in one breath</h4>
+    <p>A variable is created the moment you assign it a value with <code>=</code>. No separate "declare" step, no fixed type — Python figures out on its own whether your box holds text, a whole number, a decimal, or a True/False.</p>
+    <p>Naming rule of thumb: start with a letter or underscore, use only letters/numbers/underscores after that, and pick a name that actually describes what's inside — <code>age</code> is a far better box label than <code>x</code>.</p>
+    <div class="syntax-box">variable_name = value      # no operators yet, just storing &amp; showing</div>
+  </div>
+  <div class="prog-list" id="unit2List"></div>
+</section>
+
+<!-- ================= UNIT 3 ================= -->
+<section class="unit unit3" id="unit3">
+  <div class="unit-head">
+    <span class="unit-badge">Unit 3</span>
+    <h2>Ask, calculate, react — 12 input &amp; operator programs</h2>
+  </div>
+  <div class="unit-intro">
+    <h4>🎯 The concept, in one breath</h4>
+    <p><code>input("message")</code> shows the message, waits for the user, and hands back whatever they typed — always as text. If you want to do math with it, wrap it in <code>int()</code> (whole numbers) or <code>float()</code> (decimals) first.</p>
+    <p>Then the operators take over: <code>+ − * /</code> for the basics, <code>//</code> for floor (whole-number) division, <code>%</code> for the remainder, <code>**</code> for power, and <code>&gt; &lt; == !=</code> to compare two values and get back <code>True</code> or <code>False</code>.</p>
+    <div class="syntax-box">variable = int(input("Enter a number: "))</div>
+  </div>
+  <div class="prog-list" id="unit3List"></div>
+</section>
+
+<footer>
+  <div class="foot-emoji">🐍✨</div>
+  <h3>That's a wrap — 32 programs down.</h3>
+  <p>Type every single one yourself, even the "too easy" ones. Muscle memory beats memory-memory. Now go make Python do something weird. — Python Programming (BTCO22101), Sarvajanik University</p>
+</footer>
+
+<script>
+/* ============ DATA ============ */
+const units = [
+  {
+    key:'unit1', listId:'unit1List', prefix:'P1',
+    programs:[
+      {
+        title:"Print a simple greeting",
+        steps:["Decide the message you want to show.","Call print() and place the message inside quotes.","Run the program and read the output."],
+        code:`print("Hello, World!")`,
+        output:`Hello, World!`,
+        explain:[`<code>print("Hello, World!")</code> — the text inside double quotes is a <strong>string</strong>. Python displays it exactly as written, then automatically moves the cursor to the next line.`]
+      },
+      {
+        title:"Print your name and college on separate lines",
+        steps:["Write a print statement for your college name.","Write a second print statement for your course/year.","Each print() call automatically starts a fresh line."],
+        code:`print("Sarvajanik University")\nprint("B.Tech First Year")`,
+        output:`Sarvajanik University\nB.Tech First Year`,
+        explain:[
+          `Line 1 prints the college name, then jumps to a new line by default.`,
+          `Line 2 prints the course info on that fresh new line — that's why they stack instead of joining.`
+        ]
+      },
+      {
+        title:"Compare single, double and triple quotes",
+        steps:["Print the same sentence three times.","Wrap it once in single quotes, once in double, once in triple.","Notice all three print identically."],
+        code:`print('Python is fun')\nprint("Python is fun")\nprint("""Python is fun""")`,
+        output:`Python is fun\nPython is fun\nPython is fun`,
+        explain:[
+          `Single (' ') and double (" ") quotes are interchangeable in Python — pick whichever avoids clashing with quotes inside your text.`,
+          `Triple quotes (""" """) do the same job here, but their real power is letting a string span multiple lines — see program 10.`
+        ]
+      },
+      {
+        title:"Insert a new line inside one print using \\n",
+        steps:["Write both lines of text as one single string.","Place \\n exactly where you want the break.","Print it in a single print() call."],
+        code:`print("Roll No: 21\\nName: Aryan")`,
+        output:`Roll No: 21\nName: Aryan`,
+        explain:[`<code>\\n</code> is an escape sequence — a special two-character code that means "insert a new line here." Python reads it as one break, not as literal backslash-n.`]
+      },
+      {
+        title:"Insert a tab gap using \\t",
+        steps:["Write the two words you want aligned.","Place \\t between them instead of a space.","Print and observe the wider, tab-sized gap."],
+        code:`print("Name\\tMarks")`,
+        output:`Name\tMarks`,
+        explain:[`<code>\\t</code> inserts a horizontal tab — a bigger, aligned gap than a regular space. It's handy when you want columns of text to line up neatly.`]
+      },
+      {
+        title:"Print multiple values with the default separator",
+        steps:["List the words you want to print, separated by commas.","Run print() — no sep is mentioned, so Python uses its default."],
+        code:`print("Python", "is", "awesome")`,
+        output:`Python is awesome`,
+        explain:[`Commas inside print() let you pass several items at once. By default, Python glues them together with a single space — that space is the "default sep" in action.`]
+      },
+      {
+        title:"Print a date using a custom separator (sep)",
+        steps:["Break the date into year, month, day pieces.","Pass sep=\"-\" so items join with a dash instead of a space."],
+        code:`print("2024", "07", "28", sep="-")`,
+        output:`2024-07-28`,
+        explain:[`<code>sep="-"</code> overrides the default space and glues every item together with a dash instead — great for building dates, IDs, or file names.`]
+      },
+      {
+        title:"Print on the same line using end",
+        steps:["First print() shows a loading message.","Set end=\"...\" so it doesn't jump to a new line.","Second print() continues right after it."],
+        code:`print("Loading", end="...")\nprint("Done!")`,
+        output:`Loading...Done!`,
+        explain:[
+          `Normally print() ends every line with an invisible \\n. Here, end="..." replaces that newline with three dots instead.`,
+          `Because there's no newline after "Loading...", the next print() continues on the very same line.`
+        ]
+      },
+      {
+        title:"Print numbers directly — no quotes needed",
+        steps:["Print a whole number as-is.","Print a decimal number as-is.","Notice neither needed quotation marks."],
+        code:`print(100)\nprint(3.14)`,
+        output:`100\n3.14`,
+        explain:[`Quotes are only for text (strings). Numbers — whole (int) or decimal (float) — are typed plainly, and Python still knows exactly what they are.`]
+      },
+      {
+        title:"Draw a tiny triangle with a triple-quoted string",
+        steps:["Open a triple-quoted string.","Type each row of the triangle on its own line, exactly as you want it to appear.","Close the triple quotes and print."],
+        code:`print("""\n  *\n ***\n*****\n""")`,
+        output:`\n  *\n ***\n*****\n`,
+        explain:[`Triple quotes let a string flow across several real lines in your code, and Python reproduces every line break and space exactly as typed — perfect for banners, art, or menus.`]
+      }
+    ]
+  },
+  {
+    key:'unit2', listId:'unit2List', prefix:'P2',
+    programs:[
+      {
+        title:"Store your name in a variable and print it",
+        steps:["Create a box called name and put your name inside using =.","Print the box's name (not the value directly)."],
+        code:`name = "Aryan"\nprint(name)`,
+        output:`Aryan`,
+        explain:[
+          `<code>name = "Aryan"</code> creates a variable called <code>name</code> and stores the text "Aryan" inside it.`,
+          `<code>print(name)</code> — because there are no quotes around <code>name</code> here, Python treats it as a variable and fetches whatever is stored inside, not the word "name" itself.`
+        ]
+      },
+      {
+        title:"Store your age in a variable and print it",
+        steps:["Create a variable age and assign a whole number to it.","Print the variable."],
+        code:`age = 19\nprint(age)`,
+        output:`19`,
+        explain:[`<code>age = 19</code> stores a whole number (int). <code>print(age)</code> simply reveals whatever value the box currently holds.`]
+      },
+      {
+        title:"Store name and age together, print both",
+        steps:["Create the name variable.","Create the age variable.","Print each one on its own line."],
+        code:`name = "Aryan"\nage = 19\nprint(name)\nprint(age)`,
+        output:`Aryan\n19`,
+        explain:[
+          `Two separate boxes are created — one holding text, one holding a number. Python is fine mixing types in the same program.`,
+          `Each print() call fetches and displays one box's contents.`
+        ]
+      },
+      {
+        title:"Give the same value to three variables at once",
+        steps:["Chain the assignment: a = b = c = 5.","Print all three to prove they all hold 5."],
+        code:`a = b = c = 5\nprint(a)\nprint(b)\nprint(c)`,
+        output:`5\n5\n5`,
+        explain:[`Python evaluates the assignment from right to left — it takes 5 and pours a copy of it into c, then b, then a, all in one line. Handy when several boxes need the same starting value.`]
+      },
+      {
+        title:"Give three variables different values in one line",
+        steps:["Write x, y, z = 1, 2, 3.","Python matches them position by position: x↔1, y↔2, z↔3.","Print each one."],
+        code:`x, y, z = 1, 2, 3\nprint(x)\nprint(y)\nprint(z)`,
+        output:`1\n2\n3`,
+        explain:[`This is called multiple assignment. The values on the right are matched, in order, to the variable names on the left — no operators involved, just neat one-line box-filling.`]
+      },
+      {
+        title:"Find out a variable's type using type()",
+        steps:["Store a number in marks.","Pass marks into the built-in type() function and print the result."],
+        code:`marks = 88\nprint(type(marks))`,
+        output:`<class 'int'>`,
+        explain:[`type() is a built-in inspector — it looks inside the box and tells you what kind of value is stored. 88 has no decimal point, so Python reports it as int (integer/whole number).`]
+      },
+      {
+        title:"Reassign a variable's value",
+        steps:["Store \"Surat\" in city and print it.","Store a new value, \"Vadodara\", in the same city box.","Print city again."],
+        code:`city = "Surat"\nprint(city)\ncity = "Vadodara"\nprint(city)`,
+        output:`Surat\nVadodara`,
+        explain:[
+          `The first print shows the original value stored in city.`,
+          `city = "Vadodara" doesn't create a new box — it overwrites the old value in the same box. Variables can change; that's exactly why they're called "variable."`
+        ]
+      },
+      {
+        title:"Store a decimal (float) number",
+        steps:["Create pi and assign a value with a decimal point.","Print it."],
+        code:`pi = 3.14\nprint(pi)`,
+        output:`3.14`,
+        explain:[`Any number written with a decimal point is automatically treated as a float by Python — no special instruction needed.`]
+      },
+      {
+        title:"Store a boolean (True/False) value",
+        steps:["Create is_student and assign it True (capital T, no quotes).","Print it."],
+        code:`is_student = True\nprint(is_student)`,
+        output:`True`,
+        explain:[`True and False are Python's boolean values — used to represent a plain yes/no or on/off state. Note the capital first letter, and no quotes — quotes would turn it into ordinary text instead.`]
+      },
+      {
+        title:"Print a variable inside a friendly sentence",
+        steps:["Store your name in a variable.","Print a text phrase and the variable together, separated by a comma."],
+        code:`name = "Aryan"\nprint("My name is", name)`,
+        output:`My name is Aryan`,
+        explain:[`print() happily accepts a mix of fixed text and variables in the same call — separated by commas, joined with the default single space, giving one natural sentence.`]
+      }
+    ]
+  },
+  {
+    key:'unit3', listId:'unit3List', prefix:'P3',
+    programs:[
+      {
+        title:"Greet the user by their own name",
+        steps:["Ask the user for their name using input().","Store whatever they type in a variable.","Print a greeting that includes it."],
+        code:`name = input("Enter your name: ")\nprint("Hello", name)`,
+        output:`Enter your name: Aryan\nHello Aryan`,
+        explain:[
+          `<code>input("Enter your name: ")</code> shows the prompt, pauses, and waits for the user to type and press Enter.`,
+          `Whatever they typed is stored (as text) in name, then reused in the greeting.`
+        ]
+      },
+      {
+        title:"Add two numbers entered by the user",
+        steps:["Take the first number using input(), convert it with int().","Take the second number the same way.","Add them with + and print the result."],
+        code:`a = int(input("Enter first number: "))\nb = int(input("Enter second number: "))\nprint("Sum =", a + b)`,
+        output:`Enter first number: 5\nEnter second number: 3\nSum = 8`,
+        explain:[
+          `input() always returns text — even "5" is just the characters 5. Wrapping it in int() converts it into a real whole number Python can do math with.`,
+          `a + b uses the + operator to add the two numbers, and print() shows the label plus the result together.`
+        ]
+      },
+      {
+        title:"Subtract two numbers",
+        steps:["Take two numbers from the user, converted with int().","Subtract the second from the first using -.","Print the result."],
+        code:`a = int(input("Enter first number: "))\nb = int(input("Enter second number: "))\nprint("Difference =", a - b)`,
+        output:`Enter first number: 10\nEnter second number: 4\nDifference = 6`,
+        explain:[`The - operator subtracts b from a. Order matters here — a - b is not the same as b - a, unlike addition.`]
+      },
+      {
+        title:"Multiply two numbers",
+        steps:["Take two numbers from the user.","Multiply using *.","Print the product."],
+        code:`a = int(input("Enter first number: "))\nb = int(input("Enter second number: "))\nprint("Product =", a * b)`,
+        output:`Enter first number: 6\nEnter second number: 7\nProduct = 42`,
+        explain:[`The * symbol is Python's multiplication operator — a plain × wouldn't work since it isn't a keyboard-friendly symbol.`]
+      },
+      {
+        title:"Divide two numbers (true division)",
+        steps:["Take two numbers from the user.","Divide using / — this always gives a decimal answer.","Print the result."],
+        code:`a = int(input("Enter first number: "))\nb = int(input("Enter second number: "))\nprint("Division =", a / b)`,
+        output:`Enter first number: 7\nEnter second number: 2\nDivision = 3.5`,
+        explain:[`/ is "true division" — it always returns a float, even when the numbers divide evenly, so you never lose the decimal part.`]
+      },
+      {
+        title:"Floor division — whole-number division",
+        steps:["Take two numbers from the user.","Divide using // to drop any decimal part.","Print the result."],
+        code:`a = int(input("Enter first number: "))\nb = int(input("Enter second number: "))\nprint("Floor Division =", a // b)`,
+        output:`Enter first number: 7\nEnter second number: 2\nFloor Division = 3`,
+        explain:[`// performs the same division as /, but then chops off (floors) anything after the decimal point, keeping only the whole-number part.`]
+      },
+      {
+        title:"Find the remainder using modulus",
+        steps:["Take two numbers from the user.","Use % to get what's left over after dividing.","Print the remainder."],
+        code:`a = int(input("Enter first number: "))\nb = int(input("Enter second number: "))\nprint("Remainder =", a % b)`,
+        output:`Enter first number: 7\nEnter second number: 2\nRemainder = 1`,
+        explain:[`% (modulus) answers "what's left over" after dividing a by b as many whole times as possible. 7 ÷ 2 goes in 3 times with 1 left over — hence 1.`]
+      },
+      {
+        title:"Raise a number to a power using **",
+        steps:["Take a base number and an exponent from the user.","Use ** to raise the base to that power.","Print the result."],
+        code:`base = int(input("Enter base: "))\npower = int(input("Enter power: "))\nprint("Result =", base ** power)`,
+        output:`Enter base: 2\nEnter power: 5\nResult = 32`,
+        explain:[`** is the exponent operator — base ** power multiplies base by itself power times. 2 ** 5 means 2×2×2×2×2 = 32.`]
+      },
+      {
+        title:"Compare two numbers using a relational operator",
+        steps:["Take two numbers from the user.","Compare them with > to see if the first is bigger.","Print the True/False result."],
+        code:`a = int(input("Enter first number: "))\nb = int(input("Enter second number: "))\nprint("Is a greater than b?", a > b)`,
+        output:`Enter first number: 9\nEnter second number: 4\nIs a greater than b? True`,
+        explain:[`> is a relational (comparison) operator — it doesn't calculate a number, it checks a condition and hands back a boolean: True or False.`]
+      },
+      {
+        title:"Check whether a number is even or odd",
+        steps:["Take a number from the user.","Use % 2 to test divisibility by 2.","Print whether the remainder equals 0 (True means even)."],
+        code:`num = int(input("Enter a number: "))\nprint("Is it even?", num % 2 == 0)`,
+        output:`Enter a number: 15\nIs it even? False`,
+        explain:[
+          `num % 2 finds the remainder when dividing by 2 — it's either 0 (even) or 1 (odd).`,
+          `== compares that remainder to 0 and returns True or False, which print() displays directly as the answer.`
+        ]
+      },
+      {
+        title:"Swap two variables' values",
+        steps:["Take two numbers from the user and store them.","Swap them in a single line using a, b = b, a.","Print both to confirm the swap."],
+        code:`a = int(input("Enter a: "))\nb = int(input("Enter b: "))\na, b = b, a\nprint("a =", a)\nprint("b =", b)`,
+        output:`Enter a: 3\nEnter b: 9\na = 9\nb = 3`,
+        explain:[`a, b = b, a is Python's neat trick for swapping: it builds the pair (b, a) first, then hands b's value to a and a's value to b in one clean step — no temporary box needed.`]
+      },
+      {
+        title:"Calculate Simple Interest",
+        steps:["Take Principal, Rate and Time from the user.","Apply the formula: SI = (P × R × T) / 100.","Print the calculated interest."],
+        code:`p = float(input("Enter Principal: "))\nr = float(input("Enter Rate: "))\nt = float(input("Enter Time (years): "))\nsi = (p * r * t) / 100\nprint("Simple Interest =", si)`,
+        output:`Enter Principal: 1000\nEnter Rate: 5\nEnter Time (years): 2\nSimple Interest = 100.0`,
+        explain:[
+          `float() is used instead of int() here because rate and time could easily involve decimals (like 2.5 years).`,
+          `The formula chains three operators — * twice and / once — in one line, exactly the way you'd write it on paper, just with Python symbols.`
+        ]
+      }
+    ]
+  }
+];
+
+/* ============ RENDER ============ */
+function renderUnit(unit){
+  const list = document.getElementById(unit.listId);
+  let html = '';
+  unit.programs.forEach((p, i) => {
+    const idx = i + 1;
+    const cardId = unit.prefix + '-' + idx;
+    const stepsHtml = p.steps.map(s => `<li>${s}</li>`).join('');
+    const explainHtml = p.explain.map(e => `<li>${e}</li>`).join('');
+    html += `
+    <div class="prog-card" id="${cardId}">
+      <button class="prog-head" onclick="toggleCard('${cardId}')">
+        <span class="prog-num">${idx}</span>
+        <span class="prog-title">${p.title}</span>
+        <span class="chev">▾</span>
+      </button>
+      <div class="prog-body">
+        <h5>🧭 Steps (Algorithm)</h5>
+        <ol>${stepsHtml}</ol>
+        <h5>💻 Code</h5>
+        <div class="code-box">
+          <pre><code>${escapeHtml(p.code)}</code></pre>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <h5>📤 Output</h5>
+        <div class="output-box"><pre>${escapeHtml(p.output)}</pre></div>
+        <h5>🔍 Line-by-line, in plain words</h5>
+        <ul class="explain-list">${explainHtml}</ul>
+      </div>
+    </div>`;
+  });
+  list.innerHTML = html;
+}
+units.forEach(renderUnit);
+
+function escapeHtml(str){
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function toggleCard(id){
+  const card = document.getElementById(id);
+  const body = card.querySelector('.prog-body');
+  const isOpen = card.classList.contains('open');
+  if(isOpen){
+    card.classList.remove('open');
+    body.style.maxHeight = null;
+  } else {
+    card.classList.add('open');
+    body.style.maxHeight = body.scrollHeight + 60 + 'px';
+  }
+}
+
+function openAndScroll(id){
+  toggleToc(false);
+  const card = document.getElementById(id);
+  if(!card) return;
+  if(!card.classList.contains('open')) toggleCard(id);
+  setTimeout(() => card.scrollIntoView({behavior:'smooth', block:'center'}), 200);
+}
+
+/* ============ TOC ============ */
+const unitNames = {unit1:"Unit 1 · print()", unit2:"Unit 2 · Variables", unit3:"Unit 3 · Input & Operators"};
+function buildToc(){
+  const el = document.getElementById('tocContent');
+  let html = '';
+  units.forEach(unit => {
+    html += `<h3>${unitNames[unit.key]}</h3><ol>`;
+    unit.programs.forEach((p,i) => {
+      const cardId = unit.prefix + '-' + (i+1);
+      html += `<li><a onclick="openAndScroll('${cardId}')">${p.title}</a></li>`;
+    });
+    html += `</ol>`;
+  });
+  el.innerHTML = html;
+}
+buildToc();
+
+function toggleToc(open){
+  document.getElementById('toc').classList.toggle('open', open);
+  document.getElementById('tocOverlay').classList.toggle('open', open);
+}
+
+function copyCode(btn){
+  const code = btn.parentElement.querySelector('code').innerText;
+  navigator.clipboard.writeText(code).then(() => {
+    const old = btn.innerText;
+    btn.innerText = 'Copied!';
+    setTimeout(() => btn.innerText = old, 1200);
+  });
+}
+
+/* ============ scroll progress ============ */
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+  document.getElementById('progress').style.width = scrolled + '%';
+});
+
+/* ============ hero typewriter ============ */
+const twEl = document.getElementById('typewriter');
+const twText = 'print("Hello, future engineer!")';
+let twIndex = 0;
+twEl.textContent = '';
+function typeStep(){
+  if(twIndex <= twText.length){
+    twEl.textContent = twText.slice(0, twIndex);
+    twIndex++;
+    setTimeout(typeStep, 55);
+  }
+}
+typeStep();
+</script>
+</body>
+</html>
