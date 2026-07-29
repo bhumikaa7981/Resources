@@ -188,6 +188,7 @@
   .unit1 .unit-badge{background:var(--coral);}
   .unit2 .unit-badge{background:var(--sky);}
   .unit3 .unit-badge{background:var(--lav);}
+  .unit4 .unit-badge{background:var(--mint);}
   .unit-head h2{font-size:clamp(1.6rem,3.4vw,2.3rem); margin:0;}
   .unit-intro{
     background:var(--card); border:2px solid var(--line); border-radius:var(--radius);
@@ -216,6 +217,7 @@
   .unit1 .prog-num{background:var(--coral);}
   .unit2 .prog-num{background:var(--sky);}
   .unit3 .prog-num{background:var(--lav);}
+  .unit4 .prog-num{background:var(--mint);}
   .prog-title{font-weight:800; font-size:1.05rem; flex:1;}
   .chev{transition:transform .25s; font-size:1.1rem; color:var(--ink-soft);}
   .prog-card.open .chev{transform:rotate(180deg);}
@@ -273,9 +275,10 @@
     <a href="#unit1">Print</a>
     <a href="#unit2">Variables</a>
     <a href="#unit3">Input &amp; Operators</a>
+    <a href="#unit4">Try on your own</a>
   </nav>
   <button id="menuBtn" onclick="toggleToc(true)">☰ Programs</button>
-  <button class="btn ghost" style="padding:10px 18px; font-size:.85rem;" onclick="toggleToc(true)">📋 All 32 Programs</button>
+  <button class="btn ghost" style="padding:10px 18px; font-size:.85rem;" onclick="toggleToc(true)">📋 All programs</button>
 </header>
 
 <div id="tocOverlay" onclick="toggleToc(false)"></div>
@@ -294,7 +297,7 @@
   <div class="blob b4"></div>
   <span class="eyebrow">Sarvajanik University · B.Tech Sem 1 · BTCO22101</span>
   <h1>Learn Python by <span class="hl">actually typing it.</span></h1>
-  <p class="sub">A friendly, no-nonsense practice ground for first-year coders. 32 bite-sized programs, explained in plain human words — one keyword at a time, one giggle at a time.</p>
+  <p class="sub">A friendly, no-nonsense practice ground for first-year coders. Bite-sized programs, explained in plain human words — one keyword at a time, one giggle at a time.</p>
   <div class="hero-code"><span class="typewriter" id="typewriter">print("Hello, future engineer!")</span></div>
   <div class="cta-row">
     <a href="#why-python" class="btn primary">Start the story →</a>
@@ -406,9 +409,23 @@
   <div class="prog-list" id="unit3List"></div>
 </section>
 
+<!-- ================= UNIT 4 : TRY ON YOUR OWN ================= -->
+<section class="unit unit4" id="unit4">
+  <div class="unit-head">
+    <span class="unit-badge">Try on your own</span>
+    <h2>Unit 3, round two — 10 more input &amp; operator programs</h2>
+  </div>
+  <div class="unit-intro">
+    <h4>🎯 The concept, in one breath</h4>
+    <p>Same toolkit as Unit 3 — <code>input()</code>, <code>int()</code>/<code>float()</code>, and the arithmetic/comparison operators — just aimed at slightly more real-world problems: geometry, unit conversion, billing, eligibility checks. Read each algorithm first and try writing the code yourself before opening the card.</p>
+    <div class="syntax-box">value = float(input("Enter value: "))   # then combine with +  -  *  /  //  %  **  &gt;  &lt;  ==</div>
+  </div>
+  <div class="prog-list" id="unit4List"></div>
+</section>
+
 <footer>
   <div class="foot-emoji">🐍✨</div>
-  <h3>That's a wrap — 32 programs down.</h3>
+  <h3>That's a wrap — keep typing.</h3>
   <p>Type every single one yourself, even the "too easy" ones. Muscle memory beats memory-memory. Now go make Python do something weird. — Python Programming (BTCO22101), Sarvajanik University</p>
 </footer>
 
@@ -683,6 +700,114 @@ const units = [
         ]
       }
     ]
+  },
+  {
+    key:'unit4', listId:'unit4List', prefix:'P4',
+    programs:[
+      {
+        title:"Calculate the area and perimeter of a rectangle",
+        steps:["Read length and width.","Calculate area = length × width.","Calculate perimeter = 2 × (length + width).","Display both results."],
+        code:`length = float(input("Enter length: "))\nwidth = float(input("Enter width: "))\narea = length * width\nperimeter = 2 * (length + width)\nprint("Area =", area)\nprint("Perimeter =", perimeter)`,
+        output:`Enter length: 5\nEnter width: 3\nArea = 15.0\nPerimeter = 16.0`,
+        explain:[
+          `length and width are read with float() so decimal measurements (like 5.5 m) work too.`,
+          `area = length * width uses simple multiplication — the classic rectangle-area formula.`,
+          `perimeter = 2 * (length + width) adds the two sides first inside the brackets, then doubles the sum, exactly like the formula on paper.`
+        ]
+      },
+      {
+        title:"Calculate the area and circumference of a circle",
+        steps:["Read radius.","Calculate area using πr².","Calculate circumference using 2πr.","Display both values."],
+        code:`radius = float(input("Enter radius: "))\npi = 3.14\narea = pi * radius ** 2\ncircumference = 2 * pi * radius\nprint("Area =", area)\nprint("Circumference =", circumference)`,
+        output:`Enter radius: 7\nArea = 153.86\nCircumference = 43.96`,
+        explain:[
+          `pi = 3.14 stores an approximate value of π in its own variable, so it's easy to reuse and easy to read.`,
+          `radius ** 2 raises radius to the power 2 (squares it) using the exponent operator, then pi * (that) gives the area.`,
+          `circumference = 2 * pi * radius simply multiplies the three values left to right, matching the 2πr formula.`
+        ]
+      },
+      {
+        title:"Convert temperature from Celsius to Fahrenheit",
+        steps:["Read temperature in Celsius.","Apply conversion formula.","Display Fahrenheit temperature."],
+        code:`celsius = float(input("Enter temperature in Celsius: "))\nfahrenheit = (celsius * 9 / 5) + 32\nprint("Temperature in Fahrenheit =", fahrenheit)`,
+        output:`Enter temperature in Celsius: 37\nTemperature in Fahrenheit = 98.6`,
+        explain:[
+          `celsius * 9 / 5 scales the Celsius value using the standard 9/5 ratio between the two scales.`,
+          `Adding 32 shifts it to line up with the Fahrenheit scale's zero point — together they reproduce the textbook formula F = (C × 9/5) + 32.`
+        ]
+      },
+      {
+        title:"Convert total minutes into hours and remaining minutes",
+        steps:["Read total minutes.","Find hours using floor division.","Find remaining minutes using modulus.","Display hours and minutes."],
+        code:`total_minutes = int(input("Enter total minutes: "))\nhours = total_minutes // 60\nremaining_minutes = total_minutes % 60\nprint("Hours =", hours)\nprint("Minutes =", remaining_minutes)`,
+        output:`Enter total minutes: 150\nHours = 2\nMinutes = 30`,
+        explain:[
+          `total_minutes // 60 uses floor division to find how many whole 60-minute blocks fit in — that's the hour count.`,
+          `total_minutes % 60 uses modulus to find what's left over after removing those full hours — exactly the remaining minutes.`
+        ]
+      },
+      {
+        title:"Calculate the total marks, average, and percentage of five subjects",
+        steps:["Read marks of five subjects.","Find total.","Calculate average.","Calculate percentage.","Display all values."],
+        code:`m1 = float(input("Enter marks of subject 1: "))\nm2 = float(input("Enter marks of subject 2: "))\nm3 = float(input("Enter marks of subject 3: "))\nm4 = float(input("Enter marks of subject 4: "))\nm5 = float(input("Enter marks of subject 5: "))\ntotal = m1 + m2 + m3 + m4 + m5\naverage = total / 5\npercentage = (total / 500) * 100\nprint("Total =", total)\nprint("Average =", average)\nprint("Percentage =", percentage)`,
+        output:`Enter marks of subject 1: 80\nEnter marks of subject 2: 90\nEnter marks of subject 3: 70\nEnter marks of subject 4: 85\nEnter marks of subject 5: 75\nTotal = 400.0\nAverage = 80.0\nPercentage = 80.0`,
+        explain:[
+          `Five separate input() calls collect one mark each — five boxes, five subjects.`,
+          `total adds all five together; average divides that total by 5 (the subject count).`,
+          `percentage assumes each subject is out of 100, so total marks out of 500 are scaled to a 100-point scale using (total / 500) * 100.`
+        ]
+      },
+      {
+        title:"Calculate the gross amount after adding GST to a product price",
+        steps:["Read product price and GST percentage.","Calculate GST amount.","Add GST to original price.","Display final amount."],
+        code:`price = float(input("Enter product price: "))\ngst_percent = float(input("Enter GST percentage: "))\ngst_amount = (price * gst_percent) / 100\nfinal_price = price + gst_amount\nprint("GST Amount =", gst_amount)\nprint("Final Price =", final_price)`,
+        output:`Enter product price: 1000\nEnter GST percentage: 18\nGST Amount = 180.0\nFinal Price = 1180.0`,
+        explain:[
+          `gst_amount = (price * gst_percent) / 100 finds what a given percentage of the price works out to, in rupees.`,
+          `final_price = price + gst_amount adds that tax on top of the original price to get what the customer actually pays.`
+        ]
+      },
+      {
+        title:"Calculate the discount amount and final payable price",
+        steps:["Read original price and discount percentage.","Calculate discount amount.","Subtract discount from original price.","Display results."],
+        code:`price = float(input("Enter original price: "))\ndiscount_percent = float(input("Enter discount percentage: "))\ndiscount_amount = (price * discount_percent) / 100\nfinal_price = price - discount_amount\nprint("Discount Amount =", discount_amount)\nprint("Final Price =", final_price)`,
+        output:`Enter original price: 2000\nEnter discount percentage: 10\nDiscount Amount = 200.0\nFinal Price = 1800.0`,
+        explain:[
+          `The same percentage-of-a-value formula as GST is reused here — (price * discount_percent) / 100 — just applied to a discount instead of a tax.`,
+          `This time the amount is subtracted, not added, since a discount reduces what the customer pays.`
+        ]
+      },
+      {
+        title:"Check whether a student has passed based on minimum passing marks",
+        steps:["Read obtained marks and passing marks.","Compare both values.","Display Pass or Fail."],
+        code:`obtained_marks = float(input("Enter obtained marks: "))\npassing_marks = float(input("Enter passing marks: "))\nprint("Result (Pass=True):", obtained_marks >= passing_marks)`,
+        output:`Enter obtained marks: 45\nEnter passing marks: 40\nResult (Pass=True): True`,
+        explain:[
+          `>= is a relational operator meaning "greater than or equal to" — it checks whether the obtained marks reach or cross the passing mark.`,
+          `The comparison itself produces the answer — True means the student passed, False means they didn't — no extra decision-making needed for this simple check.`
+        ]
+      },
+      {
+        title:"Check whether a person is eligible to vote",
+        steps:["Read age.","Compare age with minimum voting age (18).","Display eligibility."],
+        code:`age = int(input("Enter your age: "))\nprint("Eligible to vote:", age >= 18)`,
+        output:`Enter your age: 20\nEligible to vote: True`,
+        explain:[
+          `age >= 18 checks the entered age against the fixed voting-age rule of 18, written directly as a number in the comparison.`,
+          `The result is a boolean — True (eligible) or False (not eligible) — printed straight after the label.`
+        ]
+      },
+      {
+        title:"Calculate the total bill of multiple items",
+        steps:["Read quantity and price of three items.","Calculate individual costs.","Find total bill.","Display total amount."],
+        code:`qty1 = int(input("Enter quantity of item 1: "))\nprice1 = float(input("Enter price of item 1: "))\nqty2 = int(input("Enter quantity of item 2: "))\nprice2 = float(input("Enter price of item 2: "))\nqty3 = int(input("Enter quantity of item 3: "))\nprice3 = float(input("Enter price of item 3: "))\ncost1 = qty1 * price1\ncost2 = qty2 * price2\ncost3 = qty3 * price3\ntotal_bill = cost1 + cost2 + cost3\nprint("Total Bill =", total_bill)`,
+        output:`Enter quantity of item 1: 2\nEnter price of item 1: 50\nEnter quantity of item 2: 1\nEnter price of item 2: 120\nEnter quantity of item 3: 3\nEnter price of item 3: 30\nTotal Bill = 320.0`,
+        explain:[
+          `Each item's quantity and price are read separately, then multiplied (qty * price) to get that item's individual cost.`,
+          `The three individual costs are added together with + to arrive at one final total_bill, mirroring how a real receipt is totalled.`
+        ]
+      }
+    ]
   }
 ];
 
@@ -747,7 +872,7 @@ function openAndScroll(id){
 }
 
 /* ============ TOC ============ */
-const unitNames = {unit1:"Unit 1 · print()", unit2:"Unit 2 · Variables", unit3:"Unit 3 · Input & Operators"};
+const unitNames = {unit1:"Unit 1 · print()", unit2:"Unit 2 · Variables", unit3:"Unit 3 · Input & Operators", unit4:"Try on your own · More Unit 3"};
 function buildToc(){
   const el = document.getElementById('tocContent');
   let html = '';
