@@ -195,6 +195,7 @@
   .unit2 .unit-badge{background:var(--sky);}
   .unit3 .unit-badge{background:var(--lav);}
   .unit4 .unit-badge{background:#1F8A5E;}
+  .unit5 .unit-badge{background:#7A4EBF;}
   .unit-head h2{font-size:clamp(1.6rem,3.4vw,2.3rem); margin:0;}
   .unit-intro{
     background:var(--card); border:2px solid var(--line); border-radius:var(--radius);
@@ -224,6 +225,7 @@
   .unit2 .prog-num{background:var(--sky);}
   .unit3 .prog-num{background:var(--lav);}
   .unit4 .prog-num{background:#1F8A5E;}
+  .unit5 .prog-num{background:#7A4EBF;}
   .prog-title{font-weight:800; font-size:1.05rem; flex:1;}
   .chev{transition:transform .25s; font-size:1.1rem; color:var(--ink-soft);}
   .prog-card.open .chev{transform:rotate(180deg);}
@@ -332,6 +334,7 @@
     50%{transform:translateY(-16px) rotate(6deg);}
   }
   .unit4 .unit-intro{border-color:#B7EBD3;}
+  .unit5 .unit-intro{border-color:#DCCBF7;}
 
   @media (max-width:760px){
     nav.links{display:none;}
@@ -357,10 +360,11 @@
     <a href="#unit2">Variables</a>
     <a href="#unit3">Input &amp; Operators</a>
     <a href="#unit4">Lab 3</a>
+    <a href="#unit5">Own Practice</a>
     <a href="#practicals">Practicals</a>
   </nav>
   <button id="menuBtn" onclick="toggleToc(true)">☰ Programs</button>
-  <button class="btn ghost" style="padding:10px 18px; font-size:.85rem;" onclick="toggleToc(true)">📋 All 52 Programs</button>
+  <button class="btn ghost" style="padding:10px 18px; font-size:.85rem;" onclick="toggleToc(true)">📋 All 67 Programs</button>
 </header>
 
 <div id="tocOverlay" onclick="toggleToc(false)"></div>
@@ -379,7 +383,7 @@
   <div class="blob b4"></div>
   <span class="eyebrow">Sarvajanik University · B.Tech Sem 1 · BTCO22101</span>
   <h1>Learn Python by <span class="hl">actually typing it.</span></h1>
-  <p class="sub">A friendly, no-nonsense practice ground for first-year coders. 52 bite-sized programs, explained in plain human words — one keyword at a time, one giggle at a time.</p>
+  <p class="sub">A friendly, no-nonsense practice ground for first-year coders. 67 bite-sized programs, explained in plain human words — one keyword at a time, one giggle at a time.</p>
   <div class="hero-code"><span class="typewriter" id="typewriter">print("Hello, future engineer!")</span></div>
   <div class="cta-row">
     <a href="#why-python" class="btn primary">Start the story →</a>
@@ -487,7 +491,7 @@
     <div class="syl-card">
       <div class="syl-num">5</div>
       <h4>Lists, Tuples, Dictionaries &amp; Strings</h4>
-      <p><strong>Lists:</strong> add, remove, replace items. <strong>Tuples:</strong> creating, accessing, insert/delete/update, nested tuples. <strong>Dictionaries:</strong> operations, for loop with dictionary, list↔dictionary, string↔dictionary conversion. <strong>Strings:</strong> indexing, slicing, repeating, concatenation, membership, comparing, substrings, replacing, splitting, joining, searching.</p>
+      <p><strong>Lists:</strong> add, remove, replace items. <strong>Tuples:</strong> creating, accessing, insert/delete/update, nested tuples. <strong>Dictionaries:</strong> operations, for loop with dictionary, list↔dictionary, string↔dictionary conversion. <strong>Strings:</strong> indexing, slicing, repeating, concatenation, membership, comparing, substrings, replacing, splitting, joining.</p>
       <div class="syl-meta"><span>6 Teaching Hrs</span><span>20% Weightage</span></div>
     </div>
 
@@ -571,6 +575,21 @@
   <div class="prog-list" id="unit4List"></div>
 </section>
 
+<!-- ================= OWN PRACTICE ================= -->
+<section class="unit unit5" id="unit5">
+  <div class="unit-head">
+    <span class="unit-badge">On Your Own</span>
+    <h2>Own Practice Section — 15 problem-solving programs</h2>
+  </div>
+  <div class="unit-intro">
+    <h4>🎯 The concept, in one breath</h4>
+    <p>No new syntax here — just the same tools you already trust (<code>input()</code>, operators, and <code>if / elif / else</code>) aimed at real, slightly trickier problems: bills with slabs, grading, number puzzles, and small decision-making tools. The goal is to get comfortable turning a <em>word problem</em> into a clean, working algorithm on your own.</p>
+    <p>Work through these the same way as Lab 3: read the problem, write the steps first, then the code — don't jump straight to typing. The last five (11–15) are extra "fast learner" challenges, a little less spelled-out on purpose.</p>
+    <div class="syntax-box">if condition1:<br>&nbsp;&nbsp;&nbsp;&nbsp;# do this<br>elif condition2:<br>&nbsp;&nbsp;&nbsp;&nbsp;# do that<br>else:<br>&nbsp;&nbsp;&nbsp;&nbsp;# fallback</div>
+  </div>
+  <div class="prog-list" id="unit5List"></div>
+</section>
+
 <!-- ================= PRACTICAL LIST ================= -->
 <section class="practical-wrap" id="practicals">
   <div class="deck-heading">
@@ -641,7 +660,7 @@
 
 <footer>
   <div class="foot-emoji">🐍✨</div>
-  <h3>That's a wrap — 52 programs down.</h3>
+  <h3>That's a wrap — 67 programs down.</h3>
   <p>Type every single one yourself, even the "too easy" ones. Muscle memory beats memory-memory. Now go make Python do something weird. — Python Programming (BTCO22101), Sarvajanik University</p>
 
   <div class="credit-box">
@@ -1127,6 +1146,158 @@ const units = [
         ]
       }
     ]
+  },
+  {
+    key:'unit5', listId:'unit5List', prefix:'P5',
+    programs:[
+      {
+        title:"Check whether a given year is a leap year or not",
+        steps:["Take the year from the user.","A year is a leap year if it's divisible by 4 AND NOT a century year — OR if it's a century year divisible by 400.","Print whether it's a leap year."],
+        code:`year = int(input("Enter a year: "))\nif (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0):\n    print(year, "is a Leap Year")\nelse:\n    print(year, "is not a Leap Year")`,
+        output:`Enter a year: 2024\n2024 is a Leap Year`,
+        explain:[
+          `<strong>Rule:</strong> divisible by 4 is the basic leap-year test, but century years (1900, 2000, ...) are an exception — they must also be divisible by 400, not just 100.`,
+          `<code>(year % 4 == 0 and year % 100 != 0)</code> catches ordinary leap years like 2024 (divisible by 4, not a century).`,
+          `<code>(year % 400 == 0)</code> catches century leap years like 2000. The <code>or</code> between the two brackets means either path makes it a leap year — 1900 fails both and is correctly rejected.`
+        ]
+      },
+      {
+        title:"Calculate electricity bill based on units consumed (slab-wise)",
+        steps:["Take the units consumed from the user.","If units ≤ 100, charge ₹5/unit for all of them.","If units ≤ 200, the first 100 cost ₹5/unit and the rest cost ₹7/unit.","If units > 200, add ₹10/unit for everything above 200.","Print the total bill."],
+        code:`units = int(input("Enter units consumed: "))\nif units <= 100:\n    bill = units * 5\nelif units <= 200:\n    bill = 100 * 5 + (units - 100) * 7\nelse:\n    bill = 100 * 5 + 100 * 7 + (units - 200) * 10\nprint("Electricity Bill = ₹", bill)`,
+        output:`Enter units consumed: 250\nElectricity Bill = ₹ 1700`,
+        explain:[
+          `This is a <strong>slab (tiered) pricing</strong> problem — different portions of the same bill are charged at different rates, so we can't just multiply units by one rate.`,
+          `For 250 units: the first 100 units cost 100×5=500, the next 100 cost 100×7=700, and the remaining 50 (250−200) cost 50×10=500 → total 500+700+500 = 1700.`,
+          `Each elif only needs to handle the "extra" units beyond the previous slab — <code>(units - 100)</code> and <code>(units - 200)</code> — because the earlier slabs are already accounted for in the fixed 100*5 and 100*7 parts.`
+        ]
+      },
+      {
+        title:"Calculate the grade of a student based on marks",
+        steps:["Take the marks obtained from the user.","Check the mark ranges from highest to lowest: 90+, 75–89, 60–74, 40–59, below 40.","Print the matching grade."],
+        code:`marks = float(input("Enter marks: "))\nif marks >= 90:\n    grade = "A"\nelif marks >= 75:\n    grade = "B"\nelif marks >= 60:\n    grade = "C"\nelif marks >= 40:\n    grade = "D"\nelse:\n    grade = "Fail"\nprint("Grade:", grade)`,
+        output:`Enter marks: 82\nGrade: B`,
+        explain:[
+          `Just like the age-bracket program in Lab 3, checking from the <em>highest</em> range downward means each elif only needs one boundary — by the time Python reaches <code>elif marks >= 75</code>, it already knows marks isn't 90+, so this line effectively means "between 75 and 89."`,
+          `82 fails the first check (not ≥90), passes the second (≥75) — Python prints "B" and skips every check below it.`
+        ]
+      },
+      {
+        title:"Check whether a given number is an Armstrong number",
+        steps:["Take a 3-digit number from the user.","Split it into its hundreds, tens, and ones digits.","Add the cube of each digit together.","If that sum equals the original number, it's an Armstrong number."],
+        code:`num = int(input("Enter a 3-digit number: "))\na = num // 100\nb = (num // 10) % 10\nc = num % 10\ntotal = a**3 + b**3 + c**3\nif total == num:\n    print(num, "is an Armstrong number")\nelse:\n    print(num, "is not an Armstrong number")`,
+        output:`Enter a 3-digit number: 153\n153 is an Armstrong number`,
+        explain:[
+          `<code>num // 100</code> keeps only the hundreds digit (153 // 100 = 1). <code>(num // 10) % 10</code> strips the last digit then takes the remainder by 10, isolating the tens digit (15 % 10 = 5). <code>num % 10</code> grabs the last digit directly (153 % 10 = 3).`,
+          `<strong>Armstrong rule:</strong> 1³ + 5³ + 3³ = 1 + 125 + 27 = 153 — the sum of the cubed digits equals the number itself, so it qualifies.`,
+          `This digit-splitting trick (using <code>//</code> and <code>%</code> together) is one you'll reuse constantly once you get comfortable with it.`
+        ]
+      },
+      {
+        title:"Build a simple menu-driven calculator",
+        steps:["Show the four operation choices to the user.","Take the user's menu choice, and the two numbers to work on.","Use if / elif to perform the matching operation.","Print the result — or an error message for an invalid choice."],
+        code:`print("1. Addition\\n2. Subtraction\\n3. Multiplication\\n4. Division")\nchoice = int(input("Enter your choice (1-4): "))\na = float(input("Enter first number: "))\nb = float(input("Enter second number: "))\nif choice == 1:\n    print("Result =", a + b)\nelif choice == 2:\n    print("Result =", a - b)\nelif choice == 3:\n    print("Result =", a * b)\nelif choice == 4:\n    print("Result =", a / b)\nelse:\n    print("Invalid choice")`,
+        output:`1. Addition\n2. Subtraction\n3. Multiplication\n4. Division\nEnter your choice (1-4): 3\nEnter first number: 4\nEnter second number: 5\nResult = 20.0`,
+        explain:[
+          `This is called a <strong>menu-driven program</strong> — it shows options first, then reacts to whichever number the user types, exactly like a real app's menu.`,
+          `Each <code>elif choice == N</code> is a separate branch — only the ONE matching the user's choice runs, so the calculator never accidentally does two operations at once.`,
+          `The final <code>else</code> quietly protects the program from crashing if someone types 5 or 0 by mistake.`
+        ]
+      },
+      {
+        title:"Check driving license eligibility based on age",
+        steps:["Take the person's age from the user.","If age is 18 or above, they're eligible.","Otherwise, they're not eligible."],
+        code:`age = int(input("Enter your age: "))\nif age >= 18:\n    print("Eligible for driving license")\nelse:\n    print("Not eligible for driving license")`,
+        output:`Enter your age: 16\nNot eligible for driving license`,
+        explain:[`A clean, single-condition if-else — the simplest possible eligibility check, and a good one to compare against the more complex loan-eligibility program from Lab 3.`]
+      },
+      {
+        title:"Find the roots of a quadratic equation using the discriminant",
+        steps:["Take the coefficients a, b, and c from the user.","Calculate the discriminant: b² − 4ac.","If it's positive → two real roots. If zero → equal roots. If negative → imaginary roots."],
+        code:`a = float(input("Enter a: "))\nb = float(input("Enter b: "))\nc = float(input("Enter c: "))\ndiscriminant = b ** 2 - 4 * a * c\nif discriminant > 0:\n    print("Two real and distinct roots")\nelif discriminant == 0:\n    print("Two equal real roots")\nelse:\n    print("Roots are imaginary (complex)")`,
+        output:`Enter a: 1\nEnter b: -5\nEnter c: 6\nTwo real and distinct roots`,
+        explain:[
+          `<strong>Formula:</strong> Discriminant = b² − 4ac, from the quadratic formula you already know from maths.`,
+          `For a=1, b=-5, c=6: discriminant = 25 − 24 = 1, which is greater than 0 — so the equation has two real, distinct roots.`,
+          `Notice this program never actually calculates the roots themselves — it only classifies <em>what kind</em> of roots exist, using the sign of one number.`
+        ]
+      },
+      {
+        title:"Calculate discount on a shopping bill based on purchase amount",
+        steps:["Take the purchase amount from the user.","If amount ≥ ₹5000, apply 20% discount.","Else if amount ≥ ₹3000, apply 10% discount.","Otherwise, apply no discount.","Print the discount and the final payable amount."],
+        code:`amount = float(input("Enter purchase amount: "))\nif amount >= 5000:\n    discount = amount * 0.20\nelif amount >= 3000:\n    discount = amount * 0.10\nelse:\n    discount = 0\nfinal = amount - discount\nprint("Discount =", discount)\nprint("Final Payable Amount =", final)`,
+        output:`Enter purchase amount: 6000\nDiscount = 1200.0\nFinal Payable Amount = 4800.0`,
+        explain:[
+          `0.20 and 0.10 represent 20% and 10% written as decimals — Python multiplies directly by these to get the discount amount in rupees, not a percentage symbol.`,
+          `<code>final = amount - discount</code> is calculated only once, after the correct discount slab has already been decided — so it automatically works no matter which branch ran.`
+        ]
+      },
+      {
+        title:"Check exam eligibility based on attendance percentage",
+        steps:["Take the attendance percentage from the user.","If attendance ≥ 75%, the student is allowed.","Otherwise, calculate and display how much the shortage is."],
+        code:`attendance = float(input("Enter attendance percentage: "))\nif attendance >= 75:\n    print("Allowed to sit in the examination")\nelse:\n    shortage = 75 - attendance\n    print("Not Allowed")\n    print("Shortage =", shortage, "%")`,
+        output:`Enter attendance percentage: 68\nNot Allowed\nShortage = 7.0 %`,
+        explain:[
+          `The <code>else</code> branch here does two useful things instead of one — it both prints the rejection message AND calculates exactly how many percentage points were missing, which is more helpful to the student than a plain "No."`,
+          `<code>shortage = 75 - attendance</code> only makes sense (and is only calculated) inside the else block — there's no reason to compute it when the student is already allowed.`
+        ]
+      },
+      {
+        title:"Calculate water bill based on consumption (slab-wise)",
+        steps:["Take the water consumption in liters from the user.","First 50 liters cost ₹2/liter.","The next slab, 51–200 liters, costs ₹3/liter.","Anything above 200 liters costs ₹5/liter.","Print the total water bill."],
+        code:`liters = float(input("Enter water consumption in liters: "))\nif liters <= 50:\n    bill = liters * 2\nelif liters <= 200:\n    bill = 50 * 2 + (liters - 50) * 3\nelse:\n    bill = 50 * 2 + 150 * 3 + (liters - 200) * 5\nprint("Water Bill = ₹", bill)`,
+        output:`Enter water consumption in liters: 250\nWater Bill = ₹ 800.0`,
+        explain:[
+          `Same slab-billing pattern as the electricity bill program above — practicing it twice on purpose, since tiered pricing is one of the most common real-world uses of if/elif/else.`,
+          `For 250 liters: 50×2=100 (first slab) + 150×3=450 (full middle slab, since 200−50=150) + 50×5=250 (50 liters over 200) = 100+450+250 = 800.`
+        ]
+      },
+      {
+        title:"⭐ Challenge: Check if a character is a vowel, consonant, digit, or special character",
+        steps:["Take a single character from the user.","Check with isdigit() whether it's a digit.","Else check with isalpha() whether it's a letter — and if so, whether it's one of a/e/i/o/u.","Otherwise, it's a special character."],
+        code:`ch = input("Enter a character: ")\nif ch.isdigit():\n    print(ch, "is a Digit")\nelif ch.isalpha():\n    if ch.lower() in ['a','e','i','o','u']:\n        print(ch, "is a Vowel")\n    else:\n        print(ch, "is a Consonant")\nelse:\n    print(ch, "is a Special Character")`,
+        output:`Enter a character: e\ne is a Vowel`,
+        explain:[
+          `<code>isdigit()</code> and <code>isalpha()</code> are built-in string methods — little yes/no tests every string carries with it — that check what kind of character you're holding, without you writing that logic by hand.`,
+          `<code>ch.lower()</code> converts the character to lowercase first, so the vowel check works whether the user types "E" or "e".`,
+          `Notice the <code>if</code> for vowel/consonant is <em>nested inside</em> the <code>elif ch.isalpha()</code> branch — a small taste of decision-making-inside-decision-making, useful for the "additional challenge" problems.`
+        ]
+      },
+      {
+        title:"⭐ Challenge: Calculate salary bonus based on employee experience",
+        steps:["Take the employee's experience (years) and current salary.","More than 10 years → 20% bonus.","5 to 10 years → 10% bonus.","Less than 5 years → 5% bonus.","Print the bonus amount."],
+        code:`experience = float(input("Enter years of experience: "))\nsalary = float(input("Enter current salary: "))\nif experience > 10:\n    bonus = salary * 0.20\nelif experience >= 5:\n    bonus = salary * 0.10\nelse:\n    bonus = salary * 0.05\nprint("Bonus =", bonus)`,
+        output:`Enter years of experience: 7\nEnter current salary: 30000\nBonus = 3000.0`,
+        explain:[`Same "check from the top boundary downward" pattern as the grading program — the elif's lower bound (5) is implied automatically, since anything ≥10 would already have matched the first condition.`]
+      },
+      {
+        title:"⭐ Challenge: Determine shipping charge based on package weight",
+        steps:["Take the package weight in kg from the user.","Check weight ranges from lightest to heaviest and assign the matching flat charge.","Print the shipping charge."],
+        code:`weight = float(input("Enter package weight in kg: "))\nif weight <= 1:\n    charge = 50\nelif weight <= 5:\n    charge = 100\nelif weight <= 10:\n    charge = 150\nelse:\n    charge = 200\nprint("Shipping Charge = ₹", charge)`,
+        output:`Enter package weight in kg: 7\nShipping Charge = ₹ 150`,
+        explain:[`Unlike the electricity/water bills, this one uses flat slab charges (not per-unit rates) — the whole package is charged one fixed amount depending on which weight bracket it falls into.`]
+      },
+      {
+        title:"⭐ Challenge: Check whether three given sides can form a valid triangle",
+        steps:["Take all three sides from the user.","A triangle is valid only if the sum of any two sides is greater than the third side, for all three pairs.","Print whether it's a valid triangle."],
+        code:`a = float(input("Enter side a: "))\nb = float(input("Enter side b: "))\nc = float(input("Enter side c: "))\nif (a + b > c) and (b + c > a) and (a + c > b):\n    print("Valid Triangle")\nelse:\n    print("Not a Valid Triangle")`,
+        output:`Enter side a: 3\nEnter side b: 4\nEnter side c: 5\nValid Triangle`,
+        explain:[
+          `This is the <strong>Triangle Inequality Theorem</strong>: two sides together must always be longer than the third side, or the shape simply can't close up into a triangle.`,
+          `All three <code>and</code>-joined checks must be True together — if even one pair fails the test, the sides can't form a triangle, and the else branch runs.`
+        ]
+      },
+      {
+        title:"⭐ Challenge: Determine the largest digit in a three-digit number",
+        steps:["Take a 3-digit number from the user.","Split it into hundreds, tens, and ones digits (same trick as the Armstrong program).","Compare the three digits using if/elif/else to find the largest.","Print the largest digit."],
+        code:`num = int(input("Enter a 3-digit number: "))\na = num // 100\nb = (num // 10) % 10\nc = num % 10\nif a >= b and a >= c:\n    largest = a\nelif b >= a and b >= c:\n    largest = b\nelse:\n    largest = c\nprint("Largest digit =", largest)`,
+        output:`Enter a 3-digit number: 468\nLargest digit = 8`,
+        explain:[
+          `The digit-splitting lines are identical to the Armstrong number program — a great sign that you're starting to recognize reusable patterns instead of solving each problem from zero.`,
+          `The three-way comparison follows the exact same "largest of three" logic from Lab 3's <code>a, b, c</code> number-comparison program — just applied to digits instead of whole numbers.`
+        ]
+      }
+    ]
   }
 ];
 
@@ -1191,7 +1362,7 @@ function openAndScroll(id){
 }
 
 /* ============ TOC ============ */
-const unitNames = {unit1:"Unit 1 · print()", unit2:"Unit 2 · Variables", unit3:"Unit 3 · Input & Operators", unit4:"Lab 3 · Practice Programs"};
+const unitNames = {unit1:"Unit 1 · print()", unit2:"Unit 2 · Variables", unit3:"Unit 3 · Input & Operators", unit4:"Lab 3 · Practice Programs", unit5:"Own Practice · 15 Programs"};
 function buildToc(){
   const el = document.getElementById('tocContent');
   let html = '';
