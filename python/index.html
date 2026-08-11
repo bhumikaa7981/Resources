@@ -196,6 +196,7 @@
   .unit3 .unit-badge{background:var(--lav);}
   .unit4 .unit-badge{background:#1F8A5E;}
   .unit5 .unit-badge{background:#7A4EBF;}
+  .unit6 .unit-badge{background:#C9184A;}
   .unit-head h2{font-size:clamp(1.6rem,3.4vw,2.3rem); margin:0;}
   .unit-intro{
     background:var(--card); border:2px solid var(--line); border-radius:var(--radius);
@@ -226,6 +227,7 @@
   .unit3 .prog-num{background:var(--lav);}
   .unit4 .prog-num{background:#1F8A5E;}
   .unit5 .prog-num{background:#7A4EBF;}
+  .unit6 .prog-num{background:#C9184A;}
   .prog-title{font-weight:800; font-size:1.05rem; flex:1;}
   .chev{transition:transform .25s; font-size:1.1rem; color:var(--ink-soft);}
   .prog-card.open .chev{transform:rotate(180deg);}
@@ -335,6 +337,7 @@
   }
   .unit4 .unit-intro{border-color:#B7EBD3;}
   .unit5 .unit-intro{border-color:#DCCBF7;}
+  .unit6 .unit-intro{border-color:#F7C6D6;}
 
   @media (max-width:760px){
     nav.links{display:none;}
@@ -361,10 +364,11 @@
     <a href="#unit3">Input &amp; Operators</a>
     <a href="#unit4">Lab 3</a>
     <a href="#unit5">Own Practice</a>
+    <a href="#unit6">Lab 4</a>
     <a href="#practicals">Practicals</a>
   </nav>
   <button id="menuBtn" onclick="toggleToc(true)">☰ Programs</button>
-  <button class="btn ghost" style="padding:10px 18px; font-size:.85rem;" onclick="toggleToc(true)">📋 All 67 Programs</button>
+  <button class="btn ghost" style="padding:10px 18px; font-size:.85rem;" onclick="toggleToc(true)">📋 All 87 Programs</button>
 </header>
 
 <div id="tocOverlay" onclick="toggleToc(false)"></div>
@@ -383,7 +387,7 @@
   <div class="blob b4"></div>
   <span class="eyebrow">Sarvajanik University · B.Tech Sem 1 · BTCO22101</span>
   <h1>Learn Python by <span class="hl">actually typing it.</span></h1>
-  <p class="sub">A friendly, no-nonsense practice ground for first-year coders. 67 bite-sized programs, explained in plain human words — one keyword at a time, one giggle at a time.</p>
+  <p class="sub">A friendly, no-nonsense practice ground for first-year coders. 87 bite-sized programs, explained in plain human words — one keyword at a time, one giggle at a time.</p>
   <div class="hero-code"><span class="typewriter" id="typewriter">print("Hello, future engineer!")</span></div>
   <div class="cta-row">
     <a href="#why-python" class="btn primary">Start the story →</a>
@@ -472,6 +476,7 @@
       <h4>Control Flow</h4>
       <p>Conditional Statements: if, if-else, if...elif. Loops (for, while), Nested Loop, else suite and Control Statements (break, continue, pass), Assertion statement in Python, Generating Random Numbers.</p>
       <div class="syl-meta"><span>4 Teaching Hrs</span><span>14% Weightage</span></div>
+      <div style="position:relative; z-index:1; margin-top:10px; display:inline-block; font-size:.75rem; font-weight:800; color:#1F8A5E; background:#DEF7EC; padding:4px 10px; border-radius:20px;">🐍 Nested loop pattern programs practiced in Lab 4 below</div>
     </div>
 
     <div class="syl-card">
@@ -590,6 +595,24 @@
   <div class="prog-list" id="unit5List"></div>
 </section>
 
+<!-- ================= LAB 4 ================= -->
+<section class="unit unit6" id="unit6">
+  <div class="lab-fun">
+    <span>⭐</span><span>🔺</span><span>🔷</span><span>🧵</span><span>🔻</span><span>💠</span>
+  </div>
+  <div class="unit-head">
+    <span class="unit-badge">Lab 4</span>
+    <h2>Learn Patterns — 20 nested-loop pattern programs</h2>
+  </div>
+  <div class="unit-intro">
+    <h4>🎯 The concept, in one breath</h4>
+    <p>A <strong>nested loop</strong> is simply a loop living inside another loop — the outer loop picks the row, and the inner loop decides what gets printed across that row. Every pattern in this lab, from a plain square to a diamond, is built from exactly this one idea, repeated with small twists.</p>
+    <p>Two small habits make patterns click: use <code>print(..., end="")</code> inside the inner loop so everything stays on one line until you're ready for the next row, and use <code>print()</code> alone (no arguments) after the inner loop finishes to move down to the next row. Spaces are printed with <code>" "</code> the exact same way stars are printed with <code>"*"</code> — a hollow shape or a pyramid is just a pattern with some smart space-printing mixed in.</p>
+    <div class="syntax-box">for i in range(1, rows + 1):<br>&nbsp;&nbsp;&nbsp;&nbsp;for j in range(i):<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("*", end="")<br>&nbsp;&nbsp;&nbsp;&nbsp;print()   # move to the next row</div>
+  </div>
+  <div class="prog-list" id="unit6List"></div>
+</section>
+
 <!-- ================= PRACTICAL LIST ================= -->
 <section class="practical-wrap" id="practicals">
   <div class="deck-heading">
@@ -611,7 +634,7 @@
       <div class="prac-check">2</div>
       <div>
         <h4>Control Flow</h4>
-        <p>Write programs using if / if-else / if...elif ladders, for and while loops, nested loops, break/continue/pass, the assert statement, and random number generation. <strong>🧪 A first taste of if / elif / else is already practiced in Lab 3 above.</strong></p>
+        <p>Write programs using if / if-else / if...elif ladders, for and while loops, nested loops, break/continue/pass, the assert statement, and random number generation. <strong>🧪 A first taste of if / elif / else is already practiced in Lab 3 above, and nested loops are practiced hands-on in Lab 4's 20 pattern programs.</strong></p>
       </div>
     </div>
 
@@ -660,7 +683,7 @@
 
 <footer>
   <div class="foot-emoji">🐍✨</div>
-  <h3>That's a wrap — 67 programs down.</h3>
+  <h3>That's a wrap — 87 programs down.</h3>
   <p>Type every single one yourself, even the "too easy" ones. Muscle memory beats memory-memory. Now go make Python do something weird. — Python Programming (BTCO22101), Sarvajanik University</p>
 
   <div class="credit-box">
@@ -1298,6 +1321,214 @@ const units = [
         ]
       }
     ]
+  },
+  {
+    key:'unit6', listId:'unit6List', prefix:'P6',
+    programs:[
+      {
+        title:"Print a square of stars",
+        steps:["Decide the number of rows (and columns) — here, 4.","Use an outer loop to move row by row.","Use an inner loop to print a star for every column in that row.","Move to a new line after each row finishes."],
+        code:`rows = 4\nfor i in range(rows):\n    for j in range(rows):\n        print("*", end="")\n    print()`,
+        output:`****\n****\n****\n****`,
+        explain:[
+          `The outer loop <code>for i in range(rows)</code> runs once per row — 4 times here.`,
+          `The inner loop <code>for j in range(rows)</code> also runs 4 times on every row, printing a star each time with <code>end=""</code> so they stay stuck together on one line.`,
+          `The plain <code>print()</code> after the inner loop has no arguments — its only job is to push the cursor to the next line, starting a fresh row.`
+        ]
+      },
+      {
+        title:"Print a rectangle of stars",
+        steps:["Decide how many rows and how many columns separately.","Outer loop controls the rows.","Inner loop prints one star per column, for every row.","New line after each row."],
+        code:`rows = 3\ncols = 6\nfor i in range(rows):\n    for j in range(cols):\n        print("*", end="")\n    print()`,
+        output:`******\n******\n******`,
+        explain:[
+          `A rectangle is just a square where rows and cols are two different numbers instead of one shared number.`,
+          `The inner loop always runs the same number of times (<code>cols</code>) on every single row — that's what keeps every row the same width.`
+        ]
+      },
+      {
+        title:"Print a right-angled triangle",
+        steps:["Decide the number of rows — here, 5.","Outer loop i goes from 1 to rows.","Inner loop prints exactly i stars on row i — so row 1 gets 1 star, row 2 gets 2, and so on.","New line after each row."],
+        code:`rows = 5\nfor i in range(1, rows + 1):\n    for j in range(i):\n        print("*", end="")\n    print()`,
+        output:`*\n**\n***\n****\n*****`,
+        explain:[
+          `This is the key idea behind almost every triangle pattern: the inner loop's range depends on <code>i</code>, the outer loop's current row number — not on a fixed value.`,
+          `<code>range(i)</code> on row 1 (i=1) gives just 1 star; on row 5 (i=5) it gives 5 stars — the triangle grows automatically as i grows.`
+        ]
+      },
+      {
+        title:"Print an inverted right-angled triangle",
+        steps:["Decide the number of rows — here, 5.","Outer loop i goes from rows down to 1.","Inner loop prints i stars on that row.","New line after each row."],
+        code:`rows = 5\nfor i in range(rows, 0, -1):\n    for j in range(i):\n        print("*", end="")\n    print()`,
+        output:`*****\n****\n***\n**\n*`,
+        explain:[
+          `<code>range(rows, 0, -1)</code> counts backwards — 5, 4, 3, 2, 1 — the third value -1 is the step, meaning "go down by 1 each time" instead of the usual "go up by 1."`,
+          `Since the inner loop still prints i stars, and i is now shrinking every row, the triangle appears to shrink from top to bottom instead of grow.`
+        ]
+      },
+      {
+        title:"Print a triangle with numbers",
+        steps:["Outer loop i goes from 1 to rows.","Inner loop j goes from 1 to i, printing the CURRENT VALUE of j (not a fixed star).","New line after each row."],
+        code:`rows = 5\nfor i in range(1, rows + 1):\n    for j in range(1, i + 1):\n        print(j, end="")\n    print()`,
+        output:`1\n12\n123\n1234\n12345`,
+        explain:[
+          `The only change from the plain star triangle is printing <code>j</code> instead of <code>"*"</code> — since j itself counts 1, 2, 3... up to i, it naturally prints the counting digits.`,
+          `On row 3 (i=3), the inner loop runs with j = 1, 2, 3 in turn, printing "1", "2", "3" one after another — giving "123".`
+        ]
+      },
+      {
+        title:"Print an inverted number triangle",
+        steps:["Outer loop i goes from rows down to 1.","Inner loop j goes from 1 to i, printing j each time.","New line after each row."],
+        code:`rows = 5\nfor i in range(rows, 0, -1):\n    for j in range(1, i + 1):\n        print(j, end="")\n    print()`,
+        output:`12345\n1234\n123\n12\n1`,
+        explain:[
+          `Only the outer loop's direction changed compared to the previous program — i now starts at 5 (full row) and shrinks to 1, while the inner loop logic (print 1 to i) stays exactly the same.`,
+          `This combination — same inner loop, reversed outer loop — is a pattern you'll reuse for every "inverted" version of a triangle.`
+        ]
+      },
+      {
+        title:"Print the same number in each row",
+        steps:["Outer loop i goes from 1 to rows.","Inner loop runs i times, but prints i itself (the row number), not j.","New line after each row."],
+        code:`rows = 5\nfor i in range(1, rows + 1):\n    for j in range(i):\n        print(i, end="")\n    print()`,
+        output:`1\n22\n333\n4444\n55555`,
+        explain:[
+          `Compare this closely with the number-triangle program: there, we printed the changing inner-loop variable j; here, we print the outer-loop variable i, which stays fixed for that entire row.`,
+          `Row 3 (i=3) has its inner loop run 3 times, printing "3" each of those 3 times — giving "333".`
+        ]
+      },
+      {
+        title:"Print repeated numbers",
+        steps:["Outer loop i goes from 1 to rows.","Inner loop runs rows times (a fixed width every row), printing i each time.","New line after each row."],
+        code:`rows = 5\nfor i in range(1, rows + 1):\n    for j in range(rows):\n        print(i, end="")\n    print()`,
+        output:`11111\n22222\n33333\n44444\n55555`,
+        explain:[
+          `The difference from the previous program is subtle but important: the inner loop here uses <code>range(rows)</code> — a FIXED width — instead of <code>range(i)</code>, so every row prints the same number of digits, unlike the growing-triangle shape before.`,
+          `Since the printed value is still i (the row number), each full-width row shows one number repeated — this is effectively a "rectangle" version of the previous "same number" triangle.`
+        ]
+      },
+      {
+        title:"Print a continuous number pattern",
+        steps:["Keep one counter variable outside both loops, starting at 1.","Outer loop i goes from 1 to rows.","Inner loop runs i times, printing the counter and then increasing it by 1 each time.","New line after each row."],
+        code:`rows = 4\nnum = 1\nfor i in range(1, rows + 1):\n    for j in range(i):\n        print(num, end="")\n        num += 1\n    print()`,
+        output:`1\n23\n456\n789`,
+        explain:[
+          `This is different from every pattern before it — instead of restarting from 1 on every row, one shared counter (<code>num</code>) keeps climbing across the ENTIRE pattern, row after row.`,
+          `<code>num += 1</code> is short for <code>num = num + 1</code> — it happens right after each print, so the very next digit printed (even on the next row) continues where the last one left off.`
+        ]
+      },
+      {
+        title:"Print an inverted continuous number pattern",
+        steps:["Keep one counter variable outside both loops, starting at 1.","Outer loop i goes from rows down to 1.","Inner loop runs i times, printing and incrementing the counter.","New line after each row."],
+        code:`rows = 4\nnum = 1\nfor i in range(rows, 0, -1):\n    for j in range(i):\n        print(num, end="")\n        num += 1\n    print()`,
+        output:`1234\n567\n89\n10`,
+        explain:[
+          `Same continuous counter idea as the previous program — only the outer loop now counts DOWN (4, 3, 2, 1), so each row is shorter than the one before it instead of longer.`,
+          `The counter doesn't care about row width at all — it simply keeps incrementing by 1 every single time it's printed, wherever that happens to be.`
+        ]
+      },
+      {
+        title:"Print a star pyramid",
+        steps:["Decide the number of rows.","Outer loop i goes from 1 to rows.","Inner loop 1 prints (rows − i) spaces to push the stars toward the center.","Inner loop 2 prints (2×i − 1) stars — always an odd number, growing by 2 each row.","New line after each row."],
+        code:`rows = 5\nfor i in range(1, rows + 1):\n    for s in range(rows - i):\n        print(" ", end="")\n    for j in range(2 * i - 1):\n        print("*", end="")\n    print()`,
+        output:`    *\n   ***\n  *****\n *******\n*********`,
+        explain:[
+          `This is the first pattern with TWO inner loops on the same row — one just for spaces, one just for stars — and that's the whole secret behind every centered pyramid.`,
+          `<code>rows - i</code> spaces shrink every row (4, 3, 2, 1, 0), while <code>2*i - 1</code> stars grow every row (1, 3, 5, 7, 9) — together they keep the star block perfectly centered.`,
+          `The formula 2i−1 always gives odd numbers because a symmetric pyramid needs one center star plus equal stars on both sides.`
+        ]
+      },
+      {
+        title:"Print an inverted star pyramid",
+        steps:["Outer loop i goes from 1 to rows.","Inner loop 1 prints (i − 1) spaces — growing every row this time.","Inner loop 2 prints (2×(rows − i) + 1) stars — shrinking every row.","New line after each row."],
+        code:`rows = 5\nfor i in range(1, rows + 1):\n    for s in range(i - 1):\n        print(" ", end="")\n    for j in range(2 * (rows - i) + 1):\n        print("*", end="")\n    print()`,
+        output:`*********\n *******\n  *****\n   ***\n    *`,
+        explain:[
+          `This simply flips both formulas from the star pyramid above: spaces now grow (<code>i - 1</code>) instead of shrink, and stars now shrink (<code>2*(rows-i)+1</code>) instead of grow.`,
+          `On row 1 (i=1), there are 0 spaces and 2*(5-1)+1 = 9 stars — the widest row, matching the top of the flipped pyramid.`
+        ]
+      },
+      {
+        title:"Print a centered number pyramid",
+        steps:["Outer loop i goes from 1 to rows.","Inner loop 1 prints (rows − i) spaces.","Inner loop 2 goes from 1 to (2×i − 1), printing the loop variable j itself instead of a star.","New line after each row."],
+        code:`rows = 5\nfor i in range(1, rows + 1):\n    for s in range(rows - i):\n        print(" ", end="")\n    for j in range(1, 2 * i):\n        print(j, end="")\n    print()`,
+        output:`    1\n   123\n  12345\n 1234567\n123456789`,
+        explain:[
+          `Exactly the same space-and-shape logic as the star pyramid — the only change is swapping <code>print("*")</code> for <code>print(j)</code>, so the pyramid now counts upward instead of filling with stars.`,
+          `<code>range(1, 2*i)</code> on row 3 (i=3) gives j = 1..5, printing "12345" — five digits, matching the 2i−1 = 5 stars that row would have had.`
+        ]
+      },
+      {
+        title:"Print a repeated-number pyramid",
+        steps:["Outer loop i goes from 1 to rows.","Inner loop 1 prints (rows − i) spaces.","Inner loop 2 runs (2×i − 1) times, printing i (the row number) every time instead of a changing digit.","New line after each row."],
+        code:`rows = 5\nfor i in range(1, rows + 1):\n    for s in range(rows - i):\n        print(" ", end="")\n    for j in range(2 * i - 1):\n        print(i, end="")\n    print()`,
+        output:`    1\n   222\n  33333\n 4444444\n555555555`,
+        explain:[
+          `This combines two ideas you've already practiced separately: the space-and-star pyramid's shape, and the "print the row number instead of a star" trick from the repeated-number triangle earlier.`,
+          `Row 4 (i=4) has 2×4−1 = 7 copies of the digit "4" printed side by side, giving "4444444".`
+        ]
+      },
+      {
+        title:"Print an alphabet triangle",
+        steps:["Outer loop i goes from 0 to rows−1 (or 1 to rows, your choice).","Inner loop j goes from 0 to i, printing the letter at position j using chr(65 + j).","New line after each row."],
+        code:`rows = 5\nfor i in range(rows):\n    for j in range(i + 1):\n        print(chr(65 + j), end="")\n    print()`,
+        output:`A\nAB\nABC\nABCD\nABCDE`,
+        explain:[
+          `<code>chr()</code> converts a number into its matching character using computer character codes — 65 is the code for capital "A", 66 for "B", and so on, so <code>chr(65 + j)</code> shifts forward from A as j increases.`,
+          `This mirrors the number triangle exactly — j still counts 0, 1, 2... but instead of printing the number itself, we convert it into the corresponding letter first.`
+        ]
+      },
+      {
+        title:"Print repeated alphabets",
+        steps:["Outer loop i goes from 0 to rows−1.","Inner loop runs (i + 1) times, printing the SAME letter — chr(65 + i) — every time.","New line after each row."],
+        code:`rows = 5\nfor i in range(rows):\n    for j in range(i + 1):\n        print(chr(65 + i), end="")\n    print()`,
+        output:`A\nBB\nCCC\nDDDD\nEEEEE`,
+        explain:[
+          `Notice <code>chr(65 + i)</code> uses the OUTER loop variable i, so the letter is fixed for the whole row — only how many times it repeats (i+1) changes, exactly like the earlier "same number in each row" pattern.`,
+          `Row 3 (i=2, since i starts at 0) uses chr(65+2) = "C", repeated i+1 = 3 times, giving "CCC".`
+        ]
+      },
+      {
+        title:"Print an inverted alphabet triangle",
+        steps:["Outer loop i goes from rows−1 down to 0.","Inner loop j goes from 0 to i, printing chr(65 + j).","New line after each row."],
+        code:`rows = 5\nfor i in range(rows - 1, -1, -1):\n    for j in range(i + 1):\n        print(chr(65 + j), end="")\n    print()`,
+        output:`ABCDE\nABCD\nABC\nAB\nA`,
+        explain:[
+          `Same trick used for every inverted pattern in this lab: keep the inner loop exactly as it was in the normal alphabet triangle, and just reverse the outer loop's direction.`,
+          `<code>range(rows - 1, -1, -1)</code> counts 4, 3, 2, 1, 0 — starting one below rows since i is used directly as the upper bound for j (i+1 letters), matching the widest row (ABCDE) first.`
+        ]
+      },
+      {
+        title:"Print a hollow square",
+        steps:["Outer loop i goes from 0 to rows−1.","Inner loop j goes from 0 to rows−1.","Print a star if it's the first row, last row, first column, or last column — otherwise print a space.","New line after each row."],
+        code:`rows = 5\nfor i in range(rows):\n    for j in range(rows):\n        if i == 0 or i == rows - 1 or j == 0 or j == rows - 1:\n            print("*", end="")\n        else:\n            print(" ", end="")\n    print()`,
+        output:`*****\n*   *\n*   *\n*   *\n*****`,
+        explain:[
+          `This is the first pattern to use a decision (<code>if / else</code>) INSIDE a nested loop — for every single cell, Python asks "is this cell on the border?" before deciding what to print.`,
+          `<code>i == 0</code> (top row), <code>i == rows-1</code> (bottom row), <code>j == 0</code> (left column), and <code>j == rows-1</code> (right column) together cover every border cell — anything else falls through to the hollow space.`
+        ]
+      },
+      {
+        title:"Print a hollow rectangle",
+        steps:["Decide rows and cols separately.","Outer loop i goes from 0 to rows−1.","Inner loop j goes from 0 to cols−1.","Same border check as the hollow square, but using cols−1 for the right edge instead of rows−1.","New line after each row."],
+        code:`rows = 4\ncols = 6\nfor i in range(rows):\n    for j in range(cols):\n        if i == 0 or i == rows - 1 or j == 0 or j == cols - 1:\n            print("*", end="")\n        else:\n            print(" ", end="")\n    print()`,
+        output:`******\n*    *\n*    *\n******`,
+        explain:[
+          `Exactly the same hollow-border logic as the square, just stretched — rows and cols are now two independent numbers, so the shape is wider than it is tall.`,
+          `<code>j == cols - 1</code> replaces <code>j == rows - 1</code> from the square version — a small but essential fix, since the right edge now depends on the column count, not the row count.`
+        ]
+      },
+      {
+        title:"Print a diamond pattern",
+        steps:["Split the diamond into an upper pyramid (rows growing) and a lower inverted pyramid (rows shrinking).","For the top half, print (rows − i) spaces then (2×i − 1) stars, for i = 1 to rows.","For the bottom half, print (rows − i) spaces then (2×i − 1) stars, for i = rows−1 down to 1.","New line after every row in both halves."],
+        code:`rows = 5\n# Top half (pyramid)\nfor i in range(1, rows + 1):\n    for s in range(rows - i):\n        print(" ", end="")\n    for j in range(2 * i - 1):\n        print("*", end="")\n    print()\n# Bottom half (inverted pyramid)\nfor i in range(rows - 1, 0, -1):\n    for j in range(rows - i):\n        print(" ", end="")\n    for j in range(2 * i - 1):\n        print("*", end="")\n    print()`,
+        output:`    *\n   ***\n  *****\n *******\n*********\n *******\n  *****\n   ***\n    *`,
+        explain:[
+          `A diamond is simply two patterns you've already built, stacked one after another: the star pyramid program on top, and its shrinking mirror image below — no new loop logic required.`,
+          `The bottom half deliberately starts at <code>rows - 1</code> (not <code>rows</code>) so the widest row (row 5, the "*********" line) isn't printed twice — it belongs only to the top half.`,
+          `Both halves reuse the exact same space formula (<code>rows - i</code> spaces) and star formula (<code>2*i - 1</code> stars) — only the direction i counts in changes between them.`
+        ]
+      }
+    ]
   }
 ];
 
@@ -1362,7 +1593,7 @@ function openAndScroll(id){
 }
 
 /* ============ TOC ============ */
-const unitNames = {unit1:"Unit 1 · print()", unit2:"Unit 2 · Variables", unit3:"Unit 3 · Input & Operators", unit4:"Lab 3 · Practice Programs", unit5:"Own Practice · 15 Programs"};
+const unitNames = {unit1:"Unit 1 · print()", unit2:"Unit 2 · Variables", unit3:"Unit 3 · Input & Operators", unit4:"Lab 3 · Practice Programs", unit5:"Own Practice · 15 Programs", unit6:"Lab 4 · Learn Patterns"};
 function buildToc(){
   const el = document.getElementById('tocContent');
   let html = '';
