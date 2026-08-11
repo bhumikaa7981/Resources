@@ -259,6 +259,17 @@
   .explain-list li{margin-bottom:6px;}
   .explain-list code{background:var(--bg2); padding:1px 6px; border-radius:6px; color:var(--coral); font-weight:700;}
 
+  /* ---------- section dividers (within a unit's program list) ---------- */
+  .section-divider{
+    display:flex; align-items:flex-start; gap:14px; margin:6px 0 4px;
+    padding:16px 20px; border-radius:var(--radius-sm);
+    background:linear-gradient(120deg, rgba(201,24,74,.07), rgba(255,201,60,.10));
+    border:2px dashed var(--line);
+  }
+  .section-divider .sd-icon{font-size:1.6rem; line-height:1;}
+  .section-divider h4{margin:0 0 4px; font-size:1.05rem; font-family:'Fredoka';}
+  .section-divider p{margin:0; color:var(--ink-soft); font-size:.88rem;}
+
   /* ---------- syllabus ---------- */
   .syllabus-wrap{padding:70px 6vw; background:var(--bg2);}
   .syllabus-grid{
@@ -368,7 +379,7 @@
     <a href="#practicals">Practicals</a>
   </nav>
   <button id="menuBtn" onclick="toggleToc(true)">☰ Programs</button>
-  <button class="btn ghost" style="padding:10px 18px; font-size:.85rem;" onclick="toggleToc(true)">📋 All 87 Programs</button>
+  <button class="btn ghost" style="padding:10px 18px; font-size:.85rem;" onclick="toggleToc(true)">📋 All 92 Programs</button>
 </header>
 
 <div id="tocOverlay" onclick="toggleToc(false)"></div>
@@ -387,7 +398,7 @@
   <div class="blob b4"></div>
   <span class="eyebrow">Sarvajanik University · B.Tech Sem 1 · BTCO22101</span>
   <h1>Learn Python by <span class="hl">actually typing it.</span></h1>
-  <p class="sub">A friendly, no-nonsense practice ground for first-year coders. 87 bite-sized programs, explained in plain human words — one keyword at a time, one giggle at a time.</p>
+  <p class="sub">A friendly, no-nonsense practice ground for first-year coders. 92 bite-sized programs, explained in plain human words — one keyword at a time, one giggle at a time.</p>
   <div class="hero-code"><span class="typewriter" id="typewriter">print("Hello, future engineer!")</span></div>
   <div class="cta-row">
     <a href="#why-python" class="btn primary">Start the story →</a>
@@ -476,7 +487,7 @@
       <h4>Control Flow</h4>
       <p>Conditional Statements: if, if-else, if...elif. Loops (for, while), Nested Loop, else suite and Control Statements (break, continue, pass), Assertion statement in Python, Generating Random Numbers.</p>
       <div class="syl-meta"><span>4 Teaching Hrs</span><span>14% Weightage</span></div>
-      <div style="position:relative; z-index:1; margin-top:10px; display:inline-block; font-size:.75rem; font-weight:800; color:#1F8A5E; background:#DEF7EC; padding:4px 10px; border-radius:20px;">🐍 Nested loop pattern programs practiced in Lab 4 below</div>
+      <div style="position:relative; z-index:1; margin-top:10px; display:inline-block; font-size:.75rem; font-weight:800; color:#1F8A5E; background:#DEF7EC; padding:4px 10px; border-radius:20px;">🐍 while-loop digit programs &amp; nested-loop patterns practiced in Lab 4 below</div>
     </div>
 
     <div class="syl-card">
@@ -602,13 +613,13 @@
   </div>
   <div class="unit-head">
     <span class="unit-badge">Lab 4</span>
-    <h2>Learn Patterns — 20 nested-loop pattern programs</h2>
+    <h2>Number Logic &amp; Patterns — 25 programs in 2 sections</h2>
   </div>
   <div class="unit-intro">
     <h4>🎯 The concept, in one breath</h4>
-    <p>A <strong>nested loop</strong> is simply a loop living inside another loop — the outer loop picks the row, and the inner loop decides what gets printed across that row. Every pattern in this lab, from a plain square to a diamond, is built from exactly this one idea, repeated with small twists.</p>
-    <p>Two small habits make patterns click: use <code>print(..., end="")</code> inside the inner loop so everything stays on one line until you're ready for the next row, and use <code>print()</code> alone (no arguments) after the inner loop finishes to move down to the next row. Spaces are printed with <code>" "</code> the exact same way stars are printed with <code>"*"</code> — a hollow shape or a pyramid is just a pattern with some smart space-printing mixed in.</p>
-    <div class="syntax-box">for i in range(1, rows + 1):<br>&nbsp;&nbsp;&nbsp;&nbsp;for j in range(i):<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("*", end="")<br>&nbsp;&nbsp;&nbsp;&nbsp;print()   # move to the next row</div>
+    <p>Lab 4 has two halves. <strong>Section 1</strong> puts the <code>while</code> loop to work on individual numbers — pulling them apart digit by digit using <code>%</code> (remainder) and <code>//</code> (floor division) to count digits, reverse them, and test classic number properties like Armstrong and Perfect numbers.</p>
+    <p><strong>Section 2</strong> is the nested loop, aimed purely at shape and symmetry: the outer loop picks the row, the inner loop decides what gets printed across that row. Every star, number, and alphabet pattern below is built from exactly this one idea, repeated with small twists.</p>
+    <div class="syntax-box">while number != 0:<br>&nbsp;&nbsp;&nbsp;&nbsp;digit = number % 10   # pull off the last digit<br>&nbsp;&nbsp;&nbsp;&nbsp;number = number // 10 # drop that digit<br><br>for i in range(1, rows + 1):<br>&nbsp;&nbsp;&nbsp;&nbsp;for j in range(i):<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("*", end="")<br>&nbsp;&nbsp;&nbsp;&nbsp;print()   # move to the next row</div>
   </div>
   <div class="prog-list" id="unit6List"></div>
 </section>
@@ -634,7 +645,7 @@
       <div class="prac-check">2</div>
       <div>
         <h4>Control Flow</h4>
-        <p>Write programs using if / if-else / if...elif ladders, for and while loops, nested loops, break/continue/pass, the assert statement, and random number generation. <strong>🧪 A first taste of if / elif / else is already practiced in Lab 3 above, and nested loops are practiced hands-on in Lab 4's 20 pattern programs.</strong></p>
+        <p>Write programs using if / if-else / if...elif ladders, for and while loops, nested loops, break/continue/pass, the assert statement, and random number generation. <strong>🧪 A first taste of if / elif / else is already practiced in Lab 3 above; while-loop digit logic is practiced in Lab 4 Section 1, and nested loops are practiced hands-on in Lab 4 Section 2's 20 pattern programs.</strong></p>
       </div>
     </div>
 
@@ -683,7 +694,7 @@
 
 <footer>
   <div class="foot-emoji">🐍✨</div>
-  <h3>That's a wrap — 87 programs down.</h3>
+  <h3>That's a wrap — 92 programs down.</h3>
   <p>Type every single one yourself, even the "too easy" ones. Muscle memory beats memory-memory. Now go make Python do something weird. — Python Programming (BTCO22101), Sarvajanik University</p>
 
   <div class="credit-box">
@@ -1213,7 +1224,7 @@ const units = [
         explain:[
           `<code>num // 100</code> keeps only the hundreds digit (153 // 100 = 1). <code>(num // 10) % 10</code> strips the last digit then takes the remainder by 10, isolating the tens digit (15 % 10 = 5). <code>num % 10</code> grabs the last digit directly (153 % 10 = 3).`,
           `<strong>Armstrong rule:</strong> 1³ + 5³ + 3³ = 1 + 125 + 27 = 153 — the sum of the cubed digits equals the number itself, so it qualifies.`,
-          `This digit-splitting trick (using <code>//</code> and <code>%</code> together) is one you'll reuse constantly once you get comfortable with it.`
+          `This digit-splitting trick (using <code>//</code> and <code>%</code> together) is one you'll reuse constantly once you get comfortable with it. Lab 4 Section 1 revisits Armstrong numbers with a <code>while</code> loop so it works for numbers of ANY length, not just 3 digits.`
         ]
       },
       {
@@ -1326,6 +1337,67 @@ const units = [
     key:'unit6', listId:'unit6List', prefix:'P6',
     programs:[
       {
+        section:"🔢 Section 1 — Number &amp; Digit Logic (5 programs)",
+        sectionNote:"Before jumping into star patterns, let's stretch the while loop and the % / // operators on some classic number-logic problems — these are exam and interview favourites.",
+        title:"Count how many odd digits and even digits are in a number",
+        steps:["Take a number from the user and store its absolute value (so a leading minus sign doesn't break the logic).","Set two counters, odd_count and even_count, to 0.","Use a while loop: as long as the number isn't 0, pull off its last digit with % 10.","Check the digit with % 2 — add to even_count if it's even, otherwise add to odd_count.","Remove that last digit using // 10, and repeat until nothing is left."],
+        code:`num = int(input("Enter a number: "))\nnum = abs(num)\nodd_count = 0\neven_count = 0\nif num == 0:\n    even_count = 1\nelse:\n    temp = num\n    while temp != 0:\n        digit = temp % 10\n        if digit % 2 == 0:\n            even_count += 1\n        else:\n            odd_count += 1\n        temp = temp // 10\nprint("Odd digits =", odd_count)\nprint("Even digits =", even_count)`,
+        output:`Enter a number: 123456\nOdd digits = 3\nEven digits = 3`,
+        explain:[
+          `<code>temp % 10</code> always gives the last digit of whatever is currently left in temp — 123456 % 10 is 6, then after removing it, 12345 % 10 is 5, and so on.`,
+          `<code>digit % 2 == 0</code> is the same even/odd test you used back in Unit 3, just applied to one digit at a time instead of the whole number.`,
+          `<code>temp = temp // 10</code> chops the last digit off (123456 → 12345 → 1234 ...) so the while loop naturally ends once temp becomes 0 — nothing left to check.`,
+          `The special case for <code>num == 0</code> exists because the while loop would never run at all for 0 (it's already 0), even though 0 clearly has exactly one digit, and that digit is even.`
+        ]
+      },
+      {
+        title:"Count how many digits are present in a number",
+        steps:["Take a number from the user and store its absolute value.","Set a counter to 0.","Use a while loop: keep dividing the number by 10 (using //) and add 1 to the counter each time, until the number becomes 0.","Print the final digit count."],
+        code:`num = int(input("Enter a number: "))\nnum = abs(num)\ncount = 0\nif num == 0:\n    count = 1\nelse:\n    temp = num\n    while temp != 0:\n        temp = temp // 10\n        count += 1\nprint("Number of digits =", count)`,
+        output:`Enter a number: 48293\nNumber of digits = 5`,
+        explain:[
+          `Every pass through the while loop removes exactly one digit from the right end using <code>temp // 10</code> — so however many passes it takes to reach 0 is exactly how many digits the number had.`,
+          `<code>count += 1</code> is short for <code>count = count + 1</code> — it fires once per loop pass, right alongside the division.`,
+          `A quicker one-line alternative you'll meet later is <code>len(str(num))</code> — converting the number to text and measuring its length — but the while-loop version is what actually teaches you how digit-splitting works underneath.`
+        ]
+      },
+      {
+        title:"Reverse the digits of a number",
+        steps:["Take a number from the user; work with its absolute value so the sign doesn't interfere.","Set reverse = 0.","Use a while loop: each time, pull off the last digit with % 10, then push it into reverse by doing reverse = reverse * 10 + digit.","Remove that digit from the working copy using // 10, and repeat until it's 0.","Reattach the negative sign at the end if the original number was negative."],
+        code:`num = int(input("Enter a number: "))\ntemp = abs(num)\nreverse = 0\nwhile temp != 0:\n    digit = temp % 10\n    reverse = reverse * 10 + digit\n    temp = temp // 10\nif num < 0:\n    reverse = -reverse\nprint("Reversed number =", reverse)`,
+        output:`Enter a number: 1234\nReversed number = 4321`,
+        explain:[
+          `<code>reverse * 10</code> shifts every digit already collected one place to the left, making room; then <code>+ digit</code> drops the newest digit into the freshly opened ones place — that's how digits come out in reverse order.`,
+          `Walk through 1234: digit=4 → reverse=4; digit=3 → reverse=43; digit=2 → reverse=432; digit=1 → reverse=4321 — building up left to right even though digits are read off right to left.`,
+          `The <code>if num < 0</code> check at the end simply reattaches the minus sign afterward, so -120 correctly reverses to -21 instead of losing its sign.`
+        ]
+      },
+      {
+        title:"Check whether a number is an Armstrong number (any number of digits)",
+        steps:["Take a number from the user.","Count how many digits it has using len(str(num)).","Use a while loop to pull off each digit and add digit raised to the power of (digit count) to a running total.","If the total equals the original number, it's an Armstrong number."],
+        code:`num = int(input("Enter a number: "))\ntemp = num\ndigits = len(str(num))\ntotal = 0\nwhile temp != 0:\n    digit = temp % 10\n    total += digit ** digits\n    temp = temp // 10\nif total == num:\n    print(num, "is an Armstrong number")\nelse:\n    print(num, "is not an Armstrong number")`,
+        output:`Enter a number: 9474\n9474 is an Armstrong number`,
+        explain:[
+          `<code>len(str(num))</code> is a neat shortcut for counting digits — turning 9474 into the text "9474" and measuring its length (4) is often quicker than a separate counting loop.`,
+          `9474 has 4 digits, so this checks 9⁴ + 4⁴ + 7⁴ + 4⁴ = 6561 + 256 + 2401 + 256 = 9474 — matching the original number, so it qualifies.`,
+          `This is a deliberate upgrade over the Armstrong program back in the Own Practice section, which only worked correctly for exactly 3-digit numbers because it hard-coded <code>** 3</code>. Using <code>digits</code> here means the exact same code correctly handles 3-digit numbers like 153 AND 4-digit numbers like 9474.`
+        ]
+      },
+      {
+        title:"Check whether a number is a Perfect number",
+        steps:["Take a number from the user.","Set total = 0.","Loop i from 1 up to (but not including) the number itself — these are all the possible proper divisors.","Whenever the number is exactly divisible by i (remainder 0), add i to total.","If total equals the original number, it's a Perfect number."],
+        code:`num = int(input("Enter a number: "))\ntotal = 0\nfor i in range(1, num):\n    if num % i == 0:\n        total += i\nif total == num:\n    print(num, "is a Perfect number")\nelse:\n    print(num, "is not a Perfect number")`,
+        output:`Enter a number: 28\n28 is a Perfect number`,
+        explain:[
+          `<strong>Proper divisors</strong> are every number that divides evenly into num, except num itself — for 28 that's 1, 2, 4, 7, and 14.`,
+          `<code>range(1, num)</code> deliberately stops one short of num, so the number is never counted as its own divisor.`,
+          `<code>num % i == 0</code> is the divisibility test — if there's no remainder, i divides evenly and gets added to the running total.`,
+          `1 + 2 + 4 + 7 + 14 = 28 — the sum of 28's proper divisors equals 28 itself, which is exactly the definition of a Perfect number.`
+        ]
+      },
+      {
+        section:"⭐ Section 2 — Star, Number &amp; Alphabet Patterns (20 programs)",
+        sectionNote:"Now the fun part — nested loops built purely for shape and symmetry. Every pattern below reuses the same outer-loop / inner-loop idea you already know: the outer loop picks the row, the inner loop decides what gets printed across it.",
         title:"Print a square of stars",
         steps:["Decide the number of rows (and columns) — here, 4.","Use an outer loop to move row by row.","Use an inner loop to print a star for every column in that row.","Move to a new line after each row finishes."],
         code:`rows = 4\nfor i in range(rows):\n    for j in range(rows):\n        print("*", end="")\n    print()`,
@@ -1541,6 +1613,16 @@ function renderUnit(unit){
     const cardId = unit.prefix + '-' + idx;
     const stepsHtml = p.steps.map(s => `<li>${s}</li>`).join('');
     const explainHtml = p.explain.map(e => `<li>${e}</li>`).join('');
+    if(p.section){
+      html += `
+      <div class="section-divider">
+        <span class="sd-icon">📍</span>
+        <div>
+          <h4>${p.section}</h4>
+          <p>${p.sectionNote || ''}</p>
+        </div>
+      </div>`;
+    }
     html += `
     <div class="prog-card" id="${cardId}">
       <button class="prog-head" onclick="toggleCard('${cardId}')">
@@ -1593,7 +1675,7 @@ function openAndScroll(id){
 }
 
 /* ============ TOC ============ */
-const unitNames = {unit1:"Unit 1 · print()", unit2:"Unit 2 · Variables", unit3:"Unit 3 · Input & Operators", unit4:"Lab 3 · Practice Programs", unit5:"Own Practice · 15 Programs", unit6:"Lab 4 · Learn Patterns"};
+const unitNames = {unit1:"Unit 1 · print()", unit2:"Unit 2 · Variables", unit3:"Unit 3 · Input & Operators", unit4:"Lab 3 · Practice Programs", unit5:"Own Practice · 15 Programs", unit6:"Lab 4 · Number Logic & Patterns"};
 function buildToc(){
   const el = document.getElementById('tocContent');
   let html = '';
