@@ -425,8 +425,8 @@ html[data-theme="dark"] .input-row select{background-color:rgba(255,255,255,.05)
 @keyframes pulseDot{0%,100%{opacity:1;} 50%{opacity:.35;}}
 
 /* ---------- results ---------- */
-#resultsSection{display:none;}
-#resultsSection.show{display:block; animation:fadeIn .4s ease;}
+#resultsSection{display:none !important;}
+#resultsSection.show{display:block !important; animation:fadeIn .4s ease; visibility:visible; opacity:1;}
 .summary-strip{
   display:flex; gap:10px; overflow-x:auto; padding-bottom:4px; margin-bottom:14px;
   scrollbar-width:none;
@@ -612,7 +612,7 @@ html[data-theme="dark"] .stop-flag{color:var(--turquoise);}
 .legend-card i{color:var(--turquoise); font-size:.7rem;}
 
 /* ---------- tracker ---------- */
-#trackerSection{display:none;}
+#trackerSection{display:none !important;}
 #trackerSection.show{display:block; animation:fadeIn .45s ease;}
 .tracker-card{
   border-radius:var(--radius-lg); padding:22px; position:relative; overflow:hidden;
@@ -741,7 +741,7 @@ html[data-theme="dark"] .top3-time-box{background:rgba(255,255,255,.06);}
 .top3-journey b{color:var(--ink);}
 .top3-stops-mini{
   font-size:.72rem; color:var(--ink-dim); background:rgba(139,92,246,.05);
-  border-radius:8px; padding:8px 10px; margin-bottom:10px;
+  border-radius:8px; padding:8px 10px; margin-bottom:10px; line-height:1.55;
 }
 .top3-stops-mini strong{color:var(--grape);}
 .top3-total{
@@ -775,6 +775,46 @@ html[data-theme="dark"] .top3-time-box{background:rgba(255,255,255,.06);}
   font-size:.78rem; color:var(--ink-soft); line-height:1.5;
 }
 .intermediate-stops b{color:var(--ink);}
+
+
+.future-banner{
+  display:none; margin:0 0 14px; padding:12px 14px; border-radius:12px;
+  background:linear-gradient(120deg, rgba(139,92,246,.14), rgba(0,217,192,.12));
+  border:1.5px solid rgba(139,92,246,.28); font-size:.84rem; font-weight:600; color:var(--ink-soft); line-height:1.5;
+}
+.future-banner.show{display:block; animation:fadeIn .25s ease;}
+.future-banner b{color:var(--ink);}
+.future-banner i{color:var(--grape); margin-right:6px;}
+.schedule-chip{
+  display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:999px;
+  background:rgba(139,92,246,.12); font-size:.68rem; font-weight:800; color:var(--grape);
+  margin-left:6px; vertical-align:middle;
+}
+
+
+/* slightly larger readable type */
+body{font-size:16.5px;}
+.section-title{font-size:1.45rem !important;}
+.section-sub{font-size:.95rem !important;}
+.question-text, .route-name, .bs-name{font-size:1.1rem;}
+.input-row input[type="text"], .input-row input[type="time"], .input-row select{
+  font-size:1.02rem !important; padding:15px 14px 15px 44px !important;
+}
+.suggest-item{font-size:.95rem !important; padding:12px 14px !important;}
+.top3-route-name{font-size:1.12rem !important;}
+.top3-corridor{font-size:.85rem !important;}
+.top3-journey, .top3-stops-mini{font-size:.82rem !important;}
+.top3-time-box .t-val{font-size:1.25rem !important;}
+.route-card .route-name{font-size:1.08rem;}
+.journey-text b{font-size:1rem;}
+.journey-sub{font-size:.88rem !important;}
+.time-pill{font-size:.82rem !important;}
+.intermediate-stops{font-size:.88rem !important;}
+.filter-chip{font-size:.88rem !important; padding:9px 14px !important;}
+.newbie-tip{font-size:.9rem !important;}
+.chip{font-size:.84rem !important;}
+.legend-card{font-size:.84rem !important;}
+.find-btn{font-size:1.05rem !important;}
 
 </style>
 </head>
@@ -931,7 +971,12 @@ html[data-theme="dark"] .top3-time-box{background:rgba(255,255,255,.06);}
       <p class="section-sub" id="resultsSub">Ranked by match quality then speed — built for anyone new in Surat.</p>
 
       <div class="newbie-tip" id="newbieTip">
-        <b>New in the city?</b> Pick any Top 3 option below. Walk to the <b>board stop</b>, catch the bus at the <b>boarding time</b>, ride through the listed stops, and get off at the <b>alight stop</b> by the <b>reach time</b>. BRTS = dedicated corridor (usually faster). City Bus = regular city routes.
+        <b>New in the city?</b> Pick any Top 3 option below. Walk to the <b>board stop</b>, catch the bus at the <b>boarding time</b>, ride through the listed stops, and get off at the <b>alight stop</b> by the <b>reach time</b>. BRTS = dedicated corridor (usually faster). City Bus = regular city routes. Set a later <b>Departure time</b> to plan a future ride.
+      </div>
+
+      <div class="future-banner" id="futureBanner">
+        <i class="fa-solid fa-calendar-clock"></i>
+        <span id="futureBannerText">Planning a future ride — times below are relative to your chosen departure.</span>
       </div>
 
       <div id="bestSolution" style="display:none"></div>
@@ -1024,6 +1069,21 @@ html[data-theme="dark"] .top3-time-box{background:rgba(255,255,255,.06);}
   <footer>
     <p><i class="fa-solid fa-heart"></i> Made with chaos & Surat energy. Bus times, ETAs and nearby-bus data are mock/simulated for demo purposes — please don't miss your actual bus because of us 😭</p>
     <p style="margin-top:4px;"><i class="fa-solid fa-database"></i> Your pins live only in this browser's storage — nobody else can see them.</p>
+    <div style="margin-top:18px; padding-top:14px; border-top:1px solid var(--glass-brd); max-width:520px; margin-left:auto; margin-right:auto;">
+      <p style="font-size:.78rem; color:var(--ink-soft); font-weight:600; line-height:1.65;">
+        <i class="fa-solid fa-wand-magic-sparkles" style="color:var(--hot-pink);"></i>
+        <b>Created by Bhumika S.</b> — she teaches machines to think so you can catch the right bus without overthinking.<br>
+        Assistant Professor · Dept. of Artificial Intelligence &amp; Data Science<br>
+        Sarvajanik College of Engineering and Technology<br>
+        Sarvajanik University, Surat – 395001, Gujarat, India<br>
+        <a href="https://bhumikaa7981.github.io/meet-bhumika/" target="_blank" rel="noopener" style="color:var(--grape); font-weight:700; text-decoration:none;">
+          https://bhumikaa7981.github.io/meet-bhumika/ <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:.65rem;"></i>
+        </a>
+      </p>
+      <p style="margin-top:8px; font-size:.72rem; color:var(--ink-dim); font-style:italic;">
+        “From neural nets to next-bus ETAs — same energy, fewer missed rides.” 🚌✨
+      </p>
+    </div>
   </footer>
 
 </div>
@@ -1064,6 +1124,8 @@ html[data-theme="dark"] .top3-time-box{background:rgba(255,255,255,.06);}
   const routeList = document.getElementById('routeList');
   const summaryStrip = document.getElementById('summaryStrip');
   const bestSolution = document.getElementById('bestSolution');
+  const top3Grid = document.getElementById('top3Grid');
+  const top3Section = document.getElementById('top3Section');
   const emptyState = document.getElementById('emptyState');
   const noResultsState = document.getElementById('noResultsState');
   const mapFrame = document.getElementById('mapFrame');
@@ -1085,13 +1147,27 @@ html[data-theme="dark"] .top3-time-box{background:rgba(255,255,255,.06);}
 
   /* ---------------- SURAT LOCATIONS (for autocomplete) ---------------- */
   const SURAT_LOCATIONS = [
-    'Adajan','Adajan GSRTC','Vesu','Piplod','Katargam','Varachha','Nana Varachha',
-    'Athwa','City Light','Udhna','Udhna Darwaja','Sarthana','Pal','Pal RTO','Rander',
-    'Jahangirpura','Dumas Beach','Majura Gate','Chowk Bazar','Ghod Dod Road',
-    'Sachin GIDC','Kosad','Dindoli','Bhatar','VR Mall Surat','Surat Railway Station',
-    'Surat Airport','Anuvrat Dwar','ONGC Colony','SVNIT','Hirabaug','Gajera Circle',
-    'Magob','Palanpur','Parvat Patiya','Amroli','Kapodara','Limbayat','Laldarwaja',
-    'Delhi Gate','Kadodara','Kamrej','Saniya Hemad','Dabholi'
+    // Areas & hubs
+    'Adajan','Adajan Gam','Adajan Patiya','Adajan GSRTC','Vesu','Vesu VIP Circle','Piplod','Katargam','Katargam Darwaja',
+    'Varachha','Nana Varachha','Athwa','Athwa Gate','Athwalines','City Light','Udhna','Udhna Darwaja','Udhna Railway Stn',
+    'Sarthana','Sarthana Zoo','Pal','Pal RTO','Rander','Rander Naka','Jahangirpura','Dumas Beach','Dumas Road',
+    'Majura Gate','Chowk Bazar','Ghod Dod Road','Ghod Dod Rd Circle','Nanpura','Parle Point',
+    'Sachin GIDC','Sachin Chowkdi','Kosad','Dindoli','Bhatar','Bhatar Char Rasta','Bhatar Road',
+    'VR Mall Surat','Surat Railway Station','Surat Central Station','Surat Airport','Anuvrat Dwar',
+    'ONGC Colony','SVNIT','Hirabaug','Gajera Circle','Magob','Palanpur','Parvat Patiya','Amroli',
+    'Kapodara','Kapodra','Limbayat','Laldarwaja','Delhi Gate','Kadodara','Kamrej','Saniya Hemad','Dabholi',
+    'Ring Road','LP Savani','VIP Road','Althan','Althan Canal','Bhimrad','Sarthana Water Works',
+    'Central Warehousing','CRP Nagar','Seven Day School','Seven Day School Athwalines',
+    // Colleges & institutes (map-style names)
+    'Sarvajanik College of Engineering and Technology','SCET','Sarvajanik University',
+    'Sarvajanik College of Engineering & Technology, Athwalines','SCET Athwalines',
+    'SVNIT Surat','NIT Surat','P. P. Savani University','Uka Tarsadia University',
+    'Bhagwan Mahavir University','AURO University','VT School','Garden City',
+    // Landmarks
+    'Iscon Mall','Rahul Raj Mall','VR Mall','Imperial Square','Lake View Garden',
+    'Gopi Talav','Dutch Garden','Surat Castle','Science Centre Surat','Sardar Patel Museum',
+    'TGB Surat','Happy Home Society','South Zone Office','SMC Main Office',
+    'Textile Market','Ring Road Textile Market','Sayan','Olpad','Kim','Bardoli Road'
   ];
 
   function attachAutocomplete(input, box){
@@ -1104,23 +1180,59 @@ html[data-theme="dark"] .top3-time-box{background:rgba(255,255,255,.06);}
       return text.slice(0, idx) + '<mark>' + text.slice(idx, idx+query.length) + '</mark>' + text.slice(idx+query.length);
     }
 
+    function scorePlace(loc, q){
+      const L = loc.toLowerCase();
+      const Q = q.toLowerCase().trim();
+      if (!Q) return 0;
+      if (L === Q) return 100;
+      if (L.startsWith(Q)) return 80;
+      if (L.includes(Q)) return 60;
+      // word-prefix match: "sarv" → Sarvajanik…
+      const words = L.split(/[\s,\/&-]+/);
+      const qWords = Q.split(/[\s,\/&-]+/).filter(Boolean);
+      let wordHits = 0;
+      for (const qw of qWords){
+        if (words.some(w => w.startsWith(qw) || qw.startsWith(w.slice(0, Math.min(4, w.length))))) wordHits++;
+      }
+      if (wordHits === qWords.length && qWords.length) return 50 + wordHits * 5;
+      if (wordHits > 0) return 25 + wordHits * 5;
+      // fuzzy: all chars of query appear in order
+      let li = 0;
+      for (const ch of Q.replace(/\s/g,'')){
+        li = L.indexOf(ch, li);
+        if (li === -1) return 0;
+        li++;
+      }
+      return 15;
+    }
+
     function render(query){
       const q = query.trim();
       if (!q){ box.classList.remove('show'); box.innerHTML=''; input.setAttribute('aria-expanded','false'); return; }
-      const matches = SURAT_LOCATIONS.filter(loc => loc.toLowerCase().includes(q.toLowerCase())).slice(0, 6);
-      currentItems = matches;
+      const ranked = SURAT_LOCATIONS
+        .map(loc => ({ loc, sc: scorePlace(loc, q) }))
+        .filter(x => x.sc > 0)
+        .sort((a,b) => b.sc - a.sc);
+      let matches = ranked.map(x => x.loc).slice(0, 8);
+      // Always offer "use exactly what I typed" so map-style free text never dead-ends
+      const typed = q;
+      if (!matches.some(m => m.toLowerCase() === typed.toLowerCase())){
+        matches = [typed + ' (use this place)', ...matches].slice(0, 9);
+      }
+      currentItems = matches.map(m => m.replace(/ \(use this place\)$/, ''));
       activeIndex = -1;
-      if (!matches.length){ box.classList.remove('show'); box.innerHTML=''; input.setAttribute('aria-expanded','false'); return; }
-      box.innerHTML = matches.map((m) =>
-        `<div class="suggest-item" role="option"><i class="fa-solid fa-location-dot"></i> ${highlight(m, q)}</div>`
-      ).join('');
+      box.innerHTML = matches.map((m) => {
+        const isTyped = m.endsWith('(use this place)');
+        const icon = isTyped ? 'fa-keyboard' : 'fa-location-dot';
+        return `<div class="suggest-item" role="option"><i class="fa-solid ${icon}"></i> ${isTyped ? m : highlight(m, q)}</div>`;
+      }).join('');
       box.classList.add('show');
       input.setAttribute('aria-expanded','true');
 
       Array.from(box.children).forEach((el, i) => {
         el.addEventListener('mousedown', (e) => {
           e.preventDefault();
-          input.value = matches[i];
+          input.value = currentItems[i];
           box.classList.remove('show');
           box.innerHTML = '';
           input.focus();
@@ -1334,12 +1446,24 @@ html[data-theme="dark"] .top3-time-box{background:rgba(255,255,255,.06);}
     { num:'CB-88', corridor:'Vesu ⇄ Railway Station via Ghod Dod', type:'city',
       stops:['Vesu','Vesu VIP Circle','City Light','Ghod Dod Road','Majura Gate','Surat Railway Station'],
       areas:['vesu','city light','ghod dod','majura','railway','station'] },
+    { num:'BRTS-6', corridor:'Bhatar ⇄ Athwa Gate via Althan', type:'brts',
+      stops:['Bhatar','Bhatar Char Rasta','Althan','Athwa Gate','Athwalines','City Light'],
+      areas:['bhatar','althan','athwa','athwalines','city light'] },
+    { num:'CB-19', corridor:'Bhatar ⇄ Athwalines', type:'city',
+      stops:['Bhatar','Althan','Athwa Gate','Athwalines','Seven Day School','Parle Point'],
+      areas:['bhatar','althan','athwa','athwalines','seven day'] },
+    { num:'CB-27', corridor:'Bhatar ⇄ Majura Gate', type:'city',
+      stops:['Bhatar','Althan Canal','Ghod Dod Road','Majura Gate','Nanpura'],
+      areas:['bhatar','althan','ghod dod','majura','nanpura'] },
+    { num:'BRTS-8', corridor:'SCET Athwalines ⇄ Railway Station', type:'brts',
+      stops:['Seven Day School','Athwalines','Athwa Gate','Nanpura','Chowk Bazar','Surat Railway Station'],
+      areas:['sarvajanik','scet','athwalines','athwa','nanpura','railway','station'] },
   ];
 
   /* Area / place aliases so "Seven Day School Athwalines" and "Surat Railway Station" match correctly */
   const PLACE_ALIASES = {
-    'athwalines': ['athwalines','athwa lines','athwa','seven day','seven day school','7 day'],
-    'railway': ['railway','station','surat railway','surat station','railway station','smt'],
+    'athwalines': ['athwalines','athwa lines','athwa','athwa gate','seven day','seven day school','7 day','sarvajanik','scet','college'],
+    'railway': ['railway','station','surat railway','surat station','railway station','smt','central station'],
     'vesu': ['vesu','vesu vip','vip circle'],
     'adajan': ['adajan','adajan gam','adajan patiya'],
     'citylight': ['city light','citylight','parle point'],
@@ -1350,6 +1474,8 @@ html[data-theme="dark"] .top3-time-box{background:rgba(255,255,255,.06);}
     'ghoddod': ['ghod dod','ghoddod'],
     'nanpura': ['nanpura','chowk','chowk bazar'],
     'dumas': ['dumas','dumas beach','bhimrad'],
+    'bhatar': ['bhatar','bhatar road','bhatar char rasta','althan'],
+    'sarvajanik': ['sarvajanik','scet','sarvajanik college','sarvajanik university','engineering'],
   };
 
   const QUIPS_BESTS_BEST = [
@@ -1460,13 +1586,48 @@ html[data-theme="dark"] .top3-time-box{background:rgba(255,255,255,.06);}
     return m >= 1000 ? (m/1000).toFixed(1) + ' km' : m + ' m';
   }
 
-  function etaClock(minsFromNow){
-    const d = new Date(Date.now() + minsFromNow * 60000);
-    let h = d.getHours();
-    const m = String(d.getMinutes()).padStart(2,'0');
+  /** Base departure instant from the time picker (today, or tomorrow if time already passed). */
+  function getDepartureBase(){
+    const val = (timeInput && timeInput.value) ? timeInput.value : '';
+    const now = new Date();
+    if (!val) return now;
+    const [hh, mm] = val.split(':').map(Number);
+    const d = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hh, mm, 0, 0);
+    // If user picked a time earlier than now and "Now" is not active, treat as tomorrow
+    if (!nowBtn.classList.contains('active') && d.getTime() < now.getTime() - 60000){
+      d.setDate(d.getDate() + 1);
+    }
+    return d;
+  }
+
+  function isFutureDeparture(){
+    if (nowBtn.classList.contains('active')) return false;
+    const base = getDepartureBase();
+    return base.getTime() - Date.now() > 2 * 60000; // more than ~2 min ahead
+  }
+
+  function formatClock(dateObj){
+    let h = dateObj.getHours();
+    const m = String(dateObj.getMinutes()).padStart(2,'0');
     const ampm = h >= 12 ? 'PM' : 'AM';
     h = h % 12; if (h === 0) h = 12;
     return `${h}:${m} ${ampm}`;
+  }
+
+  function etaClock(minsFromBase){
+    const base = getDepartureBase();
+    const d = new Date(base.getTime() + minsFromBase * 60000);
+    return formatClock(d);
+  }
+
+  function formatDepartLabel(){
+    const base = getDepartureBase();
+    const future = isFutureDeparture();
+    const clock = formatClock(base);
+    if (!future) return `Departing now (~${clock})`;
+    const today = new Date();
+    const sameDay = base.getDate() === today.getDate() && base.getMonth() === today.getMonth();
+    return sameDay ? `Future ride · leave by ${clock} today` : `Future ride · leave by ${clock} tomorrow`;
   }
 
   function generateRoutes(srcText, destText){
@@ -1520,8 +1681,18 @@ html[data-theme="dark"] .top3-time-box{background:rgba(255,255,255,.06);}
       return { idx: bestIdx, score: bestScore };
     }
 
-    const srcTokens = extractTokens(srcText);
+    let srcTokens = extractTokens(srcText);
     const destTokens = extractTokens(destText);
+
+    // Vague sources like "Current Location (approx.)" have no place keywords —
+    // expand them so the user still gets real options toward the destination.
+    const vagueSrc = /current\s*location|approx|your\s*spot|my\s*location|📍/i.test(srcText || '')
+      || srcTokens.length === 0;
+    if (vagueSrc){
+      // Soft anchors: common areas that feed Railway Station / city centre corridors
+      const soft = ['athwalines','athwa','majura','nanpura','ghod dod','city light','adajan','vesu','chowk'];
+      soft.forEach(t => { if (!srcTokens.includes(t)) srcTokens.push(t); });
+    }
 
     // Score every route that can serve both ends (board before alight)
     const scored = [];
@@ -1545,10 +1716,14 @@ html[data-theme="dark"] .top3-time-box{background:rgba(255,255,255,.06);}
       const srcScore = board.score + areaBonusSrc;
       const destScore = alight.score + areaBonusDest;
 
-      // Require at least some relevance on BOTH ends
-      if (srcScore < 3 || destScore < 3) continue;
+      // Require destination match always; source can be softer if user used Current Location
+      const minSrc = vagueSrc ? 1 : 3;
+      const minDest = 3;
+      if (srcScore < minSrc || destScore < minDest) continue;
       if (board.idx < 0 || alight.idx < 0) continue;
       if (board.idx === alight.idx) continue;
+      // Prefer routes that actually reach destination stop name
+      if (vagueSrc && destScore < 6 && alight.score < 6) continue;
 
       const stopsAway = Math.abs(alight.idx - board.idx);
       const isBrts = r.type === 'brts';
@@ -1577,8 +1752,112 @@ html[data-theme="dark"] .top3-time-box{background:rgba(255,255,255,.06);}
       return a.total - b.total;
     });
 
-    // Keep top realistic options (max 6)
-    let selected = scored.slice(0, 6);
+    // Keep all good matches (show full list below Top 3)
+    let selected = scored.slice(0, 12);
+
+    // Always ensure a healthy mix of BRTS + City when destination is Railway / major hub
+    function forceRoute(num, matchScore){
+      if (selected.some(s => s.route.num === num)) return;
+      const r = ROUTE_POOL.find(x => x.num === num);
+      if (!r) return;
+      let bIdx = r.stops.findIndex(s => /athwa|seven day|nanpura|majura|ghod|city light|vesu|chowk|adajan|piplod/i.test(s));
+      if (bIdx < 0) bIdx = 0;
+      let aIdx = r.stops.findIndex(s => /railway|station/i.test(s));
+      if (aIdx < 0) aIdx = r.stops.length - 1;
+      if (aIdx === bIdx) aIdx = Math.min(r.stops.length - 1, bIdx + 1);
+      // ensure board before alight in array order for display
+      let boardIdx = Math.min(bIdx, aIdx);
+      let alightIdx = Math.max(bIdx, aIdx);
+      if (boardIdx === alightIdx && alightIdx < r.stops.length - 1) alightIdx++;
+      if (boardIdx === alightIdx && boardIdx > 0) boardIdx--;
+      const isBrts = r.type === 'brts';
+      const rideDuration = Math.max(10, Math.round(Math.abs(alightIdx - boardIdx) * (isBrts ? 3.2 : 4.8) + 4));
+      const walkDistance = isBrts ? 4 : 7;
+      const waitTime = isBrts ? 3 : 5;
+      selected.push({
+        route: r, boardIdx, alightIdx,
+        srcScore: 5, destScore: 10, matchScore: matchScore || (isBrts ? 14 : 12),
+        rideDuration, walkDistance, waitTime,
+        total: rideDuration + walkDistance + waitTime,
+        delayed: false, distanceM: walkDistance * 90, reversed: bIdx > aIdx
+      });
+    }
+
+    const destIsRailway = /railway|station/i.test(destText || '');
+    const destIsVesu = /vesu/i.test(destText || '');
+    const brtsCount = selected.filter(s => s.route.type === 'brts').length;
+    const cityCount = selected.filter(s => s.route.type === 'city').length;
+
+    // Guarantee BRTS options when heading to Railway Station
+    if (destIsRailway){
+      forceRoute('BRTS-5', 16);
+      forceRoute('BRTS-11', 15);
+      forceRoute('BRTS-4', 11); // Athwalines corridor — connect via transfer note style
+      forceRoute('CB-72', 15);
+      forceRoute('CB-58', 13);
+      forceRoute('CB-88', 13);
+      forceRoute('CB-41', 12);
+    }
+    if (destIsVesu){
+      forceRoute('BRTS-5', 16);
+      forceRoute('BRTS-7', 12);
+      forceRoute('CB-41', 14);
+    }
+    const involvesBhatar = /bhatar/i.test(srcText||'') || /bhatar/i.test(destText||'');
+    const involvesAthwa = /athwa/i.test(srcText||'') || /athwa/i.test(destText||'');
+    if (involvesBhatar && involvesAthwa){
+      forceRoute('BRTS-6', 18);
+      forceRoute('CB-19', 17);
+      forceRoute('CB-27', 12);
+      forceRoute('BRTS-4', 11);
+      forceRoute('CB-25', 11);
+    } else if (involvesBhatar){
+      forceRoute('BRTS-6', 14);
+      forceRoute('CB-19', 13);
+      forceRoute('CB-27', 12);
+    }
+    if (/sarvajanik|scet/i.test(srcText||'') || /sarvajanik|scet/i.test(destText||'')){
+      forceRoute('BRTS-8', 17);
+      forceRoute('CB-72', 15);
+      forceRoute('BRTS-5', 14);
+      forceRoute('CB-41', 12);
+    }
+    // If still no BRTS at all, pull any BRTS that touches destination keywords
+    if (selected.filter(s => s.route.type === 'brts').length === 0){
+      for (const r of ROUTE_POOL.filter(x => x.type === 'brts')){
+        const hit = destTokens.some(t =>
+          r.stops.some(s => s.toLowerCase().includes(t)) ||
+          (r.areas || []).some(a => a.includes(t) || t.includes(a))
+        );
+        if (hit) forceRoute(r.num, 10);
+      }
+    }
+    // If still no city, pull city similarly
+    if (selected.filter(s => s.route.type === 'city').length === 0){
+      for (const r of ROUTE_POOL.filter(x => x.type === 'city')){
+        const hit = destTokens.some(t =>
+          r.stops.some(s => s.toLowerCase().includes(t)) ||
+          (r.areas || []).some(a => a.includes(t) || t.includes(a))
+        );
+        if (hit) forceRoute(r.num, 10);
+      }
+    }
+
+    selected.sort((a,b) => b.matchScore - a.matchScore || a.total - b.total);
+    // Prefer interleaving: keep best overall but ensure top results aren't all one type
+    const brtsSel = selected.filter(s => s.route.type === 'brts');
+    const citySel = selected.filter(s => s.route.type === 'city');
+    if (brtsSel.length && citySel.length){
+      const mixed = [];
+      let i = 0, j = 0;
+      while (mixed.length < 12 && (i < brtsSel.length || j < citySel.length)){
+        if (i < brtsSel.length) mixed.push(brtsSel[i++]);
+        if (j < citySel.length && mixed.length < 12) mixed.push(citySel[j++]);
+      }
+      selected = mixed;
+    } else {
+      selected = selected.slice(0, 12);
+    }
 
     // Fallback: if nothing matched well, still show 2–3 corridors that at least touch one end
     // and clearly mark them so user is not misled
@@ -1684,15 +1963,22 @@ html[data-theme="dark"] .top3-time-box{background:rgba(255,255,255,.06);}
     const medals = ['🥇 Best', '🥈 2nd best', '🥉 3rd best'];
     const rankClass = ['rank-1', 'rank-2', 'rank-3'];
 
+    if (!top3Grid) return;
     top3Grid.innerHTML = top.map((r, i) => {
       const typeLabel = r.type === 'brts' ? 'BRTS' : 'City Bus';
       const typeIcon = r.type === 'brts' ? 'fa-train-tram' : 'fa-bus-simple';
       const badgeGrad = r.type === 'brts' ? 'var(--grad-brts)' : 'var(--grad-city)';
-      // intermediate stops between board and alight
+      // Full path: board → stops in between → alight
       const mid = r.stops.slice(r.boardIdx + 1, r.alightIdx);
+      const pathStops = r.stops.slice(r.boardIdx, r.alightIdx + 1);
       const midText = mid.length
         ? mid.join(' → ')
         : 'Direct (no intermediate stop)';
+      const fullPath = pathStops.map((s, idx) => {
+        if (idx === 0) return '🟢 ' + s;
+        if (idx === pathStops.length - 1) return '🏁 ' + s;
+        return s;
+      }).join(' → ');
       return `
         <div class="top3-card ${rankClass[i]}" data-route-id="${r.id}" role="button" tabindex="0">
           <span class="top3-rank-badge">${medals[i]}</span>
@@ -1700,6 +1986,7 @@ html[data-theme="dark"] .top3-time-box{background:rgba(255,255,255,.06);}
             <span class="badge-num" style="background:${badgeGrad};width:32px;height:32px;border-radius:9px;display:inline-grid;place-items:center;color:#fff;font-size:.75rem;"><i class="fa-solid ${typeIcon}"></i></span>
             ${r.num}
             <span class="type-tag ${r.type}">${typeLabel}</span>
+            ${isFutureDeparture() ? '<span class="schedule-chip"><i class="fa-solid fa-clock"></i> Scheduled</span>' : ''}
           </div>
           <div class="top3-corridor">${r.corridor}</div>
           <div class="top3-times">
@@ -1717,6 +2004,7 @@ html[data-theme="dark"] .top3-time-box{background:rgba(255,255,255,.06);}
             🚌 Board · ride <b>${r.rideDuration} min</b> · alight at <b>${r.destStop.name}</b>
           </div>
           <div class="top3-stops-mini">
+            <strong>Your path:</strong> ${fullPath}<br>
             <strong>Stops in between:</strong> ${midText}
           </div>
           <div class="top3-total">
@@ -1727,6 +2015,7 @@ html[data-theme="dark"] .top3-time-box{background:rgba(255,255,255,.06);}
     }).join('');
 
     // click top3 card → select that route
+    if (!top3Grid) return;
     top3Grid.querySelectorAll('.top3-card').forEach(card => {
       const activate = () => selectRoute(card.dataset.routeId, routes);
       card.addEventListener('click', activate);
@@ -1737,8 +2026,17 @@ html[data-theme="dark"] .top3-time-box{background:rgba(255,255,255,.06);}
   }
 
   function renderRoutes(routes){
+    if (!routes) routes = [];
     const overallBestId = routes[0] ? routes[0].id : null;
-    const filtered = activeFilter === 'all' ? routes : routes.filter(r => r.type === activeFilter);
+    let filtered = activeFilter === 'all' ? routes.slice() : routes.filter(r => r.type === activeFilter);
+    // If filter yields nothing but we have routes, fall back to all so list is never blank under Top 3
+    if (!filtered.length && routes.length){
+      filtered = routes.slice();
+      activeFilter = 'all';
+      if (filterRow){
+        Array.from(filterRow.children).forEach(c => c.classList.toggle('active', c.dataset.filter === 'all'));
+      }
+    }
 
     routeList.innerHTML = '';
     if (!filtered.length){
@@ -2007,6 +2305,21 @@ html[data-theme="dark"] .top3-time-box{background:rgba(255,255,255,.06);}
       activeFilter = 'all';
       Array.from(filterRow.children).forEach(c => c.classList.toggle('active', c.dataset.filter === 'all'));
 
+      const departLabel = formatDepartLabel();
+      const future = isFutureDeparture();
+      const futureBanner = document.getElementById('futureBanner');
+      const futureBannerText = document.getElementById('futureBannerText');
+      if (futureBanner){
+        if (future){
+          futureBanner.classList.add('show');
+          if (futureBannerText){
+            futureBannerText.innerHTML = `<b>${departLabel}</b> — showing all workable BRTS & City Bus paths for that slot. Board / reach times are calculated from your chosen departure, not from “now”.`;
+          }
+        } else {
+          futureBanner.classList.remove('show');
+        }
+      }
+
       if (!currentRoutes.length){
         resultsTitle.textContent = 'No direct match found';
         resultsSub.textContent = `We could not find a corridor that clearly serves both "${src}" and "${dest}". Try nearby area names (Athwalines, Railway Station, Vesu, Adajan…).`;
@@ -2019,13 +2332,16 @@ html[data-theme="dark"] .top3-time-box{background:rgba(255,255,255,.06);}
         trackerSection.classList.remove('show');
       } else {
         noResultsState.classList.add('hidden');
-        renderSummary(currentRoutes);
-        renderBestSolution(currentRoutes, src, dest);
-        renderRoutes(currentRoutes);
-        populateTrackerSelect(currentRoutes);
-        const partialNote = currentRoutes.some(r => r.partial) ? ' (some options are partial matches)' : '';
-        resultsTitle.textContent = `Best route unlocked ✨`;
-        resultsSub.textContent = `From ${src} to ${dest} — ranked by match quality then speed${partialNote}.`;
+        try { renderSummary(currentRoutes); } catch(e){ console.warn(e); }
+        try { renderBestSolution(currentRoutes, src, dest); } catch(e){ console.warn(e); }
+        try { renderRoutes(currentRoutes); } catch(e){ console.warn(e); }
+        try { populateTrackerSelect(currentRoutes); } catch(e){ console.warn(e); }
+        const partialNote = currentRoutes.some(r => r.partial) ? ' · some partial matches' : '';
+        resultsTitle.textContent = future ? `Future ride options unlocked ✨` : `Best route unlocked ✨`;
+        // Same friendly line as original source HTML, plus departure context
+        resultsSub.textContent = future
+          ? `From ${src} to ${dest} — ${departLabel}${partialNote}. Ranked fastest to slowest for that slot.`
+          : `From ${src} to ${dest} — ranked fastest to slowest. No cap.${partialNote}`;
       }
 
       resultsSection.classList.add('show');
@@ -2053,4 +2369,3 @@ html[data-theme="dark"] .top3-time-box{background:rgba(255,255,255,.06);}
 
 </body>
 </html>
-
