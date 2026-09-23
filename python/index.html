@@ -197,6 +197,9 @@
   .unit4 .unit-badge{background:#1F8A5E;}
   .unit5 .unit-badge{background:#7A4EBF;}
   .unit6 .unit-badge{background:#C9184A;}
+  .unit7 .unit-badge{background:#0EA5A5;}
+  .unit8 .unit-badge{background:#7C3AED;}
+  .unit-head{align-items:center;}
   .unit-head h2{font-size:clamp(1.6rem,3.4vw,2.3rem); margin:0;}
   .unit-intro{
     background:var(--card); border:2px solid var(--line); border-radius:var(--radius);
@@ -228,6 +231,8 @@
   .unit4 .prog-num{background:#1F8A5E;}
   .unit5 .prog-num{background:#7A4EBF;}
   .unit6 .prog-num{background:#C9184A;}
+  .unit7 .prog-num{background:#0EA5A5;}
+  .unit8 .prog-num{background:#7C3AED;}
   .prog-title{font-weight:800; font-size:1.05rem; flex:1;}
   .chev{transition:transform .25s; font-size:1.1rem; color:var(--ink-soft);}
   .prog-card.open .chev{transform:rotate(180deg);}
@@ -349,6 +354,18 @@
   .unit4 .unit-intro{border-color:#B7EBD3;}
   .unit5 .unit-intro{border-color:#DCCBF7;}
   .unit6 .unit-intro{border-color:#F7C6D6;}
+  .unit7 .unit-intro{border-color:#B8EDEA;}
+  .unit8 .unit-intro{border-color:#DDD0FA;}
+
+  /* ---------- animated sliding reveal ---------- */
+  .reveal{
+    opacity:0; transform:translateY(28px);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  .reveal.visible{opacity:1; transform:translateY(0);}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1; transform:none; transition:none;}
+  }
 
   @media (max-width:760px){
     nav.links{display:none;}
@@ -370,16 +387,18 @@
   <nav class="links">
     <a href="#why-python">Why Python</a>
     <a href="#syllabus">Syllabus</a>
-    <a href="#unit1">Print</a>
-    <a href="#unit2">Variables</a>
+    <a href="#unit8">NumPy Arrays</a>
+    <a href="#unit7">Lists</a>
+    <a href="#unit6">Loops &amp; Patterns</a>
+    <a href="#unit5">Problem Solving</a>
+    <a href="#unit4">Conditionals</a>
     <a href="#unit3">Input &amp; Operators</a>
-    <a href="#unit4">Lab 3</a>
-    <a href="#unit5">Own Practice</a>
-    <a href="#unit6">Lab 4</a>
+    <a href="#unit2">Variables</a>
+    <a href="#unit1">Print</a>
     <a href="#practicals">Practicals</a>
   </nav>
   <button id="menuBtn" onclick="toggleToc(true)">☰ Programs</button>
-  <button class="btn ghost" style="padding:10px 18px; font-size:.85rem;" onclick="toggleToc(true)">📋 All 92 Programs</button>
+  <button class="btn ghost" style="padding:10px 18px; font-size:.85rem;" onclick="toggleToc(true)">📋 All 137 Programs</button>
 </header>
 
 <div id="tocOverlay" onclick="toggleToc(false)"></div>
@@ -398,7 +417,7 @@
   <div class="blob b4"></div>
   <span class="eyebrow">Sarvajanik University · B.Tech Sem 1 · BTCO22101</span>
   <h1>Learn Python by <span class="hl">actually typing it.</span></h1>
-  <p class="sub">A friendly, no-nonsense practice ground for first-year coders. 92 bite-sized programs, explained in plain human words — one keyword at a time, one giggle at a time.</p>
+  <p class="sub">A friendly, no-nonsense practice ground for first-year coders. 137 bite-sized programs, explained in plain human words — one keyword at a time, one giggle at a time.</p>
   <div class="hero-code"><span class="typewriter" id="typewriter">print("Hello, future engineer!")</span></div>
   <div class="cta-row">
     <a href="#why-python" class="btn primary">Start the story →</a>
@@ -415,7 +434,7 @@
   </div>
   <div class="slides" id="slideTrack">
 
-    <div class="slide">
+    <div class="slide reveal">
       <div class="num">01</div>
       <span class="icon">🤔</span>
       <h3>Why Python, of all languages?</h3>
@@ -428,7 +447,7 @@
       </ul>
     </div>
 
-    <div class="slide">
+    <div class="slide reveal">
       <div class="num">02</div>
       <span class="icon">🧠</span>
       <h3>What even is "programming"?</h3>
@@ -436,7 +455,7 @@
       <p>Tell it "add sugar" before "boil water," and it will happily add sugar to an empty pan. So a program is simply: a clear list of instructions, written in a language the computer understands, to get a result.</p>
     </div>
 
-    <div class="slide">
+    <div class="slide reveal">
       <div class="num">03</div>
       <span class="icon">🖨️</span>
       <h3>Meet <code>print()</code> — your first word</h3>
@@ -445,7 +464,7 @@
       <p>Anything inside the round brackets gets displayed on screen. Text always goes inside quotes ("like this"); numbers don't need quotes at all.</p>
     </div>
 
-    <div class="slide">
+    <div class="slide reveal">
       <div class="num">04</div>
       <span class="icon">📦</span>
       <h3>What is a variable?</h3>
@@ -454,7 +473,7 @@
       <p>Later you just say the box's name, and Python hands you back whatever is inside — no need to retype the value again and again.</p>
     </div>
 
-    <div class="slide">
+    <div class="slide reveal">
       <div class="num">05</div>
       <span class="icon">⌨️</span>
       <h3>Input &amp; operators — Python starts listening</h3>
@@ -474,7 +493,7 @@
   </div>
   <div class="syllabus-grid">
 
-    <div class="syl-card">
+    <div class="syl-card reveal">
       <div class="syl-num">1</div>
       <h4>Introduction to Python</h4>
       <p>History, Features, Applications. Python Installation, IDEs, Basic Syntax, Variables, Input and output statement, Data Types: Built-in datatypes, Boolean, Sequence, Sets, Literals, Operators in Python: Arithmetic, Assignment, Unary, Logical, Relational, Bitwise, Membership, Identity.</p>
@@ -482,7 +501,7 @@
       <div style="position:relative; z-index:1; margin-top:10px; display:inline-block; font-size:.75rem; font-weight:800; color:#1F8A5E; background:#DEF7EC; padding:4px 10px; border-radius:20px;">🐍 print(), variables, input &amp; operators practiced below</div>
     </div>
 
-    <div class="syl-card">
+    <div class="syl-card reveal">
       <div class="syl-num">2</div>
       <h4>Control Flow</h4>
       <p>Conditional Statements: if, if-else, if...elif. Loops (for, while), Nested Loop, else suite and Control Statements (break, continue, pass), Assertion statement in Python, Generating Random Numbers.</p>
@@ -490,35 +509,37 @@
       <div style="position:relative; z-index:1; margin-top:10px; display:inline-block; font-size:.75rem; font-weight:800; color:#1F8A5E; background:#DEF7EC; padding:4px 10px; border-radius:20px;">🐍 while-loop digit programs &amp; nested-loop patterns practiced in Lab 4 below</div>
     </div>
 
-    <div class="syl-card">
+    <div class="syl-card reveal">
       <div class="syl-num">3</div>
       <h4>Functions</h4>
       <p>Defining Functions, Docstrings, Formal and Actual Arguments, Positional arguments, keyword arguments, default arguments, variable length arguments, local and global variables, Return, Returning Multiple values, Scope of a Variable, Recursive functions, Lambda Function.</p>
       <div class="syl-meta"><span>6 Teaching Hrs</span><span>20% Weightage</span></div>
     </div>
 
-    <div class="syl-card">
+    <div class="syl-card reveal">
       <div class="syl-num">4</div>
       <h4>Arrays in Python</h4>
       <p>Arrays using NumPy: Operations on Array, Creating arrays using arange(), linspace(), logspace(), zeroes(), ones(). Copying array, Dimensions, Attributes: ndim, shape, size, dtype. Indexing, Slicing, Broadcasting, Axis specific operations, Types of arrays, Matrices in NumPy, Random Numbers.</p>
       <div class="syl-meta"><span>5 Teaching Hrs</span><span>16% Weightage</span></div>
+      <div style="position:relative; z-index:1; margin-top:10px; display:inline-block; font-size:.75rem; font-weight:800; color:#1F8A5E; background:#DEF7EC; padding:4px 10px; border-radius:20px;">🐍 NEW — practiced in NumPy Arrays below</div>
     </div>
 
-    <div class="syl-card">
+    <div class="syl-card reveal">
       <div class="syl-num">5</div>
       <h4>Lists, Tuples, Dictionaries &amp; Strings</h4>
       <p><strong>Lists:</strong> add, remove, replace items. <strong>Tuples:</strong> creating, accessing, insert/delete/update, nested tuples. <strong>Dictionaries:</strong> operations, for loop with dictionary, list↔dictionary, string↔dictionary conversion. <strong>Strings:</strong> indexing, slicing, repeating, concatenation, membership, comparing, substrings, replacing, splitting, joining.</p>
       <div class="syl-meta"><span>6 Teaching Hrs</span><span>20% Weightage</span></div>
+      <div style="position:relative; z-index:1; margin-top:10px; display:inline-block; font-size:.75rem; font-weight:800; color:#1F8A5E; background:#DEF7EC; padding:4px 10px; border-radius:20px;">🐍 NEW — core list operations practiced in Lists &amp; Arrays below</div>
     </div>
 
-    <div class="syl-card">
+    <div class="syl-card reveal">
       <div class="syl-num">6</div>
       <h4>Classes &amp; Object-Oriented Programming</h4>
       <p>Objects, Classes, The Self Variable, Constructor, Types of Variables, Types of Methods: Instance Methods, Class Methods, Static Methods, Inheritance.</p>
       <div class="syl-meta"><span>4 Teaching Hrs</span><span>14% Weightage</span></div>
     </div>
 
-    <div class="syl-card">
+    <div class="syl-card reveal">
       <div class="syl-num">7</div>
       <h4>Python Libraries</h4>
       <p>Pandas — Reading and Writing Files, Working with Text files and CSV Files. Matplotlib — line plot, scatter plot, bar chart, histogram.</p>
@@ -528,82 +549,41 @@
   </div>
 </section>
 
-<!-- ================= UNIT 1 ================= -->
-<section class="unit unit1" id="unit1">
-  <div class="unit-head">
-    <span class="unit-badge">Unit 1</span>
-    <h2>Say it with <code>print()</code> — 10 programs</h2>
-  </div>
-  <div class="unit-intro">
-    <h4>🎯 The concept, in one breath</h4>
-    <p><code>print()</code> is a built-in function — a ready-made tool Python gives you — whose only job is to display things on screen. You "call" it by writing its name followed by round brackets, and you put whatever you want shown inside those brackets.</p>
-    <p>Two quiet superpowers hide inside it: the <code>sep</code> parameter decides what goes <em>between</em> multiple items (default is a space), and the <code>end</code> parameter decides what comes <em>after</em> everything (default is a new line). Master those two, and you control exactly how your output looks.</p>
-    <div class="syntax-box">print(value1, value2, ..., sep=" ", end="\n")</div>
-  </div>
-  <div class="prog-list" id="unit1List"></div>
-</section>
-
-<!-- ================= UNIT 2 ================= -->
-<section class="unit unit2" id="unit2">
-  <div class="unit-head">
-    <span class="unit-badge">Unit 2</span>
-    <h2>Boxes that remember — 10 variable programs</h2>
-  </div>
-  <div class="unit-intro">
-    <h4>🎯 The concept, in one breath</h4>
-    <p>A variable is created the moment you assign it a value with <code>=</code>. No separate "declare" step, no fixed type — Python figures out on its own whether your box holds text, a whole number, a decimal, or a True/False.</p>
-    <p>Naming rule of thumb: start with a letter or underscore, use only letters/numbers/underscores after that, and pick a name that actually describes what's inside — <code>age</code> is a far better box label than <code>x</code>.</p>
-    <div class="syntax-box">variable_name = value      # no operators yet, just storing &amp; showing</div>
-  </div>
-  <div class="prog-list" id="unit2List"></div>
-</section>
-
-<!-- ================= UNIT 3 ================= -->
-<section class="unit unit3" id="unit3">
-  <div class="unit-head">
-    <span class="unit-badge">Unit 3</span>
-    <h2>Ask, calculate, react — 12 input &amp; operator programs</h2>
-  </div>
-  <div class="unit-intro">
-    <h4>🎯 The concept, in one breath</h4>
-    <p><code>input("message")</code> shows the message, waits for the user, and hands back whatever they typed — always as text. If you want to do math with it, wrap it in <code>int()</code> (whole numbers) or <code>float()</code> (decimals) first.</p>
-    <p>Then the operators take over: <code>+ − * /</code> for the basics, <code>//</code> for floor (whole-number) division, <code>%</code> for the remainder, <code>**</code> for power, and <code>&gt; &lt; == !=</code> to compare two values and get back <code>True</code> or <code>False</code>.</p>
-    <div class="syntax-box">variable = int(input("Enter a number: "))</div>
-  </div>
-  <div class="prog-list" id="unit3List"></div>
-</section>
-
-<!-- ================= LAB 3 ================= -->
-<section class="unit unit4" id="unit4">
+<!-- ================= NUMPY ARRAYS ================= -->
+<section class="unit unit8" id="unit8">
   <div class="lab-fun">
-    <span>📐</span><span>🧮</span><span>🌡️</span><span>📏</span><span>🔺</span><span>🧪</span>
+    <span>🔢</span><span>📊</span><span>🧮</span><span>🟪</span><span>📐</span><span>🎲</span>
   </div>
   <div class="unit-head">
-    <span class="unit-badge">Lab 3</span>
-    <h2>Practice Programs — 20 real-world mini problems</h2>
+    <span class="unit-badge">NumPy Arrays</span>
+    <span style="font-family:'Fredoka'; font-weight:700; font-size:.78rem; color:#7C3AED; background:#F1E9FE; padding:6px 12px; border-radius:20px; align-self:center;">🆕 Newest section</span>
+    <h2>Real arrays, real math — 25 NumPy programs</h2>
   </div>
-  <div class="unit-intro">
+  <div class="unit-intro reveal">
     <h4>🎯 The concept, in one breath</h4>
-    <p>This lab mixes everything you already know — variables, <code>input()</code>, and operators — with a first, friendly taste of <strong>decision-making</strong> using <code>if</code>, <code>elif</code> and <code>else</code>. You'll study Control Flow formally as its own unit later, but there's no reason to wait to start solving real problems with it.</p>
-    <p>An <code>if</code> block only runs when its condition is <code>True</code>; add <code>elif</code> for more conditions to check in order, and <code>else</code> as the catch-all when none of them matched. The colon <code>:</code> and the indentation (usually 4 spaces) are what mark a block in Python — no curly braces required.</p>
-    <div class="syntax-box">if condition:<br>&nbsp;&nbsp;&nbsp;&nbsp;# runs only when condition is True<br>elif another_condition:<br>&nbsp;&nbsp;&nbsp;&nbsp;# runs only if the first was False and this is True<br>else:<br>&nbsp;&nbsp;&nbsp;&nbsp;# runs when nothing above matched</div>
+    <p>A Python <code>list</code> can hold anything, but it's slow for heavy number-crunching. <strong>NumPy</strong> (Numerical Python) gives you the <code>array</code> — a fixed-type grid of numbers that does math on every element at once, without you writing a single loop. This is what the syllabus means by "Arrays in Python."</p>
+    <p>Every NumPy array is built from (or converted into) a plain Python list, but once it's a NumPy array it gains superpowers: whole-array arithmetic, <code>shape</code>/<code>dtype</code> introspection, slicing in multiple dimensions, and dozens of ready-made generators like <code>arange()</code> and <code>linspace()</code>.</p>
+    <div class="syntax-box">import numpy as np&#10;arr = np.array([1, 2, 3])     # build from a list&#10;arr.shape, arr.ndim, arr.dtype # inspect it</div>
   </div>
-  <div class="prog-list" id="unit4List"></div>
+  <div class="prog-list" id="unit8List"></div>
 </section>
 
-<!-- ================= OWN PRACTICE ================= -->
-<section class="unit unit5" id="unit5">
+<!-- ================= LISTS & ARRAYS ================= -->
+<section class="unit unit7" id="unit7">
+  <div class="lab-fun">
+    <span>🧺</span><span>🔗</span><span>📚</span><span>🧩</span><span>🗂️</span><span>🧷</span>
+  </div>
   <div class="unit-head">
-    <span class="unit-badge">On Your Own</span>
-    <h2>Own Practice Section — 15 problem-solving programs</h2>
+    <span class="unit-badge">Lists &amp; Arrays</span>
+    <h2>Boxes that hold many things — 20 list programs</h2>
   </div>
-  <div class="unit-intro">
+  <div class="unit-intro reveal">
     <h4>🎯 The concept, in one breath</h4>
-    <p>No new syntax here — just the same tools you already trust (<code>input()</code>, operators, and <code>if / elif / else</code>) aimed at real, slightly trickier problems: bills with slabs, grading, number puzzles, and small decision-making tools. The goal is to get comfortable turning a <em>word problem</em> into a clean, working algorithm on your own.</p>
-    <p>Work through these the same way as Lab 3: read the problem, write the steps first, then the code — don't jump straight to typing. The last five (11–15) are extra "fast learner" challenges, a little less spelled-out on purpose.</p>
-    <div class="syntax-box">if condition1:<br>&nbsp;&nbsp;&nbsp;&nbsp;# do this<br>elif condition2:<br>&nbsp;&nbsp;&nbsp;&nbsp;# do that<br>else:<br>&nbsp;&nbsp;&nbsp;&nbsp;# fallback</div>
+    <p>Every variable you've used so far holds exactly one value. A <strong>list</strong> is Python's answer to "what if I need to hold many values in one box?" — an ordered, changeable collection written with square brackets, where each item has its own position (starting at 0).</p>
+    <p>Lists come with a set of built-in <em>methods</em> — <code>append()</code>, <code>remove()</code>, <code>sort()</code>, and more — that let you add, remove, search, and reorder items without writing that logic yourself. This is the same idea the syllabus calls "Arrays," just under Python's own friendlier name.</p>
+    <div class="syntax-box">my_list = [item1, item2, item3, ...]&#10;my_list[index]        # read one item&#10;my_list.append(item)  # add one item</div>
   </div>
-  <div class="prog-list" id="unit5List"></div>
+  <div class="prog-list" id="unit7List"></div>
 </section>
 
 <!-- ================= LAB 4 ================= -->
@@ -612,16 +592,94 @@
     <span>⭐</span><span>🔺</span><span>🔷</span><span>🧵</span><span>🔻</span><span>💠</span>
   </div>
   <div class="unit-head">
-    <span class="unit-badge">Lab 4</span>
+    <span class="unit-badge">Loops &amp; Patterns</span>
     <h2>Number Logic &amp; Patterns — 25 programs in 2 sections</h2>
   </div>
-  <div class="unit-intro">
+  <div class="unit-intro reveal">
     <h4>🎯 The concept, in one breath</h4>
     <p>Lab 4 has two halves. <strong>Section 1</strong> puts the <code>while</code> loop to work on individual numbers — pulling them apart digit by digit using <code>%</code> (remainder) and <code>//</code> (floor division) to count digits, reverse them, and test classic number properties like Armstrong and Perfect numbers.</p>
     <p><strong>Section 2</strong> is the nested loop, aimed purely at shape and symmetry: the outer loop picks the row, the inner loop decides what gets printed across that row. Every star, number, and alphabet pattern below is built from exactly this one idea, repeated with small twists.</p>
     <div class="syntax-box">while number != 0:<br>&nbsp;&nbsp;&nbsp;&nbsp;digit = number % 10   # pull off the last digit<br>&nbsp;&nbsp;&nbsp;&nbsp;number = number // 10 # drop that digit<br><br>for i in range(1, rows + 1):<br>&nbsp;&nbsp;&nbsp;&nbsp;for j in range(i):<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("*", end="")<br>&nbsp;&nbsp;&nbsp;&nbsp;print()   # move to the next row</div>
   </div>
   <div class="prog-list" id="unit6List"></div>
+</section>
+
+<!-- ================= OWN PRACTICE ================= -->
+<section class="unit unit5" id="unit5">
+  <div class="unit-head">
+    <span class="unit-badge">Problem Solving Practice</span>
+    <h2>Own Practice Section — 15 problem-solving programs</h2>
+  </div>
+  <div class="unit-intro reveal">
+    <h4>🎯 The concept, in one breath</h4>
+    <p>No new syntax here — just the same tools you already trust (<code>input()</code>, operators, and <code>if / elif / else</code>) aimed at real, slightly trickier problems: bills with slabs, grading, number puzzles, and small decision-making tools. The goal is to get comfortable turning a <em>word problem</em> into a clean, working algorithm on your own.</p>
+    <p>Work through these the same way as Lab 3: read the problem, write the steps first, then the code — don't jump straight to typing. The last five (11–15) are extra "fast learner" challenges, a little less spelled-out on purpose.</p>
+    <div class="syntax-box">if condition1:<br>&nbsp;&nbsp;&nbsp;&nbsp;# do this<br>elif condition2:<br>&nbsp;&nbsp;&nbsp;&nbsp;# do that<br>else:<br>&nbsp;&nbsp;&nbsp;&nbsp;# fallback</div>
+  </div>
+  <div class="prog-list" id="unit5List"></div>
+</section>
+
+<!-- ================= LAB 3 ================= -->
+<section class="unit unit4" id="unit4">
+  <div class="lab-fun">
+    <span>📐</span><span>🧮</span><span>🌡️</span><span>📏</span><span>🔺</span><span>🧪</span>
+  </div>
+  <div class="unit-head">
+    <span class="unit-badge">Conditionals in Action</span>
+    <h2>Practice Programs — 20 real-world mini problems</h2>
+  </div>
+  <div class="unit-intro reveal">
+    <h4>🎯 The concept, in one breath</h4>
+    <p>This lab mixes everything you already know — variables, <code>input()</code>, and operators — with a first, friendly taste of <strong>decision-making</strong> using <code>if</code>, <code>elif</code> and <code>else</code>. You'll study Control Flow formally as its own unit later, but there's no reason to wait to start solving real problems with it.</p>
+    <p>An <code>if</code> block only runs when its condition is <code>True</code>; add <code>elif</code> for more conditions to check in order, and <code>else</code> as the catch-all when none of them matched. The colon <code>:</code> and the indentation (usually 4 spaces) are what mark a block in Python — no curly braces required.</p>
+    <div class="syntax-box">if condition:<br>&nbsp;&nbsp;&nbsp;&nbsp;# runs only when condition is True<br>elif another_condition:<br>&nbsp;&nbsp;&nbsp;&nbsp;# runs only if the first was False and this is True<br>else:<br>&nbsp;&nbsp;&nbsp;&nbsp;# runs when nothing above matched</div>
+  </div>
+  <div class="prog-list" id="unit4List"></div>
+</section>
+
+<!-- ================= UNIT 3 ================= -->
+<section class="unit unit3" id="unit3">
+  <div class="unit-head">
+    <span class="unit-badge">Input &amp; Operators</span>
+    <h2>Ask, calculate, react — 12 input &amp; operator programs</h2>
+  </div>
+  <div class="unit-intro reveal">
+    <h4>🎯 The concept, in one breath</h4>
+    <p><code>input("message")</code> shows the message, waits for the user, and hands back whatever they typed — always as text. If you want to do math with it, wrap it in <code>int()</code> (whole numbers) or <code>float()</code> (decimals) first.</p>
+    <p>Then the operators take over: <code>+ − * /</code> for the basics, <code>//</code> for floor (whole-number) division, <code>%</code> for the remainder, <code>**</code> for power, and <code>&gt; &lt; == !=</code> to compare two values and get back <code>True</code> or <code>False</code>.</p>
+    <div class="syntax-box">variable = int(input("Enter a number: "))</div>
+  </div>
+  <div class="prog-list" id="unit3List"></div>
+</section>
+
+<!-- ================= UNIT 2 ================= -->
+<section class="unit unit2" id="unit2">
+  <div class="unit-head">
+    <span class="unit-badge">Variables &amp; Data Types</span>
+    <h2>Boxes that remember — 10 variable programs</h2>
+  </div>
+  <div class="unit-intro reveal">
+    <h4>🎯 The concept, in one breath</h4>
+    <p>A variable is created the moment you assign it a value with <code>=</code>. No separate "declare" step, no fixed type — Python figures out on its own whether your box holds text, a whole number, a decimal, or a True/False.</p>
+    <p>Naming rule of thumb: start with a letter or underscore, use only letters/numbers/underscores after that, and pick a name that actually describes what's inside — <code>age</code> is a far better box label than <code>x</code>.</p>
+    <div class="syntax-box">variable_name = value      # no operators yet, just storing &amp; showing</div>
+  </div>
+  <div class="prog-list" id="unit2List"></div>
+</section>
+
+<!-- ================= UNIT 1 ================= -->
+<section class="unit unit1" id="unit1">
+  <div class="unit-head">
+    <span class="unit-badge">Print &amp; Output</span>
+    <h2>Say it with <code>print()</code> — 10 programs</h2>
+  </div>
+  <div class="unit-intro reveal">
+    <h4>🎯 The concept, in one breath</h4>
+    <p><code>print()</code> is a built-in function — a ready-made tool Python gives you — whose only job is to display things on screen. You "call" it by writing its name followed by round brackets, and you put whatever you want shown inside those brackets.</p>
+    <p>Two quiet superpowers hide inside it: the <code>sep</code> parameter decides what goes <em>between</em> multiple items (default is a space), and the <code>end</code> parameter decides what comes <em>after</em> everything (default is a new line). Master those two, and you control exactly how your output looks.</p>
+    <div class="syntax-box">print(value1, value2, ..., sep=" ", end="\n")</div>
+  </div>
+  <div class="prog-list" id="unit1List"></div>
 </section>
 
 <!-- ================= PRACTICAL LIST ================= -->
@@ -633,7 +691,7 @@
   </div>
   <div class="practical-list">
 
-    <div class="prac-item">
+    <div class="prac-item reveal">
       <div class="prac-check">1</div>
       <div>
         <h4>Introduction to Python</h4>
@@ -641,7 +699,7 @@
       </div>
     </div>
 
-    <div class="prac-item">
+    <div class="prac-item reveal">
       <div class="prac-check">2</div>
       <div>
         <h4>Control Flow</h4>
@@ -649,7 +707,7 @@
       </div>
     </div>
 
-    <div class="prac-item">
+    <div class="prac-item reveal">
       <div class="prac-check">3</div>
       <div>
         <h4>Functions</h4>
@@ -657,15 +715,15 @@
       </div>
     </div>
 
-    <div class="prac-item">
+    <div class="prac-item reveal">
       <div class="prac-check">4</div>
       <div>
         <h4>Arrays in Python (NumPy)</h4>
-        <p>Create arrays with arange(), linspace(), logspace(), zeros(), ones(); check ndim/shape/size/dtype; practice indexing, slicing, broadcasting, axis-specific operations, and build matrices.</p>
+        <p>Create arrays with arange(), linspace(), logspace(), zeros(), ones(); check ndim/shape/size/dtype; practice indexing, slicing, broadcasting, axis-specific operations, and build matrices. <strong>✅ Practiced on this site — all 25 programs in the NumPy Arrays section.</strong></p>
       </div>
     </div>
 
-    <div class="prac-item">
+    <div class="prac-item reveal">
       <div class="prac-check">5</div>
       <div>
         <h4>Lists, Tuples, Dictionaries &amp; Strings</h4>
@@ -673,7 +731,7 @@
       </div>
     </div>
 
-    <div class="prac-item">
+    <div class="prac-item reveal">
       <div class="prac-check">6</div>
       <div>
         <h4>Classes &amp; Object-Oriented Programming</h4>
@@ -681,7 +739,7 @@
       </div>
     </div>
 
-    <div class="prac-item">
+    <div class="prac-item reveal">
       <div class="prac-check">7</div>
       <div>
         <h4>Python Libraries</h4>
@@ -694,7 +752,7 @@
 
 <footer>
   <div class="foot-emoji">🐍✨</div>
-  <h3>That's a wrap — 92 programs down.</h3>
+  <h3>That's a wrap — 137 programs down.</h3>
   <p>Type every single one yourself, even the "too easy" ones. Muscle memory beats memory-memory. Now go make Python do something weird. — Python Programming (BTCO22101), Sarvajanik University</p>
 
   <div class="credit-box">
@@ -709,626 +767,417 @@
 /* ============ DATA ============ */
 const units = [
   {
-    key:'unit1', listId:'unit1List', prefix:'P1',
+    key:'unit8', listId:'unit8List', prefix:'P8',
     programs:[
       {
-        title:"Print a simple greeting",
-        steps:["Decide the message you want to show.","Call print() and place the message inside quotes.","Run the program and read the output."],
-        code:`print("Hello, World!")`,
-        output:`Hello, World!`,
-        explain:[`<code>print("Hello, World!")</code> — the text inside double quotes is a <strong>string</strong>. Python displays it exactly as written, then automatically moves the cursor to the next line.`]
-      },
-      {
-        title:"Print your name and college on separate lines",
-        steps:["Write a print statement for your college name.","Write a second print statement for your course/year.","Each print() call automatically starts a fresh line."],
-        code:`print("Sarvajanik University")\nprint("B.Tech First Year")`,
-        output:`Sarvajanik University\nB.Tech First Year`,
+        title:"Import NumPy and create a 1-D array from a list",
+        steps:["Import the numpy library, usually under the short name np.","Create a plain Python list of numbers.","Convert it into a NumPy array using np.array()."],
+        code:`import numpy as np\nmy_list = [10, 20, 30, 40]\narr = np.array(my_list)\nprint(arr)\nprint(type(arr))`,
+        output:`[10 20 30 40]\n<class 'numpy.ndarray'>`,
         explain:[
-          `Line 1 prints the college name, then jumps to a new line by default.`,
-          `Line 2 prints the course info on that fresh new line — that's why they stack instead of joining.`
+          `<code>import numpy as np</code> loads the NumPy library and gives it the short nickname <code>np</code> — the standard convention every NumPy program follows.`,
+          `<code>np.array(my_list)</code> wraps a normal Python list into an <strong>ndarray</strong> (n-dimensional array) — notice printed arrays show values separated by spaces, no commas, unlike a Python list.`
         ]
       },
       {
-        title:"Compare single, double and triple quotes",
-        steps:["Print the same sentence three times.","Wrap it once in single quotes, once in double, once in triple.","Notice all three print identically."],
-        code:`print('Python is fun')\nprint("Python is fun")\nprint("""Python is fun""")`,
-        output:`Python is fun\nPython is fun\nPython is fun`,
+        title:"Create an array using arange()",
+        steps:["Call np.arange(start, stop, step) to generate evenly spaced whole numbers.","Print the resulting array."],
+        code:`import numpy as np\narr = np.arange(0, 10, 2)\nprint(arr)`,
+        output:`[0 2 4 6 8]`,
         explain:[
-          `Single (' ') and double (" ") quotes are interchangeable in Python — pick whichever avoids clashing with quotes inside your text.`,
-          `Triple quotes (""" """) do the same job here, but their real power is letting a string span multiple lines — see program 10.`
+          `<code>arange()</code> is NumPy's version of Python's <code>range()</code>, but it returns an actual array you can immediately use in maths, not just something you loop over.`,
+          `Just like slicing, the stop value (10) is excluded — the array climbs by the step (2) starting at 0, and stops before reaching 10.`
         ]
       },
       {
-        title:"Insert a new line inside one print using \\n",
-        steps:["Write both lines of text as one single string.","Place \\n exactly where you want the break.","Print it in a single print() call."],
-        code:`print("Roll No: 21\\nName: Aryan")`,
-        output:`Roll No: 21\nName: Aryan`,
-        explain:[`<code>\\n</code> is an escape sequence — a special two-character code that means "insert a new line here." Python reads it as one break, not as literal backslash-n.`]
-      },
-      {
-        title:"Insert a tab gap using \\t",
-        steps:["Write the two words you want aligned.","Place \\t between them instead of a space.","Print and observe the wider, tab-sized gap."],
-        code:`print("Name\\tMarks")`,
-        output:`Name\tMarks`,
-        explain:[`<code>\\t</code> inserts a horizontal tab — a bigger, aligned gap than a regular space. It's handy when you want columns of text to line up neatly.`]
-      },
-      {
-        title:"Print multiple values with the default separator",
-        steps:["List the words you want to print, separated by commas.","Run print() — no sep is mentioned, so Python uses its default."],
-        code:`print("Python", "is", "awesome")`,
-        output:`Python is awesome`,
-        explain:[`Commas inside print() let you pass several items at once. By default, Python glues them together with a single space — that space is the "default sep" in action.`]
-      },
-      {
-        title:"Print a date using a custom separator (sep)",
-        steps:["Break the date into year, month, day pieces.","Pass sep=\"-\" so items join with a dash instead of a space."],
-        code:`print("2024", "07", "28", sep="-")`,
-        output:`2024-07-28`,
-        explain:[`<code>sep="-"</code> overrides the default space and glues every item together with a dash instead — great for building dates, IDs, or file names.`]
-      },
-      {
-        title:"Print on the same line using end",
-        steps:["First print() shows a loading message.","Set end=\"...\" so it doesn't jump to a new line.","Second print() continues right after it."],
-        code:`print("Loading", end="...")\nprint("Done!")`,
-        output:`Loading...Done!`,
+        title:"Create an array using linspace()",
+        steps:["Call np.linspace(start, stop, num) to generate a fixed COUNT of evenly spaced numbers.","Print the resulting array."],
+        code:`import numpy as np\narr = np.linspace(0, 1, 5)\nprint(arr)`,
+        output:`[0.   0.25 0.5  0.75 1.  ]`,
         explain:[
-          `Normally print() ends every line with an invisible \\n. Here, end="..." replaces that newline with three dots instead.`,
-          `Because there's no newline after "Loading...", the next print() continues on the very same line.`
+          `Unlike <code>arange()</code> (where you choose the step size), <code>linspace(start, stop, num)</code> lets you choose exactly how many numbers you want, and NumPy works out the spacing itself.`,
+          `Here it fits 5 evenly spaced numbers between 0 and 1 (inclusive of both ends), giving a gap of 0.25 between each.`
         ]
       },
       {
-        title:"Print numbers directly — no quotes needed",
-        steps:["Print a whole number as-is.","Print a decimal number as-is.","Notice neither needed quotation marks."],
-        code:`print(100)\nprint(3.14)`,
-        output:`100\n3.14`,
-        explain:[`Quotes are only for text (strings). Numbers — whole (int) or decimal (float) — are typed plainly, and Python still knows exactly what they are.`]
+        title:"Create an array using logspace()",
+        steps:["Call np.logspace(start, stop, num) to generate numbers evenly spaced on a LOG scale.","Print the resulting array."],
+        code:`import numpy as np\narr = np.logspace(0, 3, 4)\nprint(arr)`,
+        output:`[   1.   10.  100. 1000.]`,
+        explain:[
+          `<code>logspace(start, stop, num)</code> generates values that are evenly spaced in <em>powers of 10</em> — it actually computes <code>10**x</code> for num evenly spaced x values between start and stop.`,
+          `Here start=0 and stop=3 means x goes 0, 1, 2, 3, so the results are 10⁰, 10¹, 10², 10³ = 1, 10, 100, 1000 — useful for scientific or exponential-scale data.`
+        ]
       },
       {
-        title:"Draw a tiny triangle with a triple-quoted string",
-        steps:["Open a triple-quoted string.","Type each row of the triangle on its own line, exactly as you want it to appear.","Close the triple quotes and print."],
-        code:`print("""\n  *\n ***\n*****\n""")`,
-        output:`\n  *\n ***\n*****\n`,
-        explain:[`Triple quotes let a string flow across several real lines in your code, and Python reproduces every line break and space exactly as typed — perfect for banners, art, or menus.`]
+        title:"Create an array of zeros using zeros()",
+        steps:["Call np.zeros(n) to build an array of n zeros.","Print the array."],
+        code:`import numpy as np\narr = np.zeros(5)\nprint(arr)`,
+        output:`[0. 0. 0. 0. 0.]`,
+        explain:[`<code>zeros(n)</code> is a quick way to create a "blank" array of a known size, ready to be filled in later — notice the values are floats (0.) by default, not plain integers.`]
+      },
+      {
+        title:"Create an array of ones using ones()",
+        steps:["Call np.ones(n) to build an array of n ones.","Print the array."],
+        code:`import numpy as np\narr = np.ones(4)\nprint(arr)`,
+        output:`[1. 1. 1. 1.]`,
+        explain:[`<code>ones(n)</code> works exactly like <code>zeros(n)</code>, just filling every slot with 1.0 instead — handy as a starting point for counters or multiplicative identities.`]
+      },
+      {
+        title:"Check an array's ndim, shape, size and dtype",
+        steps:["Create a 1-D array.","Print its ndim (number of dimensions), shape (size along each dimension), size (total element count), and dtype (data type)."],
+        code:`import numpy as np\narr = np.array([1, 2, 3, 4, 5])\nprint("ndim:", arr.ndim)\nprint("shape:", arr.shape)\nprint("size:", arr.size)\nprint("dtype:", arr.dtype)`,
+        output:`ndim: 1\nshape: (5,)\nsize: 5\ndtype: int64`,
+        explain:[
+          `<code>ndim</code> tells you how many dimensions the array has — 1 here, since it's a single flat row of numbers.`,
+          `<code>shape</code> is a tuple giving the length along each dimension — <code>(5,)</code> means "5 elements along the only dimension."`,
+          `<code>size</code> is simply the total number of elements (5), while <code>dtype</code> reports the underlying storage type NumPy chose automatically — here, 64-bit integers.`
+        ]
+      },
+      {
+        title:"Access array elements using indexing",
+        steps:["Create a 1-D array.","Access an element using its index, exactly like a list."],
+        code:`import numpy as np\narr = np.array([10, 20, 30, 40, 50])\nprint(arr[0])\nprint(arr[-1])`,
+        output:`10\n50`,
+        explain:[`NumPy array indexing works identically to Python list indexing — positive indexes count from the front (0-based), negative indexes count from the back (-1 = last element).`]
+      },
+      {
+        title:"Slice a 1-D NumPy array",
+        steps:["Create a 1-D array.","Slice it using arr[start:stop] to pull out a range of elements.","Print the slice."],
+        code:`import numpy as np\narr = np.array([10, 20, 30, 40, 50])\nprint(arr[1:4])`,
+        output:`[20 30 40]`,
+        explain:[`Slicing rules are identical to Python lists — <code>arr[1:4]</code> grabs indexes 1, 2, 3 and excludes index 4 — but the result is itself a NumPy array, not a plain list.`]
+      },
+      {
+        title:"Create a 2-D array (matrix) and access an element",
+        steps:["Create a 2-D array from a list of lists — each inner list becomes one row.","Access one element using [row, column] indexing."],
+        code:`import numpy as np\nmatrix = np.array([[1, 2, 3], [4, 5, 6]])\nprint(matrix)\nprint("Element at row 1, col 2:", matrix[1, 2])`,
+        output:`[[1 2 3]\n [4 5 6]]\nElement at row 1, col 2: 6`,
+        explain:[
+          `A list of lists becomes a <strong>2-D array</strong> — a grid with rows and columns — where the outer list gives the rows and each inner list gives that row's values.`,
+          `<code>matrix[1, 2]</code> reads as "row 1, column 2" (both counted from 0) — row 1 is <code>[4, 5, 6]</code>, and its column-2 value is 6.`
+        ]
+      },
+      {
+        title:"Slice a 2-D array — pick specific rows and columns",
+        steps:["Create a 3×3 2-D array.","Slice it using matrix[row_start:row_stop, col_start:col_stop].","Print the resulting sub-matrix."],
+        code:`import numpy as np\nmatrix = np.array([[1,2,3],[4,5,6],[7,8,9]])\nprint(matrix[0:2, 1:3])`,
+        output:`[[2 3]\n [5 6]]`,
+        explain:[
+          `A 2-D slice needs TWO ranges separated by a comma: <code>[row_range, col_range]</code> — the first controls which rows are kept, the second which columns.`,
+          `<code>matrix[0:2, 1:3]</code> keeps rows 0–1 and columns 1–2, cutting a rectangular window out of the top-right of the matrix.`
+        ]
+      },
+      {
+        title:"Reshape an array using reshape()",
+        steps:["Create a 1-D array of 6 numbers.","Call arr.reshape(2, 3) to rearrange it into 2 rows and 3 columns.","Print the reshaped array."],
+        code:`import numpy as np\narr = np.arange(1, 7)\nreshaped = arr.reshape(2, 3)\nprint(reshaped)`,
+        output:`[[1 2 3]\n [4 5 6]]`,
+        explain:[
+          `<code>reshape(rows, cols)</code> takes the SAME data and arranges it into a new shape — it doesn't add or remove any values, so rows × cols must equal the original element count (2×3 = 6, matching arange(1,7)'s 6 numbers).`,
+          `The numbers fill the new shape row by row, in the same order they originally appeared.`
+        ]
+      },
+      {
+        title:"Perform element-wise arithmetic on two arrays",
+        steps:["Create two arrays of the same size.","Add, subtract, multiply and divide them directly with + - * /.","Print each result."],
+        code:`import numpy as np\na = np.array([1, 2, 3])\nb = np.array([10, 20, 30])\nprint("Add:", a + b)\nprint("Subtract:", b - a)\nprint("Multiply:", a * b)\nprint("Divide:", b / a)`,
+        output:`Add: [11 22 33]\nSubtract: [ 9 18 27]\nMultiply: [10 40 90]\nDivide: [10. 10. 10.]`,
+        explain:[
+          `This is the single biggest reason NumPy exists: <code>a + b</code> adds every matching pair of elements together in one instruction — no for loop required, unlike a plain Python list where + would just join the two lists end to end.`,
+          `Each operator lines up elements by position: a[0] with b[0], a[1] with b[1], and so on — this is called <strong>element-wise</strong> operation.`
+        ]
+      },
+      {
+        title:"Broadcasting — add a single number to every element",
+        steps:["Create an array.","Add a plain number (not another array) directly to it.","Print the result."],
+        code:`import numpy as np\narr = np.array([1, 2, 3, 4])\nresult = arr + 10\nprint(result)`,
+        output:`[11 12 13 14]`,
+        explain:[`<strong>Broadcasting</strong> is NumPy automatically "stretching" a smaller value to match a bigger array's shape — here, the single number 10 is silently applied to every element, as if it were an array of four 10s.`]
+      },
+      {
+        title:"Broadcasting — add a 1-D array to every row of a 2-D array",
+        steps:["Create a 2-D array (matrix).","Create a smaller 1-D array whose length matches the matrix's column count.","Add them directly and print the result."],
+        code:`import numpy as np\nmatrix = np.array([[1,2,3],[4,5,6]])\nrow = np.array([10, 20, 30])\nprint(matrix + row)`,
+        output:`[[11 22 33]\n [14 25 36]]`,
+        explain:[
+          `Broadcasting again — the 1-D array <code>row</code> has 3 elements, matching the matrix's 3 columns, so NumPy applies it to EVERY row automatically instead of forcing you to repeat it manually.`,
+          `Row 0 (1,2,3) becomes (1+10, 2+20, 3+30) = (11,22,33); row 1 does the same — the shapes don't need to match exactly, just be "compatible."`
+        ]
+      },
+      {
+        title:"Sum an array along an axis",
+        steps:["Create a 2-D array.","Sum along axis=0 to add DOWN each column.","Sum along axis=1 to add ACROSS each row."],
+        code:`import numpy as np\nmatrix = np.array([[1,2,3],[4,5,6]])\nprint("Column sums (axis=0):", matrix.sum(axis=0))\nprint("Row sums (axis=1):", matrix.sum(axis=1))`,
+        output:`Column sums (axis=0): [5 7 9]\nRow sums (axis=1): [ 6 15]`,
+        explain:[
+          `<strong>Axis 0</strong> means "collapse the rows, keep the columns" — it walks down each column and adds the values, giving one sum per column: 1+4=5, 2+5=7, 3+6=9.`,
+          `<strong>Axis 1</strong> means "collapse the columns, keep the rows" — it walks across each row instead: 1+2+3=6, 4+5+6=15. A useful memory trick: axis=0 moves vertically, axis=1 moves horizontally.`
+        ]
+      },
+      {
+        title:"Find the maximum and minimum along an axis",
+        steps:["Create a 2-D array.","Find the maximum value in each column using max(axis=0).","Find the minimum value in each row using min(axis=1)."],
+        code:`import numpy as np\nmatrix = np.array([[3,8,2],[7,1,9]])\nprint("Max per column:", matrix.max(axis=0))\nprint("Min per row:", matrix.min(axis=1))`,
+        output:`Max per column: [7 8 9]\nMin per row: [2 1]`,
+        explain:[`Same axis logic as sum() — <code>max(axis=0)</code> compares values down each column (3 vs 7 → 7; 8 vs 1 → 8; 2 vs 9 → 9), while <code>min(axis=1)</code> compares values across each row instead.`]
+      },
+      {
+        title:"Copy an array safely using copy()",
+        steps:["Create an original array.","Make a real copy using copy(), not a plain =.","Change the copy and print both to confirm the original is untouched."],
+        code:`import numpy as np\noriginal = np.array([1, 2, 3])\ncopy_arr = original.copy()\ncopy_arr[0] = 99\nprint("Original:", original)\nprint("Copy:", copy_arr)`,
+        output:`Original: [1 2 3]\nCopy: [99  2  3]`,
+        explain:[
+          `Just like Python lists, writing <code>copy_arr = original</code> (without .copy()) would NOT create a separate array — both names would point to the exact same data in memory, and NumPy slices are "views" that share memory by default, making this an easy bug to fall into.`,
+          `<code>copy()</code> forces a genuinely independent array, so changing <code>copy_arr[0]</code> here leaves <code>original</code> completely unaffected.`
+        ]
+      },
+      {
+        title:"Create an identity matrix using eye()",
+        steps:["Call np.eye(n) to build an n×n identity matrix.","Print it."],
+        code:`import numpy as np\nidentity = np.eye(3)\nprint(identity)`,
+        output:`[[1. 0. 0.]\n [0. 1. 0.]\n [0. 0. 1.]]`,
+        explain:[`<code>eye(n)</code> builds a special square matrix with 1s along the main diagonal (top-left to bottom-right) and 0s everywhere else — the matrix equivalent of the number 1, used heavily in linear algebra.`]
+      },
+      {
+        title:"Multiply two matrices using dot() / @",
+        steps:["Create two matrices whose shapes are compatible for multiplication.","Multiply them using np.dot() or the @ operator.","Print the resulting matrix."],
+        code:`import numpy as np\na = np.array([[1, 2], [3, 4]])\nb = np.array([[5, 6], [7, 8]])\nprint(np.dot(a, b))\nprint(a @ b)`,
+        output:`[[19 22]\n [43 50]]\n[[19 22]\n [43 50]]`,
+        explain:[
+          `<strong>Matrix multiplication</strong> is NOT the same as element-wise <code>*</code> — <code>dot()</code> (or the shorthand <code>@</code> operator) follows the real linear-algebra rule: each result cell is the sum of row-times-column products.`,
+          `Top-left result 19 = (1×5)+(2×7) = 5+14 = 19 — row 0 of a combined with column 0 of b, and so on for every other cell.`
+        ]
+      },
+      {
+        title:"Transpose a matrix using .T",
+        steps:["Create a 2×3 matrix.","Access its .T attribute to flip rows and columns.","Print the transposed matrix and its new shape."],
+        code:`import numpy as np\nmatrix = np.array([[1, 2, 3], [4, 5, 6]])\nprint(matrix.T)\nprint("New shape:", matrix.T.shape)`,
+        output:`[[1 4]\n [2 5]\n [3 6]]\nNew shape: (3, 2)`,
+        explain:[`<code>.T</code> flips a matrix along its diagonal — every row becomes a column and every column becomes a row, so a 2×3 matrix (2 rows, 3 cols) becomes 3×2 (3 rows, 2 cols) after transposing.`]
+      },
+      {
+        title:"Generate random numbers using numpy.random",
+        steps:["Use np.random.randint(low, high, size) to generate whole random numbers in a range.","Use np.random.rand(n) to generate random decimals between 0 and 1.","Print both."],
+        code:`import numpy as np\nwhole_numbers = np.random.randint(1, 100, 5)\ndecimals = np.random.rand(3)\nprint("Random integers:", whole_numbers)\nprint("Random decimals:", decimals)`,
+        output:`Random integers: [45 12 78 33 90]\nRandom decimals: [0.62 0.14 0.91]`,
+        explain:[
+          `<code>randint(low, high, size)</code> generates <code>size</code> random whole numbers from low (inclusive) up to high (exclusive) — great for simulating dice rolls, IDs, or test data.`,
+          `<code>rand(n)</code> generates n random decimals, each uniformly between 0.0 and 1.0 — since these are random, your own output will show different numbers every time you run it.`
+        ]
+      },
+      {
+        title:"Sort a NumPy array using sort()",
+        steps:["Create an array with numbers in random order.","Call np.sort() to get a new sorted array.","Print the sorted result."],
+        code:`import numpy as np\narr = np.array([40, 10, 30, 20])\nsorted_arr = np.sort(arr)\nprint(sorted_arr)`,
+        output:`[10 20 30 40]`,
+        explain:[`<code>np.sort(arr)</code> returns a brand-new sorted array (ascending by default) without touching the original — unlike a Python list's <code>.sort()</code> method, which sorts in place.`]
+      },
+      {
+        title:"Filter array elements using a boolean condition",
+        steps:["Create an array of numbers.","Build a condition, like arr > 20, which produces an array of True/False values.","Use that condition INSIDE square brackets to keep only the matching elements."],
+        code:`import numpy as np\narr = np.array([5, 15, 25, 35, 45])\ncondition = arr > 20\nprint("Condition:", condition)\nprint("Filtered:", arr[condition])`,
+        output:`Condition: [False False  True  True  True]\nFiltered: [25 35 45]`,
+        explain:[
+          `<code>arr > 20</code> doesn't compare the whole array to one number the way you might expect — it checks EVERY element individually and returns a same-sized array of True/False answers, one per element.`,
+          `<code>arr[condition]</code> is called <strong>boolean indexing</strong> — placing that True/False array inside the brackets keeps only the elements where the condition was True, silently dropping the rest.`
+        ]
+      },
+      {
+        title:"Convert a NumPy array back into a Python list",
+        steps:["Create a NumPy array.","Call arr.tolist() to convert it into an ordinary Python list.","Print both and check their types."],
+        code:`import numpy as np\narr = np.array([1, 2, 3])\nlist_version = arr.tolist()\nprint(list_version)\nprint(type(arr), type(list_version))`,
+        output:`[1, 2, 3]\n<class 'numpy.ndarray'> <class 'list'>`,
+        explain:[`<code>tolist()</code> is the reverse of <code>np.array()</code> — it hands back a plain Python list, useful when you need to pass data to code (or print output) that expects an ordinary list rather than a NumPy array.`]
       }
     ]
   },
   {
-    key:'unit2', listId:'unit2List', prefix:'P2',
+    key:'unit7', listId:'unit7List', prefix:'P7',
     programs:[
       {
-        title:"Store your name in a variable and print it",
-        steps:["Create a box called name and put your name inside using =.","Print the box's name (not the value directly)."],
-        code:`name = "Aryan"\nprint(name)`,
-        output:`Aryan`,
+        title:"Create a list and print it",
+        steps:["Decide the items you want to store — here, three fruit names.","Wrap them in square brackets, separated by commas, and store that in a variable.","Print the whole list in one go."],
+        code:`fruits = ["apple", "banana", "cherry"]\nprint(fruits)`,
+        output:`['apple', 'banana', 'cherry']`,
         explain:[
-          `<code>name = "Aryan"</code> creates a variable called <code>name</code> and stores the text "Aryan" inside it.`,
-          `<code>print(name)</code> — because there are no quotes around <code>name</code> here, Python treats it as a variable and fetches whatever is stored inside, not the word "name" itself.`
+          `Square brackets <code>[ ]</code> are how Python builds a <strong>list</strong> — an ordered, changeable collection that can hold any number of items, all in one variable.`,
+          `When you print a list directly, Python shows its own internal representation — items comma-separated inside brackets, with quotes around any text items — which is why it looks slightly different from a plain <code>print("apple")</code>.`
         ]
       },
       {
-        title:"Store your age in a variable and print it",
-        steps:["Create a variable age and assign a whole number to it.","Print the variable."],
-        code:`age = 19\nprint(age)`,
-        output:`19`,
-        explain:[`<code>age = 19</code> stores a whole number (int). <code>print(age)</code> simply reveals whatever value the box currently holds.`]
-      },
-      {
-        title:"Store name and age together, print both",
-        steps:["Create the name variable.","Create the age variable.","Print each one on its own line."],
-        code:`name = "Aryan"\nage = 19\nprint(name)\nprint(age)`,
-        output:`Aryan\n19`,
+        title:"Access list elements using indexing",
+        steps:["Create a list of three fruits.","Access the first item using index 0.","Access the third item using index 2."],
+        code:`fruits = ["apple", "banana", "cherry"]\nprint(fruits[0])\nprint(fruits[2])`,
+        output:`apple\ncherry`,
         explain:[
-          `Two separate boxes are created — one holding text, one holding a number. Python is fine mixing types in the same program.`,
-          `Each print() call fetches and displays one box's contents.`
+          `Every item in a list has a position number called an <strong>index</strong>, and — just like everything else in Python — counting starts at 0, not 1.`,
+          `<code>fruits[0]</code> means "give me whatever is sitting in the very first slot," which is "apple"; <code>fruits[2]</code> reaches the third slot, "cherry".`
         ]
       },
       {
-        title:"Give the same value to three variables at once",
-        steps:["Chain the assignment: a = b = c = 5.","Print all three to prove they all hold 5."],
-        code:`a = b = c = 5\nprint(a)\nprint(b)\nprint(c)`,
-        output:`5\n5\n5`,
-        explain:[`Python evaluates the assignment from right to left — it takes 5 and pours a copy of it into c, then b, then a, all in one line. Handy when several boxes need the same starting value.`]
-      },
-      {
-        title:"Give three variables different values in one line",
-        steps:["Write x, y, z = 1, 2, 3.","Python matches them position by position: x↔1, y↔2, z↔3.","Print each one."],
-        code:`x, y, z = 1, 2, 3\nprint(x)\nprint(y)\nprint(z)`,
-        output:`1\n2\n3`,
-        explain:[`This is called multiple assignment. The values on the right are matched, in order, to the variable names on the left — no operators involved, just neat one-line box-filling.`]
-      },
-      {
-        title:"Find out a variable's type using type()",
-        steps:["Store a number in marks.","Pass marks into the built-in type() function and print the result."],
-        code:`marks = 88\nprint(type(marks))`,
-        output:`<class 'int'>`,
-        explain:[`type() is a built-in inspector — it looks inside the box and tells you what kind of value is stored. 88 has no decimal point, so Python reports it as int (integer/whole number).`]
-      },
-      {
-        title:"Reassign a variable's value",
-        steps:["Store \"Surat\" in city and print it.","Store a new value, \"Vadodara\", in the same city box.","Print city again."],
-        code:`city = "Surat"\nprint(city)\ncity = "Vadodara"\nprint(city)`,
-        output:`Surat\nVadodara`,
+        title:"Access elements using negative indexing",
+        steps:["Create the same fruits list.","Access the last item using index -1.","Access the second-last item using index -2."],
+        code:`fruits = ["apple", "banana", "cherry"]\nprint(fruits[-1])\nprint(fruits[-2])`,
+        output:`cherry\nbanana`,
         explain:[
-          `The first print shows the original value stored in city.`,
-          `city = "Vadodara" doesn't create a new box — it overwrites the old value in the same box. Variables can change; that's exactly why they're called "variable."`
+          `Negative indexes count backward from the end of the list instead of forward from the start — <code>-1</code> always means "the last item," no matter how long the list is.`,
+          `This is genuinely useful: you don't need to know a list's length to grab its last item; <code>fruits[-1]</code> always works.`
         ]
       },
       {
-        title:"Store a decimal (float) number",
-        steps:["Create pi and assign a value with a decimal point.","Print it."],
-        code:`pi = 3.14\nprint(pi)`,
-        output:`3.14`,
-        explain:[`Any number written with a decimal point is automatically treated as a float by Python — no special instruction needed.`]
-      },
-      {
-        title:"Store a boolean (True/False) value",
-        steps:["Create is_student and assign it True (capital T, no quotes).","Print it."],
-        code:`is_student = True\nprint(is_student)`,
-        output:`True`,
-        explain:[`True and False are Python's boolean values — used to represent a plain yes/no or on/off state. Note the capital first letter, and no quotes — quotes would turn it into ordinary text instead.`]
-      },
-      {
-        title:"Print a variable inside a friendly sentence",
-        steps:["Store your name in a variable.","Print a text phrase and the variable together, separated by a comma."],
-        code:`name = "Aryan"\nprint("My name is", name)`,
-        output:`My name is Aryan`,
-        explain:[`print() happily accepts a mix of fixed text and variables in the same call — separated by commas, joined with the default single space, giving one natural sentence.`]
-      }
-    ]
-  },
-  {
-    key:'unit3', listId:'unit3List', prefix:'P3',
-    programs:[
-      {
-        title:"Greet the user by their own name",
-        steps:["Ask the user for their name using input().","Store whatever they type in a variable.","Print a greeting that includes it."],
-        code:`name = input("Enter your name: ")\nprint("Hello", name)`,
-        output:`Enter your name: Aryan\nHello Aryan`,
+        title:"Slice a list to get a sub-list",
+        steps:["Create a list of five numbers.","Use the slice fruits[1:4] to grab a chunk from index 1 up to (but not including) index 4.","Print the resulting sub-list."],
+        code:`numbers = [10, 20, 30, 40, 50]\nprint(numbers[1:4])`,
+        output:`[20, 30, 40]`,
         explain:[
-          `<code>input("Enter your name: ")</code> shows the prompt, pauses, and waits for the user to type and press Enter.`,
-          `Whatever they typed is stored (as text) in name, then reused in the greeting.`
+          `<code>list[start:stop]</code> is called <strong>slicing</strong> — it returns a brand-new list containing everything from index <code>start</code> up to, but NOT including, index <code>stop</code>.`,
+          `<code>numbers[1:4]</code> grabs indexes 1, 2, 3 (values 20, 30, 40) and deliberately stops before index 4 (50) — the stop value is always excluded, a rule worth memorising early.`
         ]
       },
       {
-        title:"Add two numbers entered by the user",
-        steps:["Take the first number using input(), convert it with int().","Take the second number the same way.","Add them with + and print the result."],
-        code:`a = int(input("Enter first number: "))\nb = int(input("Enter second number: "))\nprint("Sum =", a + b)`,
-        output:`Enter first number: 5\nEnter second number: 3\nSum = 8`,
+        title:"Find the length of a list using len()",
+        steps:["Create a list of five numbers.","Pass the list into the built-in len() function.","Print the result."],
+        code:`numbers = [10, 20, 30, 40, 50]\nprint("Length =", len(numbers))`,
+        output:`Length = 5`,
+        explain:[`<code>len()</code> is a built-in function that works on lists (and strings, and more) — it simply counts how many items are inside and hands back that number.`]
+      },
+      {
+        title:"Add an item to the end of a list using append()",
+        steps:["Create a list with two fruits.","Call fruits.append(\"cherry\") to add a third item to the end.","Print the updated list."],
+        code:`fruits = ["apple", "banana"]\nfruits.append("cherry")\nprint(fruits)`,
+        output:`['apple', 'banana', 'cherry']`,
         explain:[
-          `input() always returns text — even "5" is just the characters 5. Wrapping it in int() converts it into a real whole number Python can do math with.`,
-          `a + b uses the + operator to add the two numbers, and print() shows the label plus the result together.`
+          `<code>append()</code> is a list <strong>method</strong> — a built-in action every list knows how to perform on itself. It always adds exactly one new item, right at the end.`,
+          `Notice this changes the list <em>in place</em> — you don't write <code>fruits = fruits.append(...)</code>, because append() doesn't return a new list, it modifies the original one directly.`
         ]
       },
       {
-        title:"Subtract two numbers",
-        steps:["Take two numbers from the user, converted with int().","Subtract the second from the first using -.","Print the result."],
-        code:`a = int(input("Enter first number: "))\nb = int(input("Enter second number: "))\nprint("Difference =", a - b)`,
-        output:`Enter first number: 10\nEnter second number: 4\nDifference = 6`,
-        explain:[`The - operator subtracts b from a. Order matters here — a - b is not the same as b - a, unlike addition.`]
-      },
-      {
-        title:"Multiply two numbers",
-        steps:["Take two numbers from the user.","Multiply using *.","Print the product."],
-        code:`a = int(input("Enter first number: "))\nb = int(input("Enter second number: "))\nprint("Product =", a * b)`,
-        output:`Enter first number: 6\nEnter second number: 7\nProduct = 42`,
-        explain:[`The * symbol is Python's multiplication operator — a plain × wouldn't work since it isn't a keyboard-friendly symbol.`]
-      },
-      {
-        title:"Divide two numbers (true division)",
-        steps:["Take two numbers from the user.","Divide using / — this always gives a decimal answer.","Print the result."],
-        code:`a = int(input("Enter first number: "))\nb = int(input("Enter second number: "))\nprint("Division =", a / b)`,
-        output:`Enter first number: 7\nEnter second number: 2\nDivision = 3.5`,
-        explain:[`/ is "true division" — it always returns a float, even when the numbers divide evenly, so you never lose the decimal part.`]
-      },
-      {
-        title:"Floor division — whole-number division",
-        steps:["Take two numbers from the user.","Divide using // to drop any decimal part.","Print the result."],
-        code:`a = int(input("Enter first number: "))\nb = int(input("Enter second number: "))\nprint("Floor Division =", a // b)`,
-        output:`Enter first number: 7\nEnter second number: 2\nFloor Division = 3`,
-        explain:[`// performs the same division as /, but then chops off (floors) anything after the decimal point, keeping only the whole-number part.`]
-      },
-      {
-        title:"Find the remainder using modulus",
-        steps:["Take two numbers from the user.","Use % to get what's left over after dividing.","Print the remainder."],
-        code:`a = int(input("Enter first number: "))\nb = int(input("Enter second number: "))\nprint("Remainder =", a % b)`,
-        output:`Enter first number: 7\nEnter second number: 2\nRemainder = 1`,
-        explain:[`% (modulus) answers "what's left over" after dividing a by b as many whole times as possible. 7 ÷ 2 goes in 3 times with 1 left over — hence 1.`]
-      },
-      {
-        title:"Raise a number to a power using **",
-        steps:["Take a base number and an exponent from the user.","Use ** to raise the base to that power.","Print the result."],
-        code:`base = int(input("Enter base: "))\npower = int(input("Enter power: "))\nprint("Result =", base ** power)`,
-        output:`Enter base: 2\nEnter power: 5\nResult = 32`,
-        explain:[`** is the exponent operator — base ** power multiplies base by itself power times. 2 ** 5 means 2×2×2×2×2 = 32.`]
-      },
-      {
-        title:"Compare two numbers using a relational operator",
-        steps:["Take two numbers from the user.","Compare them with > to see if the first is bigger.","Print the True/False result."],
-        code:`a = int(input("Enter first number: "))\nb = int(input("Enter second number: "))\nprint("Is a greater than b?", a > b)`,
-        output:`Enter first number: 9\nEnter second number: 4\nIs a greater than b? True`,
-        explain:[`> is a relational (comparison) operator — it doesn't calculate a number, it checks a condition and hands back a boolean: True or False.`]
-      },
-      {
-        title:"Check whether a number is even or odd",
-        steps:["Take a number from the user.","Use % 2 to test divisibility by 2.","Print whether the remainder equals 0 (True means even)."],
-        code:`num = int(input("Enter a number: "))\nprint("Is it even?", num % 2 == 0)`,
-        output:`Enter a number: 15\nIs it even? False`,
+        title:"Insert an item at a specific position using insert()",
+        steps:["Create a list with apple and cherry, but no banana yet.","Call fruits.insert(1, \"banana\") to squeeze banana in at index 1.","Print the updated list."],
+        code:`fruits = ["apple", "cherry"]\nfruits.insert(1, "banana")\nprint(fruits)`,
+        output:`['apple', 'banana', 'cherry']`,
         explain:[
-          `num % 2 finds the remainder when dividing by 2 — it's either 0 (even) or 1 (odd).`,
-          `== compares that remainder to 0 and returns True or False, which print() displays directly as the answer.`
+          `<code>insert(position, item)</code> takes two arguments — where to place the new item, and what the new item is — and pushes everything from that position onward one slot to the right to make room.`,
+          `Compare this with <code>append()</code>: append always adds at the very end, while insert lets you choose exactly where the new item lands.`
         ]
       },
       {
-        title:"Swap two variables' values",
-        steps:["Take two numbers from the user and store them.","Swap them in a single line using a, b = b, a.","Print both to confirm the swap."],
-        code:`a = int(input("Enter a: "))\nb = int(input("Enter b: "))\na, b = b, a\nprint("a =", a)\nprint("b =", b)`,
-        output:`Enter a: 3\nEnter b: 9\na = 9\nb = 3`,
-        explain:[`a, b = b, a is Python's neat trick for swapping: it builds the pair (b, a) first, then hands b's value to a and a's value to b in one clean step — no temporary box needed.`]
-      },
-      {
-        title:"Calculate Simple Interest",
-        steps:["Take Principal, Rate and Time from the user.","Apply the formula: SI = (P × R × T) / 100.","Print the calculated interest."],
-        code:`p = float(input("Enter Principal: "))\nr = float(input("Enter Rate: "))\nt = float(input("Enter Time (years): "))\nsi = (p * r * t) / 100\nprint("Simple Interest =", si)`,
-        output:`Enter Principal: 1000\nEnter Rate: 5\nEnter Time (years): 2\nSimple Interest = 100.0`,
+        title:"Remove an item by value using remove()",
+        steps:["Create a list of three fruits.","Call fruits.remove(\"banana\") to delete that specific item.","Print the updated list."],
+        code:`fruits = ["apple", "banana", "cherry"]\nfruits.remove("banana")\nprint(fruits)`,
+        output:`['apple', 'cherry']`,
         explain:[
-          `float() is used instead of int() here because rate and time could easily involve decimals (like 2.5 years).`,
-          `The formula chains three operators — * twice and / once — in one line, exactly the way you'd write it on paper, just with Python symbols.`
-        ]
-      }
-    ]
-  },
-  {
-    key:'unit4', listId:'unit4List', prefix:'P4',
-    programs:[
-      {
-        title:"Calculate the perimeter of a rectangle",
-        steps:["Take the length and breadth from the user as decimals.","Apply the formula: Perimeter = 2 × (length + breadth).","Print the perimeter."],
-        code:`length = float(input("Enter length: "))\nbreadth = float(input("Enter breadth: "))\nperimeter = 2 * (length + breadth)\nprint("Perimeter =", perimeter)`,
-        output:`Enter length: 10\nEnter breadth: 5\nPerimeter = 30.0`,
-        explain:[
-          `<strong>Formula:</strong> Perimeter = 2 × (l + b) — the total distance walked if you went once around all four sides.`,
-          `float() is used because sides can be decimals (like 4.5 m), not just whole numbers.`,
-          `The brackets around (length + breadth) matter — Python adds them first, then multiplies by 2, exactly like on paper.`
+          `<code>remove()</code> searches the list for the first item that matches the value you gave it, and deletes just that one — you tell it WHAT to remove, not WHERE it is.`,
+          `If the value doesn't exist in the list at all, Python raises an error — so remove() assumes you already know the item is there.`
         ]
       },
       {
-        title:"Calculate the area of a rectangle",
-        steps:["Take the length and breadth from the user.","Apply the formula: Area = length × breadth.","Print the area."],
-        code:`length = float(input("Enter length: "))\nbreadth = float(input("Enter breadth: "))\narea = length * breadth\nprint("Area =", area)`,
-        output:`Enter length: 10\nEnter breadth: 5\nArea = 50.0`,
+        title:"Remove an item by position using pop()",
+        steps:["Create a list of three fruits.","Call fruits.pop(1) to remove the item at index 1 and capture what was removed.","Print both the removed item and what's left."],
+        code:`fruits = ["apple", "banana", "cherry"]\nremoved = fruits.pop(1)\nprint("Removed:", removed)\nprint("Remaining:", fruits)`,
+        output:`Removed: banana\nRemaining: ['apple', 'cherry']`,
         explain:[
-          `<strong>Formula:</strong> Area = l × b — how much flat space the rectangle covers.`,
-          `Only one operator (*) is needed here, unlike perimeter which needed addition first.`
+          `<code>pop(index)</code> is the position-based sibling of <code>remove()</code> — you tell it WHERE to remove from, and unlike remove(), it also hands back the removed item so you can store or use it.`,
+          `Calling <code>fruits.pop()</code> with no index at all removes and returns the very last item — handy for treating a list like a stack.`
         ]
       },
       {
-        title:"Calculate the area of a circle",
-        steps:["Import the math module to get an accurate value of π.","Take the radius from the user.","Apply the formula: Area = π × r².","Print the area."],
-        code:`import math\nradius = float(input("Enter radius: "))\narea = math.pi * radius ** 2\nprint("Area =", area)`,
-        output:`Enter radius: 7\nArea = 153.93804002589985`,
+        title:"Check whether an item exists in a list using 'in'",
+        steps:["Create a list of three fruits.","Use the 'in' operator to check if \"banana\" is present.","Use it again to check for something absent, \"mango\"."],
+        code:`fruits = ["apple", "banana", "cherry"]\nprint("banana" in fruits)\nprint("mango" in fruits)`,
+        output:`True\nFalse`,
         explain:[
-          `<strong>Formula:</strong> Area = πr² — π (~3.14159) times the radius squared.`,
-          `<code>import math</code> gives access to math.pi, which is far more accurate than typing 3.14 by hand.`,
-          `<code>radius ** 2</code> squares the radius. Python's rule of operator precedence (BODMAS) does ** before *, so the radius is squared first, then multiplied by π.`
+          `<code>in</code> is a <strong>membership operator</strong> — the same idea you'll later use on strings and dictionaries — that scans the whole list and returns True the moment it finds a match, or False if it never does.`,
+          `This is the standard, readable way to ask "is X inside this list?" without writing a loop yourself.`
         ]
       },
       {
-        title:"Calculate the circumference of a circle",
-        steps:["Import math for π.","Take the radius from the user.","Apply the formula: Circumference = 2 × π × r.","Print the circumference."],
-        code:`import math\nradius = float(input("Enter radius: "))\ncircumference = 2 * math.pi * radius\nprint("Circumference =", circumference)`,
-        output:`Enter radius: 7\nCircumference = 43.982297150257104`,
+        title:"Sort a list in ascending order using sort()",
+        steps:["Create a list of numbers in random order.","Call numbers.sort() to rearrange them in place, smallest to largest.","Print the sorted list."],
+        code:`numbers = [40, 10, 30, 20]\nnumbers.sort()\nprint(numbers)`,
+        output:`[10, 20, 30, 40]`,
         explain:[
-          `<strong>Formula:</strong> Circumference = 2πr — the distance all the way around the circle's edge.`,
-          `Notice this uses radius (not radius²) — don't confuse it with the area formula above.`
+          `<code>sort()</code> rearranges the list <em>in place</em> (it doesn't return a new list — it changes numbers itself) into ascending order by default.`,
+          `Because it modifies the original list directly, writing <code>numbers = numbers.sort()</code> would actually wipe out your list — sort() itself returns nothing.`
         ]
       },
       {
-        title:"Convert temperature from Celsius to Fahrenheit",
-        steps:["Take the temperature in Celsius from the user.","Apply the formula: F = (C × 9/5) + 32.","Print the Fahrenheit value."],
-        code:`celsius = float(input("Enter temperature in Celsius: "))\nfahrenheit = (celsius * 9/5) + 32\nprint("Temperature in Fahrenheit =", fahrenheit)`,
-        output:`Enter temperature in Celsius: 37\nTemperature in Fahrenheit = 98.6`,
+        title:"Sort a list in descending order",
+        steps:["Create the same numbers list.","Call numbers.sort(reverse=True) to sort largest to smallest.","Print the result."],
+        code:`numbers = [40, 10, 30, 20]\nnumbers.sort(reverse=True)\nprint(numbers)`,
+        output:`[40, 30, 20, 10]`,
+        explain:[`Passing <code>reverse=True</code> as a keyword argument flips the sort direction — same sort() method, just one extra instruction telling it which way to order things.`]
+      },
+      {
+        title:"Reverse a list using reverse()",
+        steps:["Create a list of numbers 1 to 5.","Call numbers.reverse() to flip the order of items.","Print the reversed list."],
+        code:`numbers = [1, 2, 3, 4, 5]\nnumbers.reverse()\nprint(numbers)`,
+        output:`[5, 4, 3, 2, 1]`,
         explain:[
-          `<strong>Formula:</strong> F = (C × 9⁄5) + 32.`,
-          `Python evaluates * and / before +, so celsius is scaled first and 32 is added only at the end — exactly the order the formula needs.`
+          `<code>reverse()</code> simply flips the existing order of items end-to-end — it does NOT sort them, it just reads them back to front.`,
+          `Don't confuse this with <code>sort(reverse=True)</code>: sort(reverse=True) sorts by value (largest first); reverse() alone just mirrors whatever order was already there.`
         ]
       },
       {
-        title:"Convert temperature from Fahrenheit to Celsius",
-        steps:["Take the temperature in Fahrenheit from the user.","Apply the formula: C = (F − 32) × 5/9.","Print the Celsius value."],
-        code:`fahrenheit = float(input("Enter temperature in Fahrenheit: "))\ncelsius = (fahrenheit - 32) * 5/9\nprint("Temperature in Celsius =", celsius)`,
-        output:`Enter temperature in Fahrenheit: 98.6\nTemperature in Celsius = 37.0`,
+        title:"Find the sum of all elements in a list",
+        steps:["Create a list of numbers.","Pass the list into the built-in sum() function.","Print the total."],
+        code:`numbers = [10, 20, 30, 40]\nprint("Sum =", sum(numbers))`,
+        output:`Sum = 100`,
+        explain:[`<code>sum()</code> is a built-in function that adds every number in the list together and hands back one total — no loop needed for something this common.`]
+      },
+      {
+        title:"Find the maximum and minimum value in a list",
+        steps:["Create a list of numbers.","Use max() to find the largest.","Use min() to find the smallest.","Print both."],
+        code:`numbers = [12, 45, 3, 67, 21]\nprint("Maximum =", max(numbers))\nprint("Minimum =", min(numbers))`,
+        output:`Maximum = 67\nMinimum = 3`,
+        explain:[`<code>max()</code> and <code>min()</code> scan the whole list for you and return the single largest or smallest value — the same job as the "find the largest of three numbers" if-elif programs from earlier, but done in one built-in call for a list of any size.`]
+      },
+      {
+        title:"Count how many times a value appears using count()",
+        steps:["Create a list with a repeated number.","Call numbers.count(2) to count how many times 2 appears.","Print the count."],
+        code:`numbers = [1, 2, 2, 3, 2, 4]\nprint("Count of 2 =", numbers.count(2))`,
+        output:`Count of 2 = 3`,
+        explain:[`<code>count(value)</code> scans the entire list and tells you exactly how many times that value shows up — useful for tallying repeated items without writing your own counter loop.`]
+      },
+      {
+        title:"Find the position of a value using index()",
+        steps:["Create a list of fruits.","Call fruits.index(\"banana\") to find its position.","Print the index."],
+        code:`fruits = ["apple", "banana", "cherry"]\nprint("Index of banana =", fruits.index("banana"))`,
+        output:`Index of banana = 1`,
         explain:[
-          `<strong>Formula:</strong> C = (F − 32) × 5⁄9 — the reverse of the Celsius→Fahrenheit formula above.`,
-          `The brackets around (fahrenheit - 32) are essential — without them Python would multiply 32 by 5/9 first, giving a wrong answer.`
+          `<code>index(value)</code> is the reverse of normal indexing — instead of giving a position to get a value, you give a value and get back its position.`,
+          `If the value appears more than once, <code>index()</code> always returns the position of the FIRST match only.`
         ]
       },
       {
-        title:"Calculate Simple Interest",
-        steps:["Take Principal, Rate and Time from the user.","Apply the formula: SI = (P × R × T) / 100.","Print the simple interest."],
-        code:`p = float(input("Enter Principal: "))\nr = float(input("Enter Rate of Interest: "))\nt = float(input("Enter Time (in years): "))\nsi = (p * r * t) / 100\nprint("Simple Interest =", si)`,
-        output:`Enter Principal: 5000\nEnter Rate of Interest: 6\nEnter Time (in years): 3\nSimple Interest = 900.0`,
+        title:"Join two lists together using +",
+        steps:["Create two separate lists.","Combine them using the + operator.","Print the combined list."],
+        code:`list1 = [1, 2, 3]\nlist2 = [4, 5, 6]\ncombined = list1 + list2\nprint(combined)`,
+        output:`[1, 2, 3, 4, 5, 6]`,
         explain:[
-          `<strong>Formula:</strong> SI = (P × R × T) ⁄ 100, where P = Principal, R = Rate % per year, T = Time in years.`,
-          `All three inputs are multiplied together first, then divided by 100 — matching how the formula reads left to right.`
+          `Just like + adds two numbers, + <strong>concatenates</strong> two lists — it builds a brand-new list containing every item of list1 followed by every item of list2, in order.`,
+          `Neither list1 nor list2 is changed by this — <code>combined</code> is a completely separate, new list.`
         ]
       },
       {
-        title:"Calculate the area of a triangle",
-        steps:["Take the base and height from the user.","Apply the formula: Area = 0.5 × base × height.","Print the area."],
-        code:`base = float(input("Enter base: "))\nheight = float(input("Enter height: "))\narea = 0.5 * base * height\nprint("Area =", area)`,
-        output:`Enter base: 10\nEnter height: 6\nArea = 30.0`,
+        title:"Copy a list safely using copy()",
+        steps:["Create an original list.","Make a true copy of it using copy(), not a plain =.","Change the copy and print both to confirm the original is untouched."],
+        code:`original = [1, 2, 3]\ncopy_list = original.copy()\ncopy_list.append(4)\nprint("Original:", original)\nprint("Copy:", copy_list)`,
+        output:`Original: [1, 2, 3]\nCopy: [1, 2, 3, 4]`,
         explain:[
-          `<strong>Formula:</strong> Area = ½ × base × height.`,
-          `0.5 is just ½ written as a decimal — Python has no fraction symbol, so decimals do the job.`
+          `<code>copy()</code> creates a genuinely separate list in memory — changing copy_list afterward has no effect on original, exactly as this output shows.`,
+          `⚠️ This matters because writing <code>copy_list = original</code> (without .copy()) would NOT make a real copy — both names would point to the very same list in memory, so changing one would silently change the other too.`
         ]
       },
       {
-        title:"Convert kilometers into meters",
-        steps:["Take the distance in kilometers from the user.","Apply the conversion: 1 km = 1000 m.","Print the distance in meters."],
-        code:`km = float(input("Enter distance in kilometers: "))\nmeters = km * 1000\nprint("Distance in meters =", meters)`,
-        output:`Enter distance in kilometers: 5\nDistance in meters = 5000.0`,
-        explain:[`Unit conversion is just a multiplication by a fixed constant — here, every 1 km is defined as exactly 1000 m, so multiplying by 1000 converts the whole value.`]
-      },
-      {
-        title:"Calculate total marks and percentage of five subjects",
-        steps:["Take marks of all five subjects from the user.","Add them up to get the total.","Divide the total by 5 to get the percentage (assuming each subject is out of 100).","Print both the total and the percentage."],
-        code:`m1 = float(input("Enter marks of subject 1: "))\nm2 = float(input("Enter marks of subject 2: "))\nm3 = float(input("Enter marks of subject 3: "))\nm4 = float(input("Enter marks of subject 4: "))\nm5 = float(input("Enter marks of subject 5: "))\ntotal = m1 + m2 + m3 + m4 + m5\npercentage = total / 5\nprint("Total Marks =", total)\nprint("Percentage =", percentage)`,
-        output:`Enter marks of subject 1: 80\nEnter marks of subject 2: 75\nEnter marks of subject 3: 90\nEnter marks of subject 4: 85\nEnter marks of subject 5: 70\nTotal Marks = 400.0\nPercentage = 80.0`,
+        title:"Loop through a list and print each item with its position",
+        steps:["Create a list of fruits.","Use a for loop with enumerate() to get both the index and the value together.","Print them side by side for every item."],
+        code:`fruits = ["apple", "banana", "cherry"]\nfor index, fruit in enumerate(fruits):\n    print(index, "-", fruit)`,
+        output:`0 - apple\n1 - banana\n2 - cherry`,
         explain:[
-          `<strong>Formula:</strong> Percentage = Total Marks Obtained ⁄ Total Maximum Marks × 100. Since each subject here is assumed to be out of 100, Total Maximum = 5 × 100 = 500, so dividing the total (out of 500) by 5 directly gives the percentage.`,
-          `Five separate input() calls collect five separate marks — one variable per subject keeps things clear and easy to debug.`
-        ]
-      },
-      {
-        title:"Find the larger of two numbers",
-        steps:["Take two numbers from the user.","Use an if-else block: if the first is greater, it's the larger one; otherwise the second is.","Print whichever number is larger."],
-        code:`a = float(input("Enter first number: "))\nb = float(input("Enter second number: "))\nif a > b:\n    print(a, "is larger")\nelse:\n    print(b, "is larger")`,
-        output:`Enter first number: 15\nEnter second number: 9\n15.0 is larger`,
-        explain:[
-          `This is the site's first look at <code>if / else</code> — Python checks the condition <code>a > b</code>; if it's True, the indented line under <code>if</code> runs; otherwise the indented line under <code>else</code> runs instead.`,
-          `Only ONE of the two branches ever runs — never both, never neither.`
-        ]
-      },
-      {
-        title:"Check whether a number is positive or negative",
-        steps:["Take a number from the user.","Use if / elif / else to test three possibilities: greater than 0, less than 0, or exactly 0.","Print the matching result."],
-        code:`num = float(input("Enter a number: "))\nif num > 0:\n    print("Positive number")\nelif num < 0:\n    print("Negative number")\nelse:\n    print("Zero")`,
-        output:`Enter a number: -5\nNegative number`,
-        explain:[
-          `<code>elif</code> (short for "else if") lets you check a second condition only when the first one was False — Python checks them top to bottom and stops at the first match.`,
-          `Since -5 is not greater than 0, Python moves to elif, finds -5 < 0 is True, prints "Negative number," and skips else entirely.`
-        ]
-      },
-      {
-        title:"Check whether a student has passed or failed",
-        steps:["Take the marks obtained from the user.","Check if marks are 40 or above using if.","Print \"Passed\" or \"Failed\" accordingly."],
-        code:`marks = float(input("Enter marks: "))\nif marks >= 40:\n    print("Passed")\nelse:\n    print("Failed")`,
-        output:`Enter marks: 35\nFailed`,
-        explain:[
-          `>= is the "greater than or equal to" operator — it's True for marks of exactly 40 too, not just above it.`,
-          `This is the classic if-else pattern: exactly one message prints, depending on which side of the pass mark the number falls.`
-        ]
-      },
-      {
-        title:"Check whether a number is divisible by 7",
-        steps:["Take a whole number from the user.","Use % 7 to find the remainder when divided by 7.","If the remainder is 0, it's divisible; otherwise it isn't."],
-        code:`num = int(input("Enter a number: "))\nif num % 7 == 0:\n    print(num, "is divisible by 7")\nelse:\n    print(num, "is not divisible by 7")`,
-        output:`Enter a number: 21\n21 is divisible by 7`,
-        explain:[
-          `num % 7 gives the remainder after dividing by 7. A number is exactly divisible only when nothing is left over — that is, when the remainder equals 0.`,
-          `== checks for exact equality with 0, producing True or False, which the if statement then acts on.`
-        ]
-      },
-      {
-        title:"Find the largest among three numbers",
-        steps:["Take three numbers from the user.","Check if the first is greater than or equal to both others — if so, it's the largest.","Otherwise check if the second is greater than or equal to both — if so, it's the largest.","If neither, the third number must be the largest."],
-        code:`a = float(input("Enter first number: "))\nb = float(input("Enter second number: "))\nc = float(input("Enter third number: "))\nif a >= b and a >= c:\n    print(a, "is the largest")\nelif b >= a and b >= c:\n    print(b, "is the largest")\nelse:\n    print(c, "is the largest")`,
-        output:`Enter first number: 4\nEnter second number: 9\nEnter third number: 7\n9.0 is the largest`,
-        explain:[
-          `<code>and</code> is a logical operator — the whole condition is True only when BOTH smaller conditions on either side of it are True.`,
-          `The logic reads like a checklist: "is a the biggest of all three? If not, is b? If neither, it has to be c" — the else at the end catches that last case without needing to test it directly.`
-        ]
-      },
-      {
-        title:"Display the day of the week based on a number (1–7)",
-        steps:["Take a number from 1 to 7 from the user.","Use an if / elif ladder to match it to a day name.","Add a final else for any number outside 1–7."],
-        code:`day = int(input("Enter day number (1-7): "))\nif day == 1:\n    print("Monday")\nelif day == 2:\n    print("Tuesday")\nelif day == 3:\n    print("Wednesday")\nelif day == 4:\n    print("Thursday")\nelif day == 5:\n    print("Friday")\nelif day == 6:\n    print("Saturday")\nelif day == 7:\n    print("Sunday")\nelse:\n    print("Invalid day number")`,
-        output:`Enter day number (1-7): 3\nWednesday`,
-        explain:[
-          `A long elif ladder is just several yes/no questions asked one after another — Python stops at the very first True condition and skips the rest.`,
-          `The final else is a safety net — it catches anything the user types that isn't 1 through 7, like 0 or 9, instead of the program silently doing nothing.`
-        ]
-      },
-      {
-        title:"Display the month name based on a month number",
-        steps:["Take a number from 1 to 12 from the user.","Use an if / elif ladder to match it to a month name.","Add a final else for any invalid number."],
-        code:`month = int(input("Enter month number (1-12): "))\nif month == 1:\n    print("January")\nelif month == 2:\n    print("February")\nelif month == 3:\n    print("March")\nelif month == 4:\n    print("April")\nelif month == 5:\n    print("May")\nelif month == 6:\n    print("June")\nelif month == 7:\n    print("July")\nelif month == 8:\n    print("August")\nelif month == 9:\n    print("September")\nelif month == 10:\n    print("October")\nelif month == 11:\n    print("November")\nelif month == 12:\n    print("December")\nelse:\n    print("Invalid month number")`,
-        output:`Enter month number (1-12): 9\nSeptember`,
-        explain:[
-          `Same pattern as the day-of-week program, just scaled up to 12 checks instead of 7 — the ladder can be as long as the problem needs.`,
-          `💡 Once you learn Lists (Unit 5), the very same problem can be solved in just one line using <code>months[month-1]</code> — but the if-elif version is exactly how you should think about it first.`
-        ]
-      },
-      {
-        title:"Determine the type of triangle using its sides",
-        steps:["Take all three sides of the triangle from the user.","If all three sides are equal, it's Equilateral.","Else if any two sides are equal, it's Isosceles.","Otherwise, it's Scalene."],
-        code:`a = float(input("Enter side a: "))\nb = float(input("Enter side b: "))\nc = float(input("Enter side c: "))\nif a == b == c:\n    print("Equilateral Triangle")\nelif a == b or b == c or a == c:\n    print("Isosceles Triangle")\nelse:\n    print("Scalene Triangle")`,
-        output:`Enter side a: 5\nEnter side b: 5\nEnter side c: 5\nEquilateral Triangle`,
-        explain:[
-          `<code>a == b == c</code> is a chained comparison — Python checks a==b AND b==c together, True only if all three sides match exactly.`,
-          `<code>or</code> is a logical operator that's True if ANY one of its conditions is True — perfect for "any two sides equal," since we don't know in advance which pair might match.`
-        ]
-      },
-      {
-        title:"Determine whether a person is a child, teenager, adult, or senior citizen based on age",
-        steps:["Take the age from the user.","Check age ranges in order: up to 12 is Child, up to 19 is Teenager, up to 59 is Adult, above that is Senior Citizen.","Print the matching category."],
-        code:`age = int(input("Enter your age: "))\nif age <= 12:\n    print("Child")\nelif age <= 19:\n    print("Teenager")\nelif age <= 59:\n    print("Adult")\nelse:\n    print("Senior Citizen")`,
-        output:`Enter your age: 15\nTeenager`,
-        explain:[
-          `Notice each elif only needs an upper limit, not a range — by the time Python reaches <code>elif age &lt;= 19</code>, it already knows age is NOT &lt;= 12 (otherwise it would have stopped there), so this line effectively means "between 13 and 19."`,
-          `This ladder-of-upper-limits trick avoids writing longer conditions like <code>12 &lt; age &lt;= 19</code> — though that style works too and is worth trying as practice.`
-        ]
-      },
-      {
-        title:"Check whether a person is eligible for a loan based on age and salary",
-        steps:["Take the person's age and monthly salary from the user.","Check three conditions together: age is 21 or above, age is 60 or below, and salary is at least ₹25,000.","If all three hold, the person is eligible; otherwise, not."],
-        code:`age = int(input("Enter your age: "))\nsalary = float(input("Enter your monthly salary: "))\nif age >= 21 and age <= 60 and salary >= 25000:\n    print("Eligible for loan")\nelse:\n    print("Not eligible for loan")`,
-        output:`Enter your age: 30\nEnter your monthly salary: 30000\nEligible for loan`,
-        explain:[
-          `Chaining two <code>and</code>s means all THREE conditions must be True at once — age >= 21, AND age <= 60, AND salary >= 25000. If even one fails, the whole condition becomes False and the else branch runs.`,
-          `This mirrors real eligibility rules — banks genuinely combine several such checks (age bracket + minimum income) before approving a loan.`
-        ]
-      }
-    ]
-  },
-  {
-    key:'unit5', listId:'unit5List', prefix:'P5',
-    programs:[
-      {
-        title:"Check whether a given year is a leap year or not",
-        steps:["Take the year from the user.","A year is a leap year if it's divisible by 4 AND NOT a century year — OR if it's a century year divisible by 400.","Print whether it's a leap year."],
-        code:`year = int(input("Enter a year: "))\nif (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0):\n    print(year, "is a Leap Year")\nelse:\n    print(year, "is not a Leap Year")`,
-        output:`Enter a year: 2024\n2024 is a Leap Year`,
-        explain:[
-          `<strong>Rule:</strong> divisible by 4 is the basic leap-year test, but century years (1900, 2000, ...) are an exception — they must also be divisible by 400, not just 100.`,
-          `<code>(year % 4 == 0 and year % 100 != 0)</code> catches ordinary leap years like 2024 (divisible by 4, not a century).`,
-          `<code>(year % 400 == 0)</code> catches century leap years like 2000. The <code>or</code> between the two brackets means either path makes it a leap year — 1900 fails both and is correctly rejected.`
-        ]
-      },
-      {
-        title:"Calculate electricity bill based on units consumed (slab-wise)",
-        steps:["Take the units consumed from the user.","If units ≤ 100, charge ₹5/unit for all of them.","If units ≤ 200, the first 100 cost ₹5/unit and the rest cost ₹7/unit.","If units > 200, add ₹10/unit for everything above 200.","Print the total bill."],
-        code:`units = int(input("Enter units consumed: "))\nif units <= 100:\n    bill = units * 5\nelif units <= 200:\n    bill = 100 * 5 + (units - 100) * 7\nelse:\n    bill = 100 * 5 + 100 * 7 + (units - 200) * 10\nprint("Electricity Bill = ₹", bill)`,
-        output:`Enter units consumed: 250\nElectricity Bill = ₹ 1700`,
-        explain:[
-          `This is a <strong>slab (tiered) pricing</strong> problem — different portions of the same bill are charged at different rates, so we can't just multiply units by one rate.`,
-          `For 250 units: the first 100 units cost 100×5=500, the next 100 cost 100×7=700, and the remaining 50 (250−200) cost 50×10=500 → total 500+700+500 = 1700.`,
-          `Each elif only needs to handle the "extra" units beyond the previous slab — <code>(units - 100)</code> and <code>(units - 200)</code> — because the earlier slabs are already accounted for in the fixed 100*5 and 100*7 parts.`
-        ]
-      },
-      {
-        title:"Calculate the grade of a student based on marks",
-        steps:["Take the marks obtained from the user.","Check the mark ranges from highest to lowest: 90+, 75–89, 60–74, 40–59, below 40.","Print the matching grade."],
-        code:`marks = float(input("Enter marks: "))\nif marks >= 90:\n    grade = "A"\nelif marks >= 75:\n    grade = "B"\nelif marks >= 60:\n    grade = "C"\nelif marks >= 40:\n    grade = "D"\nelse:\n    grade = "Fail"\nprint("Grade:", grade)`,
-        output:`Enter marks: 82\nGrade: B`,
-        explain:[
-          `Just like the age-bracket program in Lab 3, checking from the <em>highest</em> range downward means each elif only needs one boundary — by the time Python reaches <code>elif marks >= 75</code>, it already knows marks isn't 90+, so this line effectively means "between 75 and 89."`,
-          `82 fails the first check (not ≥90), passes the second (≥75) — Python prints "B" and skips every check below it.`
-        ]
-      },
-      {
-        title:"Check whether a given number is an Armstrong number",
-        steps:["Take a 3-digit number from the user.","Split it into its hundreds, tens, and ones digits.","Add the cube of each digit together.","If that sum equals the original number, it's an Armstrong number."],
-        code:`num = int(input("Enter a 3-digit number: "))\na = num // 100\nb = (num // 10) % 10\nc = num % 10\ntotal = a**3 + b**3 + c**3\nif total == num:\n    print(num, "is an Armstrong number")\nelse:\n    print(num, "is not an Armstrong number")`,
-        output:`Enter a 3-digit number: 153\n153 is an Armstrong number`,
-        explain:[
-          `<code>num // 100</code> keeps only the hundreds digit (153 // 100 = 1). <code>(num // 10) % 10</code> strips the last digit then takes the remainder by 10, isolating the tens digit (15 % 10 = 5). <code>num % 10</code> grabs the last digit directly (153 % 10 = 3).`,
-          `<strong>Armstrong rule:</strong> 1³ + 5³ + 3³ = 1 + 125 + 27 = 153 — the sum of the cubed digits equals the number itself, so it qualifies.`,
-          `This digit-splitting trick (using <code>//</code> and <code>%</code> together) is one you'll reuse constantly once you get comfortable with it. Lab 4 Section 1 revisits Armstrong numbers with a <code>while</code> loop so it works for numbers of ANY length, not just 3 digits.`
-        ]
-      },
-      {
-        title:"Build a simple menu-driven calculator",
-        steps:["Show the four operation choices to the user.","Take the user's menu choice, and the two numbers to work on.","Use if / elif to perform the matching operation.","Print the result — or an error message for an invalid choice."],
-        code:`print("1. Addition\\n2. Subtraction\\n3. Multiplication\\n4. Division")\nchoice = int(input("Enter your choice (1-4): "))\na = float(input("Enter first number: "))\nb = float(input("Enter second number: "))\nif choice == 1:\n    print("Result =", a + b)\nelif choice == 2:\n    print("Result =", a - b)\nelif choice == 3:\n    print("Result =", a * b)\nelif choice == 4:\n    print("Result =", a / b)\nelse:\n    print("Invalid choice")`,
-        output:`1. Addition\n2. Subtraction\n3. Multiplication\n4. Division\nEnter your choice (1-4): 3\nEnter first number: 4\nEnter second number: 5\nResult = 20.0`,
-        explain:[
-          `This is called a <strong>menu-driven program</strong> — it shows options first, then reacts to whichever number the user types, exactly like a real app's menu.`,
-          `Each <code>elif choice == N</code> is a separate branch — only the ONE matching the user's choice runs, so the calculator never accidentally does two operations at once.`,
-          `The final <code>else</code> quietly protects the program from crashing if someone types 5 or 0 by mistake.`
-        ]
-      },
-      {
-        title:"Check driving license eligibility based on age",
-        steps:["Take the person's age from the user.","If age is 18 or above, they're eligible.","Otherwise, they're not eligible."],
-        code:`age = int(input("Enter your age: "))\nif age >= 18:\n    print("Eligible for driving license")\nelse:\n    print("Not eligible for driving license")`,
-        output:`Enter your age: 16\nNot eligible for driving license`,
-        explain:[`A clean, single-condition if-else — the simplest possible eligibility check, and a good one to compare against the more complex loan-eligibility program from Lab 3.`]
-      },
-      {
-        title:"Find the roots of a quadratic equation using the discriminant",
-        steps:["Take the coefficients a, b, and c from the user.","Calculate the discriminant: b² − 4ac.","If it's positive → two real roots. If zero → equal roots. If negative → imaginary roots."],
-        code:`a = float(input("Enter a: "))\nb = float(input("Enter b: "))\nc = float(input("Enter c: "))\ndiscriminant = b ** 2 - 4 * a * c\nif discriminant > 0:\n    print("Two real and distinct roots")\nelif discriminant == 0:\n    print("Two equal real roots")\nelse:\n    print("Roots are imaginary (complex)")`,
-        output:`Enter a: 1\nEnter b: -5\nEnter c: 6\nTwo real and distinct roots`,
-        explain:[
-          `<strong>Formula:</strong> Discriminant = b² − 4ac, from the quadratic formula you already know from maths.`,
-          `For a=1, b=-5, c=6: discriminant = 25 − 24 = 1, which is greater than 0 — so the equation has two real, distinct roots.`,
-          `Notice this program never actually calculates the roots themselves — it only classifies <em>what kind</em> of roots exist, using the sign of one number.`
-        ]
-      },
-      {
-        title:"Calculate discount on a shopping bill based on purchase amount",
-        steps:["Take the purchase amount from the user.","If amount ≥ ₹5000, apply 20% discount.","Else if amount ≥ ₹3000, apply 10% discount.","Otherwise, apply no discount.","Print the discount and the final payable amount."],
-        code:`amount = float(input("Enter purchase amount: "))\nif amount >= 5000:\n    discount = amount * 0.20\nelif amount >= 3000:\n    discount = amount * 0.10\nelse:\n    discount = 0\nfinal = amount - discount\nprint("Discount =", discount)\nprint("Final Payable Amount =", final)`,
-        output:`Enter purchase amount: 6000\nDiscount = 1200.0\nFinal Payable Amount = 4800.0`,
-        explain:[
-          `0.20 and 0.10 represent 20% and 10% written as decimals — Python multiplies directly by these to get the discount amount in rupees, not a percentage symbol.`,
-          `<code>final = amount - discount</code> is calculated only once, after the correct discount slab has already been decided — so it automatically works no matter which branch ran.`
-        ]
-      },
-      {
-        title:"Check exam eligibility based on attendance percentage",
-        steps:["Take the attendance percentage from the user.","If attendance ≥ 75%, the student is allowed.","Otherwise, calculate and display how much the shortage is."],
-        code:`attendance = float(input("Enter attendance percentage: "))\nif attendance >= 75:\n    print("Allowed to sit in the examination")\nelse:\n    shortage = 75 - attendance\n    print("Not Allowed")\n    print("Shortage =", shortage, "%")`,
-        output:`Enter attendance percentage: 68\nNot Allowed\nShortage = 7.0 %`,
-        explain:[
-          `The <code>else</code> branch here does two useful things instead of one — it both prints the rejection message AND calculates exactly how many percentage points were missing, which is more helpful to the student than a plain "No."`,
-          `<code>shortage = 75 - attendance</code> only makes sense (and is only calculated) inside the else block — there's no reason to compute it when the student is already allowed.`
-        ]
-      },
-      {
-        title:"Calculate water bill based on consumption (slab-wise)",
-        steps:["Take the water consumption in liters from the user.","First 50 liters cost ₹2/liter.","The next slab, 51–200 liters, costs ₹3/liter.","Anything above 200 liters costs ₹5/liter.","Print the total water bill."],
-        code:`liters = float(input("Enter water consumption in liters: "))\nif liters <= 50:\n    bill = liters * 2\nelif liters <= 200:\n    bill = 50 * 2 + (liters - 50) * 3\nelse:\n    bill = 50 * 2 + 150 * 3 + (liters - 200) * 5\nprint("Water Bill = ₹", bill)`,
-        output:`Enter water consumption in liters: 250\nWater Bill = ₹ 800.0`,
-        explain:[
-          `Same slab-billing pattern as the electricity bill program above — practicing it twice on purpose, since tiered pricing is one of the most common real-world uses of if/elif/else.`,
-          `For 250 liters: 50×2=100 (first slab) + 150×3=450 (full middle slab, since 200−50=150) + 50×5=250 (50 liters over 200) = 100+450+250 = 800.`
-        ]
-      },
-      {
-        title:"⭐ Challenge: Check if a character is a vowel, consonant, digit, or special character",
-        steps:["Take a single character from the user.","Check with isdigit() whether it's a digit.","Else check with isalpha() whether it's a letter — and if so, whether it's one of a/e/i/o/u.","Otherwise, it's a special character."],
-        code:`ch = input("Enter a character: ")\nif ch.isdigit():\n    print(ch, "is a Digit")\nelif ch.isalpha():\n    if ch.lower() in ['a','e','i','o','u']:\n        print(ch, "is a Vowel")\n    else:\n        print(ch, "is a Consonant")\nelse:\n    print(ch, "is a Special Character")`,
-        output:`Enter a character: e\ne is a Vowel`,
-        explain:[
-          `<code>isdigit()</code> and <code>isalpha()</code> are built-in string methods — little yes/no tests every string carries with it — that check what kind of character you're holding, without you writing that logic by hand.`,
-          `<code>ch.lower()</code> converts the character to lowercase first, so the vowel check works whether the user types "E" or "e".`,
-          `Notice the <code>if</code> for vowel/consonant is <em>nested inside</em> the <code>elif ch.isalpha()</code> branch — a small taste of decision-making-inside-decision-making, useful for the "additional challenge" problems.`
-        ]
-      },
-      {
-        title:"⭐ Challenge: Calculate salary bonus based on employee experience",
-        steps:["Take the employee's experience (years) and current salary.","More than 10 years → 20% bonus.","5 to 10 years → 10% bonus.","Less than 5 years → 5% bonus.","Print the bonus amount."],
-        code:`experience = float(input("Enter years of experience: "))\nsalary = float(input("Enter current salary: "))\nif experience > 10:\n    bonus = salary * 0.20\nelif experience >= 5:\n    bonus = salary * 0.10\nelse:\n    bonus = salary * 0.05\nprint("Bonus =", bonus)`,
-        output:`Enter years of experience: 7\nEnter current salary: 30000\nBonus = 3000.0`,
-        explain:[`Same "check from the top boundary downward" pattern as the grading program — the elif's lower bound (5) is implied automatically, since anything ≥10 would already have matched the first condition.`]
-      },
-      {
-        title:"⭐ Challenge: Determine shipping charge based on package weight",
-        steps:["Take the package weight in kg from the user.","Check weight ranges from lightest to heaviest and assign the matching flat charge.","Print the shipping charge."],
-        code:`weight = float(input("Enter package weight in kg: "))\nif weight <= 1:\n    charge = 50\nelif weight <= 5:\n    charge = 100\nelif weight <= 10:\n    charge = 150\nelse:\n    charge = 200\nprint("Shipping Charge = ₹", charge)`,
-        output:`Enter package weight in kg: 7\nShipping Charge = ₹ 150`,
-        explain:[`Unlike the electricity/water bills, this one uses flat slab charges (not per-unit rates) — the whole package is charged one fixed amount depending on which weight bracket it falls into.`]
-      },
-      {
-        title:"⭐ Challenge: Check whether three given sides can form a valid triangle",
-        steps:["Take all three sides from the user.","A triangle is valid only if the sum of any two sides is greater than the third side, for all three pairs.","Print whether it's a valid triangle."],
-        code:`a = float(input("Enter side a: "))\nb = float(input("Enter side b: "))\nc = float(input("Enter side c: "))\nif (a + b > c) and (b + c > a) and (a + c > b):\n    print("Valid Triangle")\nelse:\n    print("Not a Valid Triangle")`,
-        output:`Enter side a: 3\nEnter side b: 4\nEnter side c: 5\nValid Triangle`,
-        explain:[
-          `This is the <strong>Triangle Inequality Theorem</strong>: two sides together must always be longer than the third side, or the shape simply can't close up into a triangle.`,
-          `All three <code>and</code>-joined checks must be True together — if even one pair fails the test, the sides can't form a triangle, and the else branch runs.`
-        ]
-      },
-      {
-        title:"⭐ Challenge: Determine the largest digit in a three-digit number",
-        steps:["Take a 3-digit number from the user.","Split it into hundreds, tens, and ones digits (same trick as the Armstrong program).","Compare the three digits using if/elif/else to find the largest.","Print the largest digit."],
-        code:`num = int(input("Enter a 3-digit number: "))\na = num // 100\nb = (num // 10) % 10\nc = num % 10\nif a >= b and a >= c:\n    largest = a\nelif b >= a and b >= c:\n    largest = b\nelse:\n    largest = c\nprint("Largest digit =", largest)`,
-        output:`Enter a 3-digit number: 468\nLargest digit = 8`,
-        explain:[
-          `The digit-splitting lines are identical to the Armstrong number program — a great sign that you're starting to recognize reusable patterns instead of solving each problem from zero.`,
-          `The three-way comparison follows the exact same "largest of three" logic from Lab 3's <code>a, b, c</code> number-comparison program — just applied to digits instead of whole numbers.`
+          `A plain <code>for fruit in fruits:</code> would give you just the values, one by one — but <code>enumerate(fruits)</code> wraps the list so each pass through the loop hands you BOTH the index and the value together, as a pair.`,
+          `<code>for index, fruit in enumerate(fruits):</code> unpacks that pair straight into two variable names in one line, which is why you can use index and fruit separately inside the loop without any extra counting variable.`
         ]
       }
     ]
@@ -1380,7 +1229,7 @@ const units = [
         explain:[
           `<code>len(str(num))</code> is a neat shortcut for counting digits — turning 9474 into the text "9474" and measuring its length (4) is often quicker than a separate counting loop.`,
           `9474 has 4 digits, so this checks 9⁴ + 4⁴ + 7⁴ + 4⁴ = 6561 + 256 + 2401 + 256 = 9474 — matching the original number, so it qualifies.`,
-          `This is a deliberate upgrade over the Armstrong program back in the Own Practice section, which only worked correctly for exactly 3-digit numbers because it hard-coded <code>** 3</code>. Using <code>digits</code> here means the exact same code correctly handles 3-digit numbers like 153 AND 4-digit numbers like 9474.`
+          `This is a deliberate upgrade over the Armstrong program back in the Problem Solving Practice section, which only worked correctly for exactly 3-digit numbers because it hard-coded <code>** 3</code>. Using <code>digits</code> here means the exact same code correctly handles 3-digit numbers like 153 AND 4-digit numbers like 9474.`
         ]
       },
       {
@@ -1601,6 +1450,631 @@ const units = [
         ]
       }
     ]
+  },
+  {
+    key:'unit5', listId:'unit5List', prefix:'P5',
+    programs:[
+      {
+        title:"Check whether a given year is a leap year or not",
+        steps:["Take the year from the user.","A year is a leap year if it's divisible by 4 AND NOT a century year — OR if it's a century year divisible by 400.","Print whether it's a leap year."],
+        code:`year = int(input("Enter a year: "))\nif (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0):\n    print(year, "is a Leap Year")\nelse:\n    print(year, "is not a Leap Year")`,
+        output:`Enter a year: 2024\n2024 is a Leap Year`,
+        explain:[
+          `<strong>Rule:</strong> divisible by 4 is the basic leap-year test, but century years (1900, 2000, ...) are an exception — they must also be divisible by 400, not just 100.`,
+          `<code>(year % 4 == 0 and year % 100 != 0)</code> catches ordinary leap years like 2024 (divisible by 4, not a century).`,
+          `<code>(year % 400 == 0)</code> catches century leap years like 2000. The <code>or</code> between the two brackets means either path makes it a leap year — 1900 fails both and is correctly rejected.`
+        ]
+      },
+      {
+        title:"Calculate electricity bill based on units consumed (slab-wise)",
+        steps:["Take the units consumed from the user.","If units ≤ 100, charge ₹5/unit for all of them.","If units ≤ 200, the first 100 cost ₹5/unit and the rest cost ₹7/unit.","If units > 200, add ₹10/unit for everything above 200.","Print the total bill."],
+        code:`units = int(input("Enter units consumed: "))\nif units <= 100:\n    bill = units * 5\nelif units <= 200:\n    bill = 100 * 5 + (units - 100) * 7\nelse:\n    bill = 100 * 5 + 100 * 7 + (units - 200) * 10\nprint("Electricity Bill = ₹", bill)`,
+        output:`Enter units consumed: 250\nElectricity Bill = ₹ 1700`,
+        explain:[
+          `This is a <strong>slab (tiered) pricing</strong> problem — different portions of the same bill are charged at different rates, so we can't just multiply units by one rate.`,
+          `For 250 units: the first 100 units cost 100×5=500, the next 100 cost 100×7=700, and the remaining 50 (250−200) cost 50×10=500 → total 500+700+500 = 1700.`,
+          `Each elif only needs to handle the "extra" units beyond the previous slab — <code>(units - 100)</code> and <code>(units - 200)</code> — because the earlier slabs are already accounted for in the fixed 100*5 and 100*7 parts.`
+        ]
+      },
+      {
+        title:"Calculate the grade of a student based on marks",
+        steps:["Take the marks obtained from the user.","Check the mark ranges from highest to lowest: 90+, 75–89, 60–74, 40–59, below 40.","Print the matching grade."],
+        code:`marks = float(input("Enter marks: "))\nif marks >= 90:\n    grade = "A"\nelif marks >= 75:\n    grade = "B"\nelif marks >= 60:\n    grade = "C"\nelif marks >= 40:\n    grade = "D"\nelse:\n    grade = "Fail"\nprint("Grade:", grade)`,
+        output:`Enter marks: 82\nGrade: B`,
+        explain:[
+          `Just like the age-bracket program in Lab 3, checking from the <em>highest</em> range downward means each elif only needs one boundary — by the time Python reaches <code>elif marks >= 75</code>, it already knows marks isn't 90+, so this line effectively means "between 75 and 89."`,
+          `82 fails the first check (not ≥90), passes the second (≥75) — Python prints "B" and skips every check below it.`
+        ]
+      },
+      {
+        title:"Check whether a given number is an Armstrong number",
+        steps:["Take a 3-digit number from the user.","Split it into its hundreds, tens, and ones digits.","Add the cube of each digit together.","If that sum equals the original number, it's an Armstrong number."],
+        code:`num = int(input("Enter a 3-digit number: "))\na = num // 100\nb = (num // 10) % 10\nc = num % 10\ntotal = a**3 + b**3 + c**3\nif total == num:\n    print(num, "is an Armstrong number")\nelse:\n    print(num, "is not an Armstrong number")`,
+        output:`Enter a 3-digit number: 153\n153 is an Armstrong number`,
+        explain:[
+          `<code>num // 100</code> keeps only the hundreds digit (153 // 100 = 1). <code>(num // 10) % 10</code> strips the last digit then takes the remainder by 10, isolating the tens digit (15 % 10 = 5). <code>num % 10</code> grabs the last digit directly (153 % 10 = 3).`,
+          `<strong>Armstrong rule:</strong> 1³ + 5³ + 3³ = 1 + 125 + 27 = 153 — the sum of the cubed digits equals the number itself, so it qualifies.`,
+          `This digit-splitting trick (using <code>//</code> and <code>%</code> together) is one you'll reuse constantly once you get comfortable with it. The Loops &amp; Patterns section revisits Armstrong numbers with a <code>while</code> loop so it works for numbers of ANY length, not just 3 digits.`
+        ]
+      },
+      {
+        title:"Build a simple menu-driven calculator",
+        steps:["Show the four operation choices to the user.","Take the user's menu choice, and the two numbers to work on.","Use if / elif to perform the matching operation.","Print the result — or an error message for an invalid choice."],
+        code:`print("1. Addition\\n2. Subtraction\\n3. Multiplication\\n4. Division")\nchoice = int(input("Enter your choice (1-4): "))\na = float(input("Enter first number: "))\nb = float(input("Enter second number: "))\nif choice == 1:\n    print("Result =", a + b)\nelif choice == 2:\n    print("Result =", a - b)\nelif choice == 3:\n    print("Result =", a * b)\nelif choice == 4:\n    print("Result =", a / b)\nelse:\n    print("Invalid choice")`,
+        output:`1. Addition\n2. Subtraction\n3. Multiplication\n4. Division\nEnter your choice (1-4): 3\nEnter first number: 4\nEnter second number: 5\nResult = 20.0`,
+        explain:[
+          `This is called a <strong>menu-driven program</strong> — it shows options first, then reacts to whichever number the user types, exactly like a real app's menu.`,
+          `Each <code>elif choice == N</code> is a separate branch — only the ONE matching the user's choice runs, so the calculator never accidentally does two operations at once.`,
+          `The final <code>else</code> quietly protects the program from crashing if someone types 5 or 0 by mistake.`
+        ]
+      },
+      {
+        title:"Check driving license eligibility based on age",
+        steps:["Take the person's age from the user.","If age is 18 or above, they're eligible.","Otherwise, they're not eligible."],
+        code:`age = int(input("Enter your age: "))\nif age >= 18:\n    print("Eligible for driving license")\nelse:\n    print("Not eligible for driving license")`,
+        output:`Enter your age: 16\nNot eligible for driving license`,
+        explain:[`A clean, single-condition if-else — the simplest possible eligibility check, and a good one to compare against the more complex loan-eligibility program from Lab 3.`]
+      },
+      {
+        title:"Find the roots of a quadratic equation using the discriminant",
+        steps:["Take the coefficients a, b, and c from the user.","Calculate the discriminant: b² − 4ac.","If it's positive → two real roots. If zero → equal roots. If negative → imaginary roots."],
+        code:`a = float(input("Enter a: "))\nb = float(input("Enter b: "))\nc = float(input("Enter c: "))\ndiscriminant = b ** 2 - 4 * a * c\nif discriminant > 0:\n    print("Two real and distinct roots")\nelif discriminant == 0:\n    print("Two equal real roots")\nelse:\n    print("Roots are imaginary (complex)")`,
+        output:`Enter a: 1\nEnter b: -5\nEnter c: 6\nTwo real and distinct roots`,
+        explain:[
+          `<strong>Formula:</strong> Discriminant = b² − 4ac, from the quadratic formula you already know from maths.`,
+          `For a=1, b=-5, c=6: discriminant = 25 − 24 = 1, which is greater than 0 — so the equation has two real, distinct roots.`,
+          `Notice this program never actually calculates the roots themselves — it only classifies <em>what kind</em> of roots exist, using the sign of one number.`
+        ]
+      },
+      {
+        title:"Calculate discount on a shopping bill based on purchase amount",
+        steps:["Take the purchase amount from the user.","If amount ≥ ₹5000, apply 20% discount.","Else if amount ≥ ₹3000, apply 10% discount.","Otherwise, apply no discount.","Print the discount and the final payable amount."],
+        code:`amount = float(input("Enter purchase amount: "))\nif amount >= 5000:\n    discount = amount * 0.20\nelif amount >= 3000:\n    discount = amount * 0.10\nelse:\n    discount = 0\nfinal = amount - discount\nprint("Discount =", discount)\nprint("Final Payable Amount =", final)`,
+        output:`Enter purchase amount: 6000\nDiscount = 1200.0\nFinal Payable Amount = 4800.0`,
+        explain:[
+          `0.20 and 0.10 represent 20% and 10% written as decimals — Python multiplies directly by these to get the discount amount in rupees, not a percentage symbol.`,
+          `<code>final = amount - discount</code> is calculated only once, after the correct discount slab has already been decided — so it automatically works no matter which branch ran.`
+        ]
+      },
+      {
+        title:"Check exam eligibility based on attendance percentage",
+        steps:["Take the attendance percentage from the user.","If attendance ≥ 75%, the student is allowed.","Otherwise, calculate and display how much the shortage is."],
+        code:`attendance = float(input("Enter attendance percentage: "))\nif attendance >= 75:\n    print("Allowed to sit in the examination")\nelse:\n    shortage = 75 - attendance\n    print("Not Allowed")\n    print("Shortage =", shortage, "%")`,
+        output:`Enter attendance percentage: 68\nNot Allowed\nShortage = 7.0 %`,
+        explain:[
+          `The <code>else</code> branch here does two useful things instead of one — it both prints the rejection message AND calculates exactly how many percentage points were missing, which is more helpful to the student than a plain "No."`,
+          `<code>shortage = 75 - attendance</code> only makes sense (and is only calculated) inside the else block — there's no reason to compute it when the student is already allowed.`
+        ]
+      },
+      {
+        title:"Calculate water bill based on consumption (slab-wise)",
+        steps:["Take the water consumption in liters from the user.","First 50 liters cost ₹2/liter.","The next slab, 51–200 liters, costs ₹3/liter.","Anything above 200 liters costs ₹5/liter.","Print the total water bill."],
+        code:`liters = float(input("Enter water consumption in liters: "))\nif liters <= 50:\n    bill = liters * 2\nelif liters <= 200:\n    bill = 50 * 2 + (liters - 50) * 3\nelse:\n    bill = 50 * 2 + 150 * 3 + (liters - 200) * 5\nprint("Water Bill = ₹", bill)`,
+        output:`Enter water consumption in liters: 250\nWater Bill = ₹ 800.0`,
+        explain:[
+          `Same slab-billing pattern as the electricity bill program above — practicing it twice on purpose, since tiered pricing is one of the most common real-world uses of if/elif/else.`,
+          `For 250 liters: 50×2=100 (first slab) + 150×3=450 (full middle slab, since 200−50=150) + 50×5=250 (50 liters over 200) = 100+450+250 = 800.`
+        ]
+      },
+      {
+        title:"⭐ Challenge: Check if a character is a vowel, consonant, digit, or special character",
+        steps:["Take a single character from the user.","Check with isdigit() whether it's a digit.","Else check with isalpha() whether it's a letter — and if so, whether it's one of a/e/i/o/u.","Otherwise, it's a special character."],
+        code:`ch = input("Enter a character: ")\nif ch.isdigit():\n    print(ch, "is a Digit")\nelif ch.isalpha():\n    if ch.lower() in ['a','e','i','o','u']:\n        print(ch, "is a Vowel")\n    else:\n        print(ch, "is a Consonant")\nelse:\n    print(ch, "is a Special Character")`,
+        output:`Enter a character: e\ne is a Vowel`,
+        explain:[
+          `<code>isdigit()</code> and <code>isalpha()</code> are built-in string methods — little yes/no tests every string carries with it — that check what kind of character you're holding, without you writing that logic by hand.`,
+          `<code>ch.lower()</code> converts the character to lowercase first, so the vowel check works whether the user types "E" or "e".`,
+          `Notice the <code>if</code> for vowel/consonant is <em>nested inside</em> the <code>elif ch.isalpha()</code> branch — a small taste of decision-making-inside-decision-making, useful for the "additional challenge" problems.`
+        ]
+      },
+      {
+        title:"⭐ Challenge: Calculate salary bonus based on employee experience",
+        steps:["Take the employee's experience (years) and current salary.","More than 10 years → 20% bonus.","5 to 10 years → 10% bonus.","Less than 5 years → 5% bonus.","Print the bonus amount."],
+        code:`experience = float(input("Enter years of experience: "))\nsalary = float(input("Enter current salary: "))\nif experience > 10:\n    bonus = salary * 0.20\nelif experience >= 5:\n    bonus = salary * 0.10\nelse:\n    bonus = salary * 0.05\nprint("Bonus =", bonus)`,
+        output:`Enter years of experience: 7\nEnter current salary: 30000\nBonus = 3000.0`,
+        explain:[`Same "check from the top boundary downward" pattern as the grading program — the elif's lower bound (5) is implied automatically, since anything ≥10 would already have matched the first condition.`]
+      },
+      {
+        title:"⭐ Challenge: Determine shipping charge based on package weight",
+        steps:["Take the package weight in kg from the user.","Check weight ranges from lightest to heaviest and assign the matching flat charge.","Print the shipping charge."],
+        code:`weight = float(input("Enter package weight in kg: "))\nif weight <= 1:\n    charge = 50\nelif weight <= 5:\n    charge = 100\nelif weight <= 10:\n    charge = 150\nelse:\n    charge = 200\nprint("Shipping Charge = ₹", charge)`,
+        output:`Enter package weight in kg: 7\nShipping Charge = ₹ 150`,
+        explain:[`Unlike the electricity/water bills, this one uses flat slab charges (not per-unit rates) — the whole package is charged one fixed amount depending on which weight bracket it falls into.`]
+      },
+      {
+        title:"⭐ Challenge: Check whether three given sides can form a valid triangle",
+        steps:["Take all three sides from the user.","A triangle is valid only if the sum of any two sides is greater than the third side, for all three pairs.","Print whether it's a valid triangle."],
+        code:`a = float(input("Enter side a: "))\nb = float(input("Enter side b: "))\nc = float(input("Enter side c: "))\nif (a + b > c) and (b + c > a) and (a + c > b):\n    print("Valid Triangle")\nelse:\n    print("Not a Valid Triangle")`,
+        output:`Enter side a: 3\nEnter side b: 4\nEnter side c: 5\nValid Triangle`,
+        explain:[
+          `This is the <strong>Triangle Inequality Theorem</strong>: two sides together must always be longer than the third side, or the shape simply can't close up into a triangle.`,
+          `All three <code>and</code>-joined checks must be True together — if even one pair fails the test, the sides can't form a triangle, and the else branch runs.`
+        ]
+      },
+      {
+        title:"⭐ Challenge: Determine the largest digit in a three-digit number",
+        steps:["Take a 3-digit number from the user.","Split it into hundreds, tens, and ones digits (same trick as the Armstrong program).","Compare the three digits using if/elif/else to find the largest.","Print the largest digit."],
+        code:`num = int(input("Enter a 3-digit number: "))\na = num // 100\nb = (num // 10) % 10\nc = num % 10\nif a >= b and a >= c:\n    largest = a\nelif b >= a and b >= c:\n    largest = b\nelse:\n    largest = c\nprint("Largest digit =", largest)`,
+        output:`Enter a 3-digit number: 468\nLargest digit = 8`,
+        explain:[
+          `The digit-splitting lines are identical to the Armstrong number program — a great sign that you're starting to recognize reusable patterns instead of solving each problem from zero.`,
+          `The three-way comparison follows the exact same "largest of three" logic from Lab 3's <code>a, b, c</code> number-comparison program — just applied to digits instead of whole numbers.`
+        ]
+      }
+    ]
+  },
+  {
+    key:'unit4', listId:'unit4List', prefix:'P4',
+    programs:[
+      {
+        title:"Calculate the perimeter of a rectangle",
+        steps:["Take the length and breadth from the user as decimals.","Apply the formula: Perimeter = 2 × (length + breadth).","Print the perimeter."],
+        code:`length = float(input("Enter length: "))\nbreadth = float(input("Enter breadth: "))\nperimeter = 2 * (length + breadth)\nprint("Perimeter =", perimeter)`,
+        output:`Enter length: 10\nEnter breadth: 5\nPerimeter = 30.0`,
+        explain:[
+          `<strong>Formula:</strong> Perimeter = 2 × (l + b) — the total distance walked if you went once around all four sides.`,
+          `float() is used because sides can be decimals (like 4.5 m), not just whole numbers.`,
+          `The brackets around (length + breadth) matter — Python adds them first, then multiplies by 2, exactly like on paper.`
+        ]
+      },
+      {
+        title:"Calculate the area of a rectangle",
+        steps:["Take the length and breadth from the user.","Apply the formula: Area = length × breadth.","Print the area."],
+        code:`length = float(input("Enter length: "))\nbreadth = float(input("Enter breadth: "))\narea = length * breadth\nprint("Area =", area)`,
+        output:`Enter length: 10\nEnter breadth: 5\nArea = 50.0`,
+        explain:[
+          `<strong>Formula:</strong> Area = l × b — how much flat space the rectangle covers.`,
+          `Only one operator (*) is needed here, unlike perimeter which needed addition first.`
+        ]
+      },
+      {
+        title:"Calculate the area of a circle",
+        steps:["Import the math module to get an accurate value of π.","Take the radius from the user.","Apply the formula: Area = π × r².","Print the area."],
+        code:`import math\nradius = float(input("Enter radius: "))\narea = math.pi * radius ** 2\nprint("Area =", area)`,
+        output:`Enter radius: 7\nArea = 153.93804002589985`,
+        explain:[
+          `<strong>Formula:</strong> Area = πr² — π (~3.14159) times the radius squared.`,
+          `<code>import math</code> gives access to math.pi, which is far more accurate than typing 3.14 by hand.`,
+          `<code>radius ** 2</code> squares the radius. Python's rule of operator precedence (BODMAS) does ** before *, so the radius is squared first, then multiplied by π.`
+        ]
+      },
+      {
+        title:"Calculate the circumference of a circle",
+        steps:["Import math for π.","Take the radius from the user.","Apply the formula: Circumference = 2 × π × r.","Print the circumference."],
+        code:`import math\nradius = float(input("Enter radius: "))\ncircumference = 2 * math.pi * radius\nprint("Circumference =", circumference)`,
+        output:`Enter radius: 7\nCircumference = 43.982297150257104`,
+        explain:[
+          `<strong>Formula:</strong> Circumference = 2πr — the distance all the way around the circle's edge.`,
+          `Notice this uses radius (not radius²) — don't confuse it with the area formula above.`
+        ]
+      },
+      {
+        title:"Convert temperature from Celsius to Fahrenheit",
+        steps:["Take the temperature in Celsius from the user.","Apply the formula: F = (C × 9/5) + 32.","Print the Fahrenheit value."],
+        code:`celsius = float(input("Enter temperature in Celsius: "))\nfahrenheit = (celsius * 9/5) + 32\nprint("Temperature in Fahrenheit =", fahrenheit)`,
+        output:`Enter temperature in Celsius: 37\nTemperature in Fahrenheit = 98.6`,
+        explain:[
+          `<strong>Formula:</strong> F = (C × 9⁄5) + 32.`,
+          `Python evaluates * and / before +, so celsius is scaled first and 32 is added only at the end — exactly the order the formula needs.`
+        ]
+      },
+      {
+        title:"Convert temperature from Fahrenheit to Celsius",
+        steps:["Take the temperature in Fahrenheit from the user.","Apply the formula: C = (F − 32) × 5/9.","Print the Celsius value."],
+        code:`fahrenheit = float(input("Enter temperature in Fahrenheit: "))\ncelsius = (fahrenheit - 32) * 5/9\nprint("Temperature in Celsius =", celsius)`,
+        output:`Enter temperature in Fahrenheit: 98.6\nTemperature in Celsius = 37.0`,
+        explain:[
+          `<strong>Formula:</strong> C = (F − 32) × 5⁄9 — the reverse of the Celsius→Fahrenheit formula above.`,
+          `The brackets around (fahrenheit - 32) are essential — without them Python would multiply 32 by 5/9 first, giving a wrong answer.`
+        ]
+      },
+      {
+        title:"Calculate Simple Interest",
+        steps:["Take Principal, Rate and Time from the user.","Apply the formula: SI = (P × R × T) / 100.","Print the simple interest."],
+        code:`p = float(input("Enter Principal: "))\nr = float(input("Enter Rate of Interest: "))\nt = float(input("Enter Time (in years): "))\nsi = (p * r * t) / 100\nprint("Simple Interest =", si)`,
+        output:`Enter Principal: 5000\nEnter Rate of Interest: 6\nEnter Time (in years): 3\nSimple Interest = 900.0`,
+        explain:[
+          `<strong>Formula:</strong> SI = (P × R × T) ⁄ 100, where P = Principal, R = Rate % per year, T = Time in years.`,
+          `All three inputs are multiplied together first, then divided by 100 — matching how the formula reads left to right.`
+        ]
+      },
+      {
+        title:"Calculate the area of a triangle",
+        steps:["Take the base and height from the user.","Apply the formula: Area = 0.5 × base × height.","Print the area."],
+        code:`base = float(input("Enter base: "))\nheight = float(input("Enter height: "))\narea = 0.5 * base * height\nprint("Area =", area)`,
+        output:`Enter base: 10\nEnter height: 6\nArea = 30.0`,
+        explain:[
+          `<strong>Formula:</strong> Area = ½ × base × height.`,
+          `0.5 is just ½ written as a decimal — Python has no fraction symbol, so decimals do the job.`
+        ]
+      },
+      {
+        title:"Convert kilometers into meters",
+        steps:["Take the distance in kilometers from the user.","Apply the conversion: 1 km = 1000 m.","Print the distance in meters."],
+        code:`km = float(input("Enter distance in kilometers: "))\nmeters = km * 1000\nprint("Distance in meters =", meters)`,
+        output:`Enter distance in kilometers: 5\nDistance in meters = 5000.0`,
+        explain:[`Unit conversion is just a multiplication by a fixed constant — here, every 1 km is defined as exactly 1000 m, so multiplying by 1000 converts the whole value.`]
+      },
+      {
+        title:"Calculate total marks and percentage of five subjects",
+        steps:["Take marks of all five subjects from the user.","Add them up to get the total.","Divide the total by 5 to get the percentage (assuming each subject is out of 100).","Print both the total and the percentage."],
+        code:`m1 = float(input("Enter marks of subject 1: "))\nm2 = float(input("Enter marks of subject 2: "))\nm3 = float(input("Enter marks of subject 3: "))\nm4 = float(input("Enter marks of subject 4: "))\nm5 = float(input("Enter marks of subject 5: "))\ntotal = m1 + m2 + m3 + m4 + m5\npercentage = total / 5\nprint("Total Marks =", total)\nprint("Percentage =", percentage)`,
+        output:`Enter marks of subject 1: 80\nEnter marks of subject 2: 75\nEnter marks of subject 3: 90\nEnter marks of subject 4: 85\nEnter marks of subject 5: 70\nTotal Marks = 400.0\nPercentage = 80.0`,
+        explain:[
+          `<strong>Formula:</strong> Percentage = Total Marks Obtained ⁄ Total Maximum Marks × 100. Since each subject here is assumed to be out of 100, Total Maximum = 5 × 100 = 500, so dividing the total (out of 500) by 5 directly gives the percentage.`,
+          `Five separate input() calls collect five separate marks — one variable per subject keeps things clear and easy to debug.`
+        ]
+      },
+      {
+        title:"Find the larger of two numbers",
+        steps:["Take two numbers from the user.","Use an if-else block: if the first is greater, it's the larger one; otherwise the second is.","Print whichever number is larger."],
+        code:`a = float(input("Enter first number: "))\nb = float(input("Enter second number: "))\nif a > b:\n    print(a, "is larger")\nelse:\n    print(b, "is larger")`,
+        output:`Enter first number: 15\nEnter second number: 9\n15.0 is larger`,
+        explain:[
+          `This is the site's first look at <code>if / else</code> — Python checks the condition <code>a > b</code>; if it's True, the indented line under <code>if</code> runs; otherwise the indented line under <code>else</code> runs instead.`,
+          `Only ONE of the two branches ever runs — never both, never neither.`
+        ]
+      },
+      {
+        title:"Check whether a number is positive or negative",
+        steps:["Take a number from the user.","Use if / elif / else to test three possibilities: greater than 0, less than 0, or exactly 0.","Print the matching result."],
+        code:`num = float(input("Enter a number: "))\nif num > 0:\n    print("Positive number")\nelif num < 0:\n    print("Negative number")\nelse:\n    print("Zero")`,
+        output:`Enter a number: -5\nNegative number`,
+        explain:[
+          `<code>elif</code> (short for "else if") lets you check a second condition only when the first one was False — Python checks them top to bottom and stops at the first match.`,
+          `Since -5 is not greater than 0, Python moves to elif, finds -5 < 0 is True, prints "Negative number," and skips else entirely.`
+        ]
+      },
+      {
+        title:"Check whether a student has passed or failed",
+        steps:["Take the marks obtained from the user.","Check if marks are 40 or above using if.","Print \"Passed\" or \"Failed\" accordingly."],
+        code:`marks = float(input("Enter marks: "))\nif marks >= 40:\n    print("Passed")\nelse:\n    print("Failed")`,
+        output:`Enter marks: 35\nFailed`,
+        explain:[
+          `>= is the "greater than or equal to" operator — it's True for marks of exactly 40 too, not just above it.`,
+          `This is the classic if-else pattern: exactly one message prints, depending on which side of the pass mark the number falls.`
+        ]
+      },
+      {
+        title:"Check whether a number is divisible by 7",
+        steps:["Take a whole number from the user.","Use % 7 to find the remainder when divided by 7.","If the remainder is 0, it's divisible; otherwise it isn't."],
+        code:`num = int(input("Enter a number: "))\nif num % 7 == 0:\n    print(num, "is divisible by 7")\nelse:\n    print(num, "is not divisible by 7")`,
+        output:`Enter a number: 21\n21 is divisible by 7`,
+        explain:[
+          `num % 7 gives the remainder after dividing by 7. A number is exactly divisible only when nothing is left over — that is, when the remainder equals 0.`,
+          `== checks for exact equality with 0, producing True or False, which the if statement then acts on.`
+        ]
+      },
+      {
+        title:"Find the largest among three numbers",
+        steps:["Take three numbers from the user.","Check if the first is greater than or equal to both others — if so, it's the largest.","Otherwise check if the second is greater than or equal to both — if so, it's the largest.","If neither, the third number must be the largest."],
+        code:`a = float(input("Enter first number: "))\nb = float(input("Enter second number: "))\nc = float(input("Enter third number: "))\nif a >= b and a >= c:\n    print(a, "is the largest")\nelif b >= a and b >= c:\n    print(b, "is the largest")\nelse:\n    print(c, "is the largest")`,
+        output:`Enter first number: 4\nEnter second number: 9\nEnter third number: 7\n9.0 is the largest`,
+        explain:[
+          `<code>and</code> is a logical operator — the whole condition is True only when BOTH smaller conditions on either side of it are True.`,
+          `The logic reads like a checklist: "is a the biggest of all three? If not, is b? If neither, it has to be c" — the else at the end catches that last case without needing to test it directly.`
+        ]
+      },
+      {
+        title:"Display the day of the week based on a number (1–7)",
+        steps:["Take a number from 1 to 7 from the user.","Use an if / elif ladder to match it to a day name.","Add a final else for any number outside 1–7."],
+        code:`day = int(input("Enter day number (1-7): "))\nif day == 1:\n    print("Monday")\nelif day == 2:\n    print("Tuesday")\nelif day == 3:\n    print("Wednesday")\nelif day == 4:\n    print("Thursday")\nelif day == 5:\n    print("Friday")\nelif day == 6:\n    print("Saturday")\nelif day == 7:\n    print("Sunday")\nelse:\n    print("Invalid day number")`,
+        output:`Enter day number (1-7): 3\nWednesday`,
+        explain:[
+          `A long elif ladder is just several yes/no questions asked one after another — Python stops at the very first True condition and skips the rest.`,
+          `The final else is a safety net — it catches anything the user types that isn't 1 through 7, like 0 or 9, instead of the program silently doing nothing.`
+        ]
+      },
+      {
+        title:"Display the month name based on a month number",
+        steps:["Take a number from 1 to 12 from the user.","Use an if / elif ladder to match it to a month name.","Add a final else for any invalid number."],
+        code:`month = int(input("Enter month number (1-12): "))\nif month == 1:\n    print("January")\nelif month == 2:\n    print("February")\nelif month == 3:\n    print("March")\nelif month == 4:\n    print("April")\nelif month == 5:\n    print("May")\nelif month == 6:\n    print("June")\nelif month == 7:\n    print("July")\nelif month == 8:\n    print("August")\nelif month == 9:\n    print("September")\nelif month == 10:\n    print("October")\nelif month == 11:\n    print("November")\nelif month == 12:\n    print("December")\nelse:\n    print("Invalid month number")`,
+        output:`Enter month number (1-12): 9\nSeptember`,
+        explain:[
+          `Same pattern as the day-of-week program, just scaled up to 12 checks instead of 7 — the ladder can be as long as the problem needs.`,
+          `💡 Once you learn Lists (see the Lists &amp; Arrays section), the very same problem can be solved in just one line using <code>months[month-1]</code> — but the if-elif version is exactly how you should think about it first.`
+        ]
+      },
+      {
+        title:"Determine the type of triangle using its sides",
+        steps:["Take all three sides of the triangle from the user.","If all three sides are equal, it's Equilateral.","Else if any two sides are equal, it's Isosceles.","Otherwise, it's Scalene."],
+        code:`a = float(input("Enter side a: "))\nb = float(input("Enter side b: "))\nc = float(input("Enter side c: "))\nif a == b == c:\n    print("Equilateral Triangle")\nelif a == b or b == c or a == c:\n    print("Isosceles Triangle")\nelse:\n    print("Scalene Triangle")`,
+        output:`Enter side a: 5\nEnter side b: 5\nEnter side c: 5\nEquilateral Triangle`,
+        explain:[
+          `<code>a == b == c</code> is a chained comparison — Python checks a==b AND b==c together, True only if all three sides match exactly.`,
+          `<code>or</code> is a logical operator that's True if ANY one of its conditions is True — perfect for "any two sides equal," since we don't know in advance which pair might match.`
+        ]
+      },
+      {
+        title:"Determine whether a person is a child, teenager, adult, or senior citizen based on age",
+        steps:["Take the age from the user.","Check age ranges in order: up to 12 is Child, up to 19 is Teenager, up to 59 is Adult, above that is Senior Citizen.","Print the matching category."],
+        code:`age = int(input("Enter your age: "))\nif age <= 12:\n    print("Child")\nelif age <= 19:\n    print("Teenager")\nelif age <= 59:\n    print("Adult")\nelse:\n    print("Senior Citizen")`,
+        output:`Enter your age: 15\nTeenager`,
+        explain:[
+          `Notice each elif only needs an upper limit, not a range — by the time Python reaches <code>elif age &lt;= 19</code>, it already knows age is NOT &lt;= 12 (otherwise it would have stopped there), so this line effectively means "between 13 and 19."`,
+          `This ladder-of-upper-limits trick avoids writing longer conditions like <code>12 &lt; age &lt;= 19</code> — though that style works too and is worth trying as practice.`
+        ]
+      },
+      {
+        title:"Check whether a person is eligible for a loan based on age and salary",
+        steps:["Take the person's age and monthly salary from the user.","Check three conditions together: age is 21 or above, age is 60 or below, and salary is at least ₹25,000.","If all three hold, the person is eligible; otherwise, not."],
+        code:`age = int(input("Enter your age: "))\nsalary = float(input("Enter your monthly salary: "))\nif age >= 21 and age <= 60 and salary >= 25000:\n    print("Eligible for loan")\nelse:\n    print("Not eligible for loan")`,
+        output:`Enter your age: 30\nEnter your monthly salary: 30000\nEligible for loan`,
+        explain:[
+          `Chaining two <code>and</code>s means all THREE conditions must be True at once — age >= 21, AND age <= 60, AND salary >= 25000. If even one fails, the whole condition becomes False and the else branch runs.`,
+          `This mirrors real eligibility rules — banks genuinely combine several such checks (age bracket + minimum income) before approving a loan.`
+        ]
+      }
+    ]
+  },
+  {
+    key:'unit3', listId:'unit3List', prefix:'P3',
+    programs:[
+      {
+        title:"Greet the user by their own name",
+        steps:["Ask the user for their name using input().","Store whatever they type in a variable.","Print a greeting that includes it."],
+        code:`name = input("Enter your name: ")\nprint("Hello", name)`,
+        output:`Enter your name: Aryan\nHello Aryan`,
+        explain:[
+          `<code>input("Enter your name: ")</code> shows the prompt, pauses, and waits for the user to type and press Enter.`,
+          `Whatever they typed is stored (as text) in name, then reused in the greeting.`
+        ]
+      },
+      {
+        title:"Add two numbers entered by the user",
+        steps:["Take the first number using input(), convert it with int().","Take the second number the same way.","Add them with + and print the result."],
+        code:`a = int(input("Enter first number: "))\nb = int(input("Enter second number: "))\nprint("Sum =", a + b)`,
+        output:`Enter first number: 5\nEnter second number: 3\nSum = 8`,
+        explain:[
+          `input() always returns text — even "5" is just the characters 5. Wrapping it in int() converts it into a real whole number Python can do math with.`,
+          `a + b uses the + operator to add the two numbers, and print() shows the label plus the result together.`
+        ]
+      },
+      {
+        title:"Subtract two numbers",
+        steps:["Take two numbers from the user, converted with int().","Subtract the second from the first using -.","Print the result."],
+        code:`a = int(input("Enter first number: "))\nb = int(input("Enter second number: "))\nprint("Difference =", a - b)`,
+        output:`Enter first number: 10\nEnter second number: 4\nDifference = 6`,
+        explain:[`The - operator subtracts b from a. Order matters here — a - b is not the same as b - a, unlike addition.`]
+      },
+      {
+        title:"Multiply two numbers",
+        steps:["Take two numbers from the user.","Multiply using *.","Print the product."],
+        code:`a = int(input("Enter first number: "))\nb = int(input("Enter second number: "))\nprint("Product =", a * b)`,
+        output:`Enter first number: 6\nEnter second number: 7\nProduct = 42`,
+        explain:[`The * symbol is Python's multiplication operator — a plain × wouldn't work since it isn't a keyboard-friendly symbol.`]
+      },
+      {
+        title:"Divide two numbers (true division)",
+        steps:["Take two numbers from the user.","Divide using / — this always gives a decimal answer.","Print the result."],
+        code:`a = int(input("Enter first number: "))\nb = int(input("Enter second number: "))\nprint("Division =", a / b)`,
+        output:`Enter first number: 7\nEnter second number: 2\nDivision = 3.5`,
+        explain:[`/ is "true division" — it always returns a float, even when the numbers divide evenly, so you never lose the decimal part.`]
+      },
+      {
+        title:"Floor division — whole-number division",
+        steps:["Take two numbers from the user.","Divide using // to drop any decimal part.","Print the result."],
+        code:`a = int(input("Enter first number: "))\nb = int(input("Enter second number: "))\nprint("Floor Division =", a // b)`,
+        output:`Enter first number: 7\nEnter second number: 2\nFloor Division = 3`,
+        explain:[`// performs the same division as /, but then chops off (floors) anything after the decimal point, keeping only the whole-number part.`]
+      },
+      {
+        title:"Find the remainder using modulus",
+        steps:["Take two numbers from the user.","Use % to get what's left over after dividing.","Print the remainder."],
+        code:`a = int(input("Enter first number: "))\nb = int(input("Enter second number: "))\nprint("Remainder =", a % b)`,
+        output:`Enter first number: 7\nEnter second number: 2\nRemainder = 1`,
+        explain:[`% (modulus) answers "what's left over" after dividing a by b as many whole times as possible. 7 ÷ 2 goes in 3 times with 1 left over — hence 1.`]
+      },
+      {
+        title:"Raise a number to a power using **",
+        steps:["Take a base number and an exponent from the user.","Use ** to raise the base to that power.","Print the result."],
+        code:`base = int(input("Enter base: "))\npower = int(input("Enter power: "))\nprint("Result =", base ** power)`,
+        output:`Enter base: 2\nEnter power: 5\nResult = 32`,
+        explain:[`** is the exponent operator — base ** power multiplies base by itself power times. 2 ** 5 means 2×2×2×2×2 = 32.`]
+      },
+      {
+        title:"Compare two numbers using a relational operator",
+        steps:["Take two numbers from the user.","Compare them with > to see if the first is bigger.","Print the True/False result."],
+        code:`a = int(input("Enter first number: "))\nb = int(input("Enter second number: "))\nprint("Is a greater than b?", a > b)`,
+        output:`Enter first number: 9\nEnter second number: 4\nIs a greater than b? True`,
+        explain:[`> is a relational (comparison) operator — it doesn't calculate a number, it checks a condition and hands back a boolean: True or False.`]
+      },
+      {
+        title:"Check whether a number is even or odd",
+        steps:["Take a number from the user.","Use % 2 to test divisibility by 2.","Print whether the remainder equals 0 (True means even)."],
+        code:`num = int(input("Enter a number: "))\nprint("Is it even?", num % 2 == 0)`,
+        output:`Enter a number: 15\nIs it even? False`,
+        explain:[
+          `num % 2 finds the remainder when dividing by 2 — it's either 0 (even) or 1 (odd).`,
+          `== compares that remainder to 0 and returns True or False, which print() displays directly as the answer.`
+        ]
+      },
+      {
+        title:"Swap two variables' values",
+        steps:["Take two numbers from the user and store them.","Swap them in a single line using a, b = b, a.","Print both to confirm the swap."],
+        code:`a = int(input("Enter a: "))\nb = int(input("Enter b: "))\na, b = b, a\nprint("a =", a)\nprint("b =", b)`,
+        output:`Enter a: 3\nEnter b: 9\na = 9\nb = 3`,
+        explain:[`a, b = b, a is Python's neat trick for swapping: it builds the pair (b, a) first, then hands b's value to a and a's value to b in one clean step — no temporary box needed.`]
+      },
+      {
+        title:"Calculate Simple Interest",
+        steps:["Take Principal, Rate and Time from the user.","Apply the formula: SI = (P × R × T) / 100.","Print the calculated interest."],
+        code:`p = float(input("Enter Principal: "))\nr = float(input("Enter Rate: "))\nt = float(input("Enter Time (years): "))\nsi = (p * r * t) / 100\nprint("Simple Interest =", si)`,
+        output:`Enter Principal: 1000\nEnter Rate: 5\nEnter Time (years): 2\nSimple Interest = 100.0`,
+        explain:[
+          `float() is used instead of int() here because rate and time could easily involve decimals (like 2.5 years).`,
+          `The formula chains three operators — * twice and / once — in one line, exactly the way you'd write it on paper, just with Python symbols.`
+        ]
+      }
+    ]
+  },
+  {
+    key:'unit2', listId:'unit2List', prefix:'P2',
+    programs:[
+      {
+        title:"Store your name in a variable and print it",
+        steps:["Create a box called name and put your name inside using =.","Print the box's name (not the value directly)."],
+        code:`name = "Aryan"\nprint(name)`,
+        output:`Aryan`,
+        explain:[
+          `<code>name = "Aryan"</code> creates a variable called <code>name</code> and stores the text "Aryan" inside it.`,
+          `<code>print(name)</code> — because there are no quotes around <code>name</code> here, Python treats it as a variable and fetches whatever is stored inside, not the word "name" itself.`
+        ]
+      },
+      {
+        title:"Store your age in a variable and print it",
+        steps:["Create a variable age and assign a whole number to it.","Print the variable."],
+        code:`age = 19\nprint(age)`,
+        output:`19`,
+        explain:[`<code>age = 19</code> stores a whole number (int). <code>print(age)</code> simply reveals whatever value the box currently holds.`]
+      },
+      {
+        title:"Store name and age together, print both",
+        steps:["Create the name variable.","Create the age variable.","Print each one on its own line."],
+        code:`name = "Aryan"\nage = 19\nprint(name)\nprint(age)`,
+        output:`Aryan\n19`,
+        explain:[
+          `Two separate boxes are created — one holding text, one holding a number. Python is fine mixing types in the same program.`,
+          `Each print() call fetches and displays one box's contents.`
+        ]
+      },
+      {
+        title:"Give the same value to three variables at once",
+        steps:["Chain the assignment: a = b = c = 5.","Print all three to prove they all hold 5."],
+        code:`a = b = c = 5\nprint(a)\nprint(b)\nprint(c)`,
+        output:`5\n5\n5`,
+        explain:[`Python evaluates the assignment from right to left — it takes 5 and pours a copy of it into c, then b, then a, all in one line. Handy when several boxes need the same starting value.`]
+      },
+      {
+        title:"Give three variables different values in one line",
+        steps:["Write x, y, z = 1, 2, 3.","Python matches them position by position: x↔1, y↔2, z↔3.","Print each one."],
+        code:`x, y, z = 1, 2, 3\nprint(x)\nprint(y)\nprint(z)`,
+        output:`1\n2\n3`,
+        explain:[`This is called multiple assignment. The values on the right are matched, in order, to the variable names on the left — no operators involved, just neat one-line box-filling.`]
+      },
+      {
+        title:"Find out a variable's type using type()",
+        steps:["Store a number in marks.","Pass marks into the built-in type() function and print the result."],
+        code:`marks = 88\nprint(type(marks))`,
+        output:`<class 'int'>`,
+        explain:[`type() is a built-in inspector — it looks inside the box and tells you what kind of value is stored. 88 has no decimal point, so Python reports it as int (integer/whole number).`]
+      },
+      {
+        title:"Reassign a variable's value",
+        steps:["Store \"Surat\" in city and print it.","Store a new value, \"Vadodara\", in the same city box.","Print city again."],
+        code:`city = "Surat"\nprint(city)\ncity = "Vadodara"\nprint(city)`,
+        output:`Surat\nVadodara`,
+        explain:[
+          `The first print shows the original value stored in city.`,
+          `city = "Vadodara" doesn't create a new box — it overwrites the old value in the same box. Variables can change; that's exactly why they're called "variable."`
+        ]
+      },
+      {
+        title:"Store a decimal (float) number",
+        steps:["Create pi and assign a value with a decimal point.","Print it."],
+        code:`pi = 3.14\nprint(pi)`,
+        output:`3.14`,
+        explain:[`Any number written with a decimal point is automatically treated as a float by Python — no special instruction needed.`]
+      },
+      {
+        title:"Store a boolean (True/False) value",
+        steps:["Create is_student and assign it True (capital T, no quotes).","Print it."],
+        code:`is_student = True\nprint(is_student)`,
+        output:`True`,
+        explain:[`True and False are Python's boolean values — used to represent a plain yes/no or on/off state. Note the capital first letter, and no quotes — quotes would turn it into ordinary text instead.`]
+      },
+      {
+        title:"Print a variable inside a friendly sentence",
+        steps:["Store your name in a variable.","Print a text phrase and the variable together, separated by a comma."],
+        code:`name = "Aryan"\nprint("My name is", name)`,
+        output:`My name is Aryan`,
+        explain:[`print() happily accepts a mix of fixed text and variables in the same call — separated by commas, joined with the default single space, giving one natural sentence.`]
+      }
+    ]
+  },
+  {
+    key:'unit1', listId:'unit1List', prefix:'P1',
+    programs:[
+      {
+        title:"Print a simple greeting",
+        steps:["Decide the message you want to show.","Call print() and place the message inside quotes.","Run the program and read the output."],
+        code:`print("Hello, World!")`,
+        output:`Hello, World!`,
+        explain:[`<code>print("Hello, World!")</code> — the text inside double quotes is a <strong>string</strong>. Python displays it exactly as written, then automatically moves the cursor to the next line.`]
+      },
+      {
+        title:"Print your name and college on separate lines",
+        steps:["Write a print statement for your college name.","Write a second print statement for your course/year.","Each print() call automatically starts a fresh line."],
+        code:`print("Sarvajanik University")\nprint("B.Tech First Year")`,
+        output:`Sarvajanik University\nB.Tech First Year`,
+        explain:[
+          `Line 1 prints the college name, then jumps to a new line by default.`,
+          `Line 2 prints the course info on that fresh new line — that's why they stack instead of joining.`
+        ]
+      },
+      {
+        title:"Compare single, double and triple quotes",
+        steps:["Print the same sentence three times.","Wrap it once in single quotes, once in double, once in triple.","Notice all three print identically."],
+        code:`print('Python is fun')\nprint("Python is fun")\nprint("""Python is fun""")`,
+        output:`Python is fun\nPython is fun\nPython is fun`,
+        explain:[
+          `Single (' ') and double (" ") quotes are interchangeable in Python — pick whichever avoids clashing with quotes inside your text.`,
+          `Triple quotes (""" """) do the same job here, but their real power is letting a string span multiple lines — see program 10.`
+        ]
+      },
+      {
+        title:"Insert a new line inside one print using \\n",
+        steps:["Write both lines of text as one single string.","Place \\n exactly where you want the break.","Print it in a single print() call."],
+        code:`print("Roll No: 21\\nName: Aryan")`,
+        output:`Roll No: 21\nName: Aryan`,
+        explain:[`<code>\\n</code> is an escape sequence — a special two-character code that means "insert a new line here." Python reads it as one break, not as literal backslash-n.`]
+      },
+      {
+        title:"Insert a tab gap using \\t",
+        steps:["Write the two words you want aligned.","Place \\t between them instead of a space.","Print and observe the wider, tab-sized gap."],
+        code:`print("Name\\tMarks")`,
+        output:`Name\tMarks`,
+        explain:[`<code>\\t</code> inserts a horizontal tab — a bigger, aligned gap than a regular space. It's handy when you want columns of text to line up neatly.`]
+      },
+      {
+        title:"Print multiple values with the default separator",
+        steps:["List the words you want to print, separated by commas.","Run print() — no sep is mentioned, so Python uses its default."],
+        code:`print("Python", "is", "awesome")`,
+        output:`Python is awesome`,
+        explain:[`Commas inside print() let you pass several items at once. By default, Python glues them together with a single space — that space is the "default sep" in action.`]
+      },
+      {
+        title:"Print a date using a custom separator (sep)",
+        steps:["Break the date into year, month, day pieces.","Pass sep=\"-\" so items join with a dash instead of a space."],
+        code:`print("2024", "07", "28", sep="-")`,
+        output:`2024-07-28`,
+        explain:[`<code>sep="-"</code> overrides the default space and glues every item together with a dash instead — great for building dates, IDs, or file names.`]
+      },
+      {
+        title:"Print on the same line using end",
+        steps:["First print() shows a loading message.","Set end=\"...\" so it doesn't jump to a new line.","Second print() continues right after it."],
+        code:`print("Loading", end="...")\nprint("Done!")`,
+        output:`Loading...Done!`,
+        explain:[
+          `Normally print() ends every line with an invisible \\n. Here, end="..." replaces that newline with three dots instead.`,
+          `Because there's no newline after "Loading...", the next print() continues on the very same line.`
+        ]
+      },
+      {
+        title:"Print numbers directly — no quotes needed",
+        steps:["Print a whole number as-is.","Print a decimal number as-is.","Notice neither needed quotation marks."],
+        code:`print(100)\nprint(3.14)`,
+        output:`100\n3.14`,
+        explain:[`Quotes are only for text (strings). Numbers — whole (int) or decimal (float) — are typed plainly, and Python still knows exactly what they are.`]
+      },
+      {
+        title:"Draw a tiny triangle with a triple-quoted string",
+        steps:["Open a triple-quoted string.","Type each row of the triangle on its own line, exactly as you want it to appear.","Close the triple quotes and print."],
+        code:`print("""\n  *\n ***\n*****\n""")`,
+        output:`\n  *\n ***\n*****\n`,
+        explain:[`Triple quotes let a string flow across several real lines in your code, and Python reproduces every line break and space exactly as typed — perfect for banners, art, or menus.`]
+      }
+    ]
   }
 ];
 
@@ -1615,7 +2089,7 @@ function renderUnit(unit){
     const explainHtml = p.explain.map(e => `<li>${e}</li>`).join('');
     if(p.section){
       html += `
-      <div class="section-divider">
+      <div class="section-divider reveal">
         <span class="sd-icon">📍</span>
         <div>
           <h4>${p.section}</h4>
@@ -1624,7 +2098,7 @@ function renderUnit(unit){
       </div>`;
     }
     html += `
-    <div class="prog-card" id="${cardId}">
+    <div class="prog-card reveal" id="${cardId}">
       <button class="prog-head" onclick="toggleCard('${cardId}')">
         <span class="prog-num">${idx}</span>
         <span class="prog-title">${p.title}</span>
@@ -1675,7 +2149,7 @@ function openAndScroll(id){
 }
 
 /* ============ TOC ============ */
-const unitNames = {unit1:"Unit 1 · print()", unit2:"Unit 2 · Variables", unit3:"Unit 3 · Input & Operators", unit4:"Lab 3 · Practice Programs", unit5:"Own Practice · 15 Programs", unit6:"Lab 4 · Number Logic & Patterns"};
+const unitNames = {unit8:"NumPy Arrays", unit7:"Lists & Arrays", unit6:"Loops & Patterns", unit5:"Problem Solving Practice", unit4:"Conditionals in Action", unit3:"Input & Operators", unit2:"Variables & Data Types", unit1:"Print & Output"};
 function buildToc(){
   const el = document.getElementById('tocContent');
   let html = '';
@@ -1725,6 +2199,25 @@ function typeStep(){
   }
 }
 typeStep();
+
+/* ============ animated sliding reveal ============ */
+function initReveal(){
+  const els = document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){
+    els.forEach(el => el.classList.add('visible'));
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.1, rootMargin:'0px 0px -60px 0px'});
+  els.forEach(el => io.observe(el));
+}
+initReveal();
 </script>
 </body>
 </html>
