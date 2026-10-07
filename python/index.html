@@ -199,6 +199,8 @@
   .unit6 .unit-badge{background:#C9184A;}
   .unit7 .unit-badge{background:#0EA5A5;}
   .unit8 .unit-badge{background:#7C3AED;}
+  .unit9 .unit-badge{background:#B45309;}
+  .unit10 .unit-badge{background:#2563EB;}
   .unit-head{align-items:center;}
   .unit-head h2{font-size:clamp(1.6rem,3.4vw,2.3rem); margin:0;}
   .unit-intro{
@@ -233,6 +235,8 @@
   .unit6 .prog-num{background:#C9184A;}
   .unit7 .prog-num{background:#0EA5A5;}
   .unit8 .prog-num{background:#7C3AED;}
+  .unit9 .prog-num{background:#B45309;}
+  .unit10 .prog-num{background:#2563EB;}
   .prog-title{font-weight:800; font-size:1.05rem; flex:1;}
   .chev{transition:transform .25s; font-size:1.1rem; color:var(--ink-soft);}
   .prog-card.open .chev{transform:rotate(180deg);}
@@ -356,6 +360,8 @@
   .unit6 .unit-intro{border-color:#F7C6D6;}
   .unit7 .unit-intro{border-color:#B8EDEA;}
   .unit8 .unit-intro{border-color:#DDD0FA;}
+  .unit9 .unit-intro{border-color:#F6D9B0;}
+  .unit10 .unit-intro{border-color:#BFD5FA;}
 
   /* ---------- animated sliding reveal ---------- */
   .reveal{
@@ -385,6 +391,8 @@
     <div class="course-tag">Python Programming <span class="dot">•</span> BTCO22101</div>
   </div>
   <nav class="links">
+    <a href="#unit10">Functions</a>
+    <a href="#unit9">Tuples</a>
     <a href="#why-python">Why Python</a>
     <a href="#syllabus">Syllabus</a>
     <a href="#unit8">NumPy Arrays</a>
@@ -398,7 +406,7 @@
     <a href="#practicals">Practicals</a>
   </nav>
   <button id="menuBtn" onclick="toggleToc(true)">☰ Programs</button>
-  <button class="btn ghost" style="padding:10px 18px; font-size:.85rem;" onclick="toggleToc(true)">📋 All 137 Programs</button>
+  <button class="btn ghost" style="padding:10px 18px; font-size:.85rem;" onclick="toggleToc(true)">📋 All 172 Programs</button>
 </header>
 
 <div id="tocOverlay" onclick="toggleToc(false)"></div>
@@ -417,7 +425,7 @@
   <div class="blob b4"></div>
   <span class="eyebrow">Sarvajanik University · B.Tech Sem 1 · BTCO22101</span>
   <h1>Learn Python by <span class="hl">actually typing it.</span></h1>
-  <p class="sub">A friendly, no-nonsense practice ground for first-year coders. 137 bite-sized programs, explained in plain human words — one keyword at a time, one giggle at a time.</p>
+  <p class="sub">A friendly, no-nonsense practice ground for first-year coders. 172 bite-sized programs, explained in plain human words — one keyword at a time, one giggle at a time.</p>
   <div class="hero-code"><span class="typewriter" id="typewriter">print("Hello, future engineer!")</span></div>
   <div class="cta-row">
     <a href="#why-python" class="btn primary">Start the story →</a>
@@ -514,6 +522,7 @@
       <h4>Functions</h4>
       <p>Defining Functions, Docstrings, Formal and Actual Arguments, Positional arguments, keyword arguments, default arguments, variable length arguments, local and global variables, Return, Returning Multiple values, Scope of a Variable, Recursive functions, Lambda Function.</p>
       <div class="syl-meta"><span>6 Teaching Hrs</span><span>20% Weightage</span></div>
+      <div style="position:relative; z-index:1; margin-top:10px; display:inline-block; font-size:.75rem; font-weight:800; color:#1F8A5E; background:#DEF7EC; padding:4px 10px; border-radius:20px;">🐍 NEW — all 20 programs practiced in Functions below</div>
     </div>
 
     <div class="syl-card reveal">
@@ -529,7 +538,7 @@
       <h4>Lists, Tuples, Dictionaries &amp; Strings</h4>
       <p><strong>Lists:</strong> add, remove, replace items. <strong>Tuples:</strong> creating, accessing, insert/delete/update, nested tuples. <strong>Dictionaries:</strong> operations, for loop with dictionary, list↔dictionary, string↔dictionary conversion. <strong>Strings:</strong> indexing, slicing, repeating, concatenation, membership, comparing, substrings, replacing, splitting, joining.</p>
       <div class="syl-meta"><span>6 Teaching Hrs</span><span>20% Weightage</span></div>
-      <div style="position:relative; z-index:1; margin-top:10px; display:inline-block; font-size:.75rem; font-weight:800; color:#1F8A5E; background:#DEF7EC; padding:4px 10px; border-radius:20px;">🐍 NEW — core list operations practiced in Lists &amp; Arrays below</div>
+      <div style="position:relative; z-index:1; margin-top:10px; display:inline-block; font-size:.75rem; font-weight:800; color:#1F8A5E; background:#DEF7EC; padding:4px 10px; border-radius:20px;">🐍 NEW — core list operations (Lists &amp; Arrays) and Tuples practiced below</div>
     </div>
 
     <div class="syl-card reveal">
@@ -547,6 +556,44 @@
     </div>
 
   </div>
+</section>
+
+<!-- ================= FUNCTIONS ================= -->
+<section class="unit unit10" id="unit10">
+  <div class="lab-fun">
+    <span>⚙️</span><span>🎁</span><span>🔁</span><span>🧩</span><span>🚀</span><span>🧮</span>
+  </div>
+  <div class="unit-head">
+    <span class="unit-badge">Functions</span>
+    <span style="font-family:'Fredoka'; font-weight:700; font-size:.78rem; color:#2563EB; background:#E3EDFF; padding:6px 12px; border-radius:20px; align-self:center;">🆕 Newest section</span>
+    <h2>Write once, use anywhere — 20 function programs</h2>
+  </div>
+  <div class="unit-intro reveal">
+    <h4>🎯 The concept, in one breath</h4>
+    <p>A <strong>function</strong> is a named block of code that you write once and run as many times as you like. You've already been calling ready-made ones like <code>print()</code> and <code>len()</code> — now you build your own using the <code>def</code> keyword.</p>
+    <p>Information goes in through <em>parameters</em> (the names in the brackets) and comes out through <code>return</code>. Variables created inside a function are <em>local</em> — they live only while the function runs — while variables created outside are <em>global</em>. A <code>lambda</code> is a tiny one-line function with no name.</p>
+    <div class="syntax-box">def function_name(parameter1, parameter2):<br>&nbsp;&nbsp;&nbsp;&nbsp;"""docstring: what this function does"""<br>&nbsp;&nbsp;&nbsp;&nbsp;result = parameter1 + parameter2<br>&nbsp;&nbsp;&nbsp;&nbsp;return result<br><br>answer = function_name(3, 4)   # call it</div>
+  </div>
+  <div class="prog-list" id="unit10List"></div>
+</section>
+
+<!-- ================= TUPLES ================= -->
+<section class="unit unit9" id="unit9">
+  <div class="lab-fun">
+    <span>📦</span><span>🔒</span><span>🧱</span><span>🪆</span><span>🎒</span><span>📎</span>
+  </div>
+  <div class="unit-head">
+    <span class="unit-badge">Tuples</span>
+    <span style="font-family:'Fredoka'; font-weight:700; font-size:.78rem; color:#B45309; background:#FDEBD0; padding:6px 12px; border-radius:20px; align-self:center;">🆕 Newest section</span>
+    <h2>Lists that can't change — 15 tuple programs</h2>
+  </div>
+  <div class="unit-intro reveal">
+    <h4>🎯 The concept, in one breath</h4>
+    <p>A <strong>tuple</strong> looks just like a list, but is written with round brackets and is <em>immutable</em> — once created, you cannot add, remove or change its items. That makes it perfect for data that should stay fixed, like coordinates, dates or a student's record.</p>
+    <p>Indexing and slicing work exactly like lists. To "change" a tuple, the trick is: convert it to a list with <code>list()</code>, edit the list, then convert back with <code>tuple()</code>. A tuple can even hold other tuples inside it — that's called a <strong>nested tuple</strong>.</p>
+    <div class="syntax-box">my_tuple = (10, 20, 30)<br>my_tuple[0]            # read one item<br>temp = list(my_tuple)  # tuple -> list (editable)<br>my_tuple = tuple(temp) # list -> tuple again</div>
+  </div>
+  <div class="prog-list" id="unit9List"></div>
 </section>
 
 <!-- ================= NUMPY ARRAYS ================= -->
@@ -711,7 +758,7 @@
       <div class="prac-check">3</div>
       <div>
         <h4>Functions</h4>
-        <p>Define functions with docstrings, practice positional, keyword, default and variable-length arguments, work with local/global scope, write recursive functions, and build lambda functions.</p>
+        <p>Define functions with docstrings, practice positional, keyword, default and variable-length arguments, work with local/global scope, write recursive functions, and build lambda functions. <strong>✅ Practiced on this site — all 20 programs in the Functions section.</strong></p>
       </div>
     </div>
 
@@ -727,7 +774,7 @@
       <div class="prac-check">5</div>
       <div>
         <h4>Lists, Tuples, Dictionaries &amp; Strings</h4>
-        <p>Add/remove/replace list items; create and manipulate tuples (including nested tuples); perform dictionary operations and conversions; and practice every core string operation — slicing, searching, replacing, splitting, joining.</p>
+        <p>Add/remove/replace list items; create and manipulate tuples (including nested tuples); perform dictionary operations and conversions; and practice every core string operation — slicing, searching, replacing, splitting, joining. <strong>✅ Lists (20 programs) and Tuples (15 programs) are practiced on this site; dictionaries and strings are still to come.</strong></p>
       </div>
     </div>
 
@@ -752,7 +799,7 @@
 
 <footer>
   <div class="foot-emoji">🐍✨</div>
-  <h3>That's a wrap — 137 programs down.</h3>
+  <h3>That's a wrap — 172 programs down.</h3>
   <p>Type every single one yourself, even the "too easy" ones. Muscle memory beats memory-memory. Now go make Python do something weird. — Python Programming (BTCO22101), Sarvajanik University</p>
 
   <div class="credit-box">
@@ -766,6 +813,261 @@
 <script>
 /* ============ DATA ============ */
 const units = [
+  {
+    key:'unit10', listId:'unit10List', prefix:'P10',
+    programs:[
+      {
+        title:"Define and call a simple function",
+        steps:["Use the def keyword followed by the function name and empty brackets.","Indent the lines that belong to the function.","Call the function by writing its name with brackets."],
+        code:`def greet():\n    print("Welcome to Python Programming!")\n\ngreet()`,
+        output:`Welcome to Python Programming!`,
+        explain:[`<code>def greet():</code> only <em>defines</em> the function — nothing is printed yet. The indented line is its body.`,`<code>greet()</code> is the call that actually runs the body. Call it three times and the message prints three times.`]
+      },
+      {
+        title:"Function with an argument",
+        steps:["Define a function with one parameter, name.","Use that parameter inside print().","Take the name from the user and pass it in when calling."],
+        code:`def greet(name):\n    print("Welcome,", name)\n\nuser = input("Enter your name: ")\ngreet(user)`,
+        output:`Enter your name: Aryan\nWelcome, Aryan`,
+        explain:[`<code>name</code> in the definition is the <strong>formal argument</strong> (a placeholder); <code>user</code> in the call is the <strong>actual argument</strong> (the real value handed over).`]
+      },
+      {
+        title:"Function with two arguments",
+        steps:["Define a function with two parameters, a and b.","Print their sum inside the function.","Take two numbers from the user and call the function."],
+        code:`def add(a, b):\n    print("Sum =", a + b)\n\nx = int(input("Enter first number: "))\ny = int(input("Enter second number: "))\nadd(x, y)`,
+        output:`Enter first number: 12\nEnter second number: 8\nSum = 20`,
+        explain:[`Arguments are matched to parameters in order: x goes into a, y goes into b.`]
+      },
+      {
+        title:"Positional arguments",
+        steps:["Define student() with name, age and branch.","Call it passing three values in the same order.","Observe that position decides which value goes where."],
+        code:`def student(name, age, branch):\n    print("Name:", name)\n    print("Age:", age)\n    print("Branch:", branch)\n\nstudent("Aryan", 19, "Computer Engineering")`,
+        output:`Name: Aryan\nAge: 19\nBranch: Computer Engineering`,
+        explain:[`With <strong>positional arguments</strong>, the 1st value goes to the 1st parameter, the 2nd to the 2nd, and so on.`,`Swap the order in the call, e.g. <code>student(19, "Aryan", ...)</code>, and Python will happily print age as the name — order matters.`]
+      },
+      {
+        title:"Keyword arguments",
+        steps:["Use the same student() function.","Call it by writing parameter_name=value for each argument.","Notice you can give them in any order."],
+        code:`def student(name, age, branch):\n    print("Name:", name)\n    print("Age:", age)\n    print("Branch:", branch)\n\nstudent(branch="Computer Engineering", name="Aryan", age=19)`,
+        output:`Name: Aryan\nAge: 19\nBranch: Computer Engineering`,
+        explain:[`In a <strong>keyword argument</strong> call, each value is tagged with its parameter name, so the order no longer matters and the code is easier to read.`]
+      },
+      {
+        title:"Default arguments",
+        steps:["Give a parameter a default value in the definition: name=\"Student\".","Call the function once without any argument.","Call it again with an argument to override the default."],
+        code:`def greet(name="Student"):\n    print("Hello,", name)\n\ngreet()\ngreet("Aryan")`,
+        output:`Hello, Student\nHello, Aryan`,
+        explain:[`If the caller skips the argument, Python quietly uses the default (<code>"Student"</code>); if a value is supplied, it replaces the default.`,`Parameters with defaults must come <em>after</em> those without defaults in the definition.`]
+      },
+      {
+        title:"Variable-length arguments (*args)",
+        steps:["Put *numbers as the parameter — the star means 'accept any count'.","Loop over numbers and keep a running total.","Call the function with different counts of values."],
+        code:`def total(*numbers):\n    s = 0\n    for n in numbers:\n        s += n\n    print("Numbers:", numbers)\n    print("Sum =", s)\n\ntotal(1, 2, 3)\ntotal(10, 20, 30, 40, 50)`,
+        output:`Numbers: (1, 2, 3)\nSum = 6\nNumbers: (10, 20, 30, 40, 50)\nSum = 150`,
+        explain:[`<code>*numbers</code> collects every extra positional value into a single <strong>tuple</strong> named numbers — that's why it prints with round brackets.`,`Because it's just a tuple, an ordinary <code>for</code> loop can walk through it.`]
+      },
+      {
+        title:"Function with a docstring",
+        steps:["Import math for π.","Define circle_area(r) and put a triple-quoted description as its very first line.","Call the function and print the function's __doc__ to see the docstring."],
+        code:`import math\n\ndef circle_area(r):\n    """Calculate and return the area of a circle from its radius."""\n    return math.pi * r ** 2\n\nprint("Area =", circle_area(5))\nprint(circle_area.__doc__)`,
+        output:`Area = 78.53981633974483\nCalculate and return the area of a circle from its radius.`,
+        explain:[`A <strong>docstring</strong> is a string placed on the first line inside a function; it documents what the function does and is stored in <code>__doc__</code>.`,`Tools like <code>help(circle_area)</code> display this text, so good docstrings help other people (and future you).`]
+      },
+      {
+        title:"Even / odd function",
+        steps:["Define check(n) that tests n % 2 == 0.","Print Even or Odd accordingly.","Take a number from the user and call the function."],
+        code:`def check(n):\n    if n % 2 == 0:\n        print(n, "is Even")\n    else:\n        print(n, "is Odd")\n\nnum = int(input("Enter a number: "))\ncheck(num)`,
+        output:`Enter a number: 15\n15 is Odd`,
+        explain:[`The same <code>% 2</code> remainder test from earlier, now wrapped in a function so you can reuse it for any number without rewriting it.`]
+      },
+      {
+        title:"Function that returns a value",
+        steps:["Define multiply(a, b) that uses return instead of print.","Store the returned value in a variable.","Print that variable."],
+        code:`def multiply(a, b):\n    return a * b\n\nx = int(input("Enter first number: "))\ny = int(input("Enter second number: "))\nresult = multiply(x, y)\nprint("Product =", result)`,
+        output:`Enter first number: 6\nEnter second number: 7\nProduct = 42`,
+        explain:[`<code>return</code> sends a value back to whoever called the function, so you can store it, reuse it or calculate with it — unlike <code>print()</code>, which only shows it on screen.`,`The line <code>result = multiply(x, y)</code> receives that returned value.`]
+      },
+      {
+        title:"Return multiple values",
+        steps:["Define calc(a, b) that returns four results separated by commas.","Unpack them into four variables in one line.","Print each result."],
+        code:`def calc(a, b):\n    return a + b, a - b, a * b, a / b\n\nx = int(input("Enter first number: "))\ny = int(input("Enter second number: "))\ns, d, p, q = calc(x, y)\nprint("Sum =", s)\nprint("Difference =", d)\nprint("Product =", p)\nprint("Quotient =", q)`,
+        output:`Enter first number: 10\nEnter second number: 4\nSum = 14\nDifference = 6\nProduct = 40\nQuotient = 2.5`,
+        explain:[`Python quietly packs comma-separated return values into one <strong>tuple</strong>, and <code>s, d, p, q = ...</code> unpacks it back into four separate variables.`,`Remember: if b is 0, <code>a / b</code> raises a ZeroDivisionError.`]
+      },
+      {
+        title:"Local and global variables",
+        steps:["Create a variable x outside any function (global).","Create another x inside a function (local).","Print x inside and outside to see they are different."],
+        code:`x = 10\n\ndef show():\n    x = 5\n    print("Inside function, x =", x)\n\nshow()\nprint("Outside function, x =", x)`,
+        output:`Inside function, x = 5\nOutside function, x = 10`,
+        explain:[`The <code>x = 5</code> inside <code>show()</code> creates a brand-new <strong>local</strong> variable that only exists while the function runs — it does not touch the global x.`,`That's why the outside print still shows 10.`]
+      },
+      {
+        title:"Scope of a variable",
+        steps:["Create a global variable and a local one inside a function.","Print both inside the function — both work.","Try printing the local variable outside inside a try/except to see the error."],
+        code:`language = "Python"\n\ndef demo():\n    version = 3\n    print("Inside:", language, version)\n\ndemo()\nprint("Outside:", language)\n\ntry:\n    print(version)\nexcept NameError:\n    print("version is not accessible outside the function")`,
+        output:`Inside: Python 3\nOutside: Python\nversion is not accessible outside the function`,
+        explain:[`<strong>Scope</strong> means where a variable can be seen. A function can read global variables, but a variable created inside a function disappears when the function ends.`,`Accessing <code>version</code> outside raises a <code>NameError</code>; the try/except lets us show the message instead of crashing.`]
+      },
+      {
+        title:"Recursive function — factorial",
+        steps:["Define factorial(n).","Base case: if n is 0 or 1, return 1.","Otherwise return n * factorial(n - 1).","Take n from the user and print the result."],
+        code:`def factorial(n):\n    if n == 0 or n == 1:\n        return 1\n    return n * factorial(n - 1)\n\nnum = int(input("Enter a number: "))\nprint("Factorial =", factorial(num))`,
+        output:`Enter a number: 5\nFactorial = 120`,
+        explain:[`A <strong>recursive</strong> function calls itself on a smaller problem: 5! = 5 × 4!, and 4! = 4 × 3!, and so on.`,`The <strong>base case</strong> (n is 0 or 1) stops the chain. Without it the function would call itself forever and crash.`,`Unwinding: 5×4×3×2×1 = 120.`]
+      },
+      {
+        title:"Lambda function — square and cube",
+        steps:["Create square = lambda x: x ** 2.","Create cube = lambda x: x ** 3.","Call both with a number from the user."],
+        code:`square = lambda x: x ** 2\ncube = lambda x: x ** 3\n\nn = int(input("Enter a number: "))\nprint("Square =", square(n))\nprint("Cube =", cube(n))`,
+        output:`Enter a number: 4\nSquare = 16\nCube = 64`,
+        explain:[`<code>lambda x: x ** 2</code> is a one-line anonymous function: parameters before the colon, the returned value after it — no <code>def</code> or <code>return</code> needed.`,`Assigning it to a name like <code>square</code> lets you call it just like a normal function.`]
+      },
+      {
+        title:"Simple interest using a function",
+        steps:["Define simple_interest(p, r, t) that returns (p × r × t) / 100.","Take principal, rate and time from the user.","Print the returned value."],
+        code:`def simple_interest(p, r, t):\n    return (p * r * t) / 100\n\np = float(input("Enter Principal: "))\nr = float(input("Enter Rate: "))\nt = float(input("Enter Time (years): "))\nprint("Simple Interest =", simple_interest(p, r, t))`,
+        output:`Enter Principal: 5000\nEnter Rate: 6\nEnter Time (years): 3\nSimple Interest = 900.0`,
+        explain:[`The same formula you used in Lab 3, now packaged as a reusable function that <em>returns</em> the answer, so it can be used inside bigger programs.`]
+      },
+      {
+        title:"Largest of three numbers using a function",
+        steps:["Define largest(a, b, c).","Use if / elif / else to find the biggest and return it.","Call it with three user inputs."],
+        code:`def largest(a, b, c):\n    if a >= b and a >= c:\n        return a\n    elif b >= a and b >= c:\n        return b\n    else:\n        return c\n\nx = int(input("Enter first number: "))\ny = int(input("Enter second number: "))\nz = int(input("Enter third number: "))\nprint("Largest =", largest(x, y, z))`,
+        output:`Enter first number: 4\nEnter second number: 9\nEnter third number: 7\nLargest = 9`,
+        explain:[`Same checklist logic as the earlier "largest among three" program. Each <code>return</code> ends the function immediately, so only one branch ever sends back a value.`]
+      },
+      {
+        title:"Student grade using a function",
+        steps:["Define get_grade(marks).","Check from the highest range downward: 90, 75, 60, 40.","Return the matching grade and print it."],
+        code:`def get_grade(marks):\n    if marks >= 90:\n        return "A"\n    elif marks >= 75:\n        return "B"\n    elif marks >= 60:\n        return "C"\n    elif marks >= 40:\n        return "D"\n    else:\n        return "Fail"\n\nm = float(input("Enter marks: "))\nprint("Grade:", get_grade(m))`,
+        output:`Enter marks: 82\nGrade: B`,
+        explain:[`Checking from the top down means each <code>elif</code> needs just one boundary. Because <code>return</code> exits the function, no <code>else</code> chain subtleties are needed.`]
+      },
+      {
+        title:"Electricity bill using a function",
+        steps:["Define bill(units) using slab rates: first 100 at ₹5, next 100 at ₹7, rest at ₹10.","Return the calculated amount.","Take units from the user and print the bill."],
+        code:`def bill(units):\n    if units <= 100:\n        return units * 5\n    elif units <= 200:\n        return 100 * 5 + (units - 100) * 7\n    else:\n        return 100 * 5 + 100 * 7 + (units - 200) * 10\n\nunits = int(input("Enter units consumed: "))\nprint("Electricity Bill = ₹", bill(units))`,
+        output:`Enter units consumed: 250\nElectricity Bill = ₹ 1700`,
+        explain:[`Each slab is charged at its own rate: 100×5 = 500, next 100×7 = 700, and the last 50×10 = 500, giving 1700.`,`Putting the logic in a function means you can reuse it for many customers by just calling <code>bill()</code> again.`]
+      },
+      {
+        title:"Factorial and Fibonacci using separate functions",
+        steps:["Define factorial(n) using a loop that multiplies 1 to n and returns the result.","Define fibonacci(terms) that prints the series using two running values a and b.","Take both inputs from the user and call each function."],
+        code:`def factorial(n):\n    result = 1\n    for i in range(1, n + 1):\n        result *= i\n    return result\n\ndef fibonacci(terms):\n    a, b = 0, 1\n    for _ in range(terms):\n        print(a, end=" ")\n        a, b = b, a + b\n    print()\n\nnum = int(input("Enter a number for factorial: "))\nprint("Factorial =", factorial(num))\nn = int(input("Enter number of Fibonacci terms: "))\nprint("Fibonacci series:", end=" ")\nfibonacci(n)`,
+        output:`Enter a number for factorial: 5\nFactorial = 120\nEnter number of Fibonacci terms: 7\nFibonacci series: 0 1 1 2 3 5 8`,
+        explain:[`<code>factorial()</code> <em>returns</em> a value; <code>fibonacci()</code> just <em>prints</em> — two different styles of function side by side.`,`In fibonacci, <code>a, b = b, a + b</code> shifts the pair forward each time (0,1 → 1,1 → 1,2 → 2,3 ...), printing a on every pass.`,`<code>end=" "</code> keeps all the numbers on one line; the final <code>print()</code> moves to a new line.`]
+      }
+    ]
+  },
+  {
+    key:'unit9', listId:'unit9List', prefix:'P9',
+    programs:[
+      {
+        title:"Create and display a tuple",
+        steps:["Write five numbers inside round brackets and store them in a variable.","Print the whole tuple.","Loop through it to print each element."],
+        code:`numbers = (10, 20, 30, 40, 50)\nprint("Tuple:", numbers)\nprint("Elements:")\nfor n in numbers:\n    print(n)`,
+        output:`Tuple: (10, 20, 30, 40, 50)\nElements:\n10\n20\n30\n40\n50`,
+        explain:[`Round brackets <code>( )</code> create a <strong>tuple</strong>. Printing it directly shows the brackets and commas.`,`A <code>for</code> loop walks through the items one by one, exactly like a list.`]
+      },
+      {
+        title:"Access tuple elements",
+        steps:["Create a tuple of five fruits.","Access the first item with index 0, the third with index 2, and the last with index 4."],
+        code:`fruits = ("apple", "banana", "cherry", "mango", "orange")\nprint("First:", fruits[0])\nprint("Third:", fruits[2])\nprint("Last:", fruits[4])`,
+        output:`First: apple\nThird: cherry\nLast: orange`,
+        explain:[`Tuple indexing starts at 0 just like lists, so the third item sits at index 2 — one less than its position number.`]
+      },
+      {
+        title:"Negative indexing",
+        steps:["Create a tuple of numbers.","Use -1 for the last item, -2 for the second-last, -3 for the third-last."],
+        code:`numbers = (10, 20, 30, 40, 50)\nprint("Last:", numbers[-1])\nprint("Second-last:", numbers[-2])\nprint("Third-last:", numbers[-3])`,
+        output:`Last: 50\nSecond-last: 40\nThird-last: 30`,
+        explain:[`Negative indexes count backwards from the end, so <code>-1</code> is always the last item no matter how long the tuple is.`]
+      },
+      {
+        title:"Find the length of a tuple",
+        steps:["Create a tuple of colours.","Pass it to len().","Print the result."],
+        code:`colors = ("red", "green", "blue", "yellow")\nprint("Total elements =", len(colors))`,
+        output:`Total elements = 4`,
+        explain:[`<code>len()</code> counts how many items the tuple holds. It works on lists, strings and tuples alike.`]
+      },
+      {
+        title:"Check whether an item is in a tuple",
+        steps:["Create a tuple of colours.","Ask the user for an item.","Use the in operator inside an if statement and print the result."],
+        code:`colors = ("red", "green", "blue", "yellow")\nitem = input("Enter an item to search: ")\nif item in colors:\n    print(item, "is present in the tuple")\nelse:\n    print(item, "is not present in the tuple")`,
+        output:`Enter an item to search: blue\nblue is present in the tuple`,
+        explain:[`<code>in</code> is the membership operator — it returns True if the item matches any element in the tuple, False otherwise.`,`The check is case-sensitive: typing "Blue" would not match "blue".`]
+      },
+      {
+        title:"Add an item to a tuple",
+        steps:["Create a tuple and show it.","Convert it to a list with list(), because tuples can't be changed.","Append the new item to the list.","Convert it back with tuple() and print."],
+        code:`numbers = (1, 2, 3)\nprint("Original tuple:", numbers)\nitem = int(input("Enter item to add: "))\ntemp = list(numbers)\ntemp.append(item)\nnumbers = tuple(temp)\nprint("Updated tuple:", numbers)`,
+        output:`Original tuple: (1, 2, 3)\nEnter item to add: 4\nUpdated tuple: (1, 2, 3, 4)`,
+        explain:[`Tuples are <strong>immutable</strong> — there is no <code>append()</code> for them. The workaround is tuple → list → edit → tuple.`,`Strictly speaking, a brand-new tuple is created and the name <code>numbers</code> is pointed at it; the old tuple is never modified.`]
+      },
+      {
+        title:"Remove an item from a tuple",
+        steps:["Create a tuple of fruits.","Ask the user which fruit to remove.","Convert to a list, use remove(), then convert back to a tuple."],
+        code:`fruits = ("apple", "banana", "cherry")\nitem = input("Enter item to remove: ")\ntemp = list(fruits)\ntemp.remove(item)\nfruits = tuple(temp)\nprint("Updated tuple:", fruits)`,
+        output:`Enter item to remove: banana\nUpdated tuple: ('apple', 'cherry')`,
+        explain:[`<code>remove()</code> deletes the first matching value from the list. If the item isn't there, Python raises a ValueError — add an <code>in</code> check first to be safe.`]
+      },
+      {
+        title:"Replace an item in a tuple",
+        steps:["Create a tuple of numbers.","Take the old value and the new value from the user.","Convert to a list and find the old value's position using index().","Assign the new value at that position and convert back."],
+        code:`numbers = (10, 20, 30, 40)\nold = int(input("Enter value to replace: "))\nnew = int(input("Enter new value: "))\ntemp = list(numbers)\npos = temp.index(old)\ntemp[pos] = new\nnumbers = tuple(temp)\nprint("Updated tuple:", numbers)`,
+        output:`Enter value to replace: 30\nEnter new value: 99\nUpdated tuple: (10, 20, 99, 40)`,
+        explain:[`<code>index(old)</code> finds where the old value sits (2 here), and <code>temp[pos] = new</code> overwrites it — something a tuple itself would refuse to do.`]
+      },
+      {
+        title:"Join two tuples",
+        steps:["Create two tuples.","Join them with the + operator.","Print the combined tuple."],
+        code:`t1 = (1, 2, 3)\nt2 = (4, 5, 6)\njoined = t1 + t2\nprint("Joined tuple:", joined)`,
+        output:`Joined tuple: (1, 2, 3, 4, 5, 6)`,
+        explain:[`<code>+</code> <strong>concatenates</strong> tuples into a new third tuple; t1 and t2 themselves stay unchanged.`]
+      },
+      {
+        title:"Tuple slicing",
+        steps:["Create a tuple of seven numbers.","Slice using tuple[start:stop], leaving out start or stop where needed.","Use a step value for every second element."],
+        code:`nums = (10, 20, 30, 40, 50, 60, 70)\nprint(nums[1:4])\nprint(nums[:3])\nprint(nums[4:])\nprint(nums[::2])`,
+        output:`(20, 30, 40)\n(10, 20, 30)\n(50, 60, 70)\n(10, 30, 50, 70)`,
+        explain:[`<code>nums[1:4]</code> takes indexes 1, 2, 3 — the stop index is excluded. A slice of a tuple is itself a tuple.`,`Leaving out the start means "from the beginning", leaving out the stop means "to the end", and <code>[::2]</code> takes every second item.`]
+      },
+      {
+        title:"Maximum, minimum and sum of a tuple",
+        steps:["Create a numeric tuple.","Use max(), min() and sum() on it.","Print all three."],
+        code:`nums = (12, 45, 3, 67, 21)\nprint("Maximum =", max(nums))\nprint("Minimum =", min(nums))\nprint("Sum =", sum(nums))`,
+        output:`Maximum = 67\nMinimum = 3\nSum = 148`,
+        explain:[`These three built-in functions scan the whole tuple for you — 12 + 45 + 3 + 67 + 21 = 148.`]
+      },
+      {
+        title:"Average of tuple elements",
+        steps:["Create a tuple of student marks.","Add them up with sum().","Divide by the count from len().","Print the average."],
+        code:`marks = (80, 75, 90, 85, 70)\naverage = sum(marks) / len(marks)\nprint("Total =", sum(marks))\nprint("Average =", average)`,
+        output:`Total = 400\nAverage = 80.0`,
+        explain:[`<strong>Average = sum ÷ count</strong>. Using <code>len(marks)</code> instead of typing 5 means the program keeps working even if the tuple grows.`,`The answer is a float (80.0) because <code>/</code> always gives a decimal result.`]
+      },
+      {
+        title:"Create a nested tuple",
+        steps:["Create a tuple holding name, roll number and an inner tuple of marks.","Print the whole nested tuple."],
+        code:`student = ("Aryan", 21, (85, 90, 78))\nprint("Student record:", student)`,
+        output:`Student record: ('Aryan', 21, (85, 90, 78))`,
+        explain:[`A tuple can hold any kind of value, including another tuple. Here the inner <code>(85, 90, 78)</code> is the marks of three subjects, stored as one item of the outer tuple.`]
+      },
+      {
+        title:"Access elements of a nested tuple",
+        steps:["Create the nested student tuple.","Access outer items with one index, e.g. student[0].","Access inner items with two indexes, e.g. student[2][0]."],
+        code:`student = ("Aryan", 21, (85, 90, 78))\nprint("Name:", student[0])\nprint("Roll No:", student[1])\nprint("Marks:", student[2])\nprint("First subject:", student[2][0])\nprint("Second subject:", student[2][1])\nprint("Third subject:", student[2][2])`,
+        output:`Name: Aryan\nRoll No: 21\nMarks: (85, 90, 78)\nFirst subject: 85\nSecond subject: 90\nThird subject: 78`,
+        explain:[`<code>student[2]</code> returns the whole inner tuple; adding a second index, <code>student[2][0]</code>, then picks one item <em>from inside it</em>.`,`Read it left to right: "take item 2 of student, then take item 0 of that."`]
+      },
+      {
+        title:"Student marks using nested tuples",
+        steps:["Create a tuple of three students; each is a (name, (marks...)) pair.","Loop through the outer tuple, unpacking each pair into name and marks.","Calculate total with sum() and average with total / len().","Print name, total and average for each student."],
+        code:`students = (\n    ("Aryan", (80, 75, 90)),\n    ("Diya", (88, 92, 79)),\n    ("Kabir", (70, 65, 85))\n)\n\nfor name, marks in students:\n    total = sum(marks)\n    average = total / len(marks)\n    print("Name:", name)\n    print("Total Marks:", total)\n    print("Average Marks:", round(average, 2))\n    print()`,
+        output:`Name: Aryan\nTotal Marks: 245\nAverage Marks: 81.67\n\nName: Diya\nTotal Marks: 259\nAverage Marks: 86.33\n\nName: Kabir\nTotal Marks: 220\nAverage Marks: 73.33\n`,
+        explain:[`<code>for name, marks in students:</code> unpacks each inner pair straight into two variables — name gets the text, marks gets the inner tuple of scores.`,`<code>sum(marks)</code> and <code>len(marks)</code> then work on that inner tuple, just like the earlier average program.`,`<code>round(average, 2)</code> trims the long decimal to two places, and the empty <code>print()</code> adds a blank line between students.`]
+      }
+    ]
+  },
   {
     key:'unit8', listId:'unit8List', prefix:'P8',
     programs:[
@@ -2149,7 +2451,7 @@ function openAndScroll(id){
 }
 
 /* ============ TOC ============ */
-const unitNames = {unit8:"NumPy Arrays", unit7:"Lists & Arrays", unit6:"Loops & Patterns", unit5:"Problem Solving Practice", unit4:"Conditionals in Action", unit3:"Input & Operators", unit2:"Variables & Data Types", unit1:"Print & Output"};
+const unitNames = {unit10:"Functions", unit9:"Tuples", unit8:"NumPy Arrays", unit7:"Lists & Arrays", unit6:"Loops & Patterns", unit5:"Problem Solving Practice", unit4:"Conditionals in Action", unit3:"Input & Operators", unit2:"Variables & Data Types", unit1:"Print & Output"};
 function buildToc(){
   const el = document.getElementById('tocContent');
   let html = '';
