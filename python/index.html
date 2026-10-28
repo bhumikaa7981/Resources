@@ -201,6 +201,8 @@
   .unit8 .unit-badge{background:#7C3AED;}
   .unit9 .unit-badge{background:#B45309;}
   .unit10 .unit-badge{background:#2563EB;}
+  .unit11 .unit-badge{background:#DB2777;}
+  .unit12 .unit-badge{background:#0D9488;}
   .unit-head{align-items:center;}
   .unit-head h2{font-size:clamp(1.6rem,3.4vw,2.3rem); margin:0;}
   .unit-intro{
@@ -237,6 +239,8 @@
   .unit8 .prog-num{background:#7C3AED;}
   .unit9 .prog-num{background:#B45309;}
   .unit10 .prog-num{background:#2563EB;}
+  .unit11 .prog-num{background:#DB2777;}
+  .unit12 .prog-num{background:#0D9488;}
   .prog-title{font-weight:800; font-size:1.05rem; flex:1;}
   .chev{transition:transform .25s; font-size:1.1rem; color:var(--ink-soft);}
   .prog-card.open .chev{transform:rotate(180deg);}
@@ -362,6 +366,8 @@
   .unit8 .unit-intro{border-color:#DDD0FA;}
   .unit9 .unit-intro{border-color:#F6D9B0;}
   .unit10 .unit-intro{border-color:#BFD5FA;}
+  .unit11 .unit-intro{border-color:#F8C8DC;}
+  .unit12 .unit-intro{border-color:#B5ECE4;}
 
   /* ---------- animated sliding reveal ---------- */
   .reveal{
@@ -391,6 +397,8 @@
     <div class="course-tag">Python Programming <span class="dot">•</span> BTCO22101</div>
   </div>
   <nav class="links">
+    <a href="#unit12">Libraries</a>
+    <a href="#unit11">OOP</a>
     <a href="#unit10">Functions</a>
     <a href="#unit9">Tuples</a>
     <a href="#why-python">Why Python</a>
@@ -406,7 +414,7 @@
     <a href="#practicals">Practicals</a>
   </nav>
   <button id="menuBtn" onclick="toggleToc(true)">☰ Programs</button>
-  <button class="btn ghost" style="padding:10px 18px; font-size:.85rem;" onclick="toggleToc(true)">📋 All 172 Programs</button>
+  <button class="btn ghost" style="padding:10px 18px; font-size:.85rem;" onclick="toggleToc(true)">📋 All 207 Programs</button>
 </header>
 
 <div id="tocOverlay" onclick="toggleToc(false)"></div>
@@ -425,7 +433,7 @@
   <div class="blob b4"></div>
   <span class="eyebrow">Sarvajanik University · B.Tech Sem 1 · BTCO22101</span>
   <h1>Learn Python by <span class="hl">actually typing it.</span></h1>
-  <p class="sub">A friendly, no-nonsense practice ground for first-year coders. 172 bite-sized programs, explained in plain human words — one keyword at a time, one giggle at a time.</p>
+  <p class="sub">A friendly, no-nonsense practice ground for first-year coders. 207 bite-sized programs, explained in plain human words — one keyword at a time, one giggle at a time.</p>
   <div class="hero-code"><span class="typewriter" id="typewriter">print("Hello, future engineer!")</span></div>
   <div class="cta-row">
     <a href="#why-python" class="btn primary">Start the story →</a>
@@ -546,6 +554,7 @@
       <h4>Classes &amp; Object-Oriented Programming</h4>
       <p>Objects, Classes, The Self Variable, Constructor, Types of Variables, Types of Methods: Instance Methods, Class Methods, Static Methods, Inheritance.</p>
       <div class="syl-meta"><span>4 Teaching Hrs</span><span>14% Weightage</span></div>
+      <div style="position:relative; z-index:1; margin-top:10px; display:inline-block; font-size:.75rem; font-weight:800; color:#1F8A5E; background:#DEF7EC; padding:4px 10px; border-radius:20px;">🐍 NEW — all 15 programs practiced in Classes &amp; OOP below</div>
     </div>
 
     <div class="syl-card reveal">
@@ -553,9 +562,48 @@
       <h4>Python Libraries</h4>
       <p>Pandas — Reading and Writing Files, Working with Text files and CSV Files. Matplotlib — line plot, scatter plot, bar chart, histogram.</p>
       <div class="syl-meta"><span>3 Teaching Hrs</span><span>9% Weightage</span></div>
+      <div style="position:relative; z-index:1; margin-top:10px; display:inline-block; font-size:.75rem; font-weight:800; color:#1F8A5E; background:#DEF7EC; padding:4px 10px; border-radius:20px;">🐍 NEW — all 20 programs practiced in Python Libraries below</div>
     </div>
 
   </div>
+</section>
+
+<!-- ================= PYTHON LIBRARIES (PANDAS & MATPLOTLIB) ================= -->
+<section class="unit unit12" id="unit12">
+  <div class="lab-fun">
+    <span>🐼</span><span>📊</span><span>📈</span><span>📉</span><span>🗂️</span><span>🎨</span>
+  </div>
+  <div class="unit-head">
+    <span class="unit-badge">Python Libraries</span>
+    <span style="font-family:'Fredoka'; font-weight:700; font-size:.78rem; color:#0D9488; background:#D5F5F0; padding:6px 12px; border-radius:20px; align-self:center;">🆕 Newest section</span>
+    <h2>Tables &amp; graphs in a few lines — 20 Pandas &amp; Matplotlib programs</h2>
+  </div>
+  <div class="unit-intro reveal">
+    <h4>🎯 The concept, in one breath</h4>
+    <p><strong>Pandas</strong> is a library for working with table-like data. Its two main structures are the <em>Series</em> (one column) and the <em>DataFrame</em> (a full table). It can also read and write CSV and text files.</p>
+    <p><strong>Matplotlib</strong> is a library that draws graphs. A <em>line plot</em> shows change, a <em>scatter plot</em> shows individual points, a <em>bar chart</em> compares categories and a <em>histogram</em> shows how data is spread out. Install both first with <code>pip install pandas matplotlib</code>.</p>
+    <div class="syntax-box">import pandas as pd<br>import matplotlib.pyplot as plt<br><br>df = pd.read_csv("student.csv")   # read a file<br>plt.bar(df["Name"], df["Marks"])  # draw a bar chart<br>plt.show()                         # display it</div>
+  </div>
+  <div class="prog-list" id="unit12List"></div>
+</section>
+
+<!-- ================= CLASSES & OOP ================= -->
+<section class="unit unit11" id="unit11">
+  <div class="lab-fun">
+    <span>🏗️</span><span>🧱</span><span>👨‍👩‍👧</span><span>🧬</span><span>🔧</span><span>🎓</span>
+  </div>
+  <div class="unit-head">
+    <span class="unit-badge">Classes &amp; OOP</span>
+    <span style="font-family:'Fredoka'; font-weight:700; font-size:.78rem; color:#DB2777; background:#FDE4EF; padding:6px 12px; border-radius:20px; align-self:center;">🆕 Newest section</span>
+    <h2>Blueprints for objects — 15 class &amp; OOP programs</h2>
+  </div>
+  <div class="unit-intro reveal">
+    <h4>🎯 The concept, in one breath</h4>
+    <p>A <strong>class</strong> is a blueprint and an <strong>object</strong> is a thing built from it. The class describes what data an object holds (<em>variables</em>) and what it can do (<em>methods</em>). <code>self</code> is how an object refers to itself, and <code>__init__()</code> is the <em>constructor</em> that sets up each new object.</p>
+    <p>There are three kinds of methods: <em>instance</em> methods (use <code>self</code>), <em>class</em> methods (use <code>cls</code>, marked <code>@classmethod</code>) and <em>static</em> methods (use neither, marked <code>@staticmethod</code>). <strong>Inheritance</strong> lets a child class reuse everything from a parent class.</p>
+    <div class="syntax-box">class Student:<br>&nbsp;&nbsp;&nbsp;&nbsp;college = "SCET"           # class variable<br>&nbsp;&nbsp;&nbsp;&nbsp;def __init__(self, name):  # constructor<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.name = name       # instance variable<br><br>s1 = Student("Amit")        # create an object</div>
+  </div>
+  <div class="prog-list" id="unit11List"></div>
 </section>
 
 <!-- ================= FUNCTIONS ================= -->
@@ -565,7 +613,6 @@
   </div>
   <div class="unit-head">
     <span class="unit-badge">Functions</span>
-    <span style="font-family:'Fredoka'; font-weight:700; font-size:.78rem; color:#2563EB; background:#E3EDFF; padding:6px 12px; border-radius:20px; align-self:center;">🆕 Newest section</span>
     <h2>Write once, use anywhere — 20 function programs</h2>
   </div>
   <div class="unit-intro reveal">
@@ -782,7 +829,7 @@
       <div class="prac-check">6</div>
       <div>
         <h4>Classes &amp; Object-Oriented Programming</h4>
-        <p>Build classes and objects, use the self variable and constructors, write instance/class/static methods, and implement inheritance between classes.</p>
+        <p>Build classes and objects, use the self variable and constructors, write instance/class/static methods, and implement inheritance between classes. <strong>✅ Practiced on this site — all 15 programs in the Classes &amp; OOP section.</strong></p>
       </div>
     </div>
 
@@ -790,7 +837,7 @@
       <div class="prac-check">7</div>
       <div>
         <h4>Python Libraries</h4>
-        <p>Use Pandas to read and write text/CSV files, and use Matplotlib to draw line plots, scatter plots, bar charts, and histograms.</p>
+        <p>Use Pandas to read and write text/CSV files, and use Matplotlib to draw line plots, scatter plots, bar charts, and histograms. <strong>✅ Practiced on this site — all 20 programs in the Python Libraries section.</strong></p>
       </div>
     </div>
 
@@ -799,7 +846,7 @@
 
 <footer>
   <div class="foot-emoji">🐍✨</div>
-  <h3>That's a wrap — 172 programs down.</h3>
+  <h3>That's a wrap — 207 programs down.</h3>
   <p>Type every single one yourself, even the "too easy" ones. Muscle memory beats memory-memory. Now go make Python do something weird. — Python Programming (BTCO22101), Sarvajanik University</p>
 
   <div class="credit-box">
@@ -813,6 +860,261 @@
 <script>
 /* ============ DATA ============ */
 const units = [
+  {
+    key:'unit12', listId:'unit12List', prefix:'P12',
+    programs:[
+      {section:"Part A — Pandas", sectionNote:"Pandas stores table-like data. Programs 1 to 10 cover Series, DataFrames, CSV and text files.",
+        title:"Create a Pandas Series",
+        steps:["Import pandas as pd.","Make a normal Python list of numbers.","Convert it with pd.Series() and print it."],
+        code:`import pandas as pd\n\ndata = [10, 20, 30, 40]\ns = pd.Series(data)\nprint(s)`,
+        output:`0    10\n1    20\n2    30\n3    40\ndtype: int64`,
+        explain:[`A <strong>Series</strong> is a one-dimensional column of data.`,`The left column (0, 1, 2, 3) is the automatic <em>index</em>; the right column holds the values.`]
+      },
+      {
+        title:"Create a DataFrame",
+        steps:["Create a dictionary where each key is a column name and each value is a list.","Convert it using pd.DataFrame().","Print the DataFrame."],
+        code:`import pandas as pd\n\ndata = {\n    "Name": ["Amit", "Neha", "Raj"],\n    "Marks": [80, 90, 75]\n}\n\ndf = pd.DataFrame(data)\nprint(df)`,
+        output:`   Name  Marks\n0  Amit     80\n1  Neha     90\n2   Raj     75`,
+        explain:[`A <strong>DataFrame</strong> is a table with rows and columns, like an Excel sheet.`,`Dictionary keys become column names; the lists become the column values.`]
+      },
+      {
+        title:"Display the first five rows",
+        steps:["Create a DataFrame with six rows.","Call df.head().","Observe that only five rows are shown."],
+        code:`import pandas as pd\n\ndf = pd.DataFrame({\n    "Name": ["A", "B", "C", "D", "E", "F"],\n    "Marks": [70, 80, 90, 60, 85, 95]\n})\n\nprint(df.head())`,
+        output:`  Name  Marks\n0    A     70\n1    B     80\n2    C     90\n3    D     60\n4    E     85`,
+        explain:[`<code>head()</code> shows the first 5 rows by default — handy for a quick peek at big data.`,`Use <code>head(3)</code> to see only the first 3.`]
+      },
+      {
+        title:"Access a particular column",
+        steps:["Create a DataFrame.","Write the column name inside square brackets: df[\"Marks\"].","Print the result."],
+        code:`import pandas as pd\n\ndf = pd.DataFrame({\n    "Name": ["Amit", "Neha", "Raj"],\n    "Marks": [80, 90, 75]\n})\n\nprint(df["Marks"])`,
+        output:`0    80\n1    90\n2    75\nName: Marks, dtype: int64`,
+        explain:[`<code>df["Marks"]</code> pulls out a single column, which is itself a Series.`]
+      },
+      {
+        title:"Add a new column",
+        steps:["Create a DataFrame.","Assign a list to a new column name: df[\"Grade\"] = [...].","Print the updated DataFrame."],
+        code:`import pandas as pd\n\ndf = pd.DataFrame({\n    "Name": ["Amit", "Neha", "Raj"],\n    "Marks": [80, 90, 75]\n})\n\ndf["Grade"] = ["B", "A", "B"]\nprint(df)`,
+        output:`   Name  Marks Grade\n0  Amit     80     B\n1  Neha     90     A\n2   Raj     75     B`,
+        explain:[`Assigning to a column name that does not exist yet creates it.`,`The list must have exactly as many items as the DataFrame has rows.`]
+      },
+      {
+        title:"Read a CSV file",
+        steps:["Create a file student.csv in the same folder with the data shown below.","Use pd.read_csv() with the file name.","Print the DataFrame."],
+        code:`# student.csv contains:\n# Name,Marks\n# Amit,80\n# Neha,90\n# Raj,75\n\nimport pandas as pd\n\ndf = pd.read_csv("student.csv")\nprint(df)`,
+        output:`   Name  Marks\n0  Amit     80\n1  Neha     90\n2   Raj     75`,
+        explain:[`A <strong>CSV</strong> (comma-separated values) file stores a table as plain text, one row per line.`,`<code>read_csv()</code> turns it into a DataFrame; the first line becomes the column names.`]
+      },
+      {
+        title:"Write data into a CSV file",
+        steps:["Create a DataFrame.","Call df.to_csv() with the file name.","Add index=False so the row numbers are not saved."],
+        code:`import pandas as pd\n\ndf = pd.DataFrame({\n    "Name": ["Amit", "Neha", "Raj"],\n    "Marks": [80, 90, 75]\n})\n\ndf.to_csv("student.csv", index=False)\nprint("CSV file created successfully.")`,
+        output:`CSV file created successfully.`,
+        explain:[`<code>to_csv()</code> saves the DataFrame as a file named student.csv in the current folder.`,`<code>index=False</code> skips the 0, 1, 2 index column.`]
+      },
+      {
+        title:"Read a text file",
+        steps:["Create data.txt with one number per line (10, 20, 30, 40).","Read it with pd.read_csv() and header=None.","Print the DataFrame."],
+        code:`# data.txt contains:\n# 10\n# 20\n# 30\n# 40\n\nimport pandas as pd\n\ndf = pd.read_csv("data.txt", header=None)\nprint(df)`,
+        output:`    0\n0  10\n1  20\n2  30\n3  40`,
+        explain:[`A plain text file can be read with <code>read_csv()</code> too, since it is also just lines of text.`,`<code>header=None</code> tells Pandas the first line is data, not a column title. The column is therefore labelled 0.`]
+      },
+      {
+        title:"Write data into a text file",
+        steps:["Create a DataFrame with one column.","Use to_csv() with a .txt file name.","Set index=False and header=False to save only the values."],
+        code:`import pandas as pd\n\ndf = pd.DataFrame({\n    "Marks": [80, 90, 75]\n})\n\ndf.to_csv("marks.txt", index=False, header=False)\nprint("Text file created successfully.")`,
+        output:`Text file created successfully.\n\n(marks.txt now contains)\n80\n90\n75`,
+        explain:[`<code>header=False</code> leaves out the column name, so the file holds only the numbers, one per line.`]
+      },
+      {
+        title:"Calculate the average of marks",
+        steps:["Create a DataFrame with a Marks column.","Select the column and call .mean().","Print the result."],
+        code:`import pandas as pd\n\ndf = pd.DataFrame({\n    "Marks": [80, 90, 70, 60, 100]\n})\n\nprint("Average Marks:", df["Marks"].mean())`,
+        output:`Average Marks: 80.0`,
+        explain:[`<code>mean()</code> adds all values and divides by the count: (80+90+70+60+100) / 5 = 80.0.`,`Similar methods: <code>sum()</code>, <code>max()</code>, <code>min()</code>.`]
+      },
+      {section:"Part B — Matplotlib", sectionNote:"Matplotlib draws graphs. Programs 11 to 20 cover line plots, scatter plots, bar charts and histograms. Run them on your computer: plt.show() opens the graph window.",
+        title:"Draw a simple line plot",
+        steps:["Import matplotlib.pyplot as plt.","Make two lists, x and y.","Call plt.plot(x, y), add title and labels, then plt.show()."],
+        code:`import matplotlib.pyplot as plt\n\nx = [1, 2, 3, 4, 5]\ny = [10, 20, 30, 40, 50]\n\nplt.plot(x, y)\nplt.title("Simple Line Plot")\nplt.xlabel("X Values")\nplt.ylabel("Y Values")\nplt.show()`,
+        output:`A window opens showing a straight line rising from (1, 10) to (5, 50), titled "Simple Line Plot".`,
+        explain:[`<code>plt.plot(x, y)</code> joins the points with a line.`,`<code>title()</code>, <code>xlabel()</code> and <code>ylabel()</code> add the text labels; <code>show()</code> displays the graph.`]
+      },
+      {
+        title:"Line plot with markers",
+        steps:["Prepare x and y lists.","Add marker=\"o\" inside plt.plot().","Add labels and show the plot."],
+        code:`import matplotlib.pyplot as plt\n\nx = [1, 2, 3, 4, 5]\ny = [5, 10, 15, 20, 25]\n\nplt.plot(x, y, marker="o")\nplt.title("Line Plot with Markers")\nplt.xlabel("X")\nplt.ylabel("Y")\nplt.show()`,
+        output:`A rising line with a round dot at each of the five data points.`,
+        explain:[`<code>marker="o"</code> draws a circle on every data point so you can see exactly where the values are.`]
+      },
+      {
+        title:"Draw a scatter plot",
+        steps:["Prepare x and y lists.","Use plt.scatter(x, y) instead of plot().","Add labels and show the plot."],
+        code:`import matplotlib.pyplot as plt\n\nx = [10, 20, 30, 40, 50]\ny = [15, 25, 35, 45, 55]\n\nplt.scatter(x, y)\nplt.title("Scatter Plot")\nplt.xlabel("X Values")\nplt.ylabel("Y Values")\nplt.show()`,
+        output:`Five separate dots on the graph, with no lines joining them.`,
+        explain:[`A <strong>scatter plot</strong> shows each (x, y) pair as an individual dot. It is good for seeing how two things relate.`,`A line plot connects the points; a scatter plot does not.`]
+      },
+      {
+        title:"Scatter plot of student marks",
+        steps:["Make a list of student numbers and a list of marks.","Plot them with plt.scatter().","Label the axes and show the plot."],
+        code:`import matplotlib.pyplot as plt\n\nstudents = [1, 2, 3, 4, 5]\nmarks = [70, 85, 60, 90, 75]\n\nplt.scatter(students, marks)\nplt.title("Student Marks")\nplt.xlabel("Student Number")\nplt.ylabel("Marks")\nplt.show()`,
+        output:`Five dots, one per student. Student 4 is the highest (90) and student 3 the lowest (60).`,
+        explain:[`Each dot's height shows that student's marks, so highs and lows are easy to spot at a glance.`]
+      },
+      {
+        title:"Draw a simple bar chart",
+        steps:["Make a list of subject names and a list of marks.","Call plt.bar(subjects, marks).","Add labels and show the chart."],
+        code:`import matplotlib.pyplot as plt\n\nsubjects = ["Python", "Java", "C++"]\nmarks = [80, 70, 90]\n\nplt.bar(subjects, marks)\nplt.title("Subject Marks")\nplt.xlabel("Subjects")\nplt.ylabel("Marks")\nplt.show()`,
+        output:`Three vertical bars: Python at 80, Java at 70, C++ at 90.`,
+        explain:[`A <strong>bar chart</strong> compares values across categories. Bar height equals the value.`]
+      },
+      {
+        title:"Horizontal bar chart",
+        steps:["Use the same subjects and marks.","Replace plt.bar() with plt.barh().","Swap the axis labels, since marks are now on the x-axis."],
+        code:`import matplotlib.pyplot as plt\n\nsubjects = ["Python", "Java", "C++"]\nmarks = [80, 70, 90]\n\nplt.barh(subjects, marks)\nplt.title("Subject Marks")\nplt.xlabel("Marks")\nplt.ylabel("Subjects")\nplt.show()`,
+        output:`Three horizontal bars; the C++ bar is the longest.`,
+        explain:[`<code>barh()</code> draws the bars sideways. The "h" stands for horizontal.`]
+      },
+      {
+        title:"Bar chart with different colors",
+        steps:["Make a list of colors, one per bar.","Pass it to plt.bar() using color=colors.","Add labels and show the chart."],
+        code:`import matplotlib.pyplot as plt\n\nsubjects = ["Python", "Java", "C++"]\nmarks = [80, 70, 90]\ncolors = ["red", "green", "blue"]\n\nplt.bar(subjects, marks, color=colors)\nplt.title("Subject Marks")\nplt.xlabel("Subjects")\nplt.ylabel("Marks")\nplt.show()`,
+        output:`Three bars coloured red (Python), green (Java) and blue (C++).`,
+        explain:[`The <code>color</code> list is matched to the bars in order: first color to first bar, and so on.`]
+      },
+      {
+        title:"Draw a simple histogram",
+        steps:["Make a list of marks.","Call plt.hist(marks).","Add labels and show the histogram."],
+        code:`import matplotlib.pyplot as plt\n\nmarks = [40, 50, 60, 60, 70, 70, 80, 90, 90, 100]\n\nplt.hist(marks)\nplt.title("Marks Distribution")\nplt.xlabel("Marks")\nplt.ylabel("Frequency")\nplt.show()`,
+        output:`Touching bars showing how many students fall in each marks range.`,
+        explain:[`A <strong>histogram</strong> groups numbers into ranges (bins) and counts how many fall in each one.`,`Frequency means "how many". Unlike a bar chart, the bars touch because the ranges are continuous.`]
+      },
+      {
+        title:"Histogram with bins",
+        steps:["Make a list of marks from 10 to 100.","Call plt.hist(marks, bins=5).","Add labels and show the histogram."],
+        code:`import matplotlib.pyplot as plt\n\nmarks = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]\n\nplt.hist(marks, bins=5)\nplt.title("Marks Histogram")\nplt.xlabel("Marks")\nplt.ylabel("Frequency")\nplt.show()`,
+        output:`A histogram with exactly five bars, each covering an equal range of marks.`,
+        explain:[`<code>bins=5</code> splits the data into 5 equal intervals. Fewer bins give a rougher picture; more bins give more detail.`]
+      },
+      {
+        title:"Line plot of monthly sales",
+        steps:["Make a list of months and a list of sales.","Plot them with plt.plot() and marker=\"o\".","Add title and labels, then show the plot."],
+        code:`import matplotlib.pyplot as plt\n\nmonths = ["Jan", "Feb", "Mar", "Apr", "May"]\nsales = [100, 150, 120, 200, 250]\n\nplt.plot(months, sales, marker="o")\nplt.title("Monthly Sales")\nplt.xlabel("Months")\nplt.ylabel("Sales")\nplt.show()`,
+        output:`A line with dots: sales rise to 150 in Feb, dip to 120 in Mar, then climb to 250 in May.`,
+        explain:[`Text labels like months can be used directly on the x-axis.`,`A line plot is ideal for showing how something changes over time.`]
+      }
+    ]
+  },
+  {
+    key:'unit11', listId:'unit11List', prefix:'P11',
+    programs:[
+      {
+        title:"Create a class and an object",
+        steps:["Use the class keyword to define a class named Student.","Add a method display() inside the class.","Create an object s1 and call its method."],
+        code:`class Student:\n    def display(self):\n        print("Hello, I am a student.")\n\ns1 = Student()\ns1.display()`,
+        output:`Hello, I am a student.`,
+        explain:[`<code>Student</code> is the <strong>class</strong> — a blueprint. <code>s1 = Student()</code> builds an <strong>object</strong> from that blueprint.`,`<code>display()</code> is a <strong>method</strong> (a function inside a class). We call it with <code>s1.display()</code>.`]
+      },
+      {
+        title:"Using the self variable",
+        steps:["Define a method that prints self.","Create two objects, s1 and s2.","Call the method on both and compare the output."],
+        code:`class Student:\n    def display(self):\n        print("Student object:", self)\n\ns1 = Student()\ns2 = Student()\ns1.display()\ns2.display()`,
+        output:`Student object: <__main__.Student object at 0x...>\nStudent object: <__main__.Student object at 0x...>`,
+        explain:[`<code>self</code> means "the object that is calling this method". For <code>s1.display()</code> self is s1; for <code>s2.display()</code> self is s2.`,`The two memory addresses (the <code>0x...</code> part) are different, which proves they are two separate objects.`]
+      },
+      {
+        title:"Using a constructor",
+        steps:["Define __init__(self, name) inside the class.","Store the name using self.name = name.","Create an object by passing a name, then display it."],
+        code:`class Student:\n    def __init__(self, name):\n        self.name = name\n\n    def display(self):\n        print("Name:", self.name)\n\ns1 = Student("Bhumika")\ns1.display()`,
+        output:`Name: Bhumika`,
+        explain:[`<code>__init__()</code> is the <strong>constructor</strong>. Python runs it automatically the moment an object is created.`,`<code>self.name = name</code> saves the value inside this particular object so other methods can use it later.`]
+      },
+      {
+        title:"Constructor with multiple attributes",
+        steps:["Define __init__ with name, roll and marks.","Store all three using self.","Print them in a display() method."],
+        code:`class Student:\n    def __init__(self, name, roll, marks):\n        self.name = name\n        self.roll = roll\n        self.marks = marks\n\n    def display(self):\n        print("Name:", self.name)\n        print("Roll Number:", self.roll)\n        print("Marks:", self.marks)\n\ns1 = Student("Amit", 101, 85)\ns1.display()`,
+        output:`Name: Amit\nRoll Number: 101\nMarks: 85`,
+        explain:[`The values in <code>Student("Amit", 101, 85)</code> are handed to <code>__init__</code> in order: name, roll, marks.`,`Each <code>self.something = something</code> line creates one attribute on the object.`]
+      },
+      {
+        title:"Create multiple objects",
+        steps:["Define a class with name and marks.","Create three different objects with different values.","Call display() on each one."],
+        code:`class Student:\n    def __init__(self, name, marks):\n        self.name = name\n        self.marks = marks\n\n    def display(self):\n        print(self.name, self.marks)\n\ns1 = Student("Amit", 80)\ns2 = Student("Neha", 90)\ns3 = Student("Raj", 75)\n\ns1.display()\ns2.display()\ns3.display()`,
+        output:`Amit 80\nNeha 90\nRaj 75`,
+        explain:[`One class can create as many objects as you like. Each object keeps its <em>own</em> name and marks.`]
+      },
+      {
+        title:"Instance variables",
+        steps:["Define an Employee class with name and salary.","Create two employees with different data.","Print each employee's own values."],
+        code:`class Employee:\n    def __init__(self, name, salary):\n        self.name = name\n        self.salary = salary\n\ne1 = Employee("Amit", 25000)\ne2 = Employee("Neha", 30000)\n\nprint(e1.name, e1.salary)\nprint(e2.name, e2.salary)`,
+        output:`Amit 25000\nNeha 30000`,
+        explain:[`Variables created with <code>self.</code> are <strong>instance variables</strong>. Every object gets its own separate copy.`,`Changing <code>e1.salary</code> would not affect <code>e2.salary</code>.`]
+      },
+      {
+        title:"Class variables",
+        steps:["Create a variable college directly inside the class (outside any method).","Create two student objects.","Print the college through both objects."],
+        code:`class Student:\n    college = "SCET"\n\n    def __init__(self, name):\n        self.name = name\n\ns1 = Student("Amit")\ns2 = Student("Neha")\n\nprint(s1.name, s1.college)\nprint(s2.name, s2.college)`,
+        output:`Amit SCET\nNeha SCET`,
+        explain:[`<code>college</code> is a <strong>class variable</strong> — one shared copy used by every object of the class.`,`<code>name</code> is an instance variable, so it is different for each student.`]
+      },
+      {
+        title:"Instance method",
+        steps:["Define a Rectangle class with length and breadth.","Write an area() method that returns length x breadth.","Create an object and print its area."],
+        code:`class Rectangle:\n    def __init__(self, length, breadth):\n        self.length = length\n        self.breadth = breadth\n\n    def area(self):\n        return self.length * self.breadth\n\nr1 = Rectangle(10, 5)\nprint("Area:", r1.area())`,
+        output:`Area: 50`,
+        explain:[`An <strong>instance method</strong> takes <code>self</code> as its first parameter, which lets it read the object's own data.`,`<code>r1.area()</code> uses r1's length (10) and breadth (5) to return 50.`]
+      },
+      {
+        title:"Class method",
+        steps:["Write @classmethod just above the method.","Use cls as the first parameter instead of self.","Call the method using the class name."],
+        code:`class Student:\n    college = "SCET"\n\n    @classmethod\n    def display_college(cls):\n        print("College:", cls.college)\n\nStudent.display_college()`,
+        output:`College: SCET`,
+        explain:[`<code>@classmethod</code> is a <em>decorator</em> that tells Python this method belongs to the class itself.`,`<code>cls</code> stands for the class, so <code>cls.college</code> reads the class variable. No object is needed.`]
+      },
+      {
+        title:"Class method to modify a class variable",
+        steps:["Create a class variable college.","Write a class method that assigns a new value to cls.college.","Print the value before and after calling it."],
+        code:`class Student:\n    college = "SCET"\n\n    @classmethod\n    def change_college(cls, name):\n        cls.college = name\n\ns1 = Student()\nprint("Before:", s1.college)\n\nStudent.change_college("Sarvajanik University")\nprint("After:", s1.college)`,
+        output:`Before: SCET\nAfter: Sarvajanik University`,
+        explain:[`The class method changes the one shared class variable, so every object sees the new value.`,`Even <code>s1</code>, created before the change, now shows the updated college.`]
+      },
+      {
+        title:"Static method",
+        steps:["Write @staticmethod above the method.","Do not use self or cls as parameters.","Call the method using the class name."],
+        code:`class Calculator:\n    @staticmethod\n    def add(a, b):\n        return a + b\n\nprint("Sum:", Calculator.add(10, 20))`,
+        output:`Sum: 30`,
+        explain:[`A <strong>static method</strong> is just a normal function that lives inside a class for tidiness. It needs neither <code>self</code> nor <code>cls</code>.`,`Call it as <code>ClassName.method()</code>.`]
+      },
+      {
+        title:"Static method to check even or odd",
+        steps:["Define a static method check(n).","Test n % 2 == 0 and print Even or Odd.","Call it for two different numbers."],
+        code:`class Number:\n    @staticmethod\n    def check(n):\n        if n % 2 == 0:\n            print("Even Number")\n        else:\n            print("Odd Number")\n\nNumber.check(12)\nNumber.check(7)`,
+        output:`Even Number\nOdd Number`,
+        explain:[`The calculation depends only on the number passed in — not on any object or class data — so a static method is the right choice.`]
+      },
+      {
+        title:"Single inheritance",
+        steps:["Create a Parent class with one method.","Create a Child class by writing Parent in brackets: class Child(Parent).","Make a Child object and call both methods."],
+        code:`class Parent:\n    def display_parent(self):\n        print("This is the Parent class.")\n\nclass Child(Parent):\n    def display_child(self):\n        print("This is the Child class.")\n\nc = Child()\nc.display_parent()\nc.display_child()`,
+        output:`This is the Parent class.\nThis is the Child class.`,
+        explain:[`<code>Child(Parent)</code> makes Child <strong>inherit</strong> from Parent. Parent is the <em>base class</em>, Child is the <em>derived class</em>.`,`The child object can use its own method and everything the parent has.`]
+      },
+      {
+        title:"Inheritance with a constructor",
+        steps:["Create a Person class that stores name.","Create a Student class that inherits from Person and also stores roll.","Call super().__init__(name) to run the parent's constructor."],
+        code:`class Person:\n    def __init__(self, name):\n        self.name = name\n\n    def display(self):\n        print("Name:", self.name)\n\nclass Student(Person):\n    def __init__(self, name, roll):\n        super().__init__(name)\n        self.roll = roll\n\n    def display_student(self):\n        print("Roll Number:", self.roll)\n\ns1 = Student("Amit", 101)\ns1.display()\ns1.display_student()`,
+        output:`Name: Amit\nRoll Number: 101`,
+        explain:[`<code>super().__init__(name)</code> calls the parent constructor, which sets <code>self.name</code>.`,`Then the child constructor adds its own extra attribute, <code>self.roll</code>.`]
+      },
+      {
+        title:"Multilevel inheritance",
+        steps:["Create Grandparent, then Parent(Grandparent), then Child(Parent).","Give each class one method.","Create a Child object and call all three methods."],
+        code:`class Grandparent:\n    def show_grandparent(self):\n        print("Grandparent class")\n\nclass Parent(Grandparent):\n    def show_parent(self):\n        print("Parent class")\n\nclass Child(Parent):\n    def show_child(self):\n        print("Child class")\n\nc = Child()\nc.show_grandparent()\nc.show_parent()\nc.show_child()`,
+        output:`Grandparent class\nParent class\nChild class`,
+        explain:[`In <strong>multilevel inheritance</strong> the chain goes Grandparent → Parent → Child.`,`The Child object can use methods from both of its ancestors as well as its own.`]
+      }
+    ]
+  },
   {
     key:'unit10', listId:'unit10List', prefix:'P10',
     programs:[
@@ -2451,7 +2753,7 @@ function openAndScroll(id){
 }
 
 /* ============ TOC ============ */
-const unitNames = {unit10:"Functions", unit9:"Tuples", unit8:"NumPy Arrays", unit7:"Lists & Arrays", unit6:"Loops & Patterns", unit5:"Problem Solving Practice", unit4:"Conditionals in Action", unit3:"Input & Operators", unit2:"Variables & Data Types", unit1:"Print & Output"};
+const unitNames = {unit12:"Python Libraries (Pandas & Matplotlib)", unit11:"Classes & OOP", unit10:"Functions", unit9:"Tuples", unit8:"NumPy Arrays", unit7:"Lists & Arrays", unit6:"Loops & Patterns", unit5:"Problem Solving Practice", unit4:"Conditionals in Action", unit3:"Input & Operators", unit2:"Variables & Data Types", unit1:"Print & Output"};
 function buildToc(){
   const el = document.getElementById('tocContent');
   let html = '';
